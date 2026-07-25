@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use App\Models\Student; // Import Model Student
+use App\Models\Student;
 
 class LoginRequest extends FormRequest
 {
@@ -19,7 +19,7 @@ class LoginRequest extends FormRequest
 
     public function rules(): array
     {
-        // Jika login sebagai siswa (ada input NIS)
+        // 1. Jika login sebagai siswa, validasi NIS dan Tanggal Lahir
         if ($this->has('nis')) {
             return [
                 'nis' => ['required', 'string'],
@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
             ];
         }
 
-        // Login standar (Admin/Petugas/Super Admin)
+        // 2. Jika login sebagai Staff, validasi Email dan Password
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
@@ -42,14 +42,27 @@ class LoginRequest extends FormRequest
         if ($this->has('nis')) {
             $student = Student::where('nis', $this->nis)->first();
 
-            if (!$student || $student->birth_date != $this->birth_date) {
+            if (!$student) {
                 RateLimiter::hit($this->throttleKey());
                 throw ValidationException::withMessages([
                     'nis' => 'NIS atau Tanggal Lahir tidak sesuai.',
                 ]);
             }
 
-            // Login menggunakan user_id milik siswa
+            // Format tanggal dari database (Y-m-d)
+            $dbBirthDate = $student->birth_date->format('Y-m-d');
+            
+            // Format tanggal dari input (HTML date input selalu Y-m-d, tapi kita parse untuk jaga-jaga)
+            $inputBirthDate = \Carbon\Carbon::parse($this->birth_date)->format('Y-m-d');
+
+            if ($dbBirthDate !== $inputBirthDate) {
+                RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'nis' => 'NIS atau Tanggal Lahir tidak sesuai.',
+                ]);
+            }
+
+            // Login berhasil menggunakan akun user milik siswa
             Auth::login($student->user, $this->boolean('remember'));
             RateLimiter::clear($this->throttleKey());
             return;
@@ -94,6 +107,8 @@ class LoginRequest extends FormRequest
 
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        // Gunakan NIS jika ada, jika tidak gunakan email
+        $identifier = $this->has('nis') ? $this->string('nis') : $this->string('email');
+        return Str::transliterate(Str::lower($identifier) . '|' . $this->ip());
     }
 }

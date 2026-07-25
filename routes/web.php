@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ExaminationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,7 @@ require __DIR__.'/auth.php';
 */
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     
-    // Dashboard Utama (Redirect sesuai role akan diatur di Controller)
+    // Dashboard Utama
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile Routes (Breeze Default)
@@ -41,33 +43,42 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /*
+   
     |--------------------------------------------------------------------------
     | ROLE: SISWA
     |--------------------------------------------------------------------------
     */
     Route::middleware(['role:siswa'])->prefix('siswa')->name('student.')->group(function () {
-        Route::get('/riwayat', function() { return 'Halaman Riwayat Siswa'; })->name('history');
-        // Nanti kita isi controller-nya
+        // Ganti closure function dengan controller
+        Route::get('/riwayat', [\App\Http\Controllers\Student\MedicalRecordController::class, 'index'])->name('history');
     });
 
     /*
     |--------------------------------------------------------------------------
-    | ROLE: PETUGAS & ADMIN
+    | ROLE: PETUGAS, ADMIN & SUPER ADMIN (Fitur Bersama)
     |--------------------------------------------------------------------------
     */
     Route::middleware(['role:super-admin|admin|petugas'])->group(function () {
-        Route::get('/pemeriksaan', function() { return 'Halaman Pemeriksaan'; })->name('examinations.index');
-        Route::get('/obat', function() { return 'Halaman Obat'; })->name('medicines.index');
+        
+        // Data Kunjungan / Pemeriksaan (Resource Route Lengkap)
+        Route::resource('examinations', ExaminationController::class);
+        
+        // Data Siswa (Master Data)
+        Route::resource('students', StudentController::class);
+        
+        // Placeholder untuk fitur lain (akan kita buat controllernya nanti)
+           Route::resource('medicines', \App\Http\Controllers\MedicineController::class);
     });
 
     /*
     |--------------------------------------------------------------------------
-    | ROLE: ADMIN & SUPER ADMIN (CMS & MASTER DATA)
+    | ROLE: ADMIN & SUPER ADMIN (CMS & Master Data Lanjutan)
     |--------------------------------------------------------------------------
     */
     Route::middleware(['role:super-admin|admin'])->group(function () {
-        Route::get('/cms', function() { return 'Halaman CMS'; })->name('cms.index');
-        Route::get('/users', function() { return 'Halaman User'; })->name('users.index');
+        Route::get('/cms', function() { return view('cms.index'); })->name('cms.index');
+        Route::get('/users', function() { return view('users.index'); })->name('users.index');
+        Route::get('/officers', function() { return view('officers.index'); })->name('officers.index');
     });
 
     /*
@@ -76,7 +87,8 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () 
     |--------------------------------------------------------------------------
     */
     Route::middleware(['role:super-admin'])->group(function () {
-        Route::get('/roles', function() { return 'Halaman Roles'; })->name('roles.index');
-        Route::get('/audit-log', function() { return 'Audit Log'; })->name('audit.index');
+        Route::get('/roles', function() { return view('roles.index'); })->name('roles.index');
+        Route::get('/audit-log', function() { return view('audit.index'); })->name('audit.index');
+        Route::get('/settings', function() { return view('settings.index'); })->name('settings.index');
     });
 });

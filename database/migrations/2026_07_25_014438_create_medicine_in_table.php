@@ -6,29 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-      Schema::create('medicines', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('category_id')->constrained('medicine_categories')->cascadeOnDelete();
-    $table->string('code', 30)->unique();
-    $table->string('name', 100);
-    $table->string('unit', 30); // Tablet, Strip, Botol
-    $table->integer('stock')->default(0);
-    $table->integer('minimum_stock')->default(10);
-    $table->date('expired_date')->nullable();
-    $table->enum('status', ['available', 'low_stock', 'empty', 'near_expired', 'expired'])->default('available');
-    $table->timestamps();
-    $table->softDeletes();
-});
+        Schema::create('medicine_in', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('medicine_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('medicine_batch_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('supplier_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->constrained('users'); // Petugas yang input
+            $table->date('transaction_date');
+            $table->string('invoice_number', 50)->nullable();
+            $table->integer('qty');
+            $table->decimal('price', 12, 2)->default(0);
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('medicine_in');

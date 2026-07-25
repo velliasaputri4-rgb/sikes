@@ -6,26 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            // 1. Kolom Wajib Bawaan Laravel (JANGAN DIHAPUS)
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             
-            // 2. Kolom Tambahan Custom (Sesuai PRD)
+            // Kolom Custom
             $table->string('phone', 20)->nullable();
             $table->string('photo')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamp('last_login_at')->nullable();
-
-            // 3. Kolom Bawaan Laravel Lainnya
+            
+            //  TAMBAHKAN BARIS INI 👇
+            $table->softDeletes(); 
+            
             $table->rememberToken();
             $table->timestamps();
         });
@@ -46,9 +44,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
