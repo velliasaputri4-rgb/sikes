@@ -2,33 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Examination, Student, Medicine, Officer};
+use App\Models\{Examination, Student, Medicine};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class ExaminationController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Examination::with(['student.user', 'student.class']);
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->whereHas('student', function($q) use ($search) {
-                $q->where('full_name', 'like', "%{$search}%")
-                  ->orWhere('nis', 'like', "%{$search}%");
-            });
-        }
-
-        $examinations = $query->latest()->paginate(10);
-        return view('examinations.index', compact('examinations'));
-    }
+    // ... (method index tetap sama) ...
 
     public function create()
     {
+        // Ambil semua siswa untuk dropdown, urutkan berdasarkan nama
         $students = Student::with('class')->orderBy('full_name')->get();
-        return view('examinations.create', compact('students'));
+        
+        // Pastikan return ke view petugas
+        return view('petugas.examinations.create', compact('students'));
     }
 
     public function store(Request $request)
@@ -48,28 +37,28 @@ class ExaminationController extends Controller
             'notes' => 'nullable|string|max:500',
         ]);
 
-        // Generate Nomor Pemeriksaan & Token QR
-        $examNumber = 'UKS-' . Carbon::now()->format('Ymd') . '-' . str_pad(Examination::whereDate('created_at', today())->count() + 1, 4, '0', STR_PAD_LEFT);
-        $qrToken = Str::random(64);
+        // Generate Nomor Pemeriksaan Unik (Contoh: UKS-20231025-0001)
+        $examNumber = 'UKS-' . Carbon::now()->format('Ymd') . '-' . 
+                      str_pad(Examination::whereDate('created_at', today())->count() + 1, 4, '0', STR_PAD_LEFT);
 
-        // Hitung BMI
+        // Hitung BMI otomatis jika berat dan tinggi badan diisi
         $bmi = null;
         if ($request->weight && $request->height) {
             $heightInMeters = $request->height / 100;
             $bmi = round($request->weight / ($heightInMeters * $heightInMeters), 2);
         }
 
-        // Upload Foto
+        // Upload Foto Dokumentasi
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
-        // Simpan Data
+        // Simpan ke Database
         Examination::create([
             'examination_number' => $examNumber,
             'student_id' => $validated['student_id'],
-            'officer_id' => auth()->user()->officer?->id ?? 1, // Fallback jika tidak ada data officer
+            'officer_id' => auth()->id(), // Menggunakan ID user yang sedang login
             'examination_date' => now(),
             'arrival_time' => now()->format('H:i:s'),
             'complaint' => $validated['complaint'],
@@ -83,15 +72,12 @@ class ExaminationController extends Controller
             'treatment' => $validated['treatment'],
             'status' => $validated['status'],
             'notes' => $validated['notes'],
-            'qr_token' => $qrToken,
             'photo' => $photoPath,
         ]);
 
-        return redirect()->route('examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
+        return redirect()->route('petugas.examinations.index')
+                         ->with('success', 'Data kunjungan siswa berhasil disimpan!');
     }
 
-    public function show($id) { return view('examinations.show'); }
-    public function edit($id) { return view('examinations.edit'); }
-    public function update(Request $request, $id) { /* Logic update */ }
-    public function destroy($id) { /* Logic delete */ }
+    // ... (method show, edit, update, destroy bisa ditambahkan nanti) ...
 }

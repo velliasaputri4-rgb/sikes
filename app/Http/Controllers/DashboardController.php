@@ -10,7 +10,7 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    // Dashboard Admin (CMS & Statistik Lengkap)
+    // Dashboard Admin
     public function adminIndex()
     {
         $data = [
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', $data);
     }
 
-    // Dashboard Petugas (Input Data & Statistik Sederhana)
+    // Dashboard Petugas
     public function petugasIndex()
     {
         $data = [
