@@ -105,10 +105,15 @@ Route::get('/dashboard', function() {
     $user = auth()->user();
     
     if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
+        // Admin tetap ke dashboard admin (untuk CMS & Master Data)
         return redirect()->route('admin.dashboard');
+        
     } elseif ($user->hasRole('petugas')) {
-        return redirect()->route('petugas.dashboard');
+        // PETUGAS LANGSUNG DIARAHKAN KE HALAMAN DATA KUNJUNGAN
+        return redirect()->route('petugas.examinations.index');
+        
     } elseif ($user->hasRole('siswa')) {
+        // Siswa diarahkan ke riwayat mereka
         return redirect()->route('student.history');
     }
     
