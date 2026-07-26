@@ -5,88 +5,112 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ExaminationController;
+use App\Http\Controllers\MedicineController;
+use App\Http\Controllers\Landing\LandingController;
+use App\Http\Controllers\Student\MedicalRecordController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. LANDING PAGE (PUBLIK - GUEST)
+| 1. HALAMAN LOGIN TERPISAH (Sesuai Pilihan di Navbar)
 |--------------------------------------------------------------------------
 */
-use App\Http\Controllers\Landing\LandingController;
+Route::get('/login-admin', function () {
+    return view('auth.login-admin');
+})->name('login.admin');
 
+Route::get('/login-petugas', function () {
+    return view('auth.login-petugas');
+})->name('login.petugas');
+
+Route::get('/login-siswa', function () {
+    return view('auth.login-siswa');
+})->name('login.siswa');
+
+/*
+|--------------------------------------------------------------------------
+| 2. LANDING PAGE (PUBLIK - GUEST)
+|--------------------------------------------------------------------------
+*/
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/tentang', [LandingController::class, 'about'])->name('landing.about');
 Route::get('/informasi-obat', [LandingController::class, 'medicines'])->name('landing.medicines');
 Route::get('/jadwal-petugas', [LandingController::class, 'schedule'])->name('landing.schedule');
 Route::get('/kontak', [LandingController::class, 'contact'])->name('landing.contact');
+
 /*
 |--------------------------------------------------------------------------
-| 2. AUTHENTICATION (DARI BREEZE)
+| 3. AUTHENTICATION (DARI BREEZE)
 |--------------------------------------------------------------------------
 */
 require __DIR__.'/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| 3. DASHBOARD (PROTECTED - LOGIN REQUIRED)
+| 4. DASHBOARD ADMIN (CMS & MASTER DATA LENGKAP)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
-    
-    // Dashboard Utama
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [DashboardController::class, 'adminIndex'])->name('dashboard');
 
-    // Profile Routes (Breeze Default)
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    /*
-   
-    |--------------------------------------------------------------------------
-    | ROLE: SISWA
-    |--------------------------------------------------------------------------
-    */
-    Route::middleware(['role:siswa'])->prefix('siswa')->name('student.')->group(function () {
-        // Ganti closure function dengan controller
-        Route::get('/riwayat', [\App\Http\Controllers\Student\MedicalRecordController::class, 'index'])->name('history');
-    });
+    // Data Master
+    Route::resource('students', StudentController::class);
+    Route::resource('examinations', ExaminationController::class);
+    Route::resource('medicines', MedicineController::class);
 
-    /*
-    |--------------------------------------------------------------------------
-    | ROLE: PETUGAS, ADMIN & SUPER ADMIN (Fitur Bersama)
-    |--------------------------------------------------------------------------
-    */
-    Route::middleware(['role:super-admin|admin|petugas'])->group(function () {
-        
-        // Data Kunjungan / Pemeriksaan (Resource Route Lengkap)
-        Route::resource('examinations', ExaminationController::class);
-        
-        // Data Siswa (Master Data)
-        Route::resource('students', StudentController::class);
-        
-        // Placeholder untuk fitur lain (akan kita buat controllernya nanti)
-           Route::resource('medicines', \App\Http\Controllers\MedicineController::class);
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | ROLE: ADMIN & SUPER ADMIN (CMS & Master Data Lanjutan)
-    |--------------------------------------------------------------------------
-    */
-    Route::middleware(['role:super-admin|admin'])->group(function () {
-        Route::get('/cms', function() { return view('cms.index'); })->name('cms.index');
-        Route::get('/users', function() { return view('users.index'); })->name('users.index');
-        Route::get('/officers', function() { return view('officers.index'); })->name('officers.index');
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | ROLE: SUPER ADMIN ONLY
-    |--------------------------------------------------------------------------
-    */
-    Route::middleware(['role:super-admin'])->group(function () {
-        Route::get('/roles', function() { return view('roles.index'); })->name('roles.index');
-        Route::get('/audit-log', function() { return view('audit.index'); })->name('audit.index');
-        Route::get('/settings', function() { return view('settings.index'); })->name('settings.index');
-    });
+    // CMS & Website Management
+    Route::get('/cms', function() { return view('admin.cms.index'); })->name('cms.index');
+    Route::get('/users', function() { return view('admin.users.index'); })->name('users.index');
+    Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
 });
+
+/*
+|--------------------------------------------------------------------------
+| 5. DASHBOARD PETUGAS (KHUSUS INPUT & KELOLA DATA HARIAN)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name('petugas.')->group(function () {
+    Route::get('/', [DashboardController::class, 'petugasIndex'])->name('dashboard');
+
+    // Profile Routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Input & Kelola Data Harian
+    Route::resource('examinations', ExaminationController::class);
+    Route::resource('medicines', MedicineController::class);
+    Route::get('/students', function() { return view('petugas.students.index'); })->name('students.index');
+});
+
+/*
+|--------------------------------------------------------------------------
+| 6. RIWAYAT SISWA (KHUSUS ROLE SISWA)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('student.')->group(function () {
+    Route::get('/riwayat', [MedicalRecordController::class, 'index'])->name('history');
+});
+
+/*
+|--------------------------------------------------------------------------
+| 7. REDIRECT OTOMATIS SETELAH LOGIN (Berdasarkan Role)
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', function() {
+    $user = auth()->user();
+    
+    if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->hasRole('petugas')) {
+        return redirect()->route('petugas.dashboard');
+    } elseif ($user->hasRole('siswa')) {
+        return redirect()->route('student.history');
+    }
+    
+    return redirect()->route('landing');
+})->name('dashboard');

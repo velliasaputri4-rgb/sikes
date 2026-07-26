@@ -12,16 +12,16 @@ class MedicalRecordController extends Controller
     {
         $user = auth()->user();
         
-        // Pastikan user memiliki data siswa
-        if (!$user->student) {
-            return redirect()->route('dashboard')->with('error', 'Data profil siswa tidak ditemukan.');
+        // Pastikan user adalah siswa dan memiliki data student
+        if (!$user->hasRole('siswa') || !$user->student) {
+            abort(403, 'Akses ditolak. Halaman ini hanya untuk siswa.');
         }
 
         $student = $user->student;
 
-        // Ambil riwayat pemeriksaan milik siswa ini, urutkan dari yang terbaru
+        // Ambil HANYA riwayat pemeriksaan milik siswa yang sedang login
         $examinations = Examination::where('student_id', $student->id)
-            ->with(['officer.user']) // Load data petugas yang menangani
+            ->with(['officer.user'])
             ->latest('examination_date')
             ->paginate(10);
 

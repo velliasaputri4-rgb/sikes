@@ -28,34 +28,41 @@
 
     <!-- Sidebar -->
     <div class="sidebar p-3">
-        <h4 class="text-white fw-bold mb-4 px-2"><i class="fas fa-heartbeat me-2"></i> SIKES</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <h4 class="text-white fw-bold mb-4 px-2">
+            <i class="fas fa-heartbeat me-2"></i> SIKES
+        </h4>
+        
+        @if(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin'))
+            <!-- Menu Admin -->
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" href="{{ route('admin.students.index') }}"><i class="fas fa-user-graduate"></i> Data Siswa</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.examinations.*') ? 'active' : '' }}" href="{{ route('admin.examinations.index') }}"><i class="fas fa-clipboard-list"></i> Data Kunjungan</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.medicines.*') ? 'active' : '' }}" href="{{ route('admin.medicines.index') }}"><i class="fas fa-pills"></i> Data Obat</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.cms.*') ? 'active' : '' }}" href="{{ route('admin.cms.index') }}"><i class="fas fa-globe"></i> CMS Website</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}"><i class="fas fa-cog"></i> Pengaturan</a></li>
+            </ul>
+        @elseif(auth()->user()->hasRole('petugas'))
+            <!-- Menu Petugas -->
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('petugas.dashboard') ? 'active' : '' }}" href="{{ route('petugas.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('petugas.examinations.create') ? 'active' : '' }}" href="{{ route('petugas.examinations.create') }}"><i class="fas fa-plus-circle"></i> Input Kunjungan</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('petugas.examinations.index') ? 'active' : '' }}" href="{{ route('petugas.examinations.index') }}"><i class="fas fa-clipboard-list"></i> Data Kunjungan</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('petugas.medicines.*') ? 'active' : '' }}" href="{{ route('petugas.medicines.index') }}"><i class="fas fa-pills"></i> Data Obat</a></li>
+            </ul>
+        @endif
+
+        <ul class="nav flex-column mt-4">
             <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('examinations.*') ? 'active' : '' }}" href="{{ route('examinations.index') }}">
-        <i class="fas fa-clipboard-list"></i> Data Kunjungan
-    </a>
-</li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-nurse"></i> Data Petugas</a></li>
-               <li class="nav-item">
-       <a class="nav-link {{ request()->routeIs('medicines.*') ? 'active' : '' }}" href="{{ route('medicines.index') }}">
-           <i class="fas fa-pills"></i> Data Obat
-       </a>
-   </li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-file-medical"></i> Rekam Medis</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-boxes"></i> Inventaris</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-chart-bar"></i> Rekapan Bulanan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-file-export"></i> Laporan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-cog"></i> Setting</a></li>
-            <li class="nav-item mt-4">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start text-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
             </li>
         </ul>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <!-- Topbar -->

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Models\Student;
+use Carbon\Carbon;
 
 class LoginRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class LoginRequest extends FormRequest
 
     public function rules(): array
     {
-        // 1. Jika login sebagai siswa, validasi NIS dan Tanggal Lahir
+        // Jika ada input 'nis', berarti ini login siswa
         if ($this->has('nis')) {
             return [
                 'nis' => ['required', 'string'],
@@ -27,7 +28,7 @@ class LoginRequest extends FormRequest
             ];
         }
 
-        // 2. Jika login sebagai Staff, validasi Email dan Password
+        // Jika tidak, berarti login Admin/Petugas (Email & Password)
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
@@ -38,37 +39,35 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        // === LOGIC LOGIN SISWA (NIS + TANGGAL LAHIR) ===
-        if ($this->has('nis')) {
+        // === 1. LOGIC LOGIN SISWA (NIS + Tanggal Lahir) ===
+        if ($this->has('nis') && $this->has('birth_date')) {
             $student = Student::where('nis', $this->nis)->first();
 
             if (!$student) {
                 RateLimiter::hit($this->throttleKey());
                 throw ValidationException::withMessages([
-                    'nis' => 'NIS atau Tanggal Lahir tidak sesuai.',
+                    'nis' => 'NIS tidak terdaftar di sistem.',
                 ]);
             }
 
-            // Format tanggal dari database (Y-m-d)
-            $dbBirthDate = $student->birth_date->format('Y-m-d');
-            
-            // Format tanggal dari input (HTML date input selalu Y-m-d, tapi kita parse untuk jaga-jaga)
-            $inputBirthDate = \Carbon\Carbon::parse($this->birth_date)->format('Y-m-d');
+            // Format tanggal dari input dan database agar sama (Y-m-d)
+            $inputDate = Carbon::parse($this->birth_date)->format('Y-m-d');
+            $dbDate = $student->birth_date->format('Y-m-d');
 
-            if ($dbBirthDate !== $inputBirthDate) {
+            if ($inputDate !== $dbDate) {
                 RateLimiter::hit($this->throttleKey());
                 throw ValidationException::withMessages([
-                    'nis' => 'NIS atau Tanggal Lahir tidak sesuai.',
+                    'birth_date' => 'Tanggal lahir tidak sesuai dengan data kami.',
                 ]);
             }
 
-            // Login berhasil menggunakan akun user milik siswa
+            // Jika cocok, login menggunakan akun User yang terhubung dengan Siswa ini
             Auth::login($student->user, $this->boolean('remember'));
             RateLimiter::clear($this->throttleKey());
             return;
         }
 
-        // === LOGIC LOGIN STANDAR (EMAIL + PASSWORD) ===
+        // === 2. LOGIC LOGIN ADMIN / PETUGAS (Email + Password) ===
         if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
             throw ValidationException::withMessages([
@@ -80,7 +79,7 @@ class LoginRequest extends FormRequest
         if (Auth::user()->status !== 'active') {
             Auth::logout();
             throw ValidationException::withMessages([
-                'email' => 'Akun Anda telah dinonaktifkan.',
+                'email' => 'Akun Anda telah dinonaktifkan oleh administrator.',
             ]);
         }
 
@@ -107,7 +106,7 @@ class LoginRequest extends FormRequest
 
     public function throttleKey(): string
     {
-        // Gunakan NIS jika ada, jika tidak gunakan email
+        // Gunakan NIS untuk rate limit siswa, atau Email untuk staff
         $identifier = $this->has('nis') ? $this->string('nis') : $this->string('email');
         return Str::transliterate(Str::lower($identifier) . '|' . $this->ip());
     }

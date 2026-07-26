@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Rekam Medis - SIKES</title>
+    <title>Riwayat Kunjungan - {{ $student->full_name }} - SIKES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
         .header-profile { background: linear-gradient(135deg, #2563EB 0%, #1d4ed8 100%); color: white; padding: 30px 0; border-radius: 0 0 20px 20px; margin-bottom: 30px; }
-        .record-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 4px solid #2563EB; transition: 0.3s; }
-        .record-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .record-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 4px solid #2563EB; }
         .badge-sakit { background-color: #fee2e2; color: #dc2626; }
         .badge-sehat { background-color: #dcfce7; color: #16a34a; }
     </style>
@@ -42,7 +41,10 @@
     <!-- Konten Riwayat -->
     <div class="container pb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold text-dark mb-0"><i class="fas fa-file-medical text-primary me-2"></i>Riwayat Rekam Medis</h4>
+            <h4 class="fw-bold text-dark mb-0">
+                <i class="fas fa-file-medical text-primary me-2"></i>
+                Riwayat Kunjungan UKS Saya
+            </h4>
             <button onclick="window.print()" class="btn btn-outline-primary btn-sm rounded-pill">
                 <i class="fas fa-print me-1"></i> Cetak Riwayat
             </button>
@@ -100,8 +102,8 @@
         @empty
             <div class="text-center py-5">
                 <i class="fas fa-folder-open fa-3x text-muted mb-3 opacity-25"></i>
-                <h5 class="text-muted">Belum ada riwayat pemeriksaan</h5>
-                <p class="text-muted small">Data kunjungan Anda akan muncul di sini setelah Anda mengunjungi UKS.</p>
+                <h5 class="text-muted">Belum ada riwayat kunjungan</h5>
+                <p class="text-muted small">Anda belum pernah mengunjungi UKS. Silakan kunjungi UKS jika merasa tidak sehat.</p>
             </div>
         @endforelse
 

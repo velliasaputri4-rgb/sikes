@@ -10,7 +10,8 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function index()
+    // Dashboard Admin (CMS & Statistik Lengkap)
+    public function adminIndex()
     {
         $data = [
             'total_siswa'     => Student::count(),
@@ -21,6 +22,18 @@ class DashboardController extends Controller
             'total_medicines' => Medicine::sum('stock'),
         ];
 
-        return view('dashboard.index', $data);
+        return view('admin.dashboard', $data);
+    }
+
+    // Dashboard Petugas (Input Data & Statistik Sederhana)
+    public function petugasIndex()
+    {
+        $data = [
+            'exams_today'     => Examination::whereDate('examination_date', today())->count(),
+            'exams_month'     => Examination::whereMonth('examination_date', now()->month)->count(),
+            'low_stock'       => Medicine::whereColumn('stock', '<=', 'minimum_stock')->count(),
+        ];
+
+        return view('petugas.dashboard', $data);
     }
 }
