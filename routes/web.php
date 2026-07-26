@@ -11,15 +11,13 @@ use App\Http\Controllers\ExaminationController;
 | 1. LANDING PAGE (PUBLIK - GUEST)
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('welcome');
-})->name('landing');
+use App\Http\Controllers\Landing\LandingController;
 
-Route::get('/tentang', function () { return view('landing.about'); })->name('landing.about');
-Route::get('/layanan', function () { return view('landing.services'); })->name('landing.services');
-Route::get('/artikel', function () { return view('landing.articles'); })->name('landing.articles');
-Route::get('/kontak', function () { return view('landing.contact'); })->name('landing.contact');
-
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/tentang', [LandingController::class, 'about'])->name('landing.about');
+Route::get('/informasi-obat', [LandingController::class, 'medicines'])->name('landing.medicines');
+Route::get('/jadwal-petugas', [LandingController::class, 'schedule'])->name('landing.schedule');
+Route::get('/kontak', [LandingController::class, 'contact'])->name('landing.contact');
 /*
 |--------------------------------------------------------------------------
 | 2. AUTHENTICATION (DARI BREEZE)

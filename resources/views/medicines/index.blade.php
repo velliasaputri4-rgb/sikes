@@ -22,7 +22,6 @@
                     <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Tersedia</option>
                     <option value="low_stock" {{ request('status') == 'low_stock' ? 'selected' : '' }}>Stok Menipis</option>
                     <option value="empty" {{ request('status') == 'empty' ? 'selected' : '' }}>Habis</option>
-                    <option value="near_expired" {{ request('status') == 'near_expired' ? 'selected' : '' }}>Hampir Kedaluwarsa</option>
                 </select>
             </div>
             <div class="col-md-2">
@@ -58,7 +57,6 @@
                                 <span class="fw-bold {{ $med->stock <= $med->minimum_stock ? 'text-danger' : 'text-dark' }}">
                                     {{ $med->stock }}
                                 </span>
-                                <small class="text-muted">/ Min: {{ $med->minimum_stock }}</small>
                             </td>
                             <td>{{ $med->unit }}</td>
                             <td>{{ $med->expired_date ? \Carbon\Carbon::parse($med->expired_date)->format('d M Y') : '-' }}</td>
@@ -68,8 +66,6 @@
                                         'available' => ['class' => 'bg-success', 'text' => 'Tersedia'],
                                         'low_stock' => ['class' => 'bg-warning text-dark', 'text' => 'Menipis'],
                                         'empty' => ['class' => 'bg-danger', 'text' => 'Habis'],
-                                        'near_expired' => ['class' => 'bg-info text-dark', 'text' => 'Segera Exp'],
-                                        'expired' => ['class' => 'bg-secondary', 'text' => 'Kedaluwarsa'],
                                     ];
                                     $status = $statusMap[$med->status] ?? $statusMap['available'];
                                 @endphp
@@ -78,10 +74,6 @@
                             <td class="text-end pe-3">
                                 <div class="btn-group btn-group-sm">
                                     <a href="#" class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></a>
-                                    <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Hapus data obat ini?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
