@@ -522,34 +522,34 @@
             </div>
         </div>
     </section>
-    <!-- Footer -->
+        <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3"><i class="fas fa-heartbeat me-2"></i> SIKES</h5>
-                    <p class="text-muted">Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.</p>
+                    <h5 class="fw-bold mb-3 text-white"><i class="fas fa-heartbeat me-2 text-success"></i> SIKES</h5>
+                    <p class="text-light opacity-75">Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.</p>
                 </div>
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3">Menu Cepat</h5>
+                    <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{{ route('landing') }}">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}">Tentang UKS</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75 text-decoration-none">Beranda</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75 text-decoration-none">Tentang UKS</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75 text-decoration-none">Informasi Obat</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75 text-decoration-none">Jadwal Petugas</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3">Kontak</h5>
-                    <ul class="list-unstyled text-muted">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. Pendidikan No. 123</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (021) 1234567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> uks@sekolah.sch.id</li>
+                    <h5 class="fw-bold mb-3 text-white">Kontak</h5>
+                    <ul class="list-unstyled text-light opacity-75">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Jl. Pendidikan No. 123</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2 text-success"></i> (021) 1234567</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2 text-success"></i> uks@sekolah.sch.id</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom text-center">
-                <p class="mb-0">&copy; {{ date('Y') }} SIKES - Sistem Informasi UKS. All rights reserved.</p>
+                <p class="mb-0 text-light opacity-50">&copy; {{ date('Y') }} SIKES - Sistem Informasi UKS. All rights reserved.</p>
             </div>
         </div>
     </footer>
