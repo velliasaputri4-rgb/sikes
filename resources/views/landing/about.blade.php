@@ -119,7 +119,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('landing.about') }}">Tentang UKS</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('landing.about') }}">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.contact') }}">Kontak</a></li>
@@ -147,7 +147,7 @@
             <div class="d-inline-block bg-white bg-opacity-50 px-3 py-1 rounded-pill mb-3">
                 <small class="text-primary fw-semibold"><i class="fas fa-info-circle me-2"></i>Profil UKS</small>
             </div>
-            <h1 class="fw-bold">Tentang UKS</h1>
+            <h1 class="fw-bold">Tentang SIKES</h1>
             <p class="mb-0">Mengenal lebih dekat Unit Kesehatan Sekolah kami</p>
         </div>
     </section>
@@ -160,7 +160,7 @@
                     <img src="https://img.freepik.com/free-vector/healthcare-concept-illustration_23-2148939760.jpg" class="img-fluid rounded-4 shadow-sm">
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="fw-bold mb-3" style="color: #0f172a;">Apa itu UKS?</h2>
+                    <h2 class="fw-bold mb-3" style="color: #0f172a;">Apa itu SIKES?</h2>
                     <p class="text-muted mb-3">Unit Kesehatan Sekolah (UKS) adalah wahana untuk meningkatkan kemampuan hidup sehat dan selanjutnya membentuk perilaku hidup sehat peserta didik yang berada di sekolah. UKS merupakan usaha kesehatan masyarakat yang dijalankan di sekolah-sekolah.</p>
                     <p class="text-muted">Dengan adanya UKS, diharapkan siswa dapat memperoleh pelayanan kesehatan dasar, pendidikan kesehatan, dan pembinaan lingkungan sekolah sehat.</p>
                 </div>

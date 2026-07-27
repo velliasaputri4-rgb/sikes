@@ -107,7 +107,7 @@
 </head>
 <body>
 
-    <!-- Navbar (Konsisten dengan halaman lain) -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
@@ -155,27 +155,23 @@
     <!-- Content Section -->
     <section class="section">
         <div class="container">
-            <!-- Info Cards -->
-            <div class="row g-4 mb-5">
-                <div class="col-md-4">
+            <!-- Info Cards (Diperbarui: Telepon dihapus, Email diganti Sosial Media) -->
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-md-6 col-lg-5">
                     <div class="contact-card text-center">
                         <div class="contact-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-2">Alamat</h5>
-                        <p class="text-muted mb-0">Jl. Pendidikan No. 123<br>Kota Anda, 12345</p>
+                        <p class="text-muted mb-0">Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-5">
                     <div class="contact-card text-center">
-                        <div class="contact-icon mx-auto"><i class="fas fa-phone"></i></div>
-                        <h5 class="fw-bold mb-2">Telepon</h5>
-                        <p class="text-muted mb-0">(021) 1234567<br>0812-3456-7890</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="contact-card text-center">
-                        <div class="contact-icon mx-auto"><i class="fas fa-envelope"></i></div>
-                        <h5 class="fw-bold mb-2">Email</h5>
-                        <p class="text-muted mb-0">uks@sekolah.sch.id<br>info@sikes.sch.id</p>
+                        <div class="contact-icon mx-auto"><i class="fab fa-instagram"></i></div>
+                        <h5 class="fw-bold mb-2">Sosial Media</h5>
+                        <p class="text-muted mb-0">
+                            Instagram: @pmrwira_eskasaba<br>
+                            Youtube: @wirasandyaadhimukti3463
+                        </p>
                     </div>
                 </div>
             </div>
@@ -210,15 +206,15 @@
                         <table class="table table-borderless mb-3">
                             <tbody>
                                 <tr class="border-bottom">
-                                    <td class="py-3 ps-0">Senin - Jumat</td>
-                                    <td class="text-end py-3 fw-semibold text-dark">07:00 - 15:00</td>
+                                    <td class="py-3 ps-0">Senin - Kamis</td>
+                                    <td class="text-end py-3 fw-semibold text-dark">08:00 - 15:00</td>
                                 </tr>
                                 <tr class="border-bottom">
-                                    <td class="py-3 ps-0">Sabtu</td>
-                                    <td class="text-end py-3 fw-semibold text-dark">07:00 - 12:00</td>
+                                    <td class="py-3 ps-0">Jumat</td>
+                                    <td class="text-end py-3 fw-semibold text-dark">08:00 - 13:00</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 ps-0">Minggu</td>
+                                    <td class="py-3 ps-0">Sabtu - Minggu</td>
                                     <td class="text-end py-3 fw-semibold text-danger">Tutup</td>
                                 </tr>
                             </tbody>
@@ -255,9 +251,8 @@
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Kontak</h5>
                     <ul class="list-unstyled text-light opacity-75">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Jl. Pendidikan No. 123</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-success"></i> (021) 1234567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-success"></i> uks@sekolah.sch.id</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Komplek SMKN 1 Bangsri, Jepara</li>
+                        <li class="mb-2"><i class="fab fa-instagram me-2 text-success"></i> @pmrwira_eskasaba</li>
                     </ul>
                 </div>
             </div>

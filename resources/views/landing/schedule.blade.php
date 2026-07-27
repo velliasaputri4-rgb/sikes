@@ -11,7 +11,6 @@
             --primary: #2563EB;
             --secondary: #1e40af;
             --success: #10b981;
-            --warning: #f59e0b;
             --info: #3b82f6;
         }
         body { 
@@ -44,7 +43,7 @@
             border-radius: 8px;
         }
         
-        /* Page Header (DIBUAT SOFT SEPERTI LANDING PAGE) */
+        /* Page Header */
         .page-header {
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             padding: 80px 0 100px;
@@ -112,14 +111,14 @@
             margin-bottom: 15px;
         }
         
-        /* Schedule Cards */
+        /* Schedule Cards - SEMUA BIRU SOFT, TIDAK ADA WARNA LAIN */
         .schedule-card {
             background: white;
             border-radius: 16px;
-            padding: 25px;
+            padding: 30px 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
             transition: all 0.3s ease;
-            border-left: 5px solid var(--primary);
+            border-top: 5px solid var(--primary); 
             height: 100%;
             position: relative;
             overflow: hidden;
@@ -138,72 +137,19 @@
             transform: translateY(-8px);
             box-shadow: 0 12px 35px rgba(37, 99, 235, 0.15);
         }
-        .schedule-card.weekend {
-            border-left-color: var(--warning);
-        }
-        .schedule-card.weekend::before {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), transparent);
-        }
-        
-        .day-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: linear-gradient(135deg, var(--primary), var(--info));
-            color: white;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        .day-badge.weekend {
-            background: linear-gradient(135deg, var(--warning), #f97316);
-        }
         
         .officer-avatar {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: linear-gradient(135deg, #dbeafe, #bfdbfe);
             color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             margin-bottom: 15px;
-        }
-        
-        .time-box {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 12px 15px;
-            margin-top: 15px;
-            border: 1px dashed #cbd5e1;
-        }
-        .time-box i {
-            color: var(--success);
-            margin-right: 8px;
-        }
-        .time-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-        
-        /* Status Badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .status-active {
-            background: #dcfce7;
-            color: #16a34a;
         }
         
         /* Section Title */
@@ -285,7 +231,7 @@
         </div>
     </nav>
 
-    <!-- Page Header (Soft Blue) -->
+    <!-- Page Header -->
     <section class="page-header">
         <div class="container position-relative">
             <div class="row align-items-center">
@@ -314,7 +260,7 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Jam Operasional</h5>
-                    <p class="text-muted small mb-0">Senin - Jumat: 07:00 - 15:00<br>Sabtu: 07:00 - 12:00</p>
+                    <p class="text-muted small mb-0">Senin - Kamis: 08:00 - 15:00<br>Jumat 08:00 - 13.00</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -343,40 +289,70 @@
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Jadwal Tugas Petugas</h2>
-                <p class="section-subtitle">Daftar petugas yang bertugas sesuai hari dan jam operasional</p>
+                <p class="section-subtitle">Klik tombol di bawah untuk melihat daftar anggota piket</p>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
                 @forelse($schedules as $schedule)
                     @php
-                        $isWeekend = str_contains(strtolower($schedule->day), 'sabtu') || str_contains(strtolower($schedule->day), 'minggu');
-                        $initials = strtoupper(substr($schedule->officer_name, 0, 2));
+                        $members = $schedule->members ? json_decode($schedule->members, true) : [];
                     @endphp
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-card {{ $isWeekend ? 'weekend' : '' }}">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="day-badge {{ $isWeekend ? 'weekend' : '' }}">
-                                    <i class="fas fa-calendar-day me-1"></i> {{ $schedule->day }}
-                                </span>
-                                <span class="status-badge status-active">
-                                    <i class="fas fa-check-circle me-1"></i> Aktif
-                                </span>
+                        <!-- TIDAK ADA CLASS WEEKEND, SEMUA BIRU SOFT -->
+                        <div class="schedule-card text-center h-100 d-flex flex-column justify-content-center">
+                            <!-- Icon Kelompok -->
+                            <div class="officer-avatar mx-auto mb-3">
+                                <i class="fas fa-users"></i>
                             </div>
+                            
+                            <!-- Judul Kelompok -->
+                            <h5 class="fw-bold mb-1 text-dark">{{ $schedule->group_name }}</h5>
+                            <p class="text-muted small mb-4">PMR Wira Sandya Adhimukti</p>
+                            
+                            <!-- Tombol Buka Info -->
+                            <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalAnggota{{ $schedule->id }}">
+                                <i class="fas fa-info-circle me-2"></i> Lihat Daftar Anggota
+                            </button>
+                        </div>
+                    </div>
 
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="officer-avatar me-3">{{ $initials }}</div>
-                                <div>
-                                    <h6 class="fw-bold mb-1">{{ $schedule->officer_name }}</h6>
-                                    <small class="text-muted"><i class="fas fa-user-nurse me-1"></i> Petugas UKS</small>
+                    <!-- Modal Popup Daftar Anggota -->
+                    <div class="modal fade" id="modalAnggota{{ $schedule->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $schedule->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content border-0 shadow">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title fw-bold" id="modalLabel{{ $schedule->id }}">
+                                        <i class="fas fa-users me-2"></i> Anggota {{ $schedule->group_name }}
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                            </div>
-
-                            <div class="time-box">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-clock fa-lg"></i>
-                                    <div>
-                                        <small class="text-muted d-block" style="font-size: 11px;">JAM TUGAS</small>
-                                        <span class="time-text">{{ $schedule->time }}</span>
+                                <div class="modal-body p-0">
+                                    <ul class="list-group list-group-flush">
+                                        @if(count($members) > 0)
+                                            @foreach($members as $member)
+                                                <li class="list-group-item d-flex align-items-center py-3">
+                                                    <i class="fas fa-user-circle text-primary me-3 fa-lg"></i>
+                                                    <span class="fw-medium">{{ $member }}</span>
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <li class="list-group-item py-3 text-center text-muted">
+                                                Data anggota belum tersedia.
+                                            </li>
+                                        @endif
+                                    </ul>
+                                    
+                                    <!-- Catatan Penting -->
+                                    <div class="p-3">
+                                        <div class="alert alert-warning d-flex align-items-start mb-0 small">
+                                            <i class="fas fa-exclamation-triangle me-2 mt-1"></i>
+                                            <div>
+                                                <strong>Catatan:</strong><br>
+                                                Silahkan menghubungi nama yang diberi nomor telepon pada jadwal piket sesuai jadwal hari ini jika membutuhkan bantuan.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
