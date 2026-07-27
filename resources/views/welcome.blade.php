@@ -260,7 +260,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang UKS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.contact') }}">Kontak</a></li>
@@ -469,7 +469,7 @@
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75 text-decoration-none">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75 text-decoration-none">Tentang UKS</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75 text-decoration-none">Tentang</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75 text-decoration-none">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75 text-decoration-none">Jadwal Petugas</a></li>
                     </ul>
