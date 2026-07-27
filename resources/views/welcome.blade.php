@@ -308,7 +308,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS</span></h1>
+                <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
                 <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="#layanan" class="btn btn-primary-custom btn-lg">

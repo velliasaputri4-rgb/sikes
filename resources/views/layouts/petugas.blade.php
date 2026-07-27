@@ -22,14 +22,35 @@
         .sidebar { 
             width: 260px; 
             background: linear-gradient(180deg, var(--sidebar-bg) 0%, #065f46 100%);
-            min-height: 100vh; 
+            height: 100vh; /* Tinggi pas dengan layar */
             position: fixed; 
             left: 0; 
             top: 0; 
             color: white; 
             z-index: 1000;
             transition: all 0.3s;
+            
+            /* FITUR SCROLL */
+            overflow-y: auto; 
+            overflow-x: hidden;
+            padding-bottom: 30px;
         }
+
+        /* Custom Scrollbar untuk Sidebar agar rapi */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         .sidebar-brand {
             padding: 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -196,6 +217,21 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('petugas.students.index') ? 'active' : '' }}" href="{{ route('petugas.students.index') }}">
                     <i class="fas fa-user-graduate"></i> Data Siswa
+                </a>
+            </li>
+        </ul>
+
+        <!-- ✅ BAGIAN INVENTARIS DIPISAHKAN DENGAN BENAR -->
+        <div class="sidebar-section">Inventaris</div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('petugas.items.*') ? 'active' : '' }}" href="{{ route('petugas.items.index') }}">
+                    <i class="fas fa-boxes"></i> Data Barang
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('petugas.borrowings.*') ? 'active' : '' }}" href="{{ route('petugas.borrowings.index') }}">
+                    <i class="fas fa-hand-holding-medical"></i> Peminjaman
                 </a>
             </li>
         </ul>

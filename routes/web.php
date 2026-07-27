@@ -84,11 +84,15 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
     // Input & Kelola Data Harian
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
-    
-    // ✅ TAMBAHAN: Route untuk Jadwal Petugas (agar terhubung ke Landing Page)
-    Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
-    
     Route::get('/students', function() { return view('petugas.students.index'); })->name('students.index');
+    
+    // ✅ TAMBAHAN: Route untuk Jadwal Petugas
+    Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
+
+    // ✅ TAMBAHAN: Route untuk Inventaris & Peminjaman
+    Route::resource('items', \App\Http\Controllers\ItemController::class);
+    Route::resource('borrowings', \App\Http\Controllers\BorrowingController::class);
+    Route::patch('borrowings/{id}/return', [\App\Http\Controllers\BorrowingController::class, 'returnItem'])->name('borrowings.return');
 });
 
 /*
@@ -109,15 +113,10 @@ Route::get('/dashboard', function() {
     $user = auth()->user();
     
     if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
-        // Admin tetap ke dashboard admin (untuk CMS & Master Data)
         return redirect()->route('admin.dashboard');
-        
     } elseif ($user->hasRole('petugas')) {
-        // PETUGAS LANGSUNG DIARAHKAN KE HALAMAN DATA KUNJUNGAN
         return redirect()->route('petugas.examinations.index');
-        
     } elseif ($user->hasRole('siswa')) {
-        // Siswa diarahkan ke riwayat mereka
         return redirect()->route('student.history');
     }
     
