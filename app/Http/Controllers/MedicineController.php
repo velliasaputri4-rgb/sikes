@@ -25,7 +25,7 @@ class MedicineController extends Controller
             $query->where('status', $request->status);
         }
 
-        $medicines = $query->latest()->paginate(10);
+        $medicines = $query->latest()->paginate(15);
         
         // Ambil kategori (fallback ke array jika tabel kategori masih kosong)
         $categories = MedicineCategory::exists() ? MedicineCategory::all() : collect([
@@ -35,7 +35,8 @@ class MedicineController extends Controller
             (object)['id' => 4, 'name' => 'Alat Kesehatan'],
         ]);
 
-        return view('medicines.index', compact('medicines', 'categories'));
+        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk view
+        return view('petugas.medicines.index', compact('medicines', 'categories'));
     }
 
     public function create()
@@ -47,20 +48,20 @@ class MedicineController extends Controller
             (object)['id' => 4, 'name' => 'Alat Kesehatan'],
         ]);
         
-        return view('medicines.create', compact('categories'));
+        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk view
+        return view('petugas.medicines.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required',
+            'category_id' => 'nullable|exists:medicine_categories,id',
             'code' => 'required|unique:medicines,code|max:30',
             'name' => 'required|string|max:100',
-            'unit' => 'required|string|max:30', // Contoh: Tablet, Botol, Strip
+            'unit' => 'required|string|max:30',
             'stock' => 'required|integer|min:0',
             'minimum_stock' => 'required|integer|min:0',
             'expired_date' => 'nullable|date',
-            'storage_location' => 'nullable|string|max:100',
         ]);
 
         // Tentukan status otomatis berdasarkan stok dan kedaluwarsa
@@ -71,20 +72,65 @@ class MedicineController extends Controller
             $status = 'low_stock';
         }
         
-        if ($validated['expired_date'] && Carbon::parse($validated['expired_date'])->diffInDays(now()) <= 30) {
+        if (!empty($validated['expired_date']) && Carbon::parse($validated['expired_date'])->diffInDays(now()) <= 30) {
             $status = 'near_expired';
         }
-        if ($validated['expired_date'] && Carbon::parse($validated['expired_date'])->isPast()) {
+        if (!empty($validated['expired_date']) && Carbon::parse($validated['expired_date'])->isPast()) {
             $status = 'expired';
         }
 
         Medicine::create(array_merge($validated, ['status' => $status]));
 
-        return redirect()->route('medicines.index')->with('success', 'Data obat berhasil ditambahkan!');
+        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk redirect
+        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil ditambahkan!');
     }
 
-    // Method edit, update, destroy bisa ditambahkan nanti
-    public function edit($id) { return view('medicines.edit'); }
-    public function update(Request $request, $id) { /* Logic update */ }
-    public function destroy($id) { /* Logic delete */ }
+    public function edit($id) 
+    { 
+        $medicine = Medicine::findOrFail($id);
+        $categories = MedicineCategory::exists() ? MedicineCategory::all() : collect([]);
+        return view('petugas.medicines.edit', compact('medicine', 'categories')); 
+    }
+
+    public function update(Request $request, $id) 
+    { 
+        $medicine = Medicine::findOrFail($id);
+        
+        $validated = $request->validate([
+            'category_id' => 'nullable|exists:medicine_categories,id',
+            'code' => 'required|unique:medicines,code,' . $id . '|max:30',
+            'name' => 'required|string|max:100',
+            'unit' => 'required|string|max:30',
+            'stock' => 'required|integer|min:0',
+            'minimum_stock' => 'required|integer|min:0',
+            'expired_date' => 'nullable|date',
+        ]);
+
+        // Tentukan status otomatis
+        $status = 'available';
+        if ($validated['stock'] == 0) {
+            $status = 'empty';
+        } elseif ($validated['stock'] <= $validated['minimum_stock']) {
+            $status = 'low_stock';
+        }
+        
+        if (!empty($validated['expired_date']) && Carbon::parse($validated['expired_date'])->diffInDays(now()) <= 30) {
+            $status = 'near_expired';
+        }
+        if (!empty($validated['expired_date']) && Carbon::parse($validated['expired_date'])->isPast()) {
+            $status = 'expired';
+        }
+
+        $medicine->update(array_merge($validated, ['status' => $status]));
+
+        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil diperbarui!');
+    }
+
+    public function destroy($id) 
+    { 
+        $medicine = Medicine::findOrFail($id);
+        $medicine->delete();
+        
+        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil dihapus!');
+    }
 }

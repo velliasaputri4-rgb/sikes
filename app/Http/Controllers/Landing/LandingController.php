@@ -31,11 +31,17 @@ class LandingController extends Controller
         return view('landing.about');
     }
 
-    public function medicines()
-    {
-        $medicines = Medicine::where('status', 'available')->paginate(12);
-        return view('landing.medicines', compact('medicines'));
-    }
+ public function medicines()
+{
+    // Ambil obat yang stoknya > 0 dan tidak expired/habis, lalu di-paginate
+    $medicines = \App\Models\Medicine::with('category')
+        ->where('stock', '>', 0)
+        ->whereNotIn('status', ['expired', 'empty'])
+        ->orderBy('name')
+        ->paginate(12); // ✅ UBAH DARI get() MENJADI paginate(12)
+
+    return view('landing.medicines', compact('medicines'));
+}
 
  public function schedule()
 {
