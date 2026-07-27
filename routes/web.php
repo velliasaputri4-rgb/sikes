@@ -84,6 +84,10 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
     // Input & Kelola Data Harian
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
+    
+    // ✅ TAMBAHAN: Route untuk Jadwal Petugas (agar terhubung ke Landing Page)
+    Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
+    
     Route::get('/students', function() { return view('petugas.students.index'); })->name('students.index');
 });
 

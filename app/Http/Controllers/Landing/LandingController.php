@@ -37,14 +37,11 @@ class LandingController extends Controller
         return view('landing.medicines', compact('medicines'));
     }
 
-    public function schedule()
-    {
-        $schedules = collect([
-            (object)['day' => 'Senin - Jumat', 'officer_name' => 'Petugas UKS', 'time' => '07:00 - 15:00']
-        ]);
-        return view('landing.schedule', compact('schedules'));
-    }
-
+ public function schedule()
+{
+    $schedules = \App\Models\Schedule::orderBy('id')->get();
+    return view('landing.schedule', compact('schedules'));
+}
     public function contact()
     {
         return view('landing.contact');

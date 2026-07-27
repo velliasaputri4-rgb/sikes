@@ -456,72 +456,7 @@
         </div>
     </div>
 </section>
-    <!-- Medicines Preview -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Informasi Obat</h2>
-                <p class="section-subtitle">Obat-obatan yang tersedia di UKS</p>
-            </div>
-            <div class="row g-4">
-                @forelse($medicines ?? [] as $med)
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body">
-                                <h6 class="fw-bold">{{ $med->name }}</h6>
-                                <p class="text-muted small mb-2">{{ $med->category->name ?? 'Umum' }}</p>
-                                <span class="badge bg-success">Tersedia</span>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center text-muted">
-                        <p>Belum ada data obat</p>
-                    </div>
-                @endforelse
-            </div>
-            <div class="text-center mt-4">
-                <a href="{{ route('landing.medicines') }}" class="btn btn-outline-primary rounded-pill">Lihat Semua Obat</a>
-            </div>
-        </div>
-    </section>
-
-        <!-- Schedule Preview -->
-    <section class="section bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Jadwal Petugas</h2>
-                <p class="section-subtitle">Jadwal petugas UKS yang bertugas</p>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-bordered bg-white shadow-sm">
-                    <thead class="bg-primary text-white">
-                        <tr>
-                            <th>Hari</th>
-                            <th>Petugas</th>
-                            <th>Jam Tugas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($schedules as $schedule)
-                            <tr>
-                                <td>{{ $schedule->day }}</td>
-                                <td>{{ $schedule->officer_name }}</td>
-                                <td>{{ $schedule->time }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center text-muted">Belum ada jadwal</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="text-center mt-4">
-                <a href="{{ route('landing.schedule') }}" class="btn btn-outline-primary rounded-pill">Lihat Jadwal Lengkap</a>
-            </div>
-        </div>
-    </section>
+   
         <!-- Footer -->
     <footer>
         <div class="container">
