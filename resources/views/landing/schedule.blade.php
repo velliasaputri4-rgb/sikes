@@ -179,14 +179,57 @@
             padding: 60px 0 30px;
             margin-top: 80px;
         }
-        footer a { color: #cbd5e1; text-decoration: none; transition: color 0.3s; }
-        footer a:hover { color: white; }
         .footer-bottom { 
             border-top: 1px solid #334155; 
             margin-top: 40px; 
             padding-top: 25px;
             text-align: center;
             color: #94a3b8;
+        }
+
+        /* ✅ EFEK HOVER UNTUK MENU CEPAT DI FOOTER */
+        .footer-menu a {
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .footer-menu a:hover {
+            color: var(--info) !important;
+            opacity: 1 !important;
+            transform: translateX(8px);
+        }
+        
+        /* ✅ PERBAIKAN SIMETRI & WARNA ICON SERAGAM */
+        .footer-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .footer-contact-item i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 3px;
+            color: #60a5fa !important; /* WARNA BIRU SOFT SERAGAM */
+        }
+        .footer-contact-item span, 
+        .footer-contact-item a {
+            color: #cbd5e1;
+            opacity: 0.75;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+        .footer-contact-item a:hover {
+            opacity: 1;
+            color: var(--info) !important;
         }
         
         @media (max-width: 768px) {
@@ -260,7 +303,7 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Jam Operasional</h5>
-                    <p class="text-muted small mb-0">Senin - Kamis: 08:00 - 15:00<br>Jumat 08:00 - 13.00</p>
+                    <p class="text-muted small mb-0">Senin - Kamis: 08:00 - 15:00<br>Jumat: 08:00 - 13:00</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -390,32 +433,50 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (Sama Persis dengan Halaman Lain) -->
     <footer>
         <div class="container">
             <div class="row g-4">
+                <!-- Kolom 1: Tentang -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white"><i class="fas fa-heartbeat me-2 text-success"></i> SIKES</h5>
-                    <p class="text-light opacity-75">Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.</p>
+                    <h5 class="fw-bold mb-3 text-white">SIKES</h5>
+                    <p class="text-light opacity-75" style="line-height: 1.7;">
+                        Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.
+                    </p>
                 </div>
+                
+                <!-- Kolom 2: Menu Cepat -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
                         <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang UKS</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.contact') }}" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
+                
+                <!-- Kolom 3: Kontak Kami -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white">Kontak</h5>
-                    <ul class="list-unstyled text-light opacity-75">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Jl. Pendidikan No. 123</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-success"></i> (021) 1234567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-success"></i> uks@sekolah.sch.id</li>
+                    <h5 class="fw-bold mb-3 text-white">Kontak Kami</h5>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-instagram"></i>
+                            <a href="https://instagram.com/pmrwira_eskasaba" target="_blank">@pmrwira_eskasaba</a>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-youtube"></i>
+                            <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank">@wirasandyaadhimukti3463</a>
+                        </li>
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
                 <p class="mb-0 text-light opacity-50">&copy; {{ date('Y') }} SIKES - Sistem Informasi UKS. All rights reserved.</p>
             </div>

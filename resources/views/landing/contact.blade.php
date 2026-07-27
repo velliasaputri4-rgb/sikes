@@ -94,14 +94,57 @@
             padding: 60px 0 30px;
             margin-top: 80px;
         }
-        footer a { color: #cbd5e1; text-decoration: none; transition: color 0.3s; }
-        footer a:hover { color: white; }
         .footer-bottom { 
             border-top: 1px solid #334155; 
             margin-top: 40px; 
             padding-top: 25px;
             text-align: center;
             color: #94a3b8;
+        }
+
+        /* ✅ EFEK HOVER UNTUK MENU CEPAT DI FOOTER */
+        .footer-menu a {
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .footer-menu a:hover {
+            color: var(--info) !important;
+            opacity: 1 !important;
+            transform: translateX(8px);
+        }
+        
+        /* ✅ PERBAIKAN SIMETRI & WARNA ICON SERAGAM */
+        .footer-contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .footer-contact-item i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 3px;
+            color: #60a5fa !important;
+        }
+        .footer-contact-item span, 
+        .footer-contact-item a {
+            color: #cbd5e1;
+            opacity: 0.75;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+        .footer-contact-item a:hover {
+            opacity: 1;
+            color: var(--info) !important;
         }
     </style>
 </head>
@@ -111,7 +154,7 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
-                <i class="fas fa-heartbeat me-2"></i> SIKES
+                SIKES
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -155,7 +198,7 @@
     <!-- Content Section -->
     <section class="section">
         <div class="container">
-            <!-- Info Cards (Diperbarui: Telepon dihapus, Email diganti Sosial Media) -->
+            <!-- Info Cards -->
             <div class="row g-4 mb-5 justify-content-center">
                 <div class="col-md-6 col-lg-5">
                     <div class="contact-card text-center">
@@ -169,8 +212,8 @@
                         <div class="contact-icon mx-auto"><i class="fab fa-instagram"></i></div>
                         <h5 class="fw-bold mb-2">Sosial Media</h5>
                         <p class="text-muted mb-0">
-                            Instagram: @pmrwira_eskasaba<br>
-                            Youtube: @wirasandyaadhimukti3463
+                            Instagram: <span class="fw-semibold text-dark">@pmrwira_eskasaba</span><br>
+                            Youtube: <span class="fw-semibold text-dark">@wirasandyaadhimukti3463</span>
                         </p>
                     </div>
                 </div>
@@ -235,27 +278,46 @@
     <footer>
         <div class="container">
             <div class="row g-4">
+                <!-- Kolom 1: Tentang (LOGO DIHAPUS) -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white"><i class="fas fa-heartbeat me-2 text-success"></i> SIKES</h5>
-                    <p class="text-light opacity-75">Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.</p>
+                    <h5 class="fw-bold mb-3 text-white">SIKES</h5>
+                    <p class="text-light opacity-75" style="line-height: 1.7;">
+                        Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.
+                    </p>
                 </div>
+                
+                <!-- Kolom 2: Menu Cepat -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang UKS</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.contact') }}" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
+                
+                <!-- Kolom 3: Kontak Kami -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white">Kontak</h5>
-                    <ul class="list-unstyled text-light opacity-75">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Komplek SMKN 1 Bangsri, Jepara</li>
-                        <li class="mb-2"><i class="fab fa-instagram me-2 text-success"></i> @pmrwira_eskasaba</li>
+                    <h5 class="fw-bold mb-3 text-white">Kontak Kami</h5>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-instagram"></i>
+                            <a href="https://instagram.com/pmrwira_eskasaba" target="_blank">@pmrwira_eskasaba</a>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-youtube"></i>
+                            <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank">@wirasandyaadhimukti3463</a>
+                        </li>
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
                 <p class="mb-0 text-light opacity-50">&copy; {{ date('Y') }} SIKES - Sistem Informasi UKS. All rights reserved.</p>
             </div>

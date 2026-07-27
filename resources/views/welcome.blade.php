@@ -228,14 +228,57 @@
         padding: 60px 0 30px;
         margin-top: 80px;
     }
-    footer a { color: #cbd5e1; text-decoration: none; transition: color 0.3s; }
-    footer a:hover { color: white; }
     .footer-bottom { 
         border-top: 1px solid #334155; 
         margin-top: 40px; 
         padding-top: 25px;
         text-align: center;
         color: #94a3b8;
+    }
+
+    /* ✅ EFEK HOVER UNTUK MENU CEPAT DI FOOTER */
+    .footer-menu a {
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+    }
+    .footer-menu a:hover {
+        color: var(--info) !important;
+        opacity: 1 !important;
+        transform: translateX(8px);
+    }
+    
+    /* ✅ PERBAIKAN SIMETRI & WARNA ICON SERAGAM */
+    .footer-contact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .footer-contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        gap: 15px;
+    }
+    .footer-contact-item i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+        margin-top: 3px;
+        color: #60a5fa !important; /* WARNA BIRU SOFT SERAGAM */
+    }
+    .footer-contact-item span, 
+    .footer-contact-item a {
+        color: #cbd5e1;
+        opacity: 0.75;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        line-height: 1.6;
+    }
+    .footer-contact-item a:hover {
+        opacity: 1;
+        color: var(--info) !important;
     }
     
     /* Responsive */
@@ -248,7 +291,7 @@
 </head>
 <body>
 
-       <!-- Navbar -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
@@ -265,7 +308,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.contact') }}">Kontak</a></li>
                     
-                                       <!-- Icon Login dengan Dropdown -->
+                    <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
@@ -295,195 +338,211 @@
                             </ul>
                         </div>
                     </li>
-                            </ul>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
-                <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a href="#layanan" class="btn btn-primary-custom btn-lg">
-                        <i class="fas fa-clipboard-list me-2"></i> Form Kunjungan
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
+                    <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#layanan" class="btn btn-primary-custom btn-lg">
+                            <i class="fas fa-clipboard-list me-2"></i> Form Kunjungan
+                        </a>
+                        <a href="{{ route('landing.about') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-info-circle me-2"></i> Pelajari Lebih
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                    <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg" alt="Ilustrasi UKS" class="img-fluid" style="max-height: 400px;">
+                </div>
+            </div>
+
+            <!-- 4 Menu Cards -->
+            <div class="row g-4 mt-2">
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ auth()->check() && auth()->user()->hasRole(['super-admin', 'admin', 'petugas']) ? route('petugas.examinations.create') : route('login.petugas') }}" class="text-decoration-none">
+                        <div class="menu-card">
+                            <div class="menu-icon bg-icon-1"><i class="fas fa-clipboard-list"></i></div>
+                            <h5 class="fw-bold mb-2">Form Kunjungan</h5>
+                            <p class="text-muted small mb-0">Isi form kunjungan ke UKS dengan mudah dan cepat</p>
+                            @if(!auth()->check())
+                                <small class="text-primary mt-2 d-block"><i class="fas fa-lock me-1"></i>Login diperlukan</small>
+                            @endif
+                        </div>
                     </a>
-                    <a href="{{ route('landing.about') }}" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-info-circle me-2"></i> Pelajari Lebih
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="text-decoration-none">
+                        <div class="menu-card">
+                            <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
+                            <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
+                            <p class="text-muted small mb-0">Lihat riwayat kunjungan dan rekam medis Anda</p>
+                            @if(!auth()->check())
+                                <small class="text-primary mt-2 d-block"><i class="fas fa-user me-1"></i>Login siswa diperlukan</small>
+                            @endif
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ route('landing.medicines') }}" class="text-decoration-none">
+                        <div class="menu-card">
+                            <div class="menu-icon bg-icon-3"><i class="fas fa-pills"></i></div>
+                            <h5 class="fw-bold mb-2">Informasi Obat</h5>
+                            <p class="text-muted small mb-0">Informasi lengkap obat yang tersedia di UKS</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ route('landing.schedule') }}" class="text-decoration-none">
+                        <div class="menu-card">
+                            <div class="menu-icon bg-icon-4"><i class="fas fa-user-nurse"></i></div>
+                            <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
+                            <p class="text-muted small mb-0">Lihat jadwal petugas UKS yang bertugas</p>
+                        </div>
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6 text-center mt-4 mt-lg-0">
-                <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg" alt="Ilustrasi UKS" class="img-fluid" style="max-height: 400px;">
-            </div>
         </div>
+    </section>
 
-        <!-- 4 Menu Cards -->
-        <div class="row g-4 mt-2">
-            <div class="col-md-6 col-lg-3">
-                <a href="{{ auth()->check() && auth()->user()->hasRole(['super-admin', 'admin', 'petugas']) ? route('petugas.examinations.create') : route('login.petugas') }}" class="text-decoration-none">
-                    <div class="menu-card">
-                        <div class="menu-icon bg-icon-1"><i class="fas fa-clipboard-list"></i></div>
-                        <h5 class="fw-bold mb-2">Form Kunjungan</h5>
-                        <p class="text-muted small mb-0">Isi form kunjungan ke UKS dengan mudah dan cepat</p>
-                        @if(!auth()->check())
-                            <small class="text-primary mt-2 d-block"><i class="fas fa-lock me-1"></i>Login diperlukan</small>
-                        @endif
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="text-decoration-none">
-                    <div class="menu-card">
-                        <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
-                        <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
-                        <p class="text-muted small mb-0">Lihat riwayat kunjungan dan rekam medis Anda</p>
-                        @if(!auth()->check())
-                            <small class="text-primary mt-2 d-block"><i class="fas fa-user me-1"></i>Login siswa diperlukan</small>
-                        @endif
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <a href="{{ route('landing.medicines') }}" class="text-decoration-none">
-                    <div class="menu-card">
-                        <div class="menu-icon bg-icon-3"><i class="fas fa-pills"></i></div>
-                        <h5 class="fw-bold mb-2">Informasi Obat</h5>
-                        <p class="text-muted small mb-0">Informasi lengkap obat yang tersedia di UKS</p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <a href="{{ route('landing.schedule') }}" class="text-decoration-none">
-                    <div class="menu-card">
-                        <div class="menu-icon bg-icon-4"><i class="fas fa-user-nurse"></i></div>
-                        <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
-                        <p class="text-muted small mb-0">Lihat jadwal petugas UKS yang bertugas</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
     <!-- About Section -->
-<section class="section about-section" id="tentang">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <img src="https://img.freepik.com/free-vector/healthcare-concept-illustration_23-2148939760.jpg" alt="Tentang UKS" class="img-fluid about-img">
-            </div>
-            <div class="col-lg-6">
-                <h2 class="section-title">Tentang UKS</h2>
-                <p class="text-muted mb-4">Unit Kesehatan Sekolah (UKS) adalah wadah untuk meningkatkan kesehatan peserta didik di sekolah. Kami menyediakan layanan kesehatan yang komprehensif untuk mendukung proses belajar mengajar.</p>
-                
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
-                    <h5 class="fw-bold mb-2">Visi</h5>
-                    <p class="mb-0 text-muted">Menjadikan UKS sebagai pusat layanan kesehatan sekolah yang unggul, profesional, dan berorientasi pada kepuasan siswa.</p>
+    <section class="section about-section" id="tentang">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <img src="https://img.freepik.com/free-vector/healthcare-concept-illustration_23-2148939760.jpg" alt="Tentang UKS" class="img-fluid about-img">
                 </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title">Tentang UKS</h2>
+                    <p class="text-muted mb-4">Unit Kesehatan Sekolah (UKS) adalah wadah untuk meningkatkan kesehatan peserta didik di sekolah. Kami menyediakan layanan kesehatan yang komprehensif untuk mendukung proses belajar mengajar.</p>
+                    
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+                        <h5 class="fw-bold mb-2">Visi</h5>
+                        <p class="mb-0 text-muted">Menjadikan UKS sebagai pusat layanan kesehatan sekolah yang unggul, profesional, dan berorientasi pada kepuasan siswa.</p>
+                    </div>
 
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-tasks"></i></div>
-                    <h5 class="fw-bold mb-2">Misi</h5>
-                    <ul class="mb-0 ps-3 text-muted">
-                        <li>Memberikan pelayanan kesehatan yang prima</li>
-                        <li>Meningkatkan kesadaran kesehatan siswa</li>
-                        <li>Menjaga ketersediaan obat dan alat kesehatan</li>
-                        <li>Melakukan pencegahan dan penanganan dini</li>
-                    </ul>
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                        <h5 class="fw-bold mb-2">Misi</h5>
+                        <ul class="mb-0 ps-3 text-muted">
+                            <li>Memberikan pelayanan kesehatan yang prima</li>
+                            <li>Meningkatkan kesadaran kesehatan siswa</li>
+                            <li>Menjaga ketersediaan obat dan alat kesehatan</li>
+                            <li>Melakukan pencegahan dan penanganan dini</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Services Section -->
-<section class="section bg-light" id="layanan">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title mx-auto">Layanan UKS</h2>
-            <p class="section-subtitle">Berbagai layanan kesehatan yang kami sediakan untuk siswa</p>
+    <section class="section bg-light" id="layanan">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title mx-auto">Layanan UKS</h2>
+                <p class="section-subtitle">Berbagai layanan kesehatan yang kami sediakan untuk siswa</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
+                        <h5 class="fw-bold mb-2">Pemeriksaan Kesehatan</h5>
+                        <p class="text-muted mb-0">Pemeriksaan kesehatan rutin dan pemeriksaan saat sakit dengan tenaga profesional.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-pills"></i></div>
+                        <h5 class="fw-bold mb-2">Pelayanan Obat</h5>
+                        <p class="text-muted mb-0">Penyediaan obat-obatan yang lengkap dan terjamin kualitasnya.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h5 class="fw-bold mb-2">Pertolongan Pertama</h5>
+                        <p class="text-muted mb-0">Pertolongan pertama pada kecelakaan dan keadaan darurat.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-user-md"></i></div>
+                        <h5 class="fw-bold mb-2">Konsultasi Kesehatan</h5>
+                        <p class="text-muted mb-0">Konsultasi kesehatan fisik dan mental dengan petugas terlatih.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h5 class="fw-bold mb-2">Pemeriksaan Berkala</h5>
+                        <p class="text-muted mb-0">Pemeriksaan kesehatan berkala untuk memantau kondisi siswa.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h5 class="fw-bold mb-2">Edukasi Kesehatan</h5>
+                        <p class="text-muted mb-0">Penyuluhan dan edukasi tentang pola hidup sehat.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
-                    <h5 class="fw-bold mb-2">Pemeriksaan Kesehatan</h5>
-                    <p class="text-muted mb-0">Pemeriksaan kesehatan rutin dan pemeriksaan saat sakit dengan tenaga profesional.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-pills"></i></div>
-                    <h5 class="fw-bold mb-2">Pelayanan Obat</h5>
-                    <p class="text-muted mb-0">Penyediaan obat-obatan yang lengkap dan terjamin kualitasnya.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
-                    <h5 class="fw-bold mb-2">Pertolongan Pertama</h5>
-                    <p class="text-muted mb-0">Pertolongan pertama pada kecelakaan dan keadaan darurat.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-user-md"></i></div>
-                    <h5 class="fw-bold mb-2">Konsultasi Kesehatan</h5>
-                    <p class="text-muted mb-0">Konsultasi kesehatan fisik dan mental dengan petugas terlatih.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-clipboard-check"></i></div>
-                    <h5 class="fw-bold mb-2">Pemeriksaan Berkala</h5>
-                    <p class="text-muted mb-0">Pemeriksaan kesehatan berkala untuk memantau kondisi siswa.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <h5 class="fw-bold mb-2">Edukasi Kesehatan</h5>
-                    <p class="text-muted mb-0">Penyuluhan dan edukasi tentang pola hidup sehat.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
    
-        <!-- Footer -->
+    <!-- Footer (Sama Persis dengan Halaman Lain) -->
     <footer>
         <div class="container">
             <div class="row g-4">
+                <!-- Kolom 1: Tentang -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white"><i class="fas fa-heartbeat me-2 text-success"></i> SIKES</h5>
-                    <p class="text-light opacity-75">Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.</p>
+                    <h5 class="fw-bold mb-3 text-white">SIKES</h5>
+                    <p class="text-light opacity-75" style="line-height: 1.7;">
+                        Sistem Informasi Unit Kesehatan Sekolah yang modern dan terpercaya untuk meningkatkan kesehatan siswa.
+                    </p>
                 </div>
+                
+                <!-- Kolom 2: Menu Cepat -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75 text-decoration-none">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75 text-decoration-none">Tentang</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75 text-decoration-none">Informasi Obat</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75 text-decoration-none">Jadwal Petugas</a></li>
+                    <ul class="list-unstyled footer-menu">
+                        <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang UKS</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
+                        <li class="mb-2"><a href="{{ route('landing.contact') }}" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
+                
+                <!-- Kolom 3: Kontak Kami -->
                 <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-white">Kontak</h5>
-                    <ul class="list-unstyled text-light opacity-75">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-success"></i> Jl. Pendidikan No. 123</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-success"></i> (021) 1234567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-success"></i> uks@sekolah.sch.id</li>
+                    <h5 class="fw-bold mb-3 text-white">Kontak Kami</h5>
+                    <ul class="footer-contact-list">
+                        <li class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453</span>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-instagram"></i>
+                            <a href="https://instagram.com/pmrwira_eskasaba" target="_blank">@pmrwira_eskasaba</a>
+                        </li>
+                        <li class="footer-contact-item">
+                            <i class="fab fa-youtube"></i>
+                            <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank">@wirasandyaadhimukti3463</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom text-center">
+            
+            <div class="footer-bottom">
                 <p class="mb-0 text-light opacity-50">&copy; {{ date('Y') }} SIKES - Sistem Informasi UKS. All rights reserved.</p>
             </div>
         </div>
