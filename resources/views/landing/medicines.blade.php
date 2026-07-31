@@ -13,6 +13,13 @@
             --success: #10b981;
             --info: #3b82f6;
         }
+        
+        /* ✅ SMOOTH SCROLL & OFFSET UNTUK NAVBAR STICKY */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
         body { 
             font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
             background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
@@ -31,16 +38,33 @@
             color: var(--primary) !important;
             font-size: 1.5rem;
         }
+        
+        /* ✅ PENTING: Tambahkan position: relative agar garis bawah bisa diposisikan */
         .nav-link {
             font-weight: 500;
             color: #475569 !important;
             padding: 8px 16px !important;
             transition: all 0.3s;
+            position: relative;
         }
         .nav-link:hover, .nav-link.active {
             color: var(--primary) !important;
             background: rgba(37, 99, 235, 0.1);
             border-radius: 8px;
+        }
+        
+        /* ✅ GARIS BAWAH BIRU UNTUK MENU AKTIF */
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
         }
 
         /* Page Header */
@@ -122,7 +146,7 @@
             text-align: center;
             flex-shrink: 0;
             margin-top: 3px;
-            color: #60a5fa !important; /* WARNA BIRU SOFT SERAGAM */
+            color: #60a5fa !important;
         }
         .footer-contact-item span, 
         .footer-contact-item a {
@@ -141,7 +165,7 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
                 <i class="fas fa-heartbeat me-2"></i> SIKES
@@ -152,20 +176,42 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#tentang">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#layanan">Layanan</a></li>
+                    
+                    <!-- ✅ ACTIVE: Karena ini halaman Informasi Obat -->
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
+                    
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.contact') }}">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#kontak">Kontak</a></li>
+                    
+                    <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
                                 <i class="fas fa-user"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li><a class="dropdown-item" href="{{ route('login.admin') }}"><i class="fas fa-user-shield me-2 text-primary"></i>Login Admin</a></li>
-                                <li><a class="dropdown-item" href="{{ route('login.petugas') }}"><i class="fas fa-user-nurse me-2 text-success"></i>Login Petugas</a></li>
+                                <li class="dropdown-header text-center">
+                                    <small class="text-muted">Pilih Login</small>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-center small" href="{{ route('login.siswa') }}"><i class="fas fa-user-graduate me-1 text-info"></i>Login Siswa</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('login.admin') }}">
+                                        <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('login.petugas') }}">
+                                        <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-center small" href="{{ route('login.siswa') }}">
+                                        <i class="fas fa-user-graduate me-1 text-info"></i> Login Siswa
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -234,7 +280,7 @@
             </div>
 
             <!-- Pagination -->
-            @if(isset($medicines) && $medicines->hasPages())
+            @if(isset($medicines) && method_exists($medicines, 'hasPages') && $medicines->hasPages())
                 <div class="d-flex justify-content-center mt-5">
                     {{ $medicines->links() }}
                 </div>
@@ -242,7 +288,7 @@
         </div>
     </section>
 
-    <!-- Footer (Sama Persis dengan Halaman Lain) -->
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row g-4">
@@ -259,10 +305,11 @@
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang UKS</a></li>
+                        <!-- ✅ DIUBAH: Link kembali ke landing page dengan anchor -->
+                        <li class="mb-2"><a href="{{ route('landing') }}#tentang" class="text-light opacity-75">Tentang UKS</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.contact') }}" class="text-light opacity-75">Kontak</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#kontak" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
                 

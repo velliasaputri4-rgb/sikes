@@ -44,11 +44,23 @@
         color: #475569 !important;
         padding: 8px 16px !important;
         transition: all 0.3s;
+        position: relative;
     }
     .nav-link:hover, .nav-link.active {
         color: var(--primary) !important;
         background: rgba(37, 99, 235, 0.1);
         border-radius: 8px;
+    }
+    .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 3px;
+        background-color: var(--primary);
+        border-radius: 2px;
     }
     
     /* Hero Section */
@@ -82,6 +94,8 @@
         height: 100%;
         position: relative;
         overflow: hidden;
+        text-decoration: none;
+        display: block;
     }
     .menu-card::before {
         content: '';
@@ -97,6 +111,7 @@
     .menu-card:hover { 
         transform: translateY(-8px); 
         box-shadow: 0 12px 35px rgba(37, 99, 235, 0.15);
+        color: inherit;
     }
     .menu-card:hover::before {
         transform: scaleX(1);
@@ -311,7 +326,6 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
-                    <!-- ✅ TAMBAHAN BARU: Menu Layanan -->
                     <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
@@ -353,7 +367,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section" id="beranda">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -376,45 +390,40 @@
             <!-- 4 Menu Cards -->
             <div class="row g-4 mt-2">
                 <div class="col-md-6 col-lg-3">
-                    <a href="{{ auth()->check() && auth()->user()->hasRole(['super-admin', 'admin', 'petugas']) ? route('petugas.examinations.create') : route('login.petugas') }}" class="text-decoration-none">
-                        <div class="menu-card">
-                            <div class="menu-icon bg-icon-1"><i class="fas fa-clipboard-list"></i></div>
-                            <h5 class="fw-bold mb-2">Form Kunjungan</h5>
-                            <p class="text-muted small mb-0">Isi form kunjungan ke UKS dengan mudah dan cepat</p>
-                            @if(!auth()->check())
-                                <small class="text-primary mt-2 d-block"><i class="fas fa-lock me-1"></i>Login diperlukan</small>
-                            @endif
-                        </div>
+                    <a href="{{ auth()->check() && auth()->user()->hasRole(['super-admin', 'admin', 'petugas']) ? route('petugas.examinations.create') : route('login.petugas') }}" class="menu-card">
+                        <div class="menu-icon bg-icon-1"><i class="fas fa-clipboard-list"></i></div>
+                        <h5 class="fw-bold mb-2">Form Kunjungan</h5>
+                        <p class="text-muted small mb-0">Isi form kunjungan ke UKS dengan mudah dan cepat</p>
+                        @if(!auth()->check())
+                            <small class="text-primary mt-2 d-block"><i class="fas fa-lock me-1"></i>Login diperlukan</small>
+                        @endif
+                    </a>
+                </div>
+                
+                <!-- ✅ DIKEMBALIKAN KE KONDISI SEMULA (Harus Login Siswa) -->
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="menu-card">
+                        <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
+                        <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
+                        <p class="text-muted small mb-0">Lihat riwayat kunjungan dan rekam medis Anda</p>
+                        @if(!auth()->check())
+                            <small class="text-primary mt-2 d-block"><i class="fas fa-user me-1"></i>Login siswa diperlukan</small>
+                        @endif
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ route('landing.medicines') }}" class="menu-card">
+                        <div class="menu-icon bg-icon-3"><i class="fas fa-pills"></i></div>
+                        <h5 class="fw-bold mb-2">Informasi Obat</h5>
+                        <p class="text-muted small mb-0">Informasi lengkap obat yang tersedia di UKS</p>
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="text-decoration-none">
-                        <div class="menu-card">
-                            <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
-                            <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
-                            <p class="text-muted small mb-0">Lihat riwayat kunjungan dan rekam medis Anda</p>
-                            @if(!auth()->check())
-                                <small class="text-primary mt-2 d-block"><i class="fas fa-user me-1"></i>Login siswa diperlukan</small>
-                            @endif
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="{{ route('landing.medicines') }}" class="text-decoration-none">
-                        <div class="menu-card">
-                            <div class="menu-icon bg-icon-3"><i class="fas fa-pills"></i></div>
-                            <h5 class="fw-bold mb-2">Informasi Obat</h5>
-                            <p class="text-muted small mb-0">Informasi lengkap obat yang tersedia di UKS</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="{{ route('landing.schedule') }}" class="text-decoration-none">
-                        <div class="menu-card">
-                            <div class="menu-icon bg-icon-4"><i class="fas fa-user-nurse"></i></div>
-                            <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
-                            <p class="text-muted small mb-0">Lihat jadwal petugas UKS yang bertugas</p>
-                        </div>
+                    <a href="{{ route('landing.schedule') }}" class="menu-card">
+                        <div class="menu-icon bg-icon-4"><i class="fas fa-user-nurse"></i></div>
+                        <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
+                        <p class="text-muted small mb-0">Lihat jadwal petugas UKS yang bertugas</p>
                     </a>
                 </div>
             </div>
@@ -426,7 +435,7 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <img src="https://img.freepik.com/free-vector/healthcare-concept-illustration_23-2148939760.jpg" alt="Tentang UKS" class="img-fluid about-img">
+                    <img src="{{ asset('images/logo sikes.png') }}" alt="Tentang UKS" class="img-fluid about-img">
                 </div>
                 <div class="col-lg-6">
                     <h2 class="section-title">Tentang UKS</h2>
@@ -507,18 +516,15 @@
         </div>
     </section>
 
-    <!-- ✅ SECTION KONTAK BARU -->
+    <!-- ✅ SECTION KONTAK (Tetap ada di sini, dihapus bagian cek riwayat) -->
     <section class="section" id="kontak" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);">
         <div class="container">
-            <!-- Judul Section -->
             <div class="text-center mb-5">
                 <h2 class="section-title mx-auto">Kontak</h2>
                 <p class="section-subtitle">Hubungi kami untuk informasi lebih lanjut</p>
             </div>
             
-            <!-- Top Cards - Alamat & Sosial Media -->
             <div class="row g-4 mb-5">
-                <!-- Alamat Card -->
                 <div class="col-md-6">
                     <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 40px 30px;">
                         <div class="text-center">
@@ -535,7 +541,6 @@
                     </div>
                 </div>
                 
-                <!-- Sosial Media Card -->
                 <div class="col-md-6">
                     <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 40px 30px;">
                         <div class="text-center">
@@ -552,9 +557,7 @@
                 </div>
             </div>
             
-            <!-- Bottom Section - Form & Jam Operasional -->
             <div class="row g-4">
-                <!-- Form Kirim Pesan -->
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm" style="border-radius: 16px; padding: 35px;">
                         <h5 class="fw-bold mb-4">Kirim Pesan</h5>
@@ -578,7 +581,6 @@
                     </div>
                 </div>
                 
-                <!-- Jam Operasional -->
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 35px;">
                         <h5 class="fw-bold mb-4">Jam Operasional</h5>
@@ -604,7 +606,6 @@
                             </div>
                         </div>
                         
-                        <!-- Alert Box -->
                         <div class="alert" style="background: #fef3c7; border: none; border-radius: 8px; color: #92400e;">
                             <div class="d-flex align-items-start">
                                 <i class="fas fa-exclamation-triangle me-2 mt-1" style="color: #f59e0b;"></i>
@@ -621,7 +622,6 @@
     <footer>
         <div class="container">
             <div class="row g-4">
-                <!-- Kolom 1: Tentang -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">SIKES</h5>
                     <p class="text-light opacity-75" style="line-height: 1.7;">
@@ -629,13 +629,11 @@
                     </p>
                 </div>
                 
-                <!-- Kolom 2: Menu Cepat -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
                         <li class="mb-2"><a href="#tentang" class="text-light opacity-75">Tentang UKS</a></li>
-                        <!-- ✅ TAMBAHAN BARU: Footer Layanan -->
                         <li class="mb-2"><a href="#layanan" class="text-light opacity-75">Layanan UKS</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
@@ -643,7 +641,6 @@
                     </ul>
                 </div>
                 
-                <!-- Kolom 3: Kontak Kami -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Kontak Kami</h5>
                     <ul class="footer-contact-list">
@@ -670,5 +667,33 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script untuk Active State Navbar saat Scroll -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", () => {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 100)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === "#" + current) {
+                        link.classList.add("active");
+                    } else if (current === "" && link.getAttribute("href") === "{{ route('landing') }}") {
+                        link.classList.add("active");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
