@@ -374,8 +374,9 @@
                     <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
                     <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="#layanan" class="btn btn-primary-custom btn-lg">
-                            <i class="fas fa-clipboard-list me-2"></i> Form Kunjungan
+                        <!-- ✅ DIUBAH: Tombol CTA utama sekarang mengarah ke Riwayat Kunjungan -->
+                        <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="btn btn-primary-custom btn-lg">
+                            <i class="fas fa-history me-2"></i> Riwayat Kunjungan
                         </a>
                         <a href="#tentang" class="btn btn-outline-primary btn-lg">
                             <i class="fas fa-info-circle me-2"></i> Pelajari Lebih
@@ -400,7 +401,6 @@
                     </a>
                 </div>
                 
-                <!-- ✅ DIKEMBALIKAN KE KONDISI SEMULA (Harus Login Siswa) -->
                 <div class="col-md-6 col-lg-3">
                     <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="menu-card">
                         <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
@@ -516,7 +516,7 @@
         </div>
     </section>
 
-    <!-- ✅ SECTION KONTAK (Tetap ada di sini, dihapus bagian cek riwayat) -->
+    <!-- ✅ SECTION KONTAK -->
     <section class="section" id="kontak" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);">
         <div class="container">
             <div class="text-center mb-5">
