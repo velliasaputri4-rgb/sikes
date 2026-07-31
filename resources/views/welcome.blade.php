@@ -14,6 +14,13 @@
         --info: #3b82f6;
         --warning: #f59e0b;
     }
+
+    /* ✅ SMOOTH SCROLL & OFFSET UNTUK NAVBAR STICKY */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+    }
+
     body { 
         font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
         background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
@@ -175,7 +182,7 @@
         margin-bottom: 15px;
     }
     
-    /* Services */
+    /* Services & Contact Cards */
     .service-card {
         background: white;
         padding: 35px 25px;
@@ -303,10 +310,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.contact') }}">Kontak</a></li>
+                    <!-- ✅ DIUBAH: Link langsung ke section #kontak -->
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
                     
                     <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
@@ -354,7 +362,7 @@
                         <a href="#layanan" class="btn btn-primary-custom btn-lg">
                             <i class="fas fa-clipboard-list me-2"></i> Form Kunjungan
                         </a>
-                        <a href="{{ route('landing.about') }}" class="btn btn-outline-primary btn-lg">
+                        <a href="#tentang" class="btn btn-outline-primary btn-lg">
                             <i class="fas fa-info-circle me-2"></i> Pelajari Lebih
                         </a>
                     </div>
@@ -497,8 +505,112 @@
             </div>
         </div>
     </section>
+
+    <!<!-- ✅ SECTION KONTAK BARU -->
+<section class="section" id="kontak" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);">
+    <div class="container">
+        <!-- Top Cards - Alamat & Sosial Media -->
+        <div class="row g-4 mb-5">
+            <!-- Alamat Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 40px 30px;">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x" style="color: #2563EB;"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Alamat</h5>
+                        <p class="text-muted mb-0" style="line-height: 1.8;">
+                            Komplek SMK Negeri 1 Bangsri<br>
+                            Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>
+                            Jawa Tengah, 59453
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sosial Media Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 40px 30px;">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="fab fa-instagram fa-2x" style="color: #2563EB;"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Sosial Media</h5>
+                        <p class="text-muted mb-0" style="line-height: 1.8;">
+                            Instagram: <a href="https://instagram.com/pmrwira_eskasaba" target="_blank" class="text-decoration-none fw-semibold text-dark">@pmrwira_eskasaba</a><br>
+                            Youtube: <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank" class="text-decoration-none fw-semibold text-dark">@wirasandyaadhimukti3463</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Section - Form & Jam Operasional -->
+        <div class="row g-4">
+            <!-- Form Kirim Pesan -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm" style="border-radius: 16px; padding: 35px;">
+                    <h5 class="fw-bold mb-4">Kirim Pesan</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nama Lengkap</label>
+                            <input type="text" class="form-control" placeholder="Masukkan nama Anda" style="border-radius: 8px;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control" placeholder="Masukkan email Anda" style="border-radius: 8px;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Pesan</label>
+                            <textarea class="form-control" rows="4" placeholder="Tulis pesan Anda..." style="border-radius: 8px; resize: none;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2" style="background: #2563EB; border: none; border-radius: 8px; font-weight: 600;">
+                            <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Jam Operasional -->
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 16px; padding: 35px;">
+                    <h5 class="fw-bold mb-4">Jam Operasional</h5>
+                    
+                    <div class="mb-3 pb-3" style="border-bottom: 1px solid #e2e8f0;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Senin - Kamis</span>
+                            <span class="fw-semibold">08:00 - 15:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 pb-3" style="border-bottom: 1px solid #e2e8f0;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Jumat</span>
+                            <span class="fw-semibold">08:00 - 13:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Sabtu - Minggu</span>
+                            <span class="fw-semibold text-danger">Tutup</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Alert Box -->
+                    <div class="alert" style="background: #fef3c7; border: none; border-radius: 8px; color: #92400e;">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-exclamation-triangle me-2 mt-1" style="color: #f59e0b;"></i>
+                            <small class="mb-0">Untuk keadaan darurat di luar jam operasional, silakan hubungi guru piket atau langsung ke IGD terdekat.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
    
-    <!-- Footer (Sama Persis dengan Halaman Lain) -->
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row g-4">
@@ -515,10 +627,11 @@
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.about') }}" class="text-light opacity-75">Tentang UKS</a></li>
+                        <li class="mb-2"><a href="#tentang" class="text-light opacity-75">Tentang UKS</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
-                        <li class="mb-2"><a href="{{ route('landing.contact') }}" class="text-light opacity-75">Kontak</a></li>
+                        <!-- ✅ DIUBAH: Link langsung ke section #kontak -->
+                        <li class="mb-2"><a href="#kontak" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
                 
