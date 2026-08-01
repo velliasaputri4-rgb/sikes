@@ -175,16 +175,32 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#tentang">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#layanan">Layanan</a></li>
+                    <!-- ✅ DINAMIS: Active hanya jika route saat ini adalah 'landing' -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('landing') ? 'active' : '' }}" href="{{ route('landing') }}">Beranda</a>
+                    </li>
                     
-                    <!-- ✅ ACTIVE: Karena ini halaman Informasi Obat -->
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
+                    <!-- ✅ Anchor links: Akan di-handle oleh JS di bawah untuk efek active saat diklik -->
+                    <li class="nav-item">
+                        <a class="nav-link anchor-link" href="{{ route('landing') }}#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link anchor-link" href="{{ route('landing') }}#layanan">Layanan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link anchor-link" href="{{ route('landing') }}#kontak">Kontak</a>
+                    </li>
                     
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#kontak">Kontak</a></li>
+                    <!-- ✅ DINAMIS: Active jika route mengandung 'landing.medicines' -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('landing.medicines*') ? 'active' : '' }}" href="{{ route('landing.medicines') }}">Informasi Obat</a>
+                    </li>
                     
+                    <!-- ✅ DINAMIS: Active jika route mengandung 'landing.schedule' -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('landing.schedule*') ? 'active' : '' }}" href="{{ route('landing.schedule') }}">Jadwal Petugas</a>
+                    </li>
+
                     <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
@@ -304,12 +320,13 @@
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
+                        <!-- ✅ DIPERBAIKI: Link anchor sekarang menggunakan route('landing') agar berfungsi dari halaman mana pun -->
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <!-- ✅ DIUBAH: Link kembali ke landing page dengan anchor -->
-                        <li class="mb-2"><a href="{{ route('landing') }}#tentang" class="text-light opacity-75">Tentang UKS</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#tentang" class="text-light opacity-75">Tentang</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#layanan" class="text-light opacity-75">Layanan</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#kontak" class="text-light opacity-75">Kontak</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
-                        <li class="mb-2"><a href="{{ route('landing') }}#kontak" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
                 
@@ -340,5 +357,17 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- ✅ SCRIPT TAMBAHAN: Agar link anchor di navbar juga mendapat efek active saat diklik -->
+    <script>
+        document.querySelectorAll('.anchor-link').forEach(link => {
+            link.addEventListener('click', function() {
+                // Hapus class active dari semua nav-link
+                document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
+                // Tambahkan class active ke link yang baru saja diklik
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>

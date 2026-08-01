@@ -327,9 +327,10 @@
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+
                     
                     <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
@@ -633,11 +634,11 @@
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <li class="mb-2"><a href="#tentang" class="text-light opacity-75">Tentang UKS</a></li>
-                        <li class="mb-2"><a href="#layanan" class="text-light opacity-75">Layanan UKS</a></li>
+                        <li class="mb-2"><a href="#tentang" class="text-light opacity-75">Tentang</a></li>
+                        <li class="mb-2"><a href="#layanan" class="text-light opacity-75">Layanan</a></li>
+                        <li class="mb-2"><a href="#kontak" class="text-light opacity-75">Kontak</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
-                        <li class="mb-2"><a href="#kontak" class="text-light opacity-75">Kontak</a></li>
                     </ul>
                 </div>
                 
