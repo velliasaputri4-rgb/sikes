@@ -31,12 +31,17 @@
         .navbar { 
             box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             background: white !important;
-            padding: 15px 0;
+            padding: 5px 0; /* ✅ DIKURANGI agar tinggi total navbar tetap sama saat logo membesar */
         }
         .navbar-brand { 
-            font-weight: 700; 
-            color: var(--primary) !important;
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0; /* ✅ DIKURANGI agar logo bisa maksimal tanpa mendorong batas navbar */
+        }
+        .navbar-brand img {
+            max-height: 75px; /* ✅ LOGO DIPERBESAR */
+            width: auto;
+            object-fit: contain;
         }
         
         /* ✅ PENTING: Tambahkan position: relative agar garis bawah bisa diposisikan */
@@ -259,6 +264,8 @@
         @media (max-width: 768px) {
             .page-header h1 { font-size: 1.8rem; }
             .section-title { font-size: 1.5rem; }
+            /* ✅ LOGO TETAP PROPORSIONAL DI HP */
+            .navbar-brand img { max-height: 60px; }
         }
     </style>
 </head>
@@ -267,8 +274,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
+            <!-- ✅ HANYA LOGO, UKURAN DIPERBESAR, TANPA TEKS -->
             <a class="navbar-brand" href="{{ route('landing') }}">
-                <i class="fas fa-heartbeat me-2"></i> SIKES
+                <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

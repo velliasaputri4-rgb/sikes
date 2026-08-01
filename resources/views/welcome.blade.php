@@ -32,12 +32,18 @@
     .navbar { 
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         background: white !important;
-        padding: 15px 0;
+        padding: 5px 0; /* ✅ DIKURANGI agar tinggi total navbar tetap sama saat logo membesar */
     }
     .navbar-brand { 
-        font-weight: 700; 
-        color: var(--primary) !important;
-        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        padding: 0; /* ✅ DIKURANGI agar logo bisa maksimal tanpa mendorong batas navbar */
+    }
+    /* ✅ LOGO DIPERBESAR LAGI */
+    .navbar-brand img {
+        max-height: 75px; /* Diperbesar dari 60px */
+        width: auto;
+        object-fit: contain;
     }
     .nav-link {
         font-weight: 500;
@@ -288,7 +294,7 @@
         text-align: center;
         flex-shrink: 0;
         margin-top: 3px;
-        color: #60a5fa !important; /* WARNA BIRU SOFT SERAGAM */
+        color: #60a5fa !important;
     }
     .footer-contact-item span, 
     .footer-contact-item a {
@@ -308,6 +314,8 @@
         .hero-title { font-size: 2rem; }
         .section-title { font-size: 1.75rem; }
         .menu-card { padding: 25px 20px; }
+        /* ✅ LOGO DIPERBESAR JUGA DI MOBILE (dari 50px ke 60px) */
+        .navbar-brand img { max-height: 60px; } 
     }
 </style>
 </head>
@@ -316,8 +324,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
+            <!-- ✅ HANYA LOGO, UKURAN DIPERBESAR, TANPA TEKS -->
             <a class="navbar-brand" href="{{ route('landing') }}">
-                <i class="fas fa-heartbeat me-2"></i> SIKES
+                <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -331,7 +340,6 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
 
-                    
                     <!-- Icon Login dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
@@ -375,7 +383,6 @@
                     <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
                     <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
                     <div class="d-flex gap-3 flex-wrap">
-                        <!-- ✅ DIUBAH: Tombol CTA utama sekarang mengarah ke Riwayat Kunjungan -->
                         <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="btn btn-primary-custom btn-lg">
                             <i class="fas fa-history me-2"></i> Riwayat Kunjungan
                         </a>
@@ -439,23 +446,23 @@
                     <img src="{{ asset('images/logo sikes.png') }}" alt="Tentang UKS" class="img-fluid about-img">
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="section-title">Tentang UKS</h2>
-                    <p class="text-muted mb-4">Unit Kesehatan Sekolah (UKS) adalah wadah untuk meningkatkan kesehatan peserta didik di sekolah. Kami menyediakan layanan kesehatan yang komprehensif untuk mendukung proses belajar mengajar.</p>
+                    <h2 class="section-title">Tentang SIKES</h2>
+                    <p class="text-muted mb-4">SIKES adalah sistem informasi berbasis web yang dirancang untuk membantu Unit Kesehatan Sekolah (UKS) dalam mengelola seluruh data kesehatan siswa secara digital, terintegrasi, dan efisien. Sistem ini mempermudah petugas UKS dalam melakukan pencatatan pemeriksaan kesehatan, pengelolaan stok obat, pembuatan laporan, serta penyampaian informasi kesehatan kepada warga sekolah.</p>
                     
                     <div class="feature-box">
                         <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
                         <h5 class="fw-bold mb-2">Visi</h5>
-                        <p class="mb-0 text-muted">Menjadikan UKS sebagai pusat layanan kesehatan sekolah yang unggul, profesional, dan berorientasi pada kepuasan siswa.</p>
+                        <p class="mb-0 text-muted">Menjadi sistem informasi kesehatan sekolah yang modern, terintegrasi, dan terpercaya dalam mendukung pelayanan Unit Kesehatan Sekolah (UKS) yang efektif, efisien, serta meningkatkan kualitas kesehatan seluruh warga sekolah melalui pemanfaatan teknologi informasi.</p>
                     </div>
 
                     <div class="feature-box">
                         <div class="feature-icon"><i class="fas fa-tasks"></i></div>
                         <h5 class="fw-bold mb-2">Misi</h5>
                         <ul class="mb-0 ps-3 text-muted">
-                            <li>Memberikan pelayanan kesehatan yang prima</li>
-                            <li>Meningkatkan kesadaran kesehatan siswa</li>
-                            <li>Menjaga ketersediaan obat dan alat kesehatan</li>
-                            <li>Melakukan pencegahan dan penanganan dini</li>
+                            <li>Mempermudah pengelolaan data kesehatan secara digital.</li>
+                            <li>Meningkatkan efisiensi pelayanan dan administrasi UKS.</li>
+                            <li>Mengelola data pemeriksaan dan stok obat secara terintegrasi.</li>
+                            <li>Mendukung pengambilan keputusan melalui data yang akurat.</li>
                         </ul>
                     </div>
                 </div>
@@ -634,9 +641,9 @@
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
-                        <li class="mb-2"><a href="#tentang" class="text-light opacity-75">Tentang</a></li>
-                        <li class="mb-2"><a href="#layanan" class="text-light opacity-75">Layanan</a></li>
-                        <li class="mb-2"><a href="#kontak" class="text-light opacity-75">Kontak</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#tentang" class="text-light opacity-75">Tentang</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#layanan" class="text-light opacity-75">Layanan</a></li>
+                        <li class="mb-2"><a href="{{ route('landing') }}#kontak" class="text-light opacity-75">Kontak</a></li>
                         <li class="mb-2"><a href="{{ route('landing.medicines') }}" class="text-light opacity-75">Informasi Obat</a></li>
                         <li class="mb-2"><a href="{{ route('landing.schedule') }}" class="text-light opacity-75">Jadwal Petugas</a></li>
                     </ul>
