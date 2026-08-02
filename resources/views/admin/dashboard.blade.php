@@ -3,6 +3,14 @@
 @section('page-title', 'Dashboard Admin')
 
 @section('content')
+    <!-- 🔥 TOMBOL KEMBALI KE BERANDA 🔥 -->
+    <div class="mb-4">
+        <a href="{{ route('landing') }}" class="btn btn-outline-secondary btn-sm shadow-sm">
+            <i class="fas fa-home me-1"></i> Kembali ke Beranda
+        </a>
+    </div>
+    <!-- 🔥 AKHIR TOMBOL 🔥 -->
+
     <div class="row g-4 mb-4">
         <div class="col-md-3">
             <div class="stat-card" style="border-left-color: #2563EB;">
@@ -38,25 +46,25 @@
         <h5 class="fw-bold mb-3">Menu Cepat Admin</h5>
         <div class="row g-3">
             <div class="col-md-3">
-                <a href="{{ route('admin.students.index') }}" class="btn btn-outline-primary w-100 p-3">
+                <a href="{{ route('admin.students.index') }}" class="btn btn-outline-primary w-100 p-3 text-decoration-none">
                     <i class="fas fa-user-graduate fa-2x mb-2"></i>
                     <div>Data Siswa</div>
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('admin.examinations.index') }}" class="btn btn-outline-success w-100 p-3">
+                <a href="{{ route('admin.examinations.index') }}" class="btn btn-outline-success w-100 p-3 text-decoration-none">
                     <i class="fas fa-clipboard-list fa-2x mb-2"></i>
                     <div>Data Kunjungan</div>
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('admin.medicines.index') }}" class="btn btn-outline-warning w-100 p-3">
+                <a href="{{ route('admin.medicines.index') }}" class="btn btn-outline-warning w-100 p-3 text-decoration-none">
                     <i class="fas fa-pills fa-2x mb-2"></i>
                     <div>Data Obat</div>
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('admin.cms.index') }}" class="btn btn-outline-info w-100 p-3">
+                <a href="{{ route('admin.cms.index') }}" class="btn btn-outline-info w-100 p-3 text-decoration-none">
                     <i class="fas fa-globe fa-2x mb-2"></i>
                     <div>CMS Website</div>
                 </a>

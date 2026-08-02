@@ -14,7 +14,6 @@
             --info: #3b82f6;
         }
         
-        /* ✅ SMOOTH SCROLL & OFFSET UNTUK NAVBAR STICKY */
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 80px;
@@ -27,24 +26,22 @@
             color: #1e293b;
         }
         
-        /* Navbar */
         .navbar { 
             box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             background: white !important;
-            padding: 5px 0; /* ✅ DIKURANGI agar tinggi total navbar tetap sama saat logo membesar */
+            padding: 5px 0;
         }
         .navbar-brand { 
             display: flex;
             align-items: center;
-            padding: 0; /* ✅ DIKURANGI agar logo bisa maksimal tanpa mendorong batas navbar */
+            padding: 0;
         }
         .navbar-brand img {
-            max-height: 75px; /* ✅ LOGO DIPERBESAR */
+            max-height: 75px;
             width: auto;
             object-fit: contain;
         }
         
-        /* ✅ PENTING: Tambahkan position: relative agar garis bawah bisa diposisikan */
         .nav-link {
             font-weight: 500;
             color: #475569 !important;
@@ -58,7 +55,6 @@
             border-radius: 8px;
         }
         
-        /* ✅ GARIS BAWAH BIRU UNTUK MENU AKTIF */
         .nav-link.active::after {
             content: '';
             position: absolute;
@@ -72,7 +68,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Page Header */
         .page-header { 
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); 
             padding: 80px 0 100px;
@@ -91,7 +86,6 @@
         
         .section { padding: 60px 0; }
         
-        /* Medicine Cards */
         .medicine-card { 
             background: white; 
             border-radius: 16px; 
@@ -106,7 +100,6 @@
             box-shadow: 0 12px 35px rgba(16, 185, 129, 0.15); 
         }
         
-        /* Footer */
         footer { 
             background: linear-gradient(135deg, #0f172a, #1e293b); 
             color: white; 
@@ -121,7 +114,6 @@
             color: #94a3b8;
         }
 
-        /* ✅ EFEK HOVER UNTUK MENU CEPAT DI FOOTER */
         .footer-menu a {
             transition: all 0.3s ease;
             display: inline-block;
@@ -133,7 +125,6 @@
             transform: translateX(8px);
         }
         
-        /* ✅ PERBAIKAN SIMETRI & WARNA ICON SERAGAM */
         .footer-contact-list {
             list-style: none;
             padding: 0;
@@ -166,10 +157,9 @@
             color: var(--info) !important;
         }
 
-        /* ✅ RESPONSIVE UNTUK MOBILE */
         @media (max-width: 768px) {
             .page-header h1 { font-size: 1.8rem; }
-            .navbar-brand img { max-height: 60px; } /* ✅ LOGO TETAP PROPORSIONAL DI HP */
+            .navbar-brand img { max-height: 60px; }
         }
     </style>
 </head>
@@ -178,7 +168,6 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
-            <!-- ✅ HANYA LOGO, UKURAN DIPERBESAR, TANPA TEKS -->
             <a class="navbar-brand" href="{{ route('landing') }}">
                 <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
             </a>
@@ -187,12 +176,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <!-- ✅ DINAMIS: Active hanya jika route saat ini adalah 'landing' -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('landing') ? 'active' : '' }}" href="{{ route('landing') }}">Beranda</a>
                     </li>
-                    
-                    <!-- ✅ Anchor links: Akan di-handle oleh JS di bawah untuk efek active saat diklik -->
                     <li class="nav-item">
                         <a class="nav-link anchor-link" href="{{ route('landing') }}#tentang">Tentang</a>
                     </li>
@@ -202,47 +188,69 @@
                     <li class="nav-item">
                         <a class="nav-link anchor-link" href="{{ route('landing') }}#kontak">Kontak</a>
                     </li>
-                    
-                    <!-- ✅ DINAMIS: Active jika route mengandung 'landing.medicines' -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('landing.medicines*') ? 'active' : '' }}" href="{{ route('landing.medicines') }}">Informasi Obat</a>
                     </li>
-                    
-                    <!-- ✅ DINAMIS: Active jika route mengandung 'landing.schedule' -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('landing.schedule*') ? 'active' : '' }}" href="{{ route('landing.schedule') }}">Jadwal Petugas</a>
                     </li>
 
-                    <!-- Icon Login dengan Dropdown -->
+                    <!-- 🔥 PERUBAHAN: Icon Login / Logout dengan Dropdown 🔥 -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
-                                <i class="fas fa-user"></i>
+                                <i class="fas {{ auth()->check() ? 'fa-user-check' : 'fa-user' }}"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li class="dropdown-header text-center">
-                                    <small class="text-muted">Pilih Login</small>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('login.admin') }}">
-                                        <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('login.petugas') }}">
-                                        <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item text-center small" href="{{ route('login.siswa') }}">
-                                        <i class="fas fa-user-graduate me-1 text-info"></i> Login Siswa
-                                    </a>
-                                </li>
+                                @auth
+                                    {{-- ✅ SAAT SUDAH LOGIN: HANYA TOMBOL LOGOUT & DASHBOARD --}}
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted d-block">Halo,</small>
+                                        <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
+                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin') ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'student.history')) }}">
+                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard Saya
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    {{-- ✅ SAAT BELUM LOGIN: PILIHAN LOGIN --}}
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted">Pilih Login</small>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('login.admin') }}">
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('login.petugas') }}">
+                                            <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item text-center small" href="{{ route('login.siswa') }}">
+                                            <i class="fas fa-user-graduate me-1 text-info"></i> Login Siswa
+                                        </a>
+                                    </li>
+                                @endauth
                             </ul>
                         </div>
                     </li>
+                    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
                 </ul>
             </div>
         </div>
@@ -320,7 +328,6 @@
     <footer>
         <div class="container">
             <div class="row g-4">
-                <!-- Kolom 1: Tentang -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">SIKES</h5>
                     <p class="text-light opacity-75" style="line-height: 1.7;">
@@ -328,11 +335,9 @@
                     </p>
                 </div>
                 
-                <!-- Kolom 2: Menu Cepat -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Menu Cepat</h5>
                     <ul class="list-unstyled footer-menu">
-                        <!-- ✅ DIPERBAIKI: Link anchor sekarang menggunakan route('landing') agar berfungsi dari halaman mana pun -->
                         <li class="mb-2"><a href="{{ route('landing') }}" class="text-light opacity-75">Beranda</a></li>
                         <li class="mb-2"><a href="{{ route('landing') }}#tentang" class="text-light opacity-75">Tentang</a></li>
                         <li class="mb-2"><a href="{{ route('landing') }}#layanan" class="text-light opacity-75">Layanan</a></li>
@@ -342,7 +347,6 @@
                     </ul>
                 </div>
                 
-                <!-- Kolom 3: Kontak Kami -->
                 <div class="col-lg-4">
                     <h5 class="fw-bold mb-3 text-white">Kontak Kami</h5>
                     <ul class="footer-contact-list">
@@ -370,13 +374,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- ✅ SCRIPT TAMBAHAN: Agar link anchor di navbar juga mendapat efek active saat diklik -->
     <script>
         document.querySelectorAll('.anchor-link').forEach(link => {
             link.addEventListener('click', function() {
-                // Hapus class active dari semua nav-link
                 document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
-                // Tambahkan class active ke link yang baru saja diklik
                 this.classList.add('active');
             });
         });

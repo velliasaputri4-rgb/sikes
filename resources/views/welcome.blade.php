@@ -15,7 +15,6 @@
         --warning: #f59e0b;
     }
 
-    /* ✅ SMOOTH SCROLL & OFFSET UNTUK NAVBAR STICKY */
     html {
         scroll-behavior: smooth;
         scroll-padding-top: 80px;
@@ -28,20 +27,18 @@
         line-height: 1.6;
     }
     
-    /* Navbar */
     .navbar { 
         box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         background: white !important;
-        padding: 5px 0; /* ✅ DIKURANGI agar tinggi total navbar tetap sama saat logo membesar */
+        padding: 5px 0;
     }
     .navbar-brand { 
         display: flex;
         align-items: center;
-        padding: 0; /* ✅ DIKURANGI agar logo bisa maksimal tanpa mendorong batas navbar */
+        padding: 0;
     }
-    /* ✅ LOGO DIPERBESAR LAGI */
     .navbar-brand img {
-        max-height: 75px; /* Diperbesar dari 60px */
+        max-height: 75px;
         width: auto;
         object-fit: contain;
     }
@@ -69,7 +66,6 @@
         border-radius: 2px;
     }
     
-    /* Hero Section */
     .hero-section { 
         background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); 
         padding: 80px 0 60px;
@@ -88,7 +84,6 @@
         margin-bottom: 2rem;
     }
     
-    /* Menu Cards */
     .menu-card { 
         background: white; 
         border-radius: 16px; 
@@ -141,7 +136,6 @@
     .bg-icon-3 { background: linear-gradient(135deg, #ffedd5, #fdba74); color: #ea580c; }
     .bg-icon-4 { background: linear-gradient(135deg, #fee2e2, #fca5a5); color: #dc2626; }
     
-    /* Section Styling */
     .section { 
         padding: 60px 0;
     }
@@ -169,7 +163,6 @@
         margin-bottom: 3rem;
     }
     
-    /* About Section */
     .about-section { 
         background: white;
         padding: 80px 0;
@@ -203,7 +196,6 @@
         margin-bottom: 15px;
     }
     
-    /* Services & Contact Cards */
     .service-card {
         background: white;
         padding: 35px 25px;
@@ -231,7 +223,6 @@
         margin: 0 auto 20px;
     }
     
-    /* Buttons */
     .btn-primary-custom {
         background: linear-gradient(135deg, var(--primary), var(--info));
         color: white;
@@ -249,7 +240,6 @@
         box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
     }
     
-    /* Footer */
     footer { 
         background: linear-gradient(135deg, #0f172a, #1e293b); 
         color: white; 
@@ -264,7 +254,6 @@
         color: #94a3b8;
     }
 
-    /* ✅ EFEK HOVER UNTUK MENU CEPAT DI FOOTER */
     .footer-menu a {
         transition: all 0.3s ease;
         display: inline-block;
@@ -276,7 +265,6 @@
         transform: translateX(8px);
     }
     
-    /* ✅ PERBAIKAN SIMETRI & WARNA ICON SERAGAM */
     .footer-contact-list {
         list-style: none;
         padding: 0;
@@ -309,12 +297,10 @@
         color: var(--info) !important;
     }
     
-    /* Responsive */
     @media (max-width: 768px) {
         .hero-title { font-size: 2rem; }
         .section-title { font-size: 1.75rem; }
         .menu-card { padding: 25px 20px; }
-        /* ✅ LOGO DIPERBESAR JUGA DI MOBILE (dari 50px ke 60px) */
         .navbar-brand img { max-height: 60px; } 
     }
 </style>
@@ -324,7 +310,6 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
         <div class="container">
-            <!-- ✅ HANYA LOGO, UKURAN DIPERBESAR, TANPA TEKS -->
             <a class="navbar-brand" href="{{ route('landing') }}">
                 <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
             </a>
@@ -340,36 +325,62 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
 
-                    <!-- Icon Login dengan Dropdown -->
+                    <!-- 🔥 PERUBAHAN: Icon Login / Logout dengan Dropdown 🔥 -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
-                                <i class="fas fa-user"></i>
+                                <i class="fas {{ auth()->check() ? 'fa-user-check' : 'fa-user' }}"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
-                                <li class="dropdown-header text-center">
-                                    <small class="text-muted">Pilih Login</small>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('login.admin') }}">
-                                        <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('login.petugas') }}">
-                                        <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item text-center small" href="{{ route('login.siswa') }}">
-                                        <i class="fas fa-user-graduate me-1 text-info"></i> Login Siswa
-                                    </a>
-                                </li>
+                                @auth
+                                    {{-- ✅ SAAT SUDAH LOGIN: HANYA TOMBOL LOGOUT --}}
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted d-block">Halo,</small>
+                                        <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
+                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin') ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'student.history')) }}">
+                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard Saya
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    {{-- ✅ SAAT BELUM LOGIN: PILIHAN LOGIN --}}
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted">Pilih Login</small>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('login.admin') }}">
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('login.petugas') }}">
+                                            <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item text-center small" href="{{ route('login.siswa') }}">
+                                            <i class="fas fa-user-graduate me-1 text-info"></i> Login Siswa
+                                        </a>
+                                    </li>
+                                @endauth
                             </ul>
                         </div>
                     </li>
+                    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
                 </ul>
             </div>
         </div>
@@ -524,7 +535,7 @@
         </div>
     </section>
 
-    <!-- ✅ SECTION KONTAK -->
+    <!-- Section Kontak -->
     <section class="section" id="kontak" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);">
         <div class="container">
             <div class="text-center mb-5">
@@ -676,7 +687,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Script untuk Active State Navbar saat Scroll -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll("section[id]");
