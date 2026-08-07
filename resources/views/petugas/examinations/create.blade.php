@@ -16,8 +16,9 @@
             @csrf
 
             <div class="row g-4">
-                <!-- Kolom Kiri: Data Siswa -->
+                <!-- Kolom Kiri: Data Siswa & Petugas -->
                 <div class="col-lg-5">
+                    <!-- Identitas Siswa -->
                     <div class="p-3 bg-light rounded-3 mb-3">
                         <h6 class="fw-bold text-success mb-3"><i class="fas fa-user-graduate me-2"></i>Identitas Siswa</h6>
                         
@@ -53,15 +54,38 @@
                             <label class="form-label small text-muted">Kelas</label>
                             <input type="text" id="studentClass" class="form-control bg-white fw-semibold" readonly>
                         </div>
+                    </div>
+
+                    <!-- Informasi Petugas Piket -->
+                    <div class="p-3 bg-light rounded-3 mb-3">
+                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-user-nurse me-2"></i>Informasi Petugas Piket</h6>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Kelompok Piket <span class="text-danger">*</span></label>
+                            <select id="piketGroup" class="form-select" required>
+                                <option value="">-- Pilih Kelompok --</option>
+                                @foreach(array_keys($jadwalPiket ?? []) as $group)
+                                    <option value="{{ $group }}" {{ old('piket_group') == $group ? 'selected' : '' }}>{{ $group }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nama Petugas <span class="text-danger">*</span></label>
+                            <select name="officer_name" id="officerName" class="form-select @error('officer_name') is-invalid @enderror" required disabled>
+                                <option value="">-- Pilih Kelompok Terlebih Dahulu --</option>
+                            </select>
+                            @error('officer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
 
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="form-label fw-semibold">Tanggal</label>
-                                <input type="date" name="examination_date" class="form-control" value="{{ date('Y-m-d') }}" readonly>
+                                <input type="date" name="examination_date" class="form-control" value="{{ old('examination_date', date('Y-m-d')) }}">
                             </div>
                             <div class="col-6">
                                 <label class="form-label fw-semibold">Jam</label>
-                                <input type="time" name="arrival_time" class="form-control" value="{{ date('H:i') }}" readonly>
+                                <input type="time" name="arrival_time" class="form-control" value="{{ old('arrival_time', date('H:i')) }}">
                             </div>
                         </div>
                     </div>
@@ -70,53 +94,14 @@
                 <!-- Kolom Kanan: Pemeriksaan -->
                 <div class="col-lg-7">
                     <div class="p-3 bg-light rounded-3 mb-3">
-                        <h6 class="fw-bold text-primary mb-3"><i class="fas fa-stethoscope me-2"></i>Hasil Pemeriksaan</h6>
-
+                        <h6 class="fw-bold text-danger mb-3"><i class="fas fa-notes-medical me-2"></i>Diagnosa & Tindakan</h6>
+                        
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Keluhan Utama <span class="text-danger">*</span></label>
                             <textarea name="complaint" class="form-control @error('complaint') is-invalid @enderror" rows="2" placeholder="Contoh: Demam, pusing, mual, sakit perut..." required>{{ old('complaint') }}</textarea>
                             @error('complaint') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-3">
-                                <label class="form-label small">Suhu (°C)</label>
-                                <input type="number" step="0.1" name="temperature" class="form-control" placeholder="36.5" value="{{ old('temperature') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">Tekanan Darah</label>
-                                <input type="text" name="blood_pressure" class="form-control" placeholder="120/80" value="{{ old('blood_pressure') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">Nadi (x/mnt)</label>
-                                <input type="number" name="pulse" class="form-control" placeholder="80" value="{{ old('pulse') }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label small">SpO2 (%)</label>
-                                <input type="number" name="spo2" class="form-control" placeholder="98" value="{{ old('spo2') }}">
-                            </div>
-                        </div>
-
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-4">
-                                <label class="form-label small">Berat Badan (kg)</label>
-                                <input type="number" step="0.1" name="weight" id="weight" class="form-control" placeholder="50" value="{{ old('weight') }}">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small">Tinggi Badan (cm)</label>
-                                <input type="number" step="0.1" name="height" id="height" class="form-control" placeholder="160" value="{{ old('height') }}">
-                                <small class="text-muted" style="font-size: 10px;">*BMI dihitung otomatis</small>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small">BMI</label>
-                                <input type="text" id="bmiResult" class="form-control bg-white fw-bold text-primary" readonly placeholder="-">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-3 bg-light rounded-3 mb-3">
-                        <h6 class="fw-bold text-danger mb-3"><i class="fas fa-notes-medical me-2"></i>Diagnosa & Tindakan</h6>
-                        
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Diagnosa <span class="text-danger">*</span></label>
@@ -129,7 +114,15 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mt-1">
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Obat yang Diberikan</label>
+                                <textarea name="medicine" class="form-control" rows="2" placeholder="Contoh: Paracetamol 500mg (2 tablet), Vitamin C (1 tablet)">{{ old('medicine') }}</textarea>
+                                <small class="text-muted">Sebutkan nama obat, dosis, dan jumlah yang diberikan</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Status Kepulangan <span class="text-danger">*</span></label>
                                 <select name="status" class="form-select @error('status') is-invalid @enderror" required>
@@ -139,13 +132,15 @@
                                     <option value="rawat_jalan" {{ old('status') == 'rawat_jalan' ? 'selected' : '' }}>Rawat Jalan</option>
                                     <option value="rujuk_puskesmas" {{ old('status') == 'rujuk_puskesmas' ? 'selected' : '' }}>Rujuk ke Puskesmas</option>
                                     <option value="rujuk_rs" {{ old('status') == 'rujuk_rs' ? 'selected' : '' }}>Rujuk ke Rumah Sakit</option>
+                                    <!-- PERBAIKAN: Tambahkan opsi Hubungi Orang Tua -->
+                                    <option value="hubungi_ortu" {{ old('status') == 'hubungi_ortu' ? 'selected' : '' }}>Hubungi Orang Tua/Wali</option>
                                 </select>
                                 @error('status') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Catatan Tambahan</label>
                                 <input type="text" name="notes" class="form-control" placeholder="Catatan untuk orang tua/wali (opsional)" value="{{ old('notes') }}">
-                            </div</div>
+                            </div>
                         </div>
                     </div>
 
@@ -178,7 +173,49 @@
 
 @push('scripts')
 <script>
-    // 1. Auto-fill data siswa saat dipilih dari dropdown
+    // 1. Data Jadwal Piket dari Controller (Kelompok 1-6 tanpa nomor HP)
+    const jadwalPiket = @json($jadwalPiket ?? []);
+
+    // Fungsi untuk mengisi dropdown nama berdasarkan kelompok
+    function populateOfficerNames(selectedGroup, selectedOfficer = null) {
+        const officerSelect = document.getElementById('officerName');
+        officerSelect.innerHTML = '<option value="">-- Pilih Nama Petugas --</option>';
+
+        if (selectedGroup && jadwalPiket[selectedGroup]) {
+            officerSelect.disabled = false;
+            jadwalPiket[selectedGroup].forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                
+                // Jika ada data old() (validasi gagal), pilih nama yang sesuai
+                if (selectedOfficer && name === selectedOfficer) {
+                    option.selected = true;
+                }
+                
+                officerSelect.appendChild(option);
+            });
+        } else {
+            officerSelect.disabled = true;
+            officerSelect.innerHTML = '<option value="">-- Pilih Kelompok Terlebih Dahulu --</option>';
+        }
+    }
+
+    // Event listener saat kelompok diubah
+    document.getElementById('piketGroup').addEventListener('change', function() {
+        populateOfficerNames(this.value);
+    });
+
+    // Jalankan saat halaman dimuat (untuk menangani error validasi / old input)
+    document.addEventListener('DOMContentLoaded', function() {
+        const initialGroup = document.getElementById('piketGroup').value;
+        const initialOfficer = "{{ old('officer_name') }}";
+        if (initialGroup) {
+            populateOfficerNames(initialGroup, initialOfficer);
+        }
+    });
+
+    // 2. Auto-fill data siswa saat dipilih dari dropdown
     document.getElementById('studentSelect').addEventListener('change', function() {
         const selectedOption = this.options[this.selectedIndex];
         document.getElementById('studentNis').value = selectedOption.dataset.nis || '';
@@ -187,30 +224,6 @@
         const gender = selectedOption.dataset.gender;
         document.getElementById('studentGender').value = gender === 'L' ? 'Laki-laki' : (gender === 'P' ? 'Perempuan' : '-');
     });
-
-    // 2. Hitung BMI otomatis saat berat atau tinggi badan diubah
-    function calculateBMI() {
-        const weight = parseFloat(document.getElementById('weight').value);
-        const height = parseFloat(document.getElementById('height').value);
-        const bmiInput = document.getElementById('bmiResult');
-
-        if (weight > 0 && height > 0) {
-            const heightInMeters = height / 100;
-            const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
-            bmiInput.value = bmi;
-            
-            // Ubah warna teks berdasarkan kategori BMI
-            if (bmi < 18.5) bmiInput.className = 'form-control bg-white fw-bold text-warning';
-            else if (bmi >= 18.5 && bmi <= 24.9) bmiInput.className = 'form-control bg-white fw-bold text-success';
-            else bmiInput.className = 'form-control bg-white fw-bold text-danger';
-        } else {
-            bmiInput.value = '';
-            bmiInput.className = 'form-control bg-white fw-bold text-primary';
-        }
-    }
-
-    document.getElementById('weight').addEventListener('input', calculateBMI);
-    document.getElementById('height').addEventListener('input', calculateBMI);
 
     // 3. Preview gambar sebelum upload
     function previewImage(input) {

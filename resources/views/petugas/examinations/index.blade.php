@@ -39,11 +39,12 @@
                 <thead class="bg-light">
                     <tr>
                         <th>No</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal & Jam</th>
                         <th>Siswa</th>
                         <th>Kelas</th>
                         <th>Keluhan</th>
                         <th>Diagnosa</th>
+                        <th>Petugas</th> <!-- TAMBAHAN: Kolom Petugas -->
                         <th>Status</th>
                         <th class="text-end">Aksi</th>
                     </tr>
@@ -53,24 +54,45 @@
                         <tr>
                             <td>{{ $examinations->firstItem() + $index }}</td>
                             <td>
-                                <div class="fw-semibold">{{ $exam->examination_date->format('d/m/Y') }}</div>
-                                <small class="text-muted">{{ $exam->examination_date->format('H:i') }}</small>
+                                <!-- PERBAIKAN: Menggunakan arrival_time untuk jam -->
+                                <div class="fw-semibold">{{ \Carbon\Carbon::parse($exam->examination_date)->format('d/m/Y') }}</div>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i>{{ \Carbon\Carbon::parse($exam->arrival_time)->format('H:i') }} WIB</small>
                             </td>
                             <td>
                                 <div class="fw-semibold">{{ $exam->student->full_name ?? '-' }}</div>
                                 <small class="text-muted">{{ $exam->student->nis ?? '-' }}</small>
                             </td>
-                            <td><span class="badge bg-light text-dark">{{ $exam->student->class->name ?? '-' }}</span></td>
-                            <td>{{ Str::limit($exam->complaint, 25) }}</td>
-                            <td>{{ Str::limit($exam->diagnosis, 25) }}</td>
+                            <td><span class="badge bg-light text-dark border">{{ $exam->student->class->name ?? '-' }}</span></td>
+                            <td>{{ Str::limit($exam->complaint, 30) }}</td>
+                            <td>{{ Str::limit($exam->diagnosis, 30) }}</td>
+                            
+                            <!-- TAMBAHAN: Menampilkan Nama Petugas -->
                             <td>
-                                @php
-                                    $isSakit = in_array($exam->status, ['pulang', 'rawat_jalan', 'rujuk_puskesmas', 'rujuk_rs']);
-                                @endphp
-                                <span class="badge {{ $isSakit ? 'bg-danger' : 'bg-success' }}">
-                                    {{ $isSakit ? 'Sakit' : 'Sehat' }}
+                                <span class="badge bg-info bg-opacity-10 text-info">
+                                    <i class="fas fa-user-nurse me-1"></i> {{ $exam->officer_name ?? 'UKS' }}
                                 </span>
                             </td>
+
+                            <td>
+                                @php
+                                    // Logika: 'pulang' biasanya sehat, sisanya perlu perhatian/sakit
+                                    $isPerluPerhatian = in_array($exam->status, ['istirahat_uks', 'rawat_jalan', 'rujuk_puskesmas', 'rujuk_rs', 'hubungi_ortu']);
+                                    
+                                    $statusText = match($exam->status) {
+                                        'pulang' => 'Pulang (Sehat)',
+                                        'istirahat_uks' => 'Istirahat UKS',
+                                        'rawat_jalan' => 'Rawat Jalan',
+                                        'rujuk_puskesmas' => 'Rujuk Puskesmas',
+                                        'rujuk_rs' => 'Rujuk RS',
+                                        'hubungi_ortu' => 'Hubungi Ortu',
+                                        default => ucfirst(str_replace('_', ' ', $exam->status))
+                                    };
+                                @endphp
+                                <span class="badge {{ $isPerluPerhatian ? 'bg-danger' : 'bg-success' }}">
+                                    {{ $statusText }}
+                                </span>
+                            </td>
+
                             <td class="text-end">
                                 <div class="btn-group btn-group-sm">
                                     <a href="{{ route('petugas.examinations.show', $exam->id) }}" class="btn btn-outline-primary" title="Detail">
@@ -90,7 +112,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">
+                            <td colspan="9" class="text-center py-5 text-muted">
                                 <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">Belum ada data kunjungan</p>
                             </td>

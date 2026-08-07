@@ -21,7 +21,6 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamp('last_login_at')->nullable();
             
-            //  TAMBAHKAN BARIS INI 👇
             $table->softDeletes(); 
             
             $table->rememberToken();

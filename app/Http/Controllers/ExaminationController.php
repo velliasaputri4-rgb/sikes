@@ -9,6 +9,43 @@ use Carbon\Carbon;
 
 class ExaminationController extends Controller
 {
+    // Helper untuk mendapatkan data jadwal piket sesuai dokumen
+    private function getJadwalPiket()
+    {
+        return [
+            'Kelompok 1' => [
+                'Imanuel Avrilliano', 'Kiki Fatmala', 'Cinta Aprilia Rahma', 'Mia Davita Kinanti', 
+                'Rafika Dwi Amaliatusiva', 'Isnaini Irsaneta Azzahra', 'Nabila Raihani', 
+                'Muhammad Rava Ulin Nuha', 'Pebriana Dwi Mubarokah', 'Hardiningsih Prabaningrum'
+            ],
+            'Kelompok 2' => [
+                'Aditya Dwi Rama', 'Mahesti Dwi Aqilla', 'Faridatul Hanifah', 'Naysilla Zahra Mutiara', 
+                'Revika Aisya Zahra', 'Ainun Refatul Sri Utami', 'Anis Zuliani', 
+                'Muhammad Abdillah Faqih', 'Salma Putri Dwi Az Zahra', 'Hanaya Akni Amalina'
+            ],
+            'Kelompok 3' => [
+                'Ivan Devano Ramadhan', 'Anjani Oktaviana', 'Purwita Khoirun Nabila', 'Audina Nur Kharisma', 
+                'Fina Kholifatullatifah', 'Kurnia Putri Aulia', 'Sefia Ayu', 
+                'Rifka Adelia Larasati', 'Ahmad Chrostiyanto', 'Tika Fanesa Putri'
+            ],
+            'Kelompok 4' => [
+                'Muhammad Azriel Hadi Putra', 'Yovinda Ayuandari Oktaferata', 'Fariska Amelya', 
+                'Kinanti Karisma Yogi Noviana', 'Nur Shinta Al Yahya', 'Rahayu Anggraini Novitasari', 
+                'Donita Ayu Vega', 'Gandhi SatyaGraha', 'Meisyah Aulia Azzahra', 'Meli Reynata I.Y'
+            ],
+            'Kelompok 5' => [
+                'Muhammad Dimas Prasetya', 'Imeliya Alifatun Zahwa', 'Taqiyya Indee Taher', 
+                'Mbun Sekar Saifa Adiliya', 'Sweeta Zakiyatul Faizah', 'Firdausil Al Nikmah', 
+                'Novi Nabila Puspitasari', 'Crista Bella Ratu Ayu Syara', 'Nakeisya Silvi Meidina'
+            ],
+            'Kelompok 6' => [
+                'Qouluki Arif Wakhidin', 'Ticqa Maulaya S.', 'Yossi Shafira Indrasti', 'Nada Zakiya Abdillah', 
+                'Shelly Zahrotul Jannah', 'Vanessa Putri Ariani', 'Danu Firmasyah', 
+                'Aprillia Rahma Wati', 'Maidatun Nabilla Masduki'
+            ],
+        ];
+    }
+
     // 1. Menampilkan Daftar Kunjungan
     public function index(Request $request)
     {
@@ -28,7 +65,6 @@ class ExaminationController extends Controller
 
         $examinations = $query->latest('examination_date')->paginate(15);
 
-        // KITA PAKAI VIEW PETUGAS UNTUK SEMUA AGAR TIDAK PERLU BUAT FILE GANDA
         return view('petugas.examinations.index', compact('examinations'));
     }
 
@@ -36,7 +72,9 @@ class ExaminationController extends Controller
     public function create()
     {
         $students = Student::with('class')->orderBy('full_name')->get();
-        return view('petugas.examinations.create', compact('students'));
+        $jadwalPiket = $this->getJadwalPiket();
+        
+        return view('petugas.examinations.create', compact('students', 'jadwalPiket'));
     }
 
     // 3. Menyimpan Data Kunjungan Baru
@@ -44,27 +82,21 @@ class ExaminationController extends Controller
     {
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
+            'officer_name' => 'required|string|max:255',
+            'examination_date' => 'required|date',
+            'arrival_time' => 'required',
             'complaint' => 'required|string|max:500',
-            'temperature' => 'nullable|numeric|min:30|max:45',
-            'blood_pressure' => 'nullable|string|max:20',
-            'pulse' => 'nullable|integer|min:30|max:200',
-            'weight' => 'nullable|numeric|min:1|max:200',
-            'height' => 'nullable|numeric|min:50|max:250',
             'diagnosis' => 'required|string|max:500',
             'treatment' => 'nullable|string|max:500',
-            'status' => 'required|in:pulang,istirahat_uks,rawat_jalan,rujuk_puskesmas,rujuk_rs',
+            'medicine' => 'nullable|string|max:500',
+            // PERBAIKAN: Tambahkan 'hubungi_ortu' agar sesuai dengan database
+            'status' => 'required|in:pulang,istirahat_uks,rawat_jalan,rujuk_puskesmas,rujuk_rs,hubungi_ortu',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'notes' => 'nullable|string|max:500',
         ]);
 
         $examNumber = 'UKS-' . Carbon::now()->format('Ymd') . '-' . 
                       str_pad(Examination::whereDate('created_at', today())->count() + 1, 4, '0', STR_PAD_LEFT);
-
-        $bmi = null;
-        if ($request->weight && $request->height) {
-            $heightInMeters = $request->height / 100;
-            $bmi = round($request->weight / ($heightInMeters * $heightInMeters), 2);
-        }
 
         $photoPath = null;
         if ($request->hasFile('photo')) {
@@ -74,24 +106,18 @@ class ExaminationController extends Controller
         Examination::create([
             'examination_number' => $examNumber,
             'student_id' => $validated['student_id'],
-            'officer_id' => auth()->id(),
-            'examination_date' => now(),
-            'arrival_time' => now()->format('H:i:s'),
+            'officer_name' => $validated['officer_name'],
+            'examination_date' => $validated['examination_date'],
+            'arrival_time' => $validated['arrival_time'] . ':00',
             'complaint' => $validated['complaint'],
-            'temperature' => $validated['temperature'],
-            'blood_pressure' => $validated['blood_pressure'],
-            'pulse' => $validated['pulse'],
-            'weight' => $validated['weight'],
-            'height' => $validated['height'],
-            'bmi' => $bmi,
             'diagnosis' => $validated['diagnosis'],
             'treatment' => $validated['treatment'],
+            'medicine' => $validated['medicine'],
             'status' => $validated['status'],
             'notes' => $validated['notes'],
             'photo' => $photoPath,
         ]);
 
-        // Redirect ke halaman index (otomatis menyesuaikan role)
         if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin')) {
             return redirect()->route('admin.examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
         }
@@ -102,7 +128,7 @@ class ExaminationController extends Controller
     // 4. Menampilkan Detail Kunjungan
     public function show($id)
     {
-        $examination = Examination::with(['student.class', 'officer.user'])->findOrFail($id);
+        $examination = Examination::with(['student.class'])->findOrFail($id);
         return view('petugas.examinations.show', compact('examination'));
     }
 
@@ -111,7 +137,9 @@ class ExaminationController extends Controller
     {
         $examination = Examination::findOrFail($id);
         $students = Student::with('class')->orderBy('full_name')->get();
-        return view('petugas.examinations.edit', compact('examination', 'students'));
+        $jadwalPiket = $this->getJadwalPiket();
+        
+        return view('petugas.examinations.edit', compact('examination', 'students', 'jadwalPiket'));
     }
 
     // 6. Update Data Kunjungan
@@ -121,24 +149,18 @@ class ExaminationController extends Controller
         
         $validated = $request->validate([
             'student_id' => 'required|exists:students,id',
+            'officer_name' => 'required|string|max:255',
+            'examination_date' => 'required|date',
+            'arrival_time' => 'required',
             'complaint' => 'required|string|max:500',
-            'temperature' => 'nullable|numeric|min:30|max:45',
-            'blood_pressure' => 'nullable|string|max:20',
-            'pulse' => 'nullable|integer|min:30|max:200',
-            'weight' => 'nullable|numeric|min:1|max:200',
-            'height' => 'nullable|numeric|min:50|max:250',
             'diagnosis' => 'required|string|max:500',
             'treatment' => 'nullable|string|max:500',
-            'status' => 'required|in:pulang,istirahat_uks,rawat_jalan,rujuk_puskesmas,rujuk_rs',
+            'medicine' => 'nullable|string|max:500',
+            // PERBAIKAN: Tambahkan 'hubungi_ortu' agar sesuai dengan database
+            'status' => 'required|in:pulang,istirahat_uks,rawat_jalan,rujuk_puskesmas,rujuk_rs,hubungi_ortu',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'notes' => 'nullable|string|max:500',
         ]);
-
-        $bmi = null;
-        if ($request->weight && $request->height) {
-            $heightInMeters = $request->height / 100;
-            $bmi = round($request->weight / ($heightInMeters * $heightInMeters), 2);
-        }
 
         $photoPath = $examination->photo;
         if ($request->hasFile('photo')) {
@@ -147,15 +169,13 @@ class ExaminationController extends Controller
 
         $examination->update([
             'student_id' => $validated['student_id'],
+            'officer_name' => $validated['officer_name'],
+            'examination_date' => $validated['examination_date'],
+            'arrival_time' => $validated['arrival_time'] . ':00',
             'complaint' => $validated['complaint'],
-            'temperature' => $validated['temperature'],
-            'blood_pressure' => $validated['blood_pressure'],
-            'pulse' => $validated['pulse'],
-            'weight' => $validated['weight'],
-            'height' => $validated['height'],
-            'bmi' => $bmi,
             'diagnosis' => $validated['diagnosis'],
             'treatment' => $validated['treatment'],
+            'medicine' => $validated['medicine'],
             'status' => $validated['status'],
             'notes' => $validated['notes'],
             'photo' => $photoPath,
@@ -172,6 +192,12 @@ class ExaminationController extends Controller
     public function destroy($id)
     {
         $examination = Examination::findOrFail($id);
+        
+        // Hapus foto dari storage jika ada
+        if ($examination->photo) {
+            \Storage::disk('public')->delete($examination->photo);
+        }
+        
         $examination->delete();
 
         if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin')) {

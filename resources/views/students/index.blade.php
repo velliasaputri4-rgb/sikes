@@ -64,16 +64,28 @@
                                         {{ $student->class->name ?? '-' }}
                                     </span>
                                 </td>
-                                <td>{{ $student->gender }}</td>
+                                <td>{{ strtoupper($student->gender) }}</td>
                                 <td>{{ $student->parent_phone ?? '-' }}</td>
                                 <td class="text-end pe-4">
                                     <div class="btn-group">
-                                        <a href="#" class="btn btn-sm btn-outline-primary" title="Detail"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-sm btn-outline-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                        <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini? Tindakan ini akan menghapus akun login siswa.')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
-        </form>
+                                        <!-- PERBAIKAN 1: Route untuk Detail -->
+                                        <a href="{{ route('students.show', $student->id) }}" class="btn btn-sm btn-outline-primary" title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        
+                                        <!-- PERBAIKAN 2: Route untuk Edit -->
+                                        <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                        <!-- PERBAIKAN 3: Route untuk Hapus -->
+                                        <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini? Tindakan ini akan menghapus akun login siswa.')">
+                                            @csrf 
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

@@ -14,7 +14,7 @@ return new class extends Migration
        Schema::create('students', function (Blueprint $table) {
     $table->id();
     $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-    $table->foreignId('class_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('classroom_id')->constrained()->cascadeOnDelete();
     $table->string('nis', 20)->unique();
     $table->string('full_name', 100);
     $table->enum('gender', ['L', 'P']);
