@@ -15,36 +15,47 @@ class RolePermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 1. Buat Permissions (Contoh)
+        // 1. Buat Permissions
         Permission::firstOrCreate(['name' => 'manage-users']);
         Permission::firstOrCreate(['name' => 'manage-cms']);
         Permission::firstOrCreate(['name' => 'manage-examinations']);
         Permission::firstOrCreate(['name' => 'manage-medicines']);
         Permission::firstOrCreate(['name' => 'view-reports']);
 
-        // 2. Buat Roles
-        $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
-        $admin = Role::firstOrCreate(['name' => 'admin']);
-        $petugas = Role::firstOrCreate(['name' => 'petugas']);
-        $siswa = Role::firstOrCreate(['name' => 'siswa']);
+        // 2. Buat Roles (Tetap dibuat semua untuk jaga-jaga jika ada middleware yang mengeceknya)
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $petugasRole = Role::firstOrCreate(['name' => 'petugas']);
+        $siswaRole = Role::firstOrCreate(['name' => 'siswa']);
 
         // 3. Assign Permissions ke Role
-        $superAdmin->syncPermissions(Permission::all());
-        $admin->syncPermissions(Permission::where('name', '!=', 'manage-users')->get()); // Admin tidak bisa atur user super admin
-        $petugas->syncPermissions(['manage-examinations', 'manage-medicines', 'view-reports']);
-        $siswa->syncPermissions([]); // Siswa hanya bisa lihat dashboard & riwayat
+        $superAdminRole->syncPermissions(Permission::all());
+        $adminRole->syncPermissions(Permission::where('name', '!=', 'manage-users')->get());
+        $petugasRole->syncPermissions(['manage-examinations', 'manage-medicines', 'view-reports']);
+        $siswaRole->syncPermissions([]);
 
-        // 4. Buat Akun Super Admin Default
+        // 4. Buat Akun Super Admin (Untuk Login Dashboard Admin)
         $superAdminUser = User::firstOrCreate(
             ['email' => 'superadmin@sikes.com'],
             [
                 'name' => 'Super Administrator',
-                'password' => Hash::make('password'), // Password default
+                'password' => Hash::make('password'), 
                 'status' => 'active',
             ]
         );
         $superAdminUser->assignRole('super-admin');
 
-        $this->command->info('✅ Roles, Permissions, and Super Admin seeded successfully!');
+        // 5. Buat Akun Petugas (Untuk Login Dashboard Petugas)
+        $petugasUser = User::firstOrCreate(
+            ['email' => 'petugas@sikes.com'],
+            [
+                'name' => 'Petugas UKS',
+                'password' => Hash::make('password'), 
+                'status' => 'active',
+            ]
+        );
+        $petugasUser->assignRole('petugas');
+
+        $this->command->info('✅ Akun Super Admin dan Petugas berhasil dibuat!');
     }
 }
