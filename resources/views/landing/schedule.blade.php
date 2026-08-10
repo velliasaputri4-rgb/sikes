@@ -496,7 +496,7 @@
                                             <i class="fas fa-exclamation-triangle me-2 mt-1 text-danger"></i>
                                             <div>
                                                 <strong>Catatan:</strong><br>
-                                                Silahkan menghubungi nama yang diberi <span class="text-danger fw-bold">warna merah</span> pada jadwal piket sesuai jadwal hari ini jika membutuhkan bantuan.
+                                                Silahkan menghubungi nama yang diberi <span class="text-danger fw-bold">warna merah</span> pada jadwal piket, jika membutuhkan bantuan.
                                             </div>
                                         </div>
                                     </div>

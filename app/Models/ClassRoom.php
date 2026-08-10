@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClassRoom extends Model
 {
-    use SoftDeletes;
-
-    // ✅ TAMBAHKAN BARIS INI - agar mengarah ke tabel 'classes'
-    protected $table = 'classes';
+    // Tabel di database adalah 'classrooms', bukan 'classes'
+    protected $table = 'classrooms';
 
     protected $fillable = [
         'major_id',
@@ -26,6 +23,7 @@ class ClassRoom extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class, 'class_id');
+        return $this->hasMany(Student::class, 'classroom_id');
     }
 }
+   
