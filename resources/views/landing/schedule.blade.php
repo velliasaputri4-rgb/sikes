@@ -248,6 +248,22 @@
             opacity: 1;
             color: var(--info) !important;
         }
+
+        /* Styling untuk anggota yang memiliki nomor telepon (warna merah sesuai dokumen) */
+        .member-contact {
+            color: #dc2626 !important;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .member-contact:hover {
+            color: #991b1b !important;
+            text-decoration: underline;
+        }
+        .member-phone-icon {
+            color: #dc2626;
+            margin-left: 8px;
+        }
         
         @media (max-width: 768px) {
             .page-header h1 { font-size: 1.8rem; }
@@ -288,7 +304,6 @@
                         <a class="nav-link {{ request()->routeIs('landing.schedule*') ? 'active' : '' }}" href="{{ route('landing.schedule') }}">Jadwal Petugas</a>
                     </li>
                     
-                    <!-- 🔥 PERUBAHAN: Icon Login / Logout dengan Dropdown 🔥 -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
@@ -296,7 +311,6 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 @auth
-                                    {{-- ✅ SAAT SUDAH LOGIN: HANYA TOMBOL LOGOUT & DASHBOARD --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
@@ -318,7 +332,6 @@
                                         </form>
                                     </li>
                                 @else
-                                    {{-- ✅ SAAT BELUM LOGIN: PILIHAN LOGIN --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted">Pilih Login</small>
                                     </li>
@@ -343,7 +356,6 @@
                             </ul>
                         </div>
                     </li>
-                    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
                 </ul>
             </div>
         </div>
@@ -413,7 +425,8 @@
             <div class="row g-4 justify-content-center">
                 @forelse($schedules as $schedule)
                     @php
-                        $members = $schedule->members ? json_decode($schedule->members, true) : [];
+                        // Perbaikan: hapus json_decode karena sudah di-cast 'array' di Model
+                        $members = $schedule->members ?? [];
                     @endphp
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-card text-center h-100 d-flex flex-column justify-content-center">
@@ -448,7 +461,27 @@
                                             @foreach($members as $member)
                                                 <li class="list-group-item d-flex align-items-center py-3">
                                                     <i class="fas fa-user-circle text-primary me-3 fa-lg"></i>
-                                                    <span class="fw-medium">{{ $member }}</span>
+                                                    <div class="flex-grow-1">
+                                                        {{-- Jika member berupa array (ada name & phone) --}}
+                                                        @if(is_array($member))
+                                                            <div class="fw-medium">
+                                                                {{ $member['name'] ?? '-' }}
+                                                            </div>
+                                                            @if(!empty($member['phone']))
+                                                                <a href="https://wa.me/{{ preg_replace('/\D/', '', $member['phone']) }}" 
+                                                                   target="_blank" 
+                                                                   class="member-contact small"
+                                                                   title="Hubungi via WhatsApp">
+                                                                    <i class="fab fa-whatsapp member-phone-icon"></i>
+                                                                    {{ $member['phone'] }}
+                                                                    <span class="badge bg-danger bg-opacity-10 text-danger ms-1">Kontak Darurat</span>
+                                                                </a>
+                                                            @endif
+                                                        @else
+                                                            {{-- Jika member berupa string biasa --}}
+                                                            <span class="fw-medium">{{ $member }}</span>
+                                                        @endif
+                                                    </div>
                                                 </li>
                                             @endforeach
                                         @else
@@ -460,10 +493,10 @@
                                     
                                     <div class="p-3">
                                         <div class="alert alert-warning d-flex align-items-start mb-0 small">
-                                            <i class="fas fa-exclamation-triangle me-2 mt-1"></i>
+                                            <i class="fas fa-exclamation-triangle me-2 mt-1 text-danger"></i>
                                             <div>
                                                 <strong>Catatan:</strong><br>
-                                                Silahkan menghubungi nama yang diberi nomor telepon pada jadwal piket sesuai jadwal hari ini jika membutuhkan bantuan.
+                                                Silahkan menghubungi nama yang diberi <span class="text-danger fw-bold">warna merah</span> pada jadwal piket sesuai jadwal hari ini jika membutuhkan bantuan.
                                             </div>
                                         </div>
                                     </div>
