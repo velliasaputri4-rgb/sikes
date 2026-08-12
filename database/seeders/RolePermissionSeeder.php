@@ -22,40 +22,42 @@ class RolePermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'manage-medicines']);
         Permission::firstOrCreate(['name' => 'view-reports']);
 
-        // 2. Buat Roles (Tetap dibuat semua untuk jaga-jaga jika ada middleware yang mengeceknya)
-        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        // 2. Buat Roles
+        Role::firstOrCreate(['name' => 'super-admin']);
+        $adminRole   = Role::firstOrCreate(['name' => 'admin']);
         $petugasRole = Role::firstOrCreate(['name' => 'petugas']);
-        $siswaRole = Role::firstOrCreate(['name' => 'siswa']);
+        Role::firstOrCreate(['name' => 'siswa']);
 
-        // 3. Assign Permissions ke Role
-        $superAdminRole->syncPermissions(Permission::all());
-        $adminRole->syncPermissions(Permission::where('name', '!=', 'manage-users')->get());
+        // 3. Assign Permissions
+        $adminRole->syncPermissions(Permission::all());
         $petugasRole->syncPermissions(['manage-examinations', 'manage-medicines', 'view-reports']);
-        $siswaRole->syncPermissions([]);
 
-        // 4. Buat Akun Super Admin (Untuk Login Dashboard Admin)
-        $superAdminUser = User::firstOrCreate(
-            ['email' => 'superadmin@sikes.com'],
+        // 4. ✅ Buat akun Admin dengan password admin123
+        $adminUser = User::firstOrCreate(
+            ['email' => 'admin@sikes.com'],
             [
-                'name' => 'Super Administrator',
-                'password' => Hash::make('password'), 
-                'status' => 'active',
+                'name'              => 'Administrator',
+                'password'          => Hash::make('admin123'), // ✅ Password baru
+                'status'            => 'active',
+                'email_verified_at' => now(),
             ]
         );
-        $superAdminUser->assignRole('super-admin');
+        $adminUser->syncRoles(['admin']);
 
-        // 5. Buat Akun Petugas (Untuk Login Dashboard Petugas)
+        // 5. ✅ Buat akun Petugas dengan password petugas123
         $petugasUser = User::firstOrCreate(
             ['email' => 'petugas@sikes.com'],
             [
-                'name' => 'Petugas UKS',
-                'password' => Hash::make('password'), 
-                'status' => 'active',
+                'name'              => 'Petugas UKS',
+                'password'          => Hash::make('petugas123'), // ✅ Password baru
+                'status'            => 'active',
+                'email_verified_at' => now(),
             ]
         );
-        $petugasUser->assignRole('petugas');
+        $petugasUser->syncRoles(['petugas']);
 
-        $this->command->info('✅ Akun Super Admin dan Petugas berhasil dibuat!');
+        $this->command->info('✅ Akun Admin & Petugas berhasil dibuat!');
+        $this->command->info('📧 admin@sikes.com → admin123');
+        $this->command->info('📧 petugas@sikes.com → petugas123');
     }
 }

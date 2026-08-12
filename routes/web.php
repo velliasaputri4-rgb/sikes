@@ -46,6 +46,27 @@ require __DIR__.'/auth.php';
 
 /*
 |--------------------------------------------------------------------------
+| 3.5. INPUT KUNJUNGAN (PUBLIK - TANPA LOGIN)
+|--------------------------------------------------------------------------
+| Siapapun bisa input kunjungan (guru, tamu, dll) tanpa harus login.
+| Hanya form create dan simpan data yang terbuka untuk publik.
+*/
+Route::prefix('petugas')->name('petugas.')->group(function () {
+    // Form input kunjungan (publik)
+    Route::get('examinations/create', [ExaminationController::class, 'create'])
+        ->name('examinations.create');
+    
+    // Simpan data kunjungan (publik)
+    Route::post('examinations', [ExaminationController::class, 'store'])
+        ->name('examinations.store');
+    
+    // AJAX cari siswa by NIS (publik - dibutuhkan saat input form)
+    Route::get('examinations/cari-siswa/{nis}', [ExaminationController::class, 'searchStudent'])
+        ->name('examinations.search');
+});
+
+/*
+|--------------------------------------------------------------------------
 | 4. DASHBOARD ADMIN (CMS & MASTER DATA LENGKAP)
 |--------------------------------------------------------------------------
 */
@@ -70,8 +91,9 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
 
 /*
 |--------------------------------------------------------------------------
-| 5. DASHBOARD PETUGAS (KHUSUS INPUT & KELOLA DATA HARIAN)
+| 5. DASHBOARD PETUGAS (KHUSUS INPUT & KELOLA DATA HARIAN) - BUTUH LOGIN
 |--------------------------------------------------------------------------
+| Hanya petugas yang login yang bisa melihat daftar, edit, dan hapus data.
 */
 Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name('petugas.')->group(function () {
     Route::get('/', [DashboardController::class, 'petugasIndex'])->name('dashboard');
@@ -81,15 +103,21 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Input & Kelola Data Harian
-    Route::resource('examinations', ExaminationController::class);
+    // ✅ Route examinations manual (karena create & store sudah dipindah ke publik)
+    Route::get('examinations', [ExaminationController::class, 'index'])->name('examinations.index');
+    Route::get('examinations/{examination}', [ExaminationController::class, 'show'])->name('examinations.show');
+    Route::get('examinations/{examination}/edit', [ExaminationController::class, 'edit'])->name('examinations.edit');
+    Route::put('examinations/{examination}', [ExaminationController::class, 'update'])->name('examinations.update');
+    Route::delete('examinations/{examination}', [ExaminationController::class, 'destroy'])->name('examinations.destroy');
+
+    // Obat & Master Data Lainnya
     Route::resource('medicines', MedicineController::class);
     Route::get('/students', function() { return view('petugas.students.index'); })->name('students.index');
-    
-    // ✅ TAMBAHAN: Route untuk Jadwal Petugas
+
+    // ✅ Route untuk Jadwal Petugas
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
 
-    // ✅ TAMBAHAN: Route untuk Inventaris & Peminjaman
+    // ✅ Route untuk Inventaris & Peminjaman
     Route::resource('items', \App\Http\Controllers\ItemController::class);
     Route::resource('borrowings', \App\Http\Controllers\BorrowingController::class);
     Route::patch('borrowings/{id}/return', [\App\Http\Controllers\BorrowingController::class, 'returnItem'])->name('borrowings.return');
@@ -100,7 +128,7 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
 | 6. RIWAYAT SISWA (KHUSUS ROLE SISWA)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('student.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
     Route::get('/riwayat', [MedicalRecordController::class, 'index'])->name('history');
 });
 
@@ -111,14 +139,14 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('st
 */
 Route::get('/dashboard', function() {
     $user = auth()->user();
-    
+
     if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
         return redirect()->route('admin.dashboard');
     } elseif ($user->hasRole('petugas')) {
         return redirect()->route('petugas.examinations.index');
     } elseif ($user->hasRole('siswa')) {
-        return redirect()->route('student.history');
+        return redirect()->route('siswa.history'); // ✅ PERBAIKAN: siswa.history (bukan student.history)
     }
-    
+
     return redirect()->route('landing');
 })->name('dashboard');

@@ -63,7 +63,21 @@
             display: inline-block;
             margin-bottom: 20px;
         }
-        .avatar-box img {
+        
+        /* Avatar Inisial */
+        .avatar-initials {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 44px;
+            font-weight: 800;
+            border-radius: 50%;
+            letter-spacing: 2px;
+            box-shadow: inset 0 -4px 12px rgba(0,0,0,0.1);
             border: 3px solid #eff6ff;
         }
         
@@ -103,6 +117,25 @@
         .badge-sakit { background-color: #fee2e2; color: #dc2626; }
         .badge-sehat { background-color: #dcfce7; color: #16a34a; }
         
+        /* Badge Nomor Kunjungan */
+        .exam-number-badge {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #1e40af;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 1px solid #bfdbfe;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .exam-number-badge i {
+            font-size: 11px;
+        }
+        
         /* Detail Section */
         .detail-section {
             padding: 25px;
@@ -133,17 +166,32 @@
             padding: 15px;
             border: 2px dashed #cbd5e1;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* ✅ PERBAIKAN UTAMA: Batasi ukuran foto */
         .photo-container img {
             max-width: 100%;
+            max-height: 220px;      /* ✅ Batasi tinggi foto */
+            width: auto;            /* ✅ Lebar menyesuaikan rasio */
+            height: auto;
+            object-fit: contain;    /* ✅ Foto tidak terpotong */
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .photo-container img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
         }
         
         /* Toggle Icon */
         .toggle-icon {
             transition: transform 0.3s;
-            color: var(--primary);
+            color: white;
         }
         .toggle-icon.rotated {
             transform: rotate(180deg);
@@ -172,21 +220,50 @@
             background: #f8fafc;
             color: var(--secondary);
         }
-        .btn-expand {
-            background: var(--primary);
-            color: white;
+        
+        /* Tombol Lihat Detail */
+        .btn-detail {
+            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+            color: white !important;
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 13px;
+            padding: 11px 26px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.3px;
             transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .btn-expand:hover {
-            background: var(--secondary);
-            color: white;
+        .btn-detail:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white !important;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+        .btn-detail i {
+            font-size: 13px;
+        }
+
+        /* ✅ Lightbox Modal */
+        .lightbox-modal .modal-body {
+            background: #0f172a;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        .lightbox-modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .lightbox-modal .btn-close {
+            filter: invert(1);
         }
     </style>
 </head>
@@ -196,10 +273,17 @@
     <div class="header-profile text-center">
         <div class="container position-relative" style="z-index: 2;">
             
-            <!-- Avatar -->
+            <!-- Avatar dengan Inisial -->
             <div class="avatar-box mb-3">
-                <img src="{{ $student->user->photo ? asset('storage/' . $student->user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($student->full_name) . '&background=eff6ff&color=2563EB&size=128' }}" 
-                     class="rounded-circle" width="110" height="110" style="object-fit: cover;">
+                @php
+                    $nameParts = explode(' ', trim($student->full_name));
+                    if (count($nameParts) >= 2) {
+                        $initials = strtoupper(substr($nameParts[0], 0, 1) . substr($nameParts[1], 0, 1));
+                    } else {
+                        $initials = strtoupper(substr($nameParts[0], 0, 2));
+                    }
+                @endphp
+                <div class="avatar-initials">{{ $initials }}</div>
             </div>
             
             <!-- Nama Siswa -->
@@ -248,6 +332,12 @@
             <div class="record-card">
                 <!-- Summary Header (Clickable) -->
                 <div class="card-header-summary" data-bs-toggle="collapse" data-bs-target="#detail{{ $exam->id }}" aria-expanded="false" onclick="toggleIcon(this)">
+                    <!-- Badge Nomor Kunjungan -->
+                    <div class="exam-number-badge">
+                        <i class="fas fa-hashtag"></i>
+                        <span>{{ $exam->examination_number }}</span>
+                    </div>
+                    
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5 class="fw-bold mb-1 text-dark">{{ \Carbon\Carbon::parse($exam->examination_date)->format('d F Y') }}</h5>
@@ -266,8 +356,10 @@
                         <div>
                             <small class="text-muted"><strong>Keluhan:</strong> {{ Str::limit($exam->complaint, 50) }}</small>
                         </div>
-                        <button class="btn-expand">
-                            <i class="fas fa-chevron-down toggle-icon me-1"></i> Lihat Detail
+                        <!-- Tombol Lihat Detail -->
+                        <button class="btn-detail">
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                            <span>Lihat Detail</span>
                         </button>
                     </div>
                 </div>
@@ -286,15 +378,12 @@
 
                                 <div class="detail-label"><i class="fas fa-stethoscope me-1 text-info"></i> Diagnosa</div>
                                 <div class="detail-value">{{ $exam->diagnosis }}</div>
-
-                                <div class="detail-label"><i class="fas fa-pills me-1 text-success"></i> Obat yang Diberikan</div>
-                                <div class="detail-value">{{ $exam->medicine ?: '-' }}</div>
                             </div>
 
                             <!-- Kolom Kanan -->
                             <div class="col-md-6">
-                                <div class="detail-label"><i class="fas fa-procedures me-1 text-warning"></i> Tindakan / Pengobatan</div>
-                                <div class="detail-value">{{ $exam->treatment ?: '-' }}</div>
+                                <div class="detail-label"><i class="fas fa-pills me-1 text-success"></i> Obat yang Diberikan</div>
+                                <div class="detail-value">{{ $exam->medicine ?: '-' }}</div>
 
                                 <div class="detail-label"><i class="fas fa-clipboard-check me-1 text-primary"></i> Status Kepulangan</div>
                                 <div class="detail-value">
@@ -304,7 +393,8 @@
                                             'istirahat_uks' => 'Istirahat di UKS',
                                             'rawat_jalan' => 'Rawat Jalan',
                                             'rujuk_puskesmas' => 'Rujuk ke Puskesmas',
-                                            'rujuk_rs' => 'Rujuk ke Rumah Sakit'
+                                            'rujuk_rs' => 'Rujuk ke Rumah Sakit',
+                                            'hubungi_ortu' => 'Hubungi Orang Tua/Wali'
                                         ];
                                     @endphp
                                     {{ $statusLabels[$exam->status] ?? $exam->status }}
@@ -317,16 +407,47 @@
                             </div>
                         </div>
 
-                        <!-- Foto Dokumentasi -->
+                        <!-- ✅ Foto Dokumentasi - SUDAH DIPERKECIL -->
                         @if($exam->photo)
                             <div class="mt-4">
                                 <div class="detail-label"><i class="fas fa-camera me-1 text-info"></i> Dokumentasi Foto</div>
                                 <div class="photo-container">
-                                    <img src="{{ asset('storage/' . $exam->photo) }}" alt="Foto Dokumentasi" class="img-fluid">
-                                    <div class="mt-2">
-                                        <a href="{{ asset('storage/' . $exam->photo) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-expand me-1"></i> Lihat Full Size
+                                    {{-- ✅ class="img-fluid" DIHAPUS, diganti style inline --}}
+                                    <img src="{{ asset('storage/' . $exam->photo) }}" 
+                                         alt="Foto Dokumentasi"
+                                         data-bs-toggle="modal" 
+                                         data-bs-target="#lightboxModal{{ $exam->id }}"
+                                         title="Klik untuk lihat ukuran penuh">
+                                    <div class="mt-3 d-flex gap-2 justify-content-center flex-wrap">
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" 
+                                                data-bs-toggle="modal" data-bs-target="#lightboxModal{{ $exam->id }}">
+                                            <i class="fas fa-search-plus me-1"></i> Perbesar
+                                        </button>
+                                        <a href="{{ asset('storage/' . $exam->photo) }}" target="_blank" 
+                                           class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                                            <i class="fas fa-external-link-alt me-1"></i> Tab Baru
                                         </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- ✅ Lightbox Modal untuk foto besar --}}
+                            <div class="modal fade lightbox-modal" id="lightboxModal{{ $exam->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content bg-transparent border-0">
+                                        <div class="modal-header border-0 justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ asset('storage/' . $exam->photo) }}" alt="Foto Dokumentasi">
+                                        </div>
+                                        <div class="modal-footer border-0 justify-content-center text-white">
+                                            <small class="opacity-75">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                {{ \Carbon\Carbon::parse($exam->examination_date)->format('d F Y') }}
+                                                pukul {{ \Carbon\Carbon::parse($exam->arrival_time)->format('H:i') }} WIB
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

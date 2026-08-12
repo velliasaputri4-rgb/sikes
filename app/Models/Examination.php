@@ -1,26 +1,47 @@
 <?php
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Examination extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'examination_number', 'student_id', 'officer_id', 'examination_date',
-        'arrival_time', 'finish_time', 'complaint', 'temperature', 'blood_pressure',
-        'pulse', 'weight', 'height', 'bmi', 'diagnosis', 'treatment', 'status', 'qr_token'
+        'examination_number',
+        'student_id',
+        'piket_group',
+        'officer_name',
+        'examination_date',
+        'arrival_time',
+        'finish_time',
+        'complaint',
+        'temperature',
+        'blood_pressure',
+        'pulse',
+        'weight',
+        'height',
+        'bmi',
+        'diagnosis',
+        'medicine',
+        'notes',
+        'status',
+        'photo',
+        'qr_token',
     ];
 
     protected $casts = [
         'examination_date' => 'date',
-        'temperature' => 'decimal:1', 'weight' => 'decimal:2', 'height' => 'decimal:2', 'bmi' => 'decimal:2'
+        'arrival_time' => 'datetime:H:i',
+        'finish_time' => 'datetime:H:i',
     ];
 
-    public function student() { return $this->belongsTo(Student::class); }
-    public function officer() { return $this->belongsTo(Officer::class); }
-    public function medicines() { return $this->belongsToMany(Medicine::class, 'examination_medicines')->withPivot('qty'); }
-    public function photos() { return $this->hasMany(ExaminationPhoto::class); }
+    // Relasi ke Student
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

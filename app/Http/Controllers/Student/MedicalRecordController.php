@@ -19,9 +19,10 @@ class MedicalRecordController extends Controller
 
         $student = $user->student;
 
-        // Ambil HANYA riwayat pemeriksaan milik siswa yang sedang login
+        // ✅ PERBAIKAN: Hapus with(['officer.user']) karena relasi officer tidak ada lagi
+        // Sekarang officer disimpan sebagai string di kolom officer_name
         $examinations = Examination::where('student_id', $student->id)
-            ->with(['officer.user'])
+            ->with(['student.class']) // Cukup load relasi student.class saja
             ->latest('examination_date')
             ->paginate(10);
 
