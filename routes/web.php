@@ -11,17 +11,20 @@ use App\Http\Controllers\Student\MedicalRecordController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. HALAMAN LOGIN TERPISAH (Sesuai Pilihan di Navbar)
+| 1. HALAMAN LOGIN (ADMIN & PETUGAS DIGABUNG, SISWA TERPISAH)
 |--------------------------------------------------------------------------
 */
+
+// ✅ Login admin & petugas sekarang redirect ke satu halaman (/login)
 Route::get('/login-admin', function () {
-    return view('auth.login-admin');
+    return redirect()->route('login');
 })->name('login.admin');
 
 Route::get('/login-petugas', function () {
-    return view('auth.login-petugas');
+    return redirect()->route('login');
 })->name('login.petugas');
 
+// Login siswa tetap terpisah
 Route::get('/login-siswa', function () {
     return view('auth.login-siswa');
 })->name('login.siswa');
@@ -41,6 +44,8 @@ Route::get('/kontak', [LandingController::class, 'contact'])->name('landing.cont
 |--------------------------------------------------------------------------
 | 3. AUTHENTICATION (DARI BREEZE)
 |--------------------------------------------------------------------------
+| Route /login bawaan Breeze otomatis menampilkan: resources/views/auth/login.blade.php
+| (yang sudah kita isi dengan desain navy+gold + tab Admin/Petugas)
 */
 require __DIR__.'/auth.php';
 
@@ -143,9 +148,10 @@ Route::get('/dashboard', function() {
     if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
         return redirect()->route('admin.dashboard');
     } elseif ($user->hasRole('petugas')) {
-        return redirect()->route('petugas.examinations.index');
+        // ✅ DIPERBAIKI: masuk ke dashboard petugas, bukan ke daftar kunjungan
+        return redirect()->route('petugas.dashboard');
     } elseif ($user->hasRole('siswa')) {
-        return redirect()->route('siswa.history'); // ✅ PERBAIKAN: siswa.history (bukan student.history)
+        return redirect()->route('siswa.history');
     }
 
     return redirect()->route('landing');

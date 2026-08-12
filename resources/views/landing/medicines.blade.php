@@ -195,7 +195,7 @@
                         <a class="nav-link {{ request()->routeIs('landing.schedule*') ? 'active' : '' }}" href="{{ route('landing.schedule') }}">Jadwal Petugas</a>
                     </li>
 
-                    <!-- 🔥 PERUBAHAN: Icon Login / Logout dengan Dropdown 🔥 -->
+                    <!-- ✅ Icon Login / Logout dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
@@ -203,7 +203,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 @auth
-                                    {{-- ✅ SAAT SUDAH LOGIN: HANYA TOMBOL LOGOUT & DASHBOARD --}}
+                                    {{-- ✅ SAAT SUDAH LOGIN --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
@@ -211,7 +211,8 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin') ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'student.history')) }}">
+                                        {{-- ✅ PERBAIKAN 1: student.history → siswa.history --}}
+                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole(['super-admin', 'admin']) ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'siswa.history')) }}">
                                             <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard Saya
                                         </a>
                                     </li>
@@ -225,19 +226,14 @@
                                         </form>
                                     </li>
                                 @else
-                                    {{-- ✅ SAAT BELUM LOGIN: PILIHAN LOGIN --}}
+                                    {{-- ✅ PERBAIKAN 2: 2 PILIHAN LOGIN (Admin/Petugas digabung) --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted">Pilih Login</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('login.admin') }}">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('login.petugas') }}">
-                                            <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
+                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin / Petugas
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
@@ -250,7 +246,6 @@
                             </ul>
                         </div>
                     </li>
-                    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
                 </ul>
             </div>
         </div>

@@ -325,7 +325,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Informasi Obat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal Petugas</a></li>
 
-                    <!-- 🔥 PERUBAHAN: Icon Login / Logout dengan Dropdown 🔥 -->
+                    <!-- ✅ Icon Login / Logout dengan Dropdown -->
                     <li class="nav-item ms-3">
                         <div class="dropdown">
                             <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0;">
@@ -333,7 +333,6 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 @auth
-                                    {{-- ✅ SAAT SUDAH LOGIN: HANYA TOMBOL LOGOUT --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
@@ -341,7 +340,8 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin') ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'student.history')) }}">
+                                        {{-- ✅ PERBAIKAN 1: student.history → siswa.history --}}
+                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole(['super-admin', 'admin']) ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'siswa.history')) }}">
                                             <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard Saya
                                         </a>
                                     </li>
@@ -355,19 +355,14 @@
                                         </form>
                                     </li>
                                 @else
-                                    {{-- ✅ SAAT BELUM LOGIN: PILIHAN LOGIN --}}
+                                    {{-- ✅ PERBAIKAN 2: 2 PILIHAN LOGIN (Admin/Petugas digabung) --}}
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted">Pilih Login</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('login.admin') }}">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('login.petugas') }}">
-                                            <i class="fas fa-user-nurse me-2 text-success"></i> Login Petugas
+                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Login Admin / Petugas
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
@@ -380,7 +375,6 @@
                             </ul>
                         </div>
                     </li>
-                    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
                 </ul>
             </div>
         </div>
@@ -394,7 +388,8 @@
                     <h1 class="hero-title">Selamat Datang di<br><span class="text-primary">Sistem Informasi UKS <br> SMK Negeri 1 Bangsri</span></h1>
                     <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="btn btn-primary-custom btn-lg">
+                        {{-- ✅ PERBAIKAN 3: student.history → siswa.history --}}
+                        <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="btn btn-primary-custom btn-lg">
                             <i class="fas fa-history me-2"></i> Riwayat Kunjungan
                         </a>
                         <a href="#tentang" class="btn btn-outline-primary btn-lg">
@@ -409,23 +404,23 @@
 
             <!-- 4 Menu Cards -->
             <div class="row g-4 mt-2">
+                {{-- ✅ PERBAIKAN 4: Form Kunjungan sekarang PUBLIK (tidak perlu login) --}}
                 <div class="col-md-6 col-lg-3">
-                    <a href="{{ auth()->check() && auth()->user()->hasRole(['super-admin', 'admin', 'petugas']) ? route('petugas.examinations.create') : route('login.petugas') }}" class="menu-card">
+                    <a href="{{ route('petugas.examinations.create') }}" class="menu-card">
                         <div class="menu-icon bg-icon-1"><i class="fas fa-clipboard-list"></i></div>
                         <h5 class="fw-bold mb-2">Form Kunjungan</h5>
                         <p class="text-muted small mb-0">Isi form kunjungan ke UKS dengan mudah dan cepat</p>
-                        @if(!auth()->check())
-                            <small class="text-primary mt-2 d-block"><i class="fas fa-lock me-1"></i>Login diperlukan</small>
-                        @endif
+                        <small class="text-success mt-2 d-block"><i class="fas fa-globe me-1"></i>Konfirmasi dengan petugas</small>
                     </a>
                 </div>
                 
+                {{-- ✅ PERBAIKAN 5: student.history → siswa.history --}}
                 <div class="col-md-6 col-lg-3">
-                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('student.history') : route('login.siswa') }}" class="menu-card">
+                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
                         <div class="menu-icon bg-icon-2"><i class="fas fa-history"></i></div>
                         <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
                         <p class="text-muted small mb-0">Lihat riwayat kunjungan dan rekam medis Anda</p>
-                        @if(!auth()->check())
+                        @if(!auth()->check() || !auth()->user()->hasRole('siswa'))
                             <small class="text-primary mt-2 d-block"><i class="fas fa-user me-1"></i>Login siswa diperlukan</small>
                         @endif
                     </a>
