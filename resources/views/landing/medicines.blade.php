@@ -955,7 +955,6 @@
                     <ul class="footer-menu">
                         <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ route('petugas.examinations.create') }}"><i class="fas fa-chevron-right fa-xs"></i> Form Kunjungan</a></li>
                         <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>

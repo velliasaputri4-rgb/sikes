@@ -6,201 +6,332 @@
     <title>Login - SIKES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #f59e0b;
-            --gold-dark: #d97706;
-            --navy-900: #0f172a;
-            --navy-800: #1e293b;
-            --primary: #2563eb;
-            --primary-dark: #1e3a8a;
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #14b8a6;
+            --ink: #0f172a;
+            --slate: #475569;
+            --muted: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+            --gradient-light: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 50%, #f0fdfa 100%);
         }
+
+        * { -webkit-font-smoothing: antialiased; }
+
         body {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0c1324 0%, #1e293b 55%, #1e3a8a 100%);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--gradient-light);
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
             position: relative;
-            overflow: hidden;
-            padding: 16px;
-        }
-        body::before, body::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-        }
-        body::before {
-            width: 340px; height: 340px;
-            background: rgba(245, 158, 11, 0.08);
-            top: -100px; right: -100px;
-        }
-        body::after {
-            width: 260px; height: 260px;
-            background: rgba(59, 130, 246, 0.1);
-            bottom: -80px; left: -80px;
+            overflow-x: hidden;
+            padding: 40px 16px;
+            color: var(--ink);
         }
 
-        /* ✅ CARD DIPERKECIL */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .blob-1 { width: 420px; height: 420px; background: #0ea5e9; top: -120px; left: -120px; animation: float1 22s ease-in-out infinite; }
+        .blob-2 { width: 380px; height: 380px; background: #14b8a6; top: 50%; right: -100px; animation: float2 28s ease-in-out infinite; }
+        .blob-3 { width: 300px; height: 300px; background: #38bdf8; bottom: -100px; left: 30%; animation: float1 30s ease-in-out infinite reverse; opacity: 0.3; }
+        @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
+        @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(14,165,233,0.08) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .login-card {
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            margin: auto;
             background: white;
-            border-radius: 18px;
-            padding: 28px 26px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-            animation: fadeUp 0.5s ease;
+            border-radius: 22px;
+            padding: 32px 30px;
+            box-shadow: 0 25px 60px rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.08);
+            animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(25px); }
+            from { opacity: 0; transform: translateY(25px) scale(0.98); }
             to { opacity: 1; transform: none; }
         }
 
-        /* ✅ LOGO DIPERKECIL */
         .logo-circle {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: var(--gold);
+            width: 68px; height: 68px;
+            border-radius: 20px;
+            background: var(--gradient-primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 12px;
-            border: 2.5px solid rgba(245, 158, 11, 0.35);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+            font-size: 26px;
+            margin: 0 auto 16px;
+            box-shadow: 0 12px 30px rgba(14, 165, 233, 0.35);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 24px;
+            background: var(--gradient-primary);
+            opacity: 0.2;
+            z-index: -1;
+        }
+        .logo-circle:hover { transform: rotate(-6deg) scale(1.05); }
+
+        .login-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            color: var(--ink);
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .login-title .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .login-subtitle {
+            color: var(--slate);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 0;
         }
 
-        /* ✅ FONT JUDUL DIPERKECIL */
-        .login-title { font-weight: 800; color: var(--navy-900); font-size: 1.3rem; letter-spacing: 0.5px; }
-        .login-subtitle { color: #64748b; font-size: 12.5px; }
-
-        /* ✅ TAB PILIHAN ROLE DIPERKECIL */
         .role-tabs {
             display: flex;
             background: #f1f5f9;
-            border-radius: 10px;
-            padding: 4px;
+            border-radius: 14px;
+            padding: 5px;
             gap: 4px;
-            margin: 16px 0 18px;
+            margin: 22px 0;
+            border: 1px solid rgba(14, 165, 233, 0.05);
         }
         .role-tab {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 9px 8px;
-            border-radius: 8px;
+            padding: 11px 8px;
+            border-radius: 10px;
             font-weight: 700;
             font-size: 13px;
-            color: #64748b;
-            transition: all 0.25s ease;
+            color: var(--slate);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 7px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.2px;
         }
-        .role-tab:hover { color: #1e293b; }
-        .role-tab.active-admin {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            box-shadow: 0 5px 14px rgba(245, 158, 11, 0.35);
+        .role-tab:hover:not(.active-admin):not(.active-petugas) {
+            color: var(--ink);
+            background: rgba(255,255,255,0.6);
         }
+        /* ✅ WARNA SAMA untuk Admin & Petugas */
+        .role-tab.active-admin,
         .role-tab.active-petugas {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background: var(--gradient-primary);
             color: white;
-            box-shadow: 0 5px 14px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+            transform: translateY(-1px);
         }
-        .role-tab i { font-size: 12px; }
+        .role-tab i { font-size: 13px; }
 
-        /* ✅ FORM DIPERKECIL */
-        .form-label { font-weight: 600; font-size: 12.5px; color: #334155; margin-bottom: 5px; }
+        .form-label {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--ink);
+            margin-bottom: 7px;
+            letter-spacing: 0.1px;
+        }
         .input-icon { position: relative; }
         .input-icon > i {
             position: absolute;
-            left: 12px; top: 50%;
+            left: 14px; top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 13px;
-        }
-        .input-icon .form-control { padding-left: 36px; }
-        .form-control {
-            border-radius: 9px;
-            padding: 9px 12px;
-            border: 1.5px solid #e2e8f0;
+            color: var(--muted);
             font-size: 14px;
+            transition: color 0.2s;
+        }
+        .input-icon .form-control { padding-left: 40px; }
+        .form-control {
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s;
+            background: white;
         }
         .form-control:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
         }
+        .input-icon:focus-within > i:first-child { color: var(--primary); }
+
         .toggle-pass {
             position: absolute;
-            right: 12px; top: 50%;
+            right: 14px; top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: #94a3b8;
+            color: var(--muted);
             cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
         }
-        .toggle-pass:hover { color: var(--navy-800); }
+        .toggle-pass:hover { color: var(--primary); }
 
         .form-check-input {
-            width: 14px; height: 14px;
+            width: 16px; height: 16px;
+            cursor: pointer;
+            border: 2px solid #cbd5e1;
         }
         .form-check-label {
-            font-size: 12.5px;
+            font-size: 13px;
+            color: var(--slate);
+            cursor: pointer;
+            font-weight: 500;
         }
         .form-check-input:checked {
-            background-color: var(--gold);
-            border-color: var(--gold);
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        .form-check-input:focus {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
         }
 
-        /* ✅ TOMBOL SUBMIT DIPERKECIL */
         .btn-login {
             width: 100%;
             border: none;
             color: white;
             font-weight: 700;
-            padding: 10px;
-            border-radius: 9px;
-            font-size: 14px;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 14.5px;
             letter-spacing: 0.3px;
-            transition: all 0.2s ease;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            position: relative;
+            overflow: hidden;
+            margin-top: 6px;
         }
-        .btn-login:hover { transform: translateY(-2px); color: white; }
-        .btn-login.gold {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s;
         }
-        .btn-login.gold:hover { box-shadow: 0 10px 22px rgba(245, 158, 11, 0.5); }
+        .btn-login:hover::before { left: 100%; }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+        /* ✅ WARNA SAMA untuk tombol Admin & Petugas */
+        .btn-login.gold,
         .btn-login.blue {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+            background: var(--gradient-primary);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
         }
-        .btn-login.blue:hover { box-shadow: 0 10px 22px rgba(37, 99, 235, 0.5); }
+        .btn-login.gold:hover,
+        .btn-login.blue:hover {
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.5);
+        }
 
-        .link-home { color: #64748b; text-decoration: none; font-size: 12.5px; font-weight: 600; }
-        .link-home:hover { color: var(--gold); }
+        .link-home {
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .link-home:hover {
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
 
         .siswa-note {
-            background: #f8fafc;
-            border: 1px dashed #cbd5e1;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 11.5px;
-            color: #64748b;
-            margin-top: 16px !important;
+            background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 12.5px;
+            color: var(--slate);
+            margin-top: 20px !important;
+            font-weight: 500;
         }
-        .siswa-note a { color: var(--primary); font-weight: 700; text-decoration: none; }
-        .siswa-note a:hover { color: var(--primary-dark); }
-        
-        .mb-3 { margin-bottom: 12px !important; }
+        .siswa-note i { color: var(--primary); }
+        .siswa-note a {
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .siswa-note a:hover { color: var(--secondary); }
+
+        .mb-3 { margin-bottom: 14px !important; }
+
+        .alert-error {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 24px 14px; }
+            .login-card { padding: 26px 22px; border-radius: 18px; }
+            .login-title { font-size: 1.35rem; }
+            .role-tab { font-size: 12px; padding: 10px 6px; }
+            .logo-circle { width: 60px; height: 60px; font-size: 22px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Decorative blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
 
     <div class="login-card">
         {{-- Logo --}}
@@ -209,8 +340,8 @@
         </div>
 
         <div class="text-center">
-            <h3 class="login-title mb-1">SIKES</h3>
-            <p class="login-subtitle mb-0">Sistem Informasi Unit Kesehatan Sekolah</p>
+            <h3 class="login-title mb-1">Welcome to <span class="gradient-text">SIKES</span></h3>
+            <p class="login-subtitle">Masuk ke Sistem Informasi UKS</p>
         </div>
 
         {{-- TAB PILIHAN ROLE --}}
@@ -225,8 +356,8 @@
 
         {{-- Error --}}
         @if($errors->any())
-            <div class="alert alert-danger py-2 px-3 mb-3" style="font-size: 12px; border-radius: 9px;">
-                <i class="fas fa-exclamation-circle me-1"></i>
+            <div class="alert-error">
+                <i class="fas fa-exclamation-circle"></i>
                 {{ $errors->first() }}
             </div>
         @endif
@@ -259,23 +390,23 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                    <label class="form-check-label text-muted" for="remember">Ingat saya</label>
+                    <label class="form-check-label" for="remember">Ingat saya</label>
                 </div>
                 <a href="{{ route('landing') }}" class="link-home">
-                    <i class="fas fa-arrow-left me-1"></i> Beranda
+                    <i class="fas fa-arrow-left"></i> Beranda
                 </a>
             </div>
 
             {{-- Tombol berubah sesuai tab --}}
             <button type="submit" id="btnSubmit" class="btn-login gold">
-                <i class="fas fa-sign-in-alt me-2"></i><span id="btnLabel">Masuk sebagai Admin</span>
+                <i class="fas fa-sign-in-alt"></i><span id="btnLabel">Masuk sebagai Admin</span>
             </button>
         </form>
 
         {{-- Catatan siswa --}}
         <div class="siswa-note text-center">
             <i class="fas fa-info-circle me-1"></i>
-            Siswa? Lihat riwayat melalui <a href="{{ route('login.siswa') }}">form khusus</a>
+            Siswa? Lihat riwayat melalui <a href="{{ route('login.siswa') }}">form khusus siswa</a>
         </div>
     </div>
 

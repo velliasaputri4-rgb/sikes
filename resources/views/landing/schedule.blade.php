@@ -13,18 +13,13 @@
         --primary: #0ea5e9;
         --primary-dark: #0284c7;
         --secondary: #14b8a6;
-        --accent: #8b5cf6;
         --emerald: #10b981;
         --rose: #f43f5e;
         --amber: #f59e0b;
         --ink: #0f172a;
         --slate: #475569;
-        --light: #f8fafc;
+        --muted: #94a3b8;
         --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
-        --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-        --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-        --gradient-success: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
-        --gradient-rose: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
         --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         --shadow-sm: 0 4px 20px rgba(14, 165, 233, 0.08);
         --shadow-md: 0 10px 40px rgba(14, 165, 233, 0.12);
@@ -47,7 +42,6 @@
         overflow-x: hidden;
     }
 
-    /* ============ ANIMATED BLOBS ============ */
     .blob-bg {
         position: absolute;
         border-radius: 50%;
@@ -58,7 +52,6 @@
     }
     .blob-1 { width: 400px; height: 400px; background: #0ea5e9; top: -100px; left: -100px; animation: float1 20s ease-in-out infinite; }
     .blob-2 { width: 350px; height: 350px; background: #14b8a6; top: 100px; right: -80px; animation: float2 25s ease-in-out infinite; }
-    .blob-3 { width: 300px; height: 300px; background: #8b5cf6; bottom: -80px; left: 30%; animation: float1 30s ease-in-out infinite reverse; }
     @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
     @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
 
@@ -132,7 +125,7 @@
     /* ============ PAGE HEADER ============ */
     .page-header {
         position: relative;
-        padding: 90px 0 70px;
+        padding: 80px 0 70px;
         background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 50%, #f0fdfa 100%);
         overflow: hidden;
     }
@@ -146,7 +139,7 @@
         border-radius: 50px;
         font-size: 0.85rem;
         font-weight: 600;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
         border: 1px solid rgba(14,165,233,0.2);
     }
     .page-header-badge .pulse-dot {
@@ -159,11 +152,11 @@
 
     .page-title {
         font-family: 'Poppins', sans-serif;
-        font-size: clamp(2rem, 4.5vw, 3.2rem);
+        font-size: clamp(2rem, 4.5vw, 3rem);
         font-weight: 700;
         color: var(--ink);
         line-height: 1.2;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
         letter-spacing: -1px;
     }
     .gradient-text {
@@ -174,18 +167,19 @@
     }
     .page-subtitle {
         color: var(--slate);
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         max-width: 580px;
+        margin-bottom: 0;
     }
 
     .header-icon-wrap {
-        width: 140px; height: 140px;
+        width: 120px; height: 120px;
         background: var(--gradient-primary);
-        border-radius: 36px;
+        border-radius: 30px;
         display: flex; align-items: center; justify-content: center;
         color: white;
-        font-size: 3.5rem;
-        box-shadow: 0 25px 60px rgba(14,165,233,0.35);
+        font-size: 3rem;
+        box-shadow: 0 20px 50px rgba(14,165,233,0.35);
         margin-left: auto;
         animation: iconFloat 5s ease-in-out infinite;
         position: relative;
@@ -193,29 +187,15 @@
     .header-icon-wrap::before {
         content: '';
         position: absolute;
-        inset: -12px;
-        border-radius: 40px;
+        inset: -10px;
+        border-radius: 34px;
         background: var(--gradient-primary);
         opacity: 0.2;
         z-index: -1;
-        animation: iconPulse 2.5s ease-in-out infinite;
-    }
-    .header-icon-wrap::after {
-        content: '';
-        position: absolute;
-        inset: -24px;
-        border-radius: 44px;
-        background: var(--gradient-primary);
-        opacity: 0.1;
-        z-index: -2;
     }
     @keyframes iconFloat {
         0%,100% { transform: translateY(0) rotate(0); }
-        50% { transform: translateY(-12px) rotate(4deg); }
-    }
-    @keyframes iconPulse {
-        0%,100% { transform: scale(1); opacity: 0.2; }
-        50% { transform: scale(1.15); opacity: 0.1; }
+        50% { transform: translateY(-10px) rotate(3deg); }
     }
 
     /* ============ SECTION ============ */
@@ -230,310 +210,246 @@
         font-weight: 700;
         letter-spacing: 1px;
         text-transform: uppercase;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
     }
     .section-title {
         font-family: 'Poppins', sans-serif;
-        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
         font-weight: 700;
         color: var(--ink);
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         letter-spacing: -0.5px;
         line-height: 1.2;
     }
     .section-subtitle {
         color: var(--slate);
-        font-size: 1.05rem;
-        max-width: 600px;
+        font-size: 1rem;
+        max-width: 550px;
     }
 
-    /* ============ SCHEDULE CARDS ============ */
+    /* ============ SIMPLE SCHEDULE CARD ============ */
     .schedule-card {
         background: white;
         border-radius: var(--radius);
-        padding: 0;
+        padding: 22px;
         box-shadow: 0 4px 20px rgba(14,165,233,0.06);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.3s ease;
         height: 100%;
         border: 1px solid rgba(14,165,233,0.08);
-        overflow: hidden;
-        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 18px;
     }
     .schedule-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: transparent;
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(14,165,233,0.15);
     }
-    .schedule-card-top {
-        position: relative;
-        padding: 40px 28px 24px;
-        background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 100%);
-        border-bottom: 1px dashed #e0f2fe;
-        text-align: center;
-    }
-    .schedule-card-top::before {
-        content: '';
-        position: absolute;
-        top: -30px; right: -30px;
-        width: 120px; height: 120px;
-        background: var(--gradient-primary);
-        border-radius: 50%;
-        opacity: 0.08;
-    }
-    .officer-avatar {
-        width: 90px; height: 90px;
-        border-radius: 24px;
-        background: var(--gradient-primary);
-        color: white;
+
+    .schedule-num {
+        width: 56px; height: 56px;
+        background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+        border: 2px solid rgba(14,165,233,0.15);
+        border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 2.2rem;
-        margin: 0 auto 18px;
-        box-shadow: 0 15px 40px rgba(14,165,233,0.35);
-        transition: all 0.4s;
-        position: relative;
-        z-index: 2;
-    }
-    .schedule-card:hover .officer-avatar {
-        transform: scale(1.08) rotate(-6deg);
-        box-shadow: 0 20px 50px rgba(14,165,233,0.45);
-    }
-    .officer-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 4px 12px;
-        background: rgba(14,165,233,0.1);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
         color: var(--primary);
-        border-radius: 50px;
-        font-size: 0.72rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        flex-shrink: 0;
     }
-    .schedule-card h5 {
+
+    .schedule-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .schedule-info h5 {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
         color: var(--ink);
         margin-bottom: 4px;
-        font-size: 1.2rem;
+        font-size: 1.05rem;
+        line-height: 1.3;
     }
-    .schedule-card .team-name {
-        color: var(--slate);
-        font-size: 0.85rem;
-        margin-bottom: 0;
-    }
-
-    .schedule-card-body {
-        padding: 24px 28px;
-    }
-    .schedule-info-row {
+    .schedule-meta {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 10px 0;
-        border-bottom: 1px solid #f1f5f9;
-        font-size: 0.88rem;
-    }
-    .schedule-info-row:last-child { border-bottom: none; }
-    .schedule-info-row i {
-        color: var(--primary);
-        width: 18px;
-        font-size: 0.9rem;
-    }
-    .schedule-info-row .info-val {
-        margin-left: auto;
-        font-weight: 700;
-        color: var(--ink);
-    }
-    .schedule-info-row .info-label {
+        gap: 12px;
         color: var(--slate);
+        font-size: 0.82rem;
+        font-weight: 500;
+    }
+    .schedule-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .schedule-meta i {
+        color: var(--primary);
+        font-size: 0.75rem;
+    }
+    .meta-divider {
+        width: 3px; height: 3px;
+        background: #cbd5e1;
+        border-radius: 50%;
     }
 
-    .btn-view-members {
+    .btn-view {
         background: var(--gradient-primary);
         color: white;
         border: none;
-        border-radius: 12px;
-        padding: 12px 24px;
+        border-radius: 10px;
+        padding: 10px 16px;
         font-weight: 600;
-        width: 100%;
-        margin-top: 18px;
+        font-size: 0.85rem;
         transition: all 0.3s;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 8px;
-        box-shadow: 0 8px 25px rgba(14,165,233,0.3);
-        position: relative;
-        overflow: hidden;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(14,165,233,0.25);
+        flex-shrink: 0;
     }
-    .btn-view-members::before {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        transition: left 0.5s;
-    }
-    .btn-view-members:hover::before { left: 100%; }
-    .btn-view-members:hover {
+    .btn-view:hover {
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(14,165,233,0.45);
+        box-shadow: 0 8px 20px rgba(14,165,233,0.4);
     }
 
-    /* ============ MODAL ============ */
+    /* ============ SIMPLE MODAL ============ */
     .modal-content {
         border: none;
         border-radius: var(--radius);
-        box-shadow: 0 30px 80px rgba(15,23,42,0.25);
+        box-shadow: 0 30px 80px rgba(15,23,42,0.2);
         overflow: hidden;
     }
-    .modal-header-custom {
-        background: var(--gradient-primary);
-        color: white;
-        padding: 24px 28px;
-        border: none;
-        position: relative;
+    .modal-header-simple {
+        background: white;
+        padding: 20px 24px;
+        border-bottom: 1px solid #f1f5f9;
     }
-    .modal-header-custom::before {
-        content: '';
-        position: absolute;
-        top: -30px; right: -30px;
-        width: 120px; height: 120px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-    }
-    .modal-header-custom::after {
-        content: '';
-        position: absolute;
-        bottom: -40px; left: -40px;
-        width: 100px; height: 100px;
-        background: rgba(255,255,255,0.08);
-        border-radius: 50%;
-    }
-    .modal-title {
+    .modal-title-simple {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
+        color: var(--ink);
+        font-size: 1.1rem;
         display: flex;
         align-items: center;
         gap: 10px;
-        position: relative;
-        z-index: 2;
     }
-    .modal-title-icon {
-        width: 40px; height: 40px;
-        background: rgba(255,255,255,0.2);
-        border-radius: 12px;
+    .modal-title-simple .title-icon {
+        width: 36px; height: 36px;
+        background: var(--gradient-primary);
+        border-radius: 10px;
         display: flex; align-items: center; justify-content: center;
-        backdrop-filter: blur(10px);
+        color: white;
+        font-size: 0.95rem;
     }
-    .btn-close-white {
-        filter: brightness(0) invert(1);
-        opacity: 0.8;
-        position: relative;
-        z-index: 2;
+    .modal-title-simple small {
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 0.78rem;
+        display: block;
+        margin-top: 2px;
     }
-    .btn-close-white:hover { opacity: 1; }
+    .btn-close-simple {
+        background: #f1f5f9;
+        border: none;
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--slate);
+        transition: all 0.2s;
+    }
+    .btn-close-simple:hover {
+        background: #fee2e2;
+        color: var(--rose);
+    }
 
     .modal-body { padding: 0; }
     .members-list {
         max-height: 500px;
         overflow-y: auto;
     }
-    .member-item {
+    .member-row {
         display: flex;
         align-items: center;
         gap: 14px;
-        padding: 16px 28px;
-        border-bottom: 1px solid #f1f5f9;
-        transition: all 0.2s;
+        padding: 14px 24px;
+        border-bottom: 1px solid #f8fafc;
+        transition: background 0.2s;
     }
-    .member-item:hover {
-        background: linear-gradient(135deg, #f0f9ff, #ecfeff);
-    }
-    .member-item:last-child { border-bottom: none; }
-    .member-avatar {
-        width: 48px; height: 48px;
-        border-radius: 14px;
-        background: var(--gradient-primary);
-        color: white;
+    .member-row:last-child { border-bottom: none; }
+    .member-row:hover { background: #fafbfc; }
+
+    .member-num {
+        width: 32px; height: 32px;
+        background: #f1f5f9;
+        color: var(--slate);
+        border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 1.1rem;
         font-weight: 700;
+        font-size: 0.8rem;
         flex-shrink: 0;
         font-family: 'Poppins', sans-serif;
     }
-    .member-avatar.is-emergency {
-        background: var(--gradient-rose);
-        animation: emergencyPulse 2s infinite;
+    .member-row.has-phone .member-num {
+        background: var(--gradient-primary);
+        color: white;
     }
-    @keyframes emergencyPulse {
-        0%,100% { box-shadow: 0 0 0 0 rgba(244,63,94,0.4); }
-        50% { box-shadow: 0 0 0 8px rgba(244,63,94,0); }
-    }
-    .member-info { flex: 1; min-width: 0; }
     .member-name {
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 4px;
-        font-size: 0.95rem;
-    }
-    .member-phone {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.85rem;
-        color: var(--rose);
+        flex: 1;
         font-weight: 600;
+        color: var(--ink);
+        font-size: 0.95rem;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .member-name .phone-label {
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 500;
+        margin-top: 2px;
+    }
+    .wa-btn {
+        background: #d1fae5;
+        color: #047857;
+        border: none;
+        border-radius: 8px;
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
         text-decoration: none;
-        padding: 4px 10px;
-        background: #fee2e2;
-        border-radius: 50px;
-        transition: all 0.2s;
-    }
-    .member-phone:hover {
-        background: var(--gradient-rose);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(244,63,94,0.3);
-    }
-    .emergency-badge {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        padding: 3px 10px;
-        background: var(--gradient-rose);
-        color: white;
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-left: 6px;
+        gap: 5px;
+        transition: all 0.2s;
+        flex-shrink: 0;
     }
-    .emergency-badge i { font-size: 0.65rem; }
+    .wa-btn:hover {
+        background: #10b981;
+        color: white;
+        transform: translateY(-1px);
+    }
 
-    .modal-footer-custom {
-        padding: 20px 28px;
+    .modal-note {
+        padding: 14px 24px;
         background: linear-gradient(135deg, #fef3c7, #fed7aa);
         border-top: none;
-    }
-    .note-box {
         display: flex;
         align-items: flex-start;
-        gap: 12px;
+        gap: 10px;
+        font-size: 0.82rem;
         color: #92400e;
-        font-size: 0.88rem;
     }
-    .note-box i {
+    .modal-note i {
         color: var(--amber);
-        font-size: 1.1rem;
         margin-top: 2px;
         flex-shrink: 0;
     }
-    .note-box strong { color: var(--rose); }
+    .modal-note strong { color: var(--rose); }
 
     /* ============ EMPTY STATE ============ */
     .empty-state {
@@ -544,93 +460,32 @@
         box-shadow: var(--shadow-sm);
     }
     .empty-icon-wrap {
-        width: 120px; height: 120px;
+        width: 100px; height: 100px;
         background: linear-gradient(135deg, #f0f9ff, #ecfeff);
-        border-radius: 30px;
+        border-radius: 26px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         position: relative;
     }
     .empty-icon-wrap i {
-        font-size: 3.5rem;
+        font-size: 2.8rem;
         background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .empty-icon-wrap::before {
-        content: '';
-        position: absolute;
-        inset: -8px;
-        border-radius: 34px;
-        background: var(--gradient-primary);
-        opacity: 0.15;
-        z-index: -1;
-    }
     .empty-state h5 {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
         color: var(--ink);
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     .empty-state p {
         color: var(--slate);
         max-width: 400px;
         margin: 0 auto;
-    }
-
-    /* ============ INFO ALERT ============ */
-    .info-alert-wrap {
-        background: white;
-        border-radius: var(--radius);
-        padding: 36px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(14,165,233,0.08);
-        position: relative;
-        overflow: hidden;
-    }
-    .info-alert-wrap::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 6px; height: 100%;
-        background: var(--gradient-primary);
-    }
-    .info-alert-icon {
-        width: 70px; height: 70px;
-        background: var(--gradient-primary);
-        color: white;
-        border-radius: 20px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.8rem;
-        box-shadow: 0 12px 30px rgba(14,165,233,0.3);
-        margin-bottom: 20px;
-    }
-    .info-alert-wrap h5 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 16px;
-    }
-    .info-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .info-list li {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 10px 0;
-        color: var(--slate);
-    }
-    .info-list li i {
-        color: var(--emerald);
-        font-size: 1rem;
-        margin-top: 4px;
-        flex-shrink: 0;
     }
 
     /* ============ FOOTER ============ */
@@ -640,7 +495,6 @@
         padding: 80px 0 30px;
         position: relative;
         overflow: hidden;
-        margin-top: 0;
     }
     footer::before {
         content: '';
@@ -726,13 +580,16 @@
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 768px) {
-        .page-header { padding: 70px 0 60px; }
+        .page-header { padding: 60px 0; }
         .header-icon-wrap {
-            width: 100px; height: 100px;
-            font-size: 2.5rem;
+            width: 90px; height: 90px;
+            font-size: 2.3rem;
             margin: 20px auto 0;
         }
         .navbar-brand img { max-height: 45px; }
+        .schedule-card { padding: 18px; flex-wrap: wrap; }
+        .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
+        .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
     }
     </style>
 </head>
@@ -835,7 +692,7 @@
                         Jadwal <span class="gradient-text">Petugas</span><br>
                         UKS SMK Negeri 1 Bangsri
                     </h1>
-                    <p class="page-subtitle">Informasi lengkap jadwal petugas yang bertugas di Unit Kesehatan Sekolah. Siap melayani siswa dengan profesional dan terlatih.</p>
+                    <p class="page-subtitle">Informasi lengkap jadwal petugas yang bertugas di Unit Kesehatan Sekolah.</p>
                 </div>
                 <div class="col-lg-4 text-lg-end" data-aos="fade-left" data-aos-delay="200">
                     <div class="header-icon-wrap">
@@ -852,10 +709,10 @@
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-label">Grup Piket</span>
                 <h2 class="section-title">Daftar <span class="gradient-text">Petugas</span> Piket</h2>
-                <p class="section-subtitle mx-auto">Klik tombol "Lihat Anggota" untuk melihat daftar lengkap anggota setiap grup piket</p>
+                <p class="section-subtitle mx-auto">Pilih grup untuk melihat daftar anggota piket</p>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-3">
                 @forelse($schedules as $schedule)
                     @php
                         $members = $schedule->members ?? [];
@@ -865,135 +722,87 @@
                             if (is_array($m) && !empty($m['phone'])) $emergencyCount++;
                         }
                     @endphp
-                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
                         <div class="schedule-card">
-                            <div class="schedule-card-top">
-                                <span class="officer-badge">
-                                    <i class="fas fa-users"></i>
-                                    Grup Piket {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
-                                </span>
-                                <div class="officer-avatar">
-                                    <i class="fas fa-users"></i>
-                                </div>
+                            <div class="schedule-num">{{ $loop->iteration }}</div>
+                            <div class="schedule-info">
                                 <h5>{{ $schedule->group_name }}</h5>
-                                <p class="team-name">PMR Wira Sandya Adhimukti</p>
-                            </div>
-
-                            <div class="schedule-card-body">
-                                <div class="schedule-info-row">
-                                    <i class="fas fa-user-friends"></i>
-                                    <span class="info-label">Total Anggota</span>
-                                    <span class="info-val">{{ $membersCount }}</span>
-                                </div>
-                                <div class="schedule-info-row">
-                                    <i class="fas fa-phone-volume"></i>
-                                    <span class="info-label">Kontak Darurat</span>
-                                    <span class="info-val" style="color: {{ $emergencyCount > 0 ? 'var(--rose)' : 'var(--slate)' }};">
-                                        {{ $emergencyCount }} orang
+                                <div class="schedule-meta">
+                                    <span><i class="fas fa-users"></i> {{ $membersCount }} anggota</span>
+                                    <span class="meta-divider"></span>
+                                    <span>
+                                        <i class="fas fa-phone"></i>
+                                        {{ $emergencyCount }} kontak
                                     </span>
                                 </div>
-                                <div class="schedule-info-row">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span class="info-label">Status</span>
-                                    <span class="info-val" style="color: var(--emerald);">
-                                        <i class="fas fa-check-circle"></i> Aktif
-                                    </span>
-                                </div>
-
-                                <button class="btn btn-view-members"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalAnggota{{ $schedule->id }}">
-                                    <i class="fas fa-users"></i>
-                                    Lihat Daftar Anggota
-                                </button>
                             </div>
+                            <button class="btn btn-view"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalAnggota{{ $schedule->id }}">
+                                Lihat <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Modal Daftar Anggota -->
+                    <!-- Simple Modal -->
                     <div class="modal fade" id="modalAnggota{{ $schedule->id }}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
-                                <div class="modal-header-custom">
-                                    <h5 class="modal-title">
-                                        <div class="modal-title-icon">
-                                            <i class="fas fa-users"></i>
-                                        </div>
+                                <div class="modal-header-simple">
+                                    <div class="modal-title-simple">
+                                        <div class="title-icon"><i class="fas fa-users"></i></div>
                                         <div>
-                                            <div style="font-size: 0.75rem; opacity: 0.85; font-weight: 500;">Grup Piket</div>
                                             {{ $schedule->group_name }}
+                                            <small>{{ $membersCount }} anggota piket</small>
                                         </div>
-                                    </h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <button type="button" class="btn-close-simple" data-bs-dismiss="modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="members-list">
-                                        @if(count($members) > 0)
+                                        @if($membersCount > 0)
                                             @foreach($members as $idx => $member)
                                                 @php
                                                     $name = '-';
                                                     $phone = '';
-                                                    $initials = 'U';
                                                     if (is_array($member)) {
                                                         $name = $member['name'] ?? '-';
                                                         $phone = $member['phone'] ?? '';
                                                     } else {
                                                         $name = $member;
                                                     }
-                                                    $words = explode(' ', $name);
-                                                    $initials = '';
-                                                    foreach(array_slice($words, 0, 2) as $w) {
-                                                        if (strlen($w) > 0) $initials .= strtoupper(substr($w, 0, 1));
-                                                    }
-                                                    if (empty($initials)) $initials = 'U';
                                                 @endphp
-                                                <div class="member-item">
-                                                    <div class="member-avatar {{ !empty($phone) ? 'is-emergency' : '' }}">
-                                                        {{ $initials }}
-                                                    </div>
-                                                    <div class="member-info">
-                                                        <div class="member-name">
-                                                            {{ $name }}
-                                                            @if(!empty($phone))
-                                                                <span class="emergency-badge">
-                                                                    <i class="fas fa-bolt"></i> Darurat
-                                                                </span>
-                                                            @endif
-                                                        </div>
+                                                <div class="member-row {{ !empty($phone) ? 'has-phone' : '' }}">
+                                                    <div class="member-num">{{ $idx + 1 }}</div>
+                                                    <div class="member-name">
+                                                        {{ $name }}
                                                         @if(!empty($phone))
-                                                            <a href="https://wa.me/{{ preg_replace('/\D/', '', $phone) }}"
-                                                               target="_blank"
-                                                               class="member-phone"
-                                                               title="Hubungi via WhatsApp">
-                                                                <i class="fab fa-whatsapp"></i>
-                                                                {{ $phone }}
-                                                            </a>
-                                                        @else
-                                                            <small style="color: var(--slate);">
-                                                                <i class="fas fa-info-circle me-1"></i> Anggota biasa
-                                                            </small>
+                                                            <span class="phone-label">Kontak darurat</span>
                                                         @endif
                                                     </div>
+                                                    @if(!empty($phone))
+                                                        <a href="https://wa.me/{{ preg_replace('/\D/', '', $phone) }}"
+                                                           target="_blank"
+                                                           class="wa-btn">
+                                                            <i class="fab fa-whatsapp"></i> Chat
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         @else
                                             <div class="text-center py-5">
-                                                <div class="empty-icon-wrap" style="width: 80px; height: 80px;">
-                                                    <i class="fas fa-user-slash" style="font-size: 2rem;"></i>
-                                                </div>
-                                                <p class="text-muted mb-0">Data anggota belum tersedia</p>
+                                                <i class="fas fa-user-slash text-muted" style="font-size: 2rem;"></i>
+                                                <p class="text-muted mt-2 mb-0">Data anggota belum tersedia</p>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="modal-footer-custom">
-                                    <div class="note-box">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                        <div>
-                                            <strong>Catatan:</strong> Hubungi anggota dengan badge
-                                            <span class="emergency-badge" style="margin: 0 4px;"><i class="fas fa-bolt"></i> Darurat</span>
-                                            jika membutuhkan bantuan darurat di luar jam operasional.
-                                        </div>
+                                <div class="modal-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        Anggota dengan <strong>kontak darurat</strong> dapat dihubungi via WhatsApp jika membutuhkan bantuan di luar jam operasional.
                                     </div>
                                 </div>
                             </div>
@@ -1006,38 +815,10 @@
                                 <i class="fas fa-calendar-times"></i>
                             </div>
                             <h5>Belum Ada Jadwal</h5>
-                            <p>Jadwal petugas belum tersedia. Silakan hubungi admin UKS untuk informasi lebih lanjut.</p>
+                            <p>Jadwal petugas belum tersedia. Silakan hubungi admin UKS.</p>
                         </div>
                     </div>
                 @endforelse
-            </div>
-
-            <!-- Info Alert -->
-            <div class="info-alert-wrap mt-5" data-aos="fade-up">
-                <div class="row align-items-center g-4">
-                    <div class="col-md-2 text-center">
-                        <div class="info-alert-icon mx-auto">
-                            <i class="fas fa-info-circle"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-10">
-                        <h5>Informasi Penting</h5>
-                        <ul class="info-list">
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <span>UKS melayani siswa selama jam operasional sekolah dengan petugas terlatih</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <span>Untuk keadaan darurat di luar jam operasional, silakan hubungi guru piket atau petugas dengan badge darurat</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <span>Petugas UKS siap memberikan pertolongan pertama dan rujukan ke fasilitas kesehatan jika diperlukan</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -1077,7 +858,6 @@
                     <ul class="footer-menu">
                         <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ route('petugas.examinations.create') }}"><i class="fas fa-chevron-right fa-xs"></i> Form Kunjungan</a></li>
                         <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
@@ -1098,7 +878,6 @@
         </div>
     </footer>
 
-    <!-- Scroll to Top -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -1109,7 +888,6 @@
     <script>
         AOS.init({ duration: 700, once: true, offset: 60 });
 
-        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             const scrollTop = document.getElementById('scrollTop');
@@ -1119,12 +897,10 @@
             else scrollTop.classList.remove('show');
         });
 
-        // Scroll to top
         document.getElementById('scrollTop').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Anchor link active state
         document.querySelectorAll('.anchor-link').forEach(link => {
             link.addEventListener('click', function() {
                 document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
