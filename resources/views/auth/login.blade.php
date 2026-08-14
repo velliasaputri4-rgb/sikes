@@ -9,14 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0ea5e9;
-            --primary-dark: #0284c7;
-            --secondary: #14b8a6;
+            /* Palet "Biru Profesional": Tegas, Profesional, Terpercaya */
+            --primary: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --secondary: #2563eb;
+            --pro: #1e3a8a;
+            --pro-light: #3b82f6;
             --ink: #0f172a;
             --slate: #475569;
             --muted: #94a3b8;
-            --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
-            --gradient-light: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 50%, #f0fdfa 100%);
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --gradient-light: linear-gradient(180deg, #f7fafc 0%, #edf2fa 100%);
         }
 
         * { -webkit-font-smoothing: antialiased; }
@@ -36,13 +39,12 @@
             position: fixed;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.5;
             z-index: 0;
             pointer-events: none;
         }
-        .blob-1 { width: 420px; height: 420px; background: #0ea5e9; top: -120px; left: -120px; animation: float1 22s ease-in-out infinite; }
-        .blob-2 { width: 380px; height: 380px; background: #14b8a6; top: 50%; right: -100px; animation: float2 28s ease-in-out infinite; }
-        .blob-3 { width: 300px; height: 300px; background: #38bdf8; bottom: -100px; left: 30%; animation: float1 30s ease-in-out infinite reverse; opacity: 0.3; }
+        .blob-1 { width: 420px; height: 420px; background: #1e3a8a; top: -120px; left: -120px; animation: float1 22s ease-in-out infinite; opacity: 0.22; }
+        .blob-2 { width: 380px; height: 380px; background: #3b82f6; top: 50%; right: -100px; animation: float2 28s ease-in-out infinite; opacity: 0.18; }
+        .blob-3 { width: 300px; height: 300px; background: #2563eb; bottom: -100px; left: 30%; animation: float1 30s ease-in-out infinite reverse; opacity: 0.15; }
         @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
         @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
 
@@ -50,23 +52,24 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: radial-gradient(circle, rgba(14,165,233,0.08) 1px, transparent 1px);
+            background-image: radial-gradient(circle, rgba(30,58,138,0.06) 1px, transparent 1px);
             background-size: 28px 28px;
             z-index: 0;
             pointer-events: none;
         }
 
+        /* ✅ CARD DIPERKECIL */
         .login-card {
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 420px;
+            max-width: 380px;
             margin: auto;
             background: white;
-            border-radius: 22px;
-            padding: 32px 30px;
-            box-shadow: 0 25px 60px rgba(14, 165, 233, 0.15);
-            border: 1px solid rgba(14, 165, 233, 0.08);
+            border-radius: 20px;
+            padding: 26px 24px;
+            box-shadow: 0 25px 60px rgba(30, 58, 138, 0.14);
+            border: 1px solid rgba(30, 58, 138, 0.08);
             animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes fadeUp {
@@ -75,26 +78,26 @@
         }
 
         .logo-circle {
-            width: 68px; height: 68px;
-            border-radius: 20px;
+            width: 60px; height: 60px;
+            border-radius: 18px;
             background: var(--gradient-primary);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            margin: 0 auto 16px;
-            box-shadow: 0 12px 30px rgba(14, 165, 233, 0.35);
+            font-size: 22px;
+            margin: 0 auto 14px;
+            box-shadow: 0 12px 28px rgba(30, 58, 138, 0.3);
             position: relative;
             transition: transform 0.3s;
         }
         .logo-circle::before {
             content: '';
             position: absolute;
-            inset: -8px;
-            border-radius: 24px;
+            inset: -7px;
+            border-radius: 22px;
             background: var(--gradient-primary);
-            opacity: 0.2;
+            opacity: 0.18;
             z-index: -1;
         }
         .logo-circle:hover { transform: rotate(-6deg) scale(1.05); }
@@ -103,9 +106,9 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
             color: var(--ink);
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             letter-spacing: -0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .login-title .gradient-text {
             background: var(--gradient-primary);
@@ -115,7 +118,7 @@
         }
         .login-subtitle {
             color: var(--slate);
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 500;
             margin-bottom: 0;
         }
@@ -123,26 +126,26 @@
         .role-tabs {
             display: flex;
             background: #f1f5f9;
-            border-radius: 14px;
-            padding: 5px;
-            gap: 4px;
-            margin: 22px 0;
-            border: 1px solid rgba(14, 165, 233, 0.05);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 3px;
+            margin: 18px 0;
+            border: 1px solid rgba(30, 58, 138, 0.05);
         }
         .role-tab {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 11px 8px;
-            border-radius: 10px;
+            padding: 9px 6px;
+            border-radius: 9px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--slate);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
+            gap: 6px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: 0.2px;
         }
@@ -150,68 +153,67 @@
             color: var(--ink);
             background: rgba(255,255,255,0.6);
         }
-        /* ✅ WARNA SAMA untuk Admin & Petugas */
         .role-tab.active-admin,
         .role-tab.active-petugas {
             background: var(--gradient-primary);
             color: white;
-            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+            box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
             transform: translateY(-1px);
         }
-        .role-tab i { font-size: 13px; }
+        .role-tab i { font-size: 11px; }
 
         .form-label {
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--ink);
-            margin-bottom: 7px;
+            margin-bottom: 6px;
             letter-spacing: 0.1px;
         }
         .input-icon { position: relative; }
         .input-icon > i {
             position: absolute;
-            left: 14px; top: 50%;
+            left: 13px; top: 50%;
             transform: translateY(-50%);
             color: var(--muted);
-            font-size: 14px;
+            font-size: 13px;
             transition: color 0.2s;
         }
-        .input-icon .form-control { padding-left: 40px; }
+        .input-icon .form-control { padding-left: 38px; }
         .form-control {
-            border-radius: 12px;
-            padding: 12px 14px;
+            border-radius: 11px;
+            padding: 10px 13px;
             border: 2px solid #e2e8f0;
-            font-size: 14px;
+            font-size: 13.5px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             transition: all 0.3s;
             background: white;
         }
         .form-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
         }
         .input-icon:focus-within > i:first-child { color: var(--primary); }
 
         .toggle-pass {
             position: absolute;
-            right: 14px; top: 50%;
+            right: 12px; top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             color: var(--muted);
             cursor: pointer;
-            padding: 4px;
+            padding: 3px;
             transition: color 0.2s;
         }
         .toggle-pass:hover { color: var(--primary); }
 
         .form-check-input {
-            width: 16px; height: 16px;
+            width: 15px; height: 15px;
             cursor: pointer;
             border: 2px solid #cbd5e1;
         }
         .form-check-label {
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--slate);
             cursor: pointer;
             font-weight: 500;
@@ -221,7 +223,7 @@
             border-color: var(--primary);
         }
         .form-check-input:focus {
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
         .btn-login {
@@ -229,9 +231,9 @@
             border: none;
             color: white;
             font-weight: 700;
-            padding: 13px;
-            border-radius: 12px;
-            font-size: 14.5px;
+            padding: 11px;
+            border-radius: 11px;
+            font-size: 13.5px;
             letter-spacing: 0.3px;
             transition: all 0.3s;
             display: inline-flex;
@@ -253,24 +255,23 @@
         }
         .btn-login:hover::before { left: 100%; }
         .btn-login:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             color: white;
         }
-        /* ✅ WARNA SAMA untuk tombol Admin & Petugas */
         .btn-login.gold,
         .btn-login.blue {
             background: var(--gradient-primary);
-            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.3);
         }
         .btn-login.gold:hover,
         .btn-login.blue:hover {
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.5);
+            box-shadow: 0 12px 30px rgba(30, 58, 138, 0.45);
         }
 
         .link-home {
             color: var(--slate);
             text-decoration: none;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
             transition: all 0.2s;
             display: inline-flex;
@@ -283,35 +284,35 @@
         }
 
         .siswa-note {
-            background: linear-gradient(135deg, #f0f9ff, #ecfeff);
-            border: 1px solid rgba(14, 165, 233, 0.15);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 12.5px;
+            background: linear-gradient(135deg, #f6f9fc, #eef3fb);
+            border: 1px solid rgba(30, 58, 138, 0.12);
+            border-radius: 11px;
+            padding: 10px 14px;
+            font-size: 12px;
             color: var(--slate);
-            margin-top: 20px !important;
+            margin-top: 16px !important;
             font-weight: 500;
         }
         .siswa-note i { color: var(--primary); }
         .siswa-note a {
-            color: var(--primary-dark);
+            color: var(--pro);
             font-weight: 700;
             text-decoration: none;
             transition: color 0.2s;
         }
-        .siswa-note a:hover { color: var(--secondary); }
+        .siswa-note a:hover { color: var(--pro-light); }
 
-        .mb-3 { margin-bottom: 14px !important; }
+        .mb-3 { margin-bottom: 12px !important; }
 
         .alert-error {
             background: linear-gradient(135deg, #fee2e2, #fecaca);
             border: 1px solid #fca5a5;
             color: #991b1b;
-            padding: 10px 14px;
+            padding: 9px 12px;
             border-radius: 10px;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -319,16 +320,15 @@
 
         @media (max-width: 480px) {
             body { padding: 24px 14px; }
-            .login-card { padding: 26px 22px; border-radius: 18px; }
-            .login-title { font-size: 1.35rem; }
-            .role-tab { font-size: 12px; padding: 10px 6px; }
-            .logo-circle { width: 60px; height: 60px; font-size: 22px; }
+            .login-card { padding: 22px 18px; border-radius: 16px; }
+            .login-title { font-size: 1.2rem; }
+            .role-tab { font-size: 11px; padding: 8px 4px; }
+            .logo-circle { width: 54px; height: 54px; font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Decorative blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -397,7 +397,6 @@
                 </a>
             </div>
 
-            {{-- Tombol berubah sesuai tab --}}
             <button type="submit" id="btnSubmit" class="btn-login gold">
                 <i class="fas fa-sign-in-alt"></i><span id="btnLabel">Masuk sebagai Admin</span>
             </button>
