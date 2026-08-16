@@ -1,3 +1,16 @@
+@php
+    $user = auth()->user();
+    if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
+        $routePrefix = 'admin.';
+    } elseif ($user->hasRole('petugas')) {
+        $routePrefix = 'petugas.';
+    } elseif ($user->hasRole('siswa')) {
+        $routePrefix = 'siswa.';
+    } else {
+        $routePrefix = '';
+    }
+@endphp
+
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -15,7 +28,7 @@
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+        <form method="post" action="{{ route($routePrefix . 'profile.destroy') }}" class="p-6">
             @csrf
             @method('delete')
 

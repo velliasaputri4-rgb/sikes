@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            /* 🎨 TEMA NAVY + GOLD (sama persis dengan admin) */
+            /* TEMA NAVY + GOLD (sama persis dengan admin) */
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --accent-gold: #f59e0b;
@@ -28,9 +28,7 @@
             color: #1e293b;
         }
         
-        /* ═══════════════════════════════════════
-           SIDEBAR NAVY GELAP + AKSEN GOLD
-           ═══════════════════════════════════════ */
+        /* SIDEBAR NAVY GELAP + AKSEN GOLD */
         .sidebar { 
             width: 260px; 
             background: linear-gradient(180deg, var(--sidebar-bg) 0%, #111827 100%);
@@ -71,7 +69,7 @@
             gap: 10px;
         }
         .sidebar-brand h4 i {
-            color: #f59e0b; /* ✅ Icon GOLD */
+            color: #f59e0b;
             font-size: 1.5rem;
         }
         .sidebar-brand small {
@@ -80,7 +78,7 @@
             text-transform: uppercase;
             margin-top: 4px;
             display: block;
-            color: #f59e0b; /* ✅ Teks GOLD */
+            color: #f59e0b;
             opacity: 0.9;
         }
 
@@ -111,7 +109,7 @@
             color: var(--sidebar-text-active);
             transform: translateX(3px);
         }
-        /* ✅ Menu aktif: gradient slate + border kiri GOLD + icon GOLD */
+        /* Menu aktif: gradient slate + border kiri GOLD + icon GOLD */
         .sidebar .nav-link.active { 
             background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
             color: white;
@@ -132,15 +130,13 @@
             color: #fca5a5 !important;
         }
         
-        /* ═══════════════════════════════════════
-           MAIN CONTENT
-           ═══════════════════════════════════════ */
+        /* MAIN CONTENT */
         .main-content { 
             margin-left: 260px; 
             min-height: 100vh;
         }
         
-        /* ✅ Topbar dengan garis bawah GOLD */
+        /* Topbar dengan garis bawah GOLD */
         .topbar { 
             background: white; 
             padding: 14px 28px; 
@@ -154,7 +150,7 @@
             border-bottom: 2px solid #f59e0b;
         }
 
-        /* ✅ Badge role GOLD */
+        /* Badge role GOLD */
         .role-badge {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
@@ -167,9 +163,7 @@
             margin-left: 10px;
         }
         
-        /* ═══════════════════════════════════════
-           STAT CARDS
-           ═══════════════════════════════════════ */
+        /* STAT CARDS */
         .stat-card { 
             background: white; 
             border-radius: 12px; 
@@ -252,7 +246,7 @@
             color: #334155;
             font-size: 14px;
         }
-        .table-hover tbody tr:hover { background-color: #fffbeb; } /* ✅ Hover gold muda */
+        .table-hover tbody tr:hover { background-color: #fffbeb; }
 
         .badge {
             font-weight: 600;
@@ -328,14 +322,10 @@
             </li>
         </ul>
         
+        {{-- HAPUS BAGIAN AKUN (PROFIL SAYA) --}}
         <div class="sidebar-section">Akun</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('petugas.profile.edit') }}">
-                    <i class="fas fa-user-circle"></i> Profil Saya
-                </a>
-            </li>
-            <li class="nav-item mt-3">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start text-danger">
@@ -356,12 +346,12 @@
                 </button>
                 <h5 class="mb-0 fw-bold text-dark">
                     @yield('page-title', 'Dashboard')
-                    <span class="role-badge">✚ Petugas</span>
+                    <span class="role-badge">Petugas</span>
                 </h5>
             </div>
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
-                    {{-- ✅ Avatar GOLD --}}
+                    {{-- Avatar GOLD --}}
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f59e0b&color=ffffff&bold=true" 
                          class="rounded-circle me-2" width="38" height="38">
                     <div class="text-start d-none d-md-block">
@@ -369,9 +359,8 @@
                         <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
                     </div>
                 </button>
+                {{-- DROPDOWN: HAPUS MENU PROFIL, TINGGAL LOGOUT --}}
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                    <li><a class="dropdown-item" href="{{ route('petugas.profile.edit') }}"><i class="fas fa-user me-2 text-primary"></i>Profil</a></li>
-                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

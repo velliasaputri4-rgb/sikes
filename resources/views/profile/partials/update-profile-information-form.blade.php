@@ -9,11 +9,25 @@
         </p>
     </header>
 
+    @php
+        // Tentukan prefix route berdasarkan role user yang sedang login
+        $user = auth()->user();
+        if ($user->hasRole('super-admin') || $user->hasRole('admin')) {
+            $routePrefix = 'admin.';
+        } elseif ($user->hasRole('petugas')) {
+            $routePrefix = 'petugas.';
+        } elseif ($user->hasRole('siswa')) {
+            $routePrefix = 'siswa.';
+        } else {
+            $routePrefix = '';
+        }
+    @endphp
+
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route($routePrefix . 'profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
