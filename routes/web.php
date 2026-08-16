@@ -108,26 +108,17 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
         $class = $classModelClass::where('name', trim($newClassName))->first();
         
         if (! $class) {
-            // Ambil kelas pertama sebagai template
             $templateClass = \Illuminate\Support\Facades\DB::table($classTableName)->first();
             
             if ($templateClass) {
-                // Salin semua kolom dari template
                 $insertData = (array) $templateClass;
-                // Ganti name dengan nama kelas baru
                 $insertData['name'] = trim($newClassName);
-                
-                // ✅ Generate kode unik berdasarkan nama kelas + timestamp
                 $cleanName = strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', trim($newClassName)));
                 $insertData['code'] = $cleanName . '_' . time();
-                
-                // Hapus kolom auto-generated
                 unset($insertData['id'], $insertData['created_at'], $insertData['updated_at'], $insertData['deleted_at']);
-                
                 $classId = \Illuminate\Support\Facades\DB::table($classTableName)->insertGetId($insertData);
                 $class = $classModelClass::find($classId);
             } else {
-                // Fallback jika tidak ada kelas sama sekali
                 $cleanName = strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', trim($newClassName)));
                 $classId = \Illuminate\Support\Facades\DB::table($classTableName)->insertGetId([
                     'name' => trim($newClassName),
@@ -214,10 +205,203 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
         }
     })->name('students.destroy');
 
+    // ===== ✅ JADWAL PETUGAS =====
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
+
+    // ===== ✅ INVENTARIS =====
     Route::resource('items', \App\Http\Controllers\ItemController::class);
-    Route::resource('borrowings', \App\Http\Controllers\BorrowingController::class);
-    Route::patch('borrowings/{id}/return', [\App\Http\Controllers\BorrowingController::class, 'returnItem'])->name('borrowings.return');
+
+    // ===== ✅ PEMINJAMAN (INPUT MANUAL - OVERRIDE) =====
+    
+    // Daftar peminjaman
+    Route::get('borrowings', function () {
+        $search = request('search');
+
+        $borrowings = \App\Models\Borrowing::latest()
+            ->when($search, function ($q) use ($search) {
+                $q->whereIn('student_id', \App\Models\Student::where('full_name', 'like', "%{$search}%")->orWhere('nis', 'like', "%{$search}%")->select('id'))
+                  ->orWhereIn('item_id', \App\Models\Item::where('name', 'like', "%{$search}%")->select('id'));
+            })
+            ->simplePaginate(25)->withQueryString();
+
+        $students = \App\Models\Student::whereIn('id', $borrowings->pluck('student_id'))->get()->keyBy('id');
+        $items = \App\Models\Item::whereIn('id', $borrowings->pluck('item_id'))->get()->keyBy('id');
+
+        return view('petugas.borrowings.index', compact('borrowings', 'students', 'items'));
+    })->name('borrowings.index');
+
+    // Form tambah peminjaman
+    Route::get('borrowings/create', function () {
+        $students = \App\Models\Student::orderBy('full_name')->get();
+        $items = \App\Models\Item::orderBy('name')->get();
+        return view('petugas.borrowings.create', compact('students', 'items'));
+    })->name('borrowings.create');
+
+    // Simpan peminjaman baru (input manual)
+    Route::post('borrowings', function (\Illuminate\Http\Request $request) {
+        $data = $request->validate([
+            'student_input'        => 'required|string|max:100',
+            'item_input'           => 'required|string|max:100',
+            'borrow_date'          => 'required|date',
+            'expected_return_date' => 'nullable|date',
+            'notes'                => 'nullable|string',
+        ], [
+            'student_input.required' => 'Isi NIS atau nama siswa.',
+            'item_input.required'    => 'Isi nama barang yang dipinjam.',
+        ]);
+
+        // 1. Cari siswa: NIS cocok persis, atau nama mirip
+        $q = trim($data['student_input']);
+        $student = \App\Models\Student::where('nis', $q)
+            ->orWhere('full_name', 'like', "%{$q}%")->first();
+
+        if (!$student) {
+            return redirect()->back()->withInput()
+                ->withErrors(['student_input' => "Siswa dengan NIS/nama \"{$q}\" tidak ditemukan."]);
+        }
+
+        // 2. Cari barang by nama; kalau belum ada → buat baru otomatis
+        $item = \App\Models\Item::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower(trim($data['item_input'])) . '%'])->first();
+
+        if (!$item) {
+            $clean = strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', trim($data['item_input'])));
+            $item = \App\Models\Item::forceCreate([
+                'name' => trim($data['item_input']),
+                'code' => $clean . '_' . time(),
+                'quantity' => 1,
+                'available' => 1,
+                'condition' => 'good',
+            ]);
+        }
+
+        // 3. Cek stok
+        if (($item->available ?? 0) < 1) {
+            return redirect()->back()->withInput()
+                ->withErrors(['item_input' => "Stok \"{$item->name}\" sedang tidak tersedia."]);
+        }
+
+        // 4. Simpan peminjaman + kurangi stok
+        \Illuminate\Support\Facades\DB::transaction(function () use ($data, $student, $item) {
+            \App\Models\Borrowing::forceCreate([
+                'item_id' => $item->id,
+                'student_id' => $student->id,
+                'borrowed_by' => auth()->id(),
+                'borrow_date' => $data['borrow_date'],
+                'expected_return_date' => $data['expected_return_date'] ?? null,
+                'status' => 'borrowed',
+                'notes' => $data['notes'] ?? null,
+            ]);
+            \App\Models\Item::where('id', $item->id)->decrement('available');
+        });
+
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Peminjaman berhasil dicatat!');
+    })->name('borrowings.store');
+
+    // Form edit peminjaman
+    Route::get('borrowings/{id}/edit', function ($id) {
+        $borrowing = \App\Models\Borrowing::findOrFail($id);
+        $student = \App\Models\Student::find($borrowing->student_id);
+        $item = \App\Models\Item::find($borrowing->item_id);
+        $students = \App\Models\Student::orderBy('full_name')->get();
+        $items = \App\Models\Item::orderBy('name')->get();
+        return view('petugas.borrowings.edit', compact('borrowing', 'student', 'item', 'students', 'items'));
+    })->name('borrowings.edit');
+
+    // Update peminjaman (stok disesuaikan otomatis)
+    Route::put('borrowings/{id}', function (\Illuminate\Http\Request $request, $id) {
+        $borrowing = \App\Models\Borrowing::findOrFail($id);
+
+        $data = $request->validate([
+            'student_input'        => 'required|string|max:100',
+            'item_input'           => 'required|string|max:100',
+            'borrow_date'          => 'required|date',
+            'expected_return_date' => 'nullable|date',
+            'status'               => 'required|in:borrowed,returned,overdue,lost',
+            'notes'                => 'nullable|string',
+        ]);
+
+        $q = trim($data['student_input']);
+        $student = \App\Models\Student::where('nis', $q)->orWhere('full_name', 'like', "%{$q}%")->first();
+        if (!$student) {
+            return redirect()->back()->withInput()
+                ->withErrors(['student_input' => "Siswa dengan NIS/nama \"{$q}\" tidak ditemukan."]);
+        }
+
+        $item = \App\Models\Item::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower(trim($data['item_input'])) . '%'])->first();
+        if (!$item) {
+            $clean = strtoupper(preg_replace('/[^A-Za-z0-9]/', '_', trim($data['item_input'])));
+            $item = \App\Models\Item::forceCreate([
+                'name' => trim($data['item_input']), 'code' => $clean . '_' . time(),
+                'quantity' => 1, 'available' => 1, 'condition' => 'good',
+            ]);
+        }
+
+        // Logika stok otomatis
+        $oldActive = in_array($borrowing->status, ['borrowed', 'overdue']);
+        $newActive = in_array($data['status'], ['borrowed', 'overdue']);
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($borrowing, $data, $student, $item, $oldActive, $newActive) {
+            if ($oldActive && (!$newActive || $borrowing->item_id != $item->id)) {
+                \App\Models\Item::where('id', $borrowing->item_id)->increment('available');
+            }
+            if ($newActive && (!$oldActive || $borrowing->item_id != $item->id)) {
+                if (($item->available ?? 0) < 1) {
+                    throw new \Illuminate\Validation\ValidationException(
+                        \Illuminate\Validation\Validator::make([], [], ['item_input' => "Stok \"{$item->name}\" tidak tersedia."])
+                    );
+                }
+                \App\Models\Item::where('id', $item->id)->decrement('available');
+            }
+
+            $borrowing->forceFill([
+                'item_id' => $item->id,
+                'student_id' => $student->id,
+                'borrow_date' => $data['borrow_date'],
+                'expected_return_date' => $data['expected_return_date'] ?? null,
+                'status' => $data['status'],
+                'return_date' => $newActive ? null : ($borrowing->return_date ?? now()->toDateString()),
+                'notes' => $data['notes'] ?? null,
+            ])->save();
+        });
+
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Data peminjaman berhasil diperbarui!');
+    })->name('borrowings.update');
+
+    // Detail peminjaman
+    Route::get('borrowings/{id}', function ($id) {
+        $borrowing = \App\Models\Borrowing::findOrFail($id);
+        return redirect()->route('petugas.borrowings.index');
+    })->name('borrowings.show');
+
+    // Hapus peminjaman
+    Route::delete('borrowings/{id}', function ($id) {
+        $borrowing = \App\Models\Borrowing::findOrFail($id);
+        
+        \Illuminate\Support\Facades\DB::transaction(function () use ($borrowing) {
+            // Kembalikan stok jika masih dipinjam
+            if (in_array($borrowing->status, ['borrowed', 'overdue'])) {
+                \App\Models\Item::where('id', $borrowing->item_id)->increment('available');
+            }
+            $borrowing->delete();
+        });
+
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Data peminjaman berhasil dihapus!');
+    })->name('borrowings.destroy');
+
+    // ✅ Tombol "Kembalikan" (quick action)
+    Route::patch('borrowings/{id}/return', function ($id) {
+        $borrowing = \App\Models\Borrowing::findOrFail($id);
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($borrowing) {
+            $borrowing->update([
+                'status' => 'returned',
+                'return_date' => now()->toDateString(),
+            ]);
+            \App\Models\Item::where('id', $borrowing->item_id)->increment('available');
+        });
+
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Barang berhasil dikembalikan!');
+    })->name('borrowings.return');
 });
 
 /*
