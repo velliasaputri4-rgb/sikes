@@ -4,7 +4,6 @@
 
 @section('content')
 <style>
-    /* Banner Sambutan */
     .welcome-banner {
         background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
         border-radius: 16px;
@@ -35,8 +34,26 @@
         align-items: center;
         gap: 8px;
     }
+    .btn-home {
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+    .btn-home:hover {
+        background: rgba(255,255,255,0.25);
+        color: white;
+        transform: translateY(-2px);
+    }
 
-    /* ✅ STAT CARD VERTIKAL — PASTI RAPI, TIDAK AKAN OVERFLOW */
     .stat-card {
         border-radius: 14px;
         padding: 22px;
@@ -57,11 +74,10 @@
         margin-bottom: 2px;
     }
     .stat-card p {
-        white-space: normal;   /* ✅ boleh wrap dengan rapi kalau sempit */
+        white-space: normal;
         margin-bottom: 4px;
     }
 
-    /* Menu cepat */
     .menu-cepat-card {
         background: white;
         border-radius: 12px;
@@ -95,17 +111,23 @@
 <div class="welcome-banner">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style="z-index: 2;">
         <div>
-            <h4 class="mb-1">Selamat Datang, {{ auth()->user()->name }}! 👋</h4>
+            <h4 class="mb-1">Selamat Datang, {{ auth()->user()->name }}!</h4>
             <p class="mb-0 opacity-75">Berikut ringkasan aktivitas UKS SMK Negeri 1 Bangsri.</p>
         </div>
-        <span class="date-chip">
-            <i class="fas fa-calendar-day"></i>
-            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
-        </span>
+        <div class="d-flex gap-2 align-items-center">
+            <span class="date-chip">
+                <i class="fas fa-calendar-day"></i>
+                {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
+            </span>
+            {{-- ✅ PERBAIKAN: tanpa target="_blank" --}}
+            <a href="{{ route('landing') }}" class="btn-home">
+                <i class="fas fa-home"></i> Beranda
+            </a>
+        </div>
     </div>
 </div>
 
-<!-- ✅ STAT CARDS VERTIKAL -->
+<!-- STAT CARDS VERTIKAL -->
 <div class="row g-4 mb-4">
     <div class="col-xl-3 col-md-6">
         <div class="stat-card h-100" style="border-left-color: #2563eb;">

@@ -134,7 +134,7 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h4><i class="fas fa-shield-alt"></i> SIKES</h4>
-            <small>★ Admin Panel</small>
+            <small>Admin Panel</small>
         </div>
         
         <div class="sidebar-section">Menu Utama</div>
@@ -142,11 +142,6 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('landing') }}" target="_blank">
-                    <i class="fas fa-home"></i> Lihat Website
                 </a>
             </li>
         </ul>
@@ -192,11 +187,6 @@
         <div class="sidebar-section">Akun</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.profile.edit') }}">
-                    <i class="fas fa-user-circle"></i> Profil Saya
-                </a>
-            </li>
-            <li class="nav-item mt-3">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start text-danger">
@@ -215,7 +205,7 @@
                 </button>
                 <h5 class="mb-0 fw-bold text-dark">
                     @yield('page-title', 'Dashboard')
-                    <span class="admin-badge">★ Admin</span>
+                    <span class="admin-badge">Admin</span>
                 </h5>
             </div>
             <div class="dropdown">
@@ -228,8 +218,6 @@
                     </div>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                    <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="fas fa-user me-2 text-primary"></i>Profil</a></li>
-                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
