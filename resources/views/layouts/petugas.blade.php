@@ -294,19 +294,25 @@
             </li>
         </ul>
         
-        <div class="sidebar-section">Manajemen</div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.medicines.*') ? 'active' : '' }}" href="{{ route('petugas.medicines.index') }}">
-                    <i class="fas fa-pills"></i> Data Obat
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.students.index') ? 'active' : '' }}" href="{{ route('petugas.students.index') }}">
-                    <i class="fas fa-user-graduate"></i> Data Siswa
-                </a>
-            </li>
-        </ul>
+       <div class="sidebar-section">Manajemen</div>
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('petugas.medicines.*') ? 'active' : '' }}" href="{{ route('petugas.medicines.index') }}">
+            <i class="fas fa-pills"></i> Data Obat
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('petugas.students.index') ? 'active' : '' }}" href="{{ route('petugas.students.index') }}">
+            <i class="fas fa-user-graduate"></i> Data Siswa
+        </a>
+    </li>
+    {{-- ✅ BARU: Menu Edit Jadwal Piket --}}
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('petugas.piket.*') ? 'active' : '' }}" href="{{ route('petugas.piket.index') }}">
+            <i class="fas fa-calendar-alt"></i> Jadwal Piket
+        </a>
+    </li>
+</ul>
 
         <div class="sidebar-section">Inventaris</div>
         <ul class="nav flex-column">

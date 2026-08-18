@@ -208,6 +208,18 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
     // ===== ✅ JADWAL PETUGAS =====
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
 
+    // ===== ✅ JADWAL PIKET (BARU DITAMBAHKAN) =====
+    Route::get('piket', [\App\Http\Controllers\Petugas\PiketController::class, 'index'])->name('piket.index');
+    Route::get('piket/create', [\App\Http\Controllers\Petugas\PiketController::class, 'create'])->name('piket.create');
+    Route::post('piket', [\App\Http\Controllers\Petugas\PiketController::class, 'store'])->name('piket.store');
+    Route::get('piket/{piket}/edit', [\App\Http\Controllers\Petugas\PiketController::class, 'edit'])->name('piket.edit');
+    Route::put('piket/{piket}', [\App\Http\Controllers\Petugas\PiketController::class, 'update'])->name('piket.update');
+    Route::delete('piket/{piket}', [\App\Http\Controllers\Petugas\PiketController::class, 'destroy'])->name('piket.destroy');
+    Route::post('piket/{piket}/members', [\App\Http\Controllers\Petugas\PiketController::class, 'addMember'])->name('piket.addMember');
+    Route::delete('piket/{piket}/members/{member}', [\App\Http\Controllers\Petugas\PiketController::class, 'removeMember'])->name('piket.removeMember');
+    Route::post('piket/{piket}/contacts', [\App\Http\Controllers\Petugas\PiketController::class, 'addContact'])->name('piket.addContact');
+    Route::delete('piket/{piket}/contacts/{contact}', [\App\Http\Controllers\Petugas\PiketController::class, 'removeContact'])->name('piket.removeContact');
+
     // ===== ✅ INVENTARIS =====
     Route::resource('items', \App\Http\Controllers\ItemController::class);
 
