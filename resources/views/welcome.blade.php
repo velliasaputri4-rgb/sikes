@@ -705,7 +705,8 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
-                                <h3>1.248</h3>
+                                <!-- ✅ DIUBAH: Data Real-time -->
+                                <h3>{{ number_format($totalStudents) }}</h3>
                                 <div class="stat-label">Siswa Terdaftar</div>
                                 <div class="stat-note">Tahun Ajaran 2025/2026</div>
                             </div>
@@ -713,7 +714,8 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
-                                <h3>8</h3>
+                                <!-- ✅ DIUBAH: Data Real-time -->
+                                <h3>{{ $examsToday }}</h3>
                                 <div class="stat-label">Kunjungan Hari Ini</div>
                                 <div class="stat-note">Update: Hari Ini</div>
                             </div>
@@ -721,7 +723,8 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
-                                <h3>256</h3>
+                                <!-- ✅ DIUBAH: Data Real-time -->
+                                <h3>{{ $examsMonth }}</h3>
                                 <div class="stat-label">Total Kunjungan</div>
                                 <div class="stat-note">Bulan Ini</div>
                             </div>
@@ -729,7 +732,8 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
                             <div>
-                                <h3>100%</h3>
+                                <!-- ✅ DIUBAH: Data Real-time -->
+                                <h3>{{ $optimalPercentage }}%</h3>
                                 <div class="stat-label">Layanan Optimal</div>
                                 <div class="stat-note">Kami Siap Melayani</div>
                             </div>
