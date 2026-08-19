@@ -4,13 +4,13 @@
 @section('page-title', 'Dashboard Petugas UKS')
 
 @section('content')
-    <!-- 🔥 PERUBAHAN: TOMBOL KEMBALI KE BERANDA 🔥 -->
+    <!-- PERUBAHAN: TOMBOL KEMBALI KE BERANDA -->
     <div class="mb-4">
         <a href="{{ route('landing') }}" class="btn btn-outline-secondary btn-sm">
             <i class="fas fa-home me-1"></i> Kembali ke Beranda
         </a>
     </div>
-    <!-- 🔥 AKHIR PERUBAHAN 🔥 -->
+    <!-- AKHIR PERUBAHAN -->
 
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
