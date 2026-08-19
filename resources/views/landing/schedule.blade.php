@@ -515,14 +515,6 @@
         font-family: 'Poppins', sans-serif;
         font-weight: 700; font-size: 1.4rem;
     }
-    .footer-logo-icon {
-        width: 46px; height: 46px;
-        background: var(--gradient-primary);
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        font-size: 1.2rem;
-    }
     footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
     .footer-menu { list-style: none; padding: 0; margin: 0; }
     .footer-menu li { margin-bottom: 12px; }
@@ -535,22 +527,6 @@
         display: inline-flex; align-items: center; gap: 8px;
     }
     .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
-
-    .social-links { display: flex; gap: 10px; margin-top: 20px; }
-    .social-links a {
-        width: 42px; height: 42px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.08);
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        transition: all 0.3s;
-        text-decoration: none;
-    }
-    .social-links a:hover {
-        background: var(--gradient-primary);
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(59,130,246,0.4);
-    }
 
     .footer-bottom {
         border-top: 1px solid rgba(255,255,255,0.1);
@@ -719,7 +695,10 @@
             <div class="row g-3">
                 @forelse($schedules as $schedule)
                     @php
-                        $members = $schedule->members ?? [];
+                        // ✅ PERBAIKAN: Cek apakah members sudah berupa array, jika belum (masih string JSON), baru di-decode
+                        $members = is_string($schedule->members) ? json_decode($schedule->members, true) : ($schedule->members ?? []);
+                        $members = is_array($members) ? $members : [];
+                        
                         $membersCount = count($members);
                         $emergencyCount = 0;
                         foreach($members as $m) {
@@ -730,7 +709,7 @@
                         <div class="schedule-card">
                             <div class="schedule-num">{{ $loop->iteration }}</div>
                             <div class="schedule-info">
-                                <h5>{{ $schedule->group_name }}</h5>
+                                <h5>{{ $schedule->group_name ?? 'Grup ' . $loop->iteration }}</h5>
                                 <div class="schedule-meta">
                                     <span><i class="fas fa-users"></i> {{ $membersCount }} anggota</span>
                                     <span class="meta-divider"></span>
@@ -756,7 +735,7 @@
                                     <div class="modal-title-simple">
                                         <div class="title-icon"><i class="fas fa-users"></i></div>
                                         <div>
-                                            {{ $schedule->group_name }}
+                                            {{ $schedule->group_name ?? 'Grup' }}
                                             <small>{{ $membersCount }} anggota piket</small>
                                         </div>
                                     </div>
@@ -769,14 +748,8 @@
                                         @if($membersCount > 0)
                                             @foreach($members as $idx => $member)
                                                 @php
-                                                    $name = '-';
-                                                    $phone = '';
-                                                    if (is_array($member)) {
-                                                        $name = $member['name'] ?? '-';
-                                                        $phone = $member['phone'] ?? '';
-                                                    } else {
-                                                        $name = $member;
-                                                    }
+                                                    $name = $member['name'] ?? '-';
+                                                    $phone = $member['phone'] ?? '';
                                                 @endphp
                                                 <div class="member-row {{ !empty($phone) ? 'has-phone' : '' }}">
                                                     <div class="member-num">{{ $idx + 1 }}</div>
@@ -833,18 +806,11 @@
             <div class="row g-5">
                 <div class="col-lg-4">
                     <div class="footer-logo">
-                        <div class="footer-logo-icon"><i class="fas fa-heartbeat"></i></div>
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
                         Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.
                     </p>
-                    <div class="social-links">
-                        <a href="https://instagram.com/pmrwira_eskasaba" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fas fa-envelope"></i></a>
-                    </div>
                 </div>
 
                 <div class="col-6 col-lg-2">

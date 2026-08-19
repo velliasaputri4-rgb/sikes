@@ -478,14 +478,6 @@
         font-family: 'Poppins', sans-serif;
         font-weight: 700; font-size: 1.4rem;
     }
-    .footer-logo-icon {
-        width: 46px; height: 46px;
-        background: var(--gradient-primary);
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        font-size: 1.2rem;
-    }
     footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
     .footer-menu { list-style: none; padding: 0; margin: 0; }
     .footer-menu li { margin-bottom: 12px; }
@@ -498,22 +490,6 @@
         display: inline-flex; align-items: center; gap: 8px;
     }
     .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
-
-    .social-links { display: flex; gap: 10px; margin-top: 20px; }
-    .social-links a {
-        width: 42px; height: 42px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.08);
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        transition: all 0.3s;
-        text-decoration: none;
-    }
-    .social-links a:hover {
-        background: var(--gradient-primary);
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(59,130,246,0.4);
-    }
 
     .footer-bottom {
         border-top: 1px solid rgba(255,255,255,0.1);
@@ -826,18 +802,12 @@
             <div class="row g-5">
                 <div class="col-lg-4">
                     <div class="footer-logo">
-                        <div class="footer-logo-icon"><i class="fas fa-heartbeat"></i></div>
+                        <!-- ✅ DIHAPUS: Logo icon SIKES -->
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
                         Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.
                     </p>
-                    <div class="social-links">
-                        <a href="https://instagram.com/pmrwira_eskasaba" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#"><i class="fas fa-envelope"></i></a>
-                    </div>
                 </div>
 
                 <div class="col-6 col-lg-2">
