@@ -455,55 +455,6 @@
         box-shadow: 0 10px 25px rgba(30,58,138,0.25);
     }
 
-    .form-card {
-        background: white;
-        border-radius: var(--radius);
-        padding: 40px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(30,58,138,0.08);
-    }
-    .form-control {
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 12px 18px;
-        transition: all 0.3s;
-        font-size: 0.95rem;
-    }
-    .form-control:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
-    }
-    .form-label { font-weight: 600; color: var(--ink); margin-bottom: 8px; }
-
-    .schedule-card {
-        background: linear-gradient(135deg, #f8fafc, #f0f5fb);
-        border-radius: var(--radius);
-        padding: 40px;
-        height: 100%;
-        border: 1px solid rgba(30,58,138,0.1);
-    }
-    .schedule-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 0;
-        border-bottom: 1px dashed #cbd5e1;
-    }
-    .schedule-row:last-child { border-bottom: none; }
-    .schedule-day { font-weight: 600; color: var(--ink); }
-    .schedule-time { font-weight: 700; color: var(--primary-dark); }
-    .schedule-time.closed { color: var(--rose); }
-
-    .alert-warning-custom {
-        background: linear-gradient(135deg, #fef3c7, #fed7aa);
-        border: none;
-        border-radius: 12px;
-        padding: 16px 20px;
-        color: #92400e;
-        display: flex; align-items: flex-start; gap: 12px;
-    }
-    .alert-warning-custom i { color: #f59e0b; font-size: 1.1rem; }
-
     /* ============ FOOTER ============ */
     footer {
         background: var(--gradient-dark);
@@ -841,7 +792,7 @@
                 <p class="section-subtitle mx-auto">Hubungi kami untuk informasi lebih lanjut tentang layanan UKS</p>
             </div>
 
-            <div class="row g-4 mb-5">
+            <div class="row g-4">
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -863,52 +814,6 @@
                             <i class="fab fa-youtube me-2 text-danger"></i>
                             <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">@wirasandyaadhimukti3463</a>
                         </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="form-card">
-                        <h5 class="fw-bold mb-4"><i class="fas fa-paper-plane me-2 text-primary"></i>Kirim Pesan</h5>
-                        <form>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" placeholder="Masukkan nama Anda">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="Masukkan email Anda">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Pesan</label>
-                                <textarea class="form-control" rows="4" placeholder="Tulis pesan Anda..." style="resize: none;"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-hero-primary w-100 py-3">
-                                <i class="fas fa-paper-plane"></i> Kirim Pesan Sekarang
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="schedule-card">
-                        <h5 class="fw-bold mb-4"><i class="fas fa-clock me-2 text-primary"></i>Jam Operasional</h5>
-                        <div class="schedule-row">
-                            <span class="schedule-day">Senin - Kamis</span>
-                            <span class="schedule-time">08:00 - 15:00</span>
-                        </div>
-                        <div class="schedule-row">
-                            <span class="schedule-day">Jumat</span>
-                            <span class="schedule-time">08:00 - 13:00</span>
-                        </div>
-                        <div class="schedule-row">
-                            <span class="schedule-day">Sabtu - Minggu</span>
-                            <span class="schedule-time closed">Tutup</span>
-                        </div>
-                        <div class="alert-warning-custom mt-4">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <small class="mb-0">Untuk keadaan darurat di luar jam operasional, silakan hubungi guru piket atau langsung ke IGD terdekat.</small>
-                        </div>
                     </div>
                 </div>
             </div>
