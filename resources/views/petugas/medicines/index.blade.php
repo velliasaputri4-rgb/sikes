@@ -15,26 +15,16 @@
             </a>
         </div>
 
-        <!-- Filter & Search -->
-        <form method="GET" action="{{ route('petugas.medicines.index') }}" class="row g-3 mb-4 p-3 bg-light rounded">
-            <div class="col-md-4">
+        <!-- Search -->
+        <form method="GET" action="{{ route('petugas.medicines.index') }}" class="mb-4">
+            <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Cari nama atau kode obat..." value="{{ request('search') }}">
-            </div>
-            <div class="col-md-3">
-                <select name="status" class="form-select">
-                    <option value="">Semua Status</option>
-                    <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Tersedia</option>
-                    <option value="low_stock" {{ request('status') == 'low_stock' ? 'selected' : '' }}>Stok Menipis</option>
-                    <option value="empty" {{ request('status') == 'empty' ? 'selected' : '' }}>Habis</option>
-                    <option value="near_expired" {{ request('status') == 'near_expired' ? 'selected' : '' }}>Hampir Kedaluwarsa</option>
-                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Kedaluwarsa</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary-custom w-100"><i class="fas fa-search me-1"></i> Filter</button>
-            </div>
-            <div class="col-md-3">
-                <a href="{{ route('petugas.medicines.index') }}" class="btn btn-outline-secondary w-100">Reset</a>
+                <button type="submit" class="btn btn-primary-custom">
+                    <i class="fas fa-search me-1"></i> Cari
+                </button>
+                @if(request('search'))
+                    <a href="{{ route('petugas.medicines.index') }}" class="btn btn-outline-secondary">Reset</a>
+                @endif
             </div>
         </form>
 
