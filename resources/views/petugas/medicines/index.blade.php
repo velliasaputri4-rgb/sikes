@@ -35,7 +35,6 @@
                     <tr>
                         <th class="ps-3">Kode</th>
                         <th>Nama Obat</th>
-                        <th>Kategori</th>
                         <th class="text-center">Stok</th>
                         <th>Satuan</th>
                         <th>Kedaluwarsa</th>
@@ -48,7 +47,6 @@
                         <tr>
                             <td class="ps-3 fw-semibold">{{ $med->code }}</td>
                             <td>{{ $med->name }}</td>
-                            <td><span class="badge bg-light text-dark border">{{ $med->category->name ?? 'Umum' }}</span></td>
                             <td class="text-center">
                                 <span class="fw-bold {{ $med->stock <= ($med->minimum_stock ?? 5) ? 'text-danger' : 'text-dark' }}">
                                     {{ $med->stock }}
@@ -78,13 +76,19 @@
                                 <span class="badge {{ $statusClass }} rounded-pill">{{ $statusText }}</span>
                             </td>
                             <td class="text-end pe-3">
-                                <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('petugas.medicines.edit', $med->id) }}" class="btn btn-outline-warning" title="Edit">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('petugas.medicines.edit', $med->id) }}" 
+                                       class="btn btn-outline-warning btn-sm d-inline-flex align-items-center justify-content-center" 
+                                       style="width: 36px; height: 36px;" 
+                                       title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form action="{{ route('petugas.medicines.destroy', $med->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus obat ini?')">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger" title="Hapus">
+                                        <button type="submit" 
+                                                class="btn btn-outline-danger btn-sm d-inline-flex align-items-center justify-content-center" 
+                                                style="width: 36px; height: 36px;" 
+                                                title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -93,7 +97,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">
+                            <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">Belum ada data obat</p>
                                 <a href="{{ route('petugas.medicines.create') }}" class="btn btn-sm btn-outline-primary mt-2">Tambah Obat Pertama</a>

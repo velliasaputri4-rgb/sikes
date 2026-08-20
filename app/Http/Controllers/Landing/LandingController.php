@@ -75,8 +75,8 @@ class LandingController extends Controller
 
     public function medicines()
     {
-        $medicines = \App\Models\Medicine::with('category')
-            ->where('stock', '>', 0)
+        // ✅ PERBAIKAN: Hapus ->with('category') karena relasi sudah dihapus
+        $medicines = Medicine::where('stock', '>', 0)
             ->whereNotIn('status', ['expired', 'empty'])
             ->orderBy('name')
             ->paginate(12);

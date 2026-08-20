@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
-use App\Models\MedicineCategory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -11,7 +10,8 @@ class MedicineController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Medicine::with('category');
+        // ✅ Hapus with('category') karena relasi sudah dihapus
+        $query = Medicine::query();
 
         // Fitur Pencarian
         if ($request->filled('search')) {
@@ -27,35 +27,20 @@ class MedicineController extends Controller
 
         $medicines = $query->latest()->paginate(15);
         
-        // Ambil kategori (fallback ke array jika tabel kategori masih kosong)
-        $categories = MedicineCategory::exists() ? MedicineCategory::all() : collect([
-            (object)['id' => 1, 'name' => 'Tablet'],
-            (object)['id' => 2, 'name' => 'Sirup'],
-            (object)['id' => 3, 'name' => 'Salep'],
-            (object)['id' => 4, 'name' => 'Alat Kesehatan'],
-        ]);
-
-        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk view
-        return view('petugas.medicines.index', compact('medicines', 'categories'));
+        // ✅ Hapus logic $categories
+        return view('petugas.medicines.index', compact('medicines'));
     }
 
     public function create()
     {
-        $categories = MedicineCategory::exists() ? MedicineCategory::all() : collect([
-            (object)['id' => 1, 'name' => 'Tablet'],
-            (object)['id' => 2, 'name' => 'Sirup'],
-            (object)['id' => 3, 'name' => 'Salep'],
-            (object)['id' => 4, 'name' => 'Alat Kesehatan'],
-        ]);
-        
-        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk view
-        return view('petugas.medicines.create', compact('categories'));
+        // ✅ Hapus logic $categories
+        return view('petugas.medicines.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'nullable|exists:medicine_categories,id',
+            // ✅ Hapus validasi category_id
             'code' => 'required|unique:medicines,code|max:30',
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:30',
@@ -81,15 +66,14 @@ class MedicineController extends Controller
 
         Medicine::create(array_merge($validated, ['status' => $status]));
 
-        // ✅ PERBAIKAN: Gunakan prefix petugas. untuk redirect
         return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil ditambahkan!');
     }
 
     public function edit($id) 
     { 
         $medicine = Medicine::findOrFail($id);
-        $categories = MedicineCategory::exists() ? MedicineCategory::all() : collect([]);
-        return view('petugas.medicines.edit', compact('medicine', 'categories')); 
+        // ✅ Hapus logic $categories
+        return view('petugas.medicines.edit', compact('medicine')); 
     }
 
     public function update(Request $request, $id) 
@@ -97,7 +81,7 @@ class MedicineController extends Controller
         $medicine = Medicine::findOrFail($id);
         
         $validated = $request->validate([
-            'category_id' => 'nullable|exists:medicine_categories,id',
+            // ✅ Hapus validasi category_id
             'code' => 'required|unique:medicines,code,' . $id . '|max:30',
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:30',

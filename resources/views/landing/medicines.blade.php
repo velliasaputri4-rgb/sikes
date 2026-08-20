@@ -195,50 +195,6 @@
     @keyframes iconFloat { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(3deg); } }
     @keyframes iconPulse { 0%,100% { transform: scale(1); opacity: 0.2; } 50% { transform: scale(1.15); opacity: 0.1; } }
 
-    /* ============ STATS BAR ============ */
-    .stats-bar {
-        background: white;
-        border-radius: var(--radius);
-        padding: 24px 30px;
-        box-shadow: var(--shadow-md);
-        margin-top: -50px;
-        position: relative;
-        z-index: 5;
-        border: 1px solid rgba(30,58,138,0.08);
-    }
-    .stat-mini {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 10px 0;
-    }
-    .stat-mini-icon {
-        width: 48px; height: 48px;
-        border-radius: 14px;
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-    .stat-mini-icon.bg-total { background: var(--gradient-primary); }
-    .stat-mini-icon.bg-available { background: linear-gradient(135deg, #10b981, #059669); }
-    .stat-mini-icon.bg-low { background: var(--gradient-warm); }
-    .stat-mini-icon.bg-expired { background: linear-gradient(135deg, #ef4444, #dc2626); }
-    .stat-mini-info { flex: 1; }
-    .stat-mini-value {
-        font-family: 'Poppins', sans-serif;
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--ink);
-        line-height: 1;
-        margin-bottom: 2px;
-    }
-    .stat-mini-label {
-        color: var(--slate);
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
     /* ============ SECTION ============ */
     .section { padding: 60px 0 90px; }
     .section-label {
@@ -366,17 +322,6 @@
         color: var(--ink);
         margin-bottom: 8px;
         line-height: 1.3;
-    }
-    .category-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        background: rgba(59,130,246,0.1);
-        color: var(--pro);
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 600;
     }
 
     .medicine-card-body {
@@ -589,8 +534,6 @@
     /* ============ RESPONSIVE ============ */
     @media (max-width: 768px) {
         .page-header { padding: 70px 0 60px; }
-        .stats-bar { padding: 20px; margin-top: -40px; }
-        .stat-mini { padding: 8px 0; }
         .navbar-brand img { max-height: 45px; }
         .header-icon-wrap { width: 90px; height: 90px; font-size: 2.2rem; }
     }
@@ -704,62 +647,7 @@
     <!-- Content Section -->
     <section class="section">
         <div class="container">
-            <!-- Stats Bar -->
-            @if(isset($medicines) && count($medicines) > 0)
-            @php
-                $allMedicines = $medicines instanceof \Illuminate\Pagination\LengthAwarePaginator ? $medicines->getCollection() : collect($medicines);
-                $total = $allMedicines->count();
-                $availableCount = 0;
-                $lowCount = 0;
-                $expiredCount = 0;
-                foreach($allMedicines as $m) {
-                    $minStock = $m->minimum_stock ?? 5;
-                    if ($m->stock > $minStock) $availableCount++;
-                    else $lowCount++;
-                    if ($m->expired_date && \Carbon\Carbon::parse($m->expired_date)->isPast()) $expiredCount++;
-                }
-            @endphp
-            <div class="stats-bar" data-aos="fade-up">
-                <div class="row g-3">
-                    <div class="col-6 col-md-3">
-                        <div class="stat-mini">
-                            <div class="stat-mini-icon bg-total"><i class="fas fa-pills"></i></div>
-                            <div class="stat-mini-info">
-                                <div class="stat-mini-value">{{ $total }}</div>
-                                <div class="stat-mini-label">Total Obat</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-mini">
-                            <div class="stat-mini-icon bg-available"><i class="fas fa-check-circle"></i></div>
-                            <div class="stat-mini-info">
-                                <div class="stat-mini-value">{{ $availableCount }}</div>
-                                <div class="stat-mini-label">Tersedia</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-mini">
-                            <div class="stat-mini-icon bg-low"><i class="fas fa-exclamation-triangle"></i></div>
-                            <div class="stat-mini-info">
-                                <div class="stat-mini-value">{{ $lowCount }}</div>
-                                <div class="stat-mini-label">Stok Menipis</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-mini">
-                            <div class="stat-mini-icon bg-expired"><i class="fas fa-calendar-times"></i></div>
-                            <div class="stat-mini-info">
-                                <div class="stat-mini-value">{{ $expiredCount }}</div>
-                                <div class="stat-mini-label">Kedaluwarsa</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
+            <!-- ✅ STATS BAR DIHAPUS -->
 
             <!-- Filter Bar (Search Only) -->
             <div class="filter-bar" data-aos="fade-up" data-aos-delay="100">
@@ -821,10 +709,6 @@
                                     <i class="fas fa-capsules"></i>
                                 </div>
                                 <h3 class="medicine-name">{{ $med->name }}</h3>
-                                <span class="category-pill">
-                                    <i class="fas fa-tag"></i>
-                                    {{ $med->category->name ?? 'Umum' }}
-                                </span>
                             </div>
 
                             <div class="medicine-card-body">
@@ -905,13 +789,11 @@
             <div class="row g-5">
                 <div class="col-lg-4">
                     <div class="footer-logo">
-                        <!-- ✅ DIHAPUS: Logo icon SIKES -->
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
                         Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.
                     </p>
-                    <!-- ✅ DIHAPUS: Social Links -->
                 </div>
 
                 <div class="col-6 col-lg-2">

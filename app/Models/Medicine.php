@@ -12,7 +12,6 @@ class Medicine extends Model
     protected $fillable = [
         'code',
         'name',
-        'category_id',       // ✅ TAMBAHKAN INI
         'stock',
         'minimum_stock',
         'unit',
@@ -21,9 +20,5 @@ class Medicine extends Model
         'status',
     ];
 
-    // Relasi ke Kategori (jika belum ada, tambahkan ini)
-    public function category()
-    {
-        return $this->belongsTo(MedicineCategory::class, 'category_id');
-    }
+    // ✅ Relasi category dihapus karena kolom category_id sudah tidak ada di database
 }
