@@ -81,7 +81,7 @@
             border: 3px solid #eff6ff;
         }
         
-        /* Record Card */
+        /* ✅ Record Card (DIPERBAIKI: Tidak ada efek gerak/naik saat hover) */
         .record-card { 
             background: white; 
             border-radius: 16px; 
@@ -89,13 +89,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
             margin-bottom: 20px; 
             border-left: 5px solid var(--primary);
-            transition: transform 0.2s;
             overflow: hidden;
         }
-        .record-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
-        }
+        /* Efek hover kartu dihapus agar tidak bergerak/bergetar */
         
         /* Card Header (Summary) */
         .card-header-summary {
@@ -103,7 +99,7 @@
             cursor: pointer;
             background: white;
             border-bottom: 1px solid transparent;
-            transition: all 0.3s;
+            transition: background 0.3s;
         }
         .card-header-summary:hover {
             background: #f8fafc;
@@ -171,21 +167,16 @@
             align-items: center;
         }
 
-        /* ✅ PERBAIKAN UTAMA: Batasi ukuran foto */
+        /* ✅ Foto benar-benar diam (tanpa animasi hover) */
         .photo-container img {
             max-width: 100%;
-            max-height: 220px;      /* ✅ Batasi tinggi foto */
-            width: auto;            /* ✅ Lebar menyesuaikan rasio */
+            max-height: 220px;
+            width: auto;
             height: auto;
-            object-fit: contain;    /* ✅ Foto tidak terpotong */
+            object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .photo-container img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
         }
         
         /* Toggle Icon */
@@ -407,12 +398,11 @@
                             </div>
                         </div>
 
-                        <!-- ✅ Foto Dokumentasi - SUDAH DIPERKECIL -->
+                        <!-- ✅ Foto Dokumentasi -->
                         @if($exam->photo)
                             <div class="mt-4">
                                 <div class="detail-label"><i class="fas fa-camera me-1 text-info"></i> Dokumentasi Foto</div>
                                 <div class="photo-container">
-                                    {{-- ✅ class="img-fluid" DIHAPUS, diganti style inline --}}
                                     <img src="{{ asset('storage/' . $exam->photo) }}" 
                                          alt="Foto Dokumentasi"
                                          data-bs-toggle="modal" 
