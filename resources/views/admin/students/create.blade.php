@@ -10,6 +10,28 @@
         .page-head h5 .head-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
         .form-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; max-width: 640px; }
         .form-control:focus, .form-select:focus { border-color: #93c5fd; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
+        
+        /* ✅ CSS UNTUK TOMBOL SIMPAN SISWA */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+            color: white;
+        }
     </style>
 
     <div class="content-card">
@@ -44,7 +66,7 @@
                 <datalist id="daftar-kelas">
                     @foreach($classes as $class)<option value="{{ $class->name }}"></option>@endforeach
                 </datalist>
-                <small class="text-muted"> Pilih dari daftar atau ketik nama kelas baru (otomatis dibuat).</small>
+                <small class="text-muted">💡 Pilih dari daftar atau ketik nama kelas baru (otomatis dibuat).</small>
             </div>
 
             <div class="mb-4">
