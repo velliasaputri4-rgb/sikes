@@ -14,6 +14,27 @@
         .table thead th { background: #f8fafc; color: #475569; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid #e2e8f0; }
         .table-hover tbody tr:hover { background-color: #eff6ff; }
         
+        /* ✅ CSS UNTUK TOMBOL TAMBAH SISWA */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+            color: white;
+        }
+        
         /* ✅ PAGINATION STYLING - LEBIH RAPI */
         .pagination { gap: 6px; }
         .pagination .page-item { margin: 0; }
