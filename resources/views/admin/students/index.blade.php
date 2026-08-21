@@ -14,7 +14,6 @@
         .table thead th { background: #f8fafc; color: #475569; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid #e2e8f0; }
         .table-hover tbody tr:hover { background-color: #eff6ff; }
         
-        /* ✅ CSS UNTUK TOMBOL TAMBAH SISWA */
         .btn-primary-custom {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
@@ -35,53 +34,44 @@
             color: white;
         }
         
-        /* ✅ PAGINATION STYLING - LEBIH RAPI */
-        .pagination { gap: 6px; }
-        .pagination .page-item { margin: 0; }
-        .pagination .page-link { 
-            border: 1px solid #e2e8f0; 
-            border-radius: 8px !important; 
-            color: #475569; 
-            padding: 8px 14px; 
-            font-weight: 600; 
-            font-size: 13px;
-            margin: 0 2px;
-            transition: all 0.2s ease;
-            background: white;
-        }
-        .pagination .page-link:hover { 
-            background: #eff6ff; 
-            border-color: #93c5fd; 
-            color: #2563eb; 
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
-        }
-        .pagination .page-item.active .page-link { 
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
-            border-color: #2563eb; 
-            color: white;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
-        }
-        .pagination .page-item.disabled .page-link { 
-            color: #94a3b8; 
-            background: #f8fafc; 
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .pagination-info { 
-            color: #64748b; 
-            font-size: 13px; 
-            font-weight: 500;
-            margin-right: 16px;
-        }
-        .pagination-wrapper { 
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-end; 
-            margin-top: 20px;
+        /* ✅ PAGINATION SUPER SIMPLE */
+        .pagination-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
             padding-top: 16px;
             border-top: 1px solid #e2e8f0;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .pagination-wrapper .pagination {
+            display: flex;
+            gap: 8px;
+            margin: 0;
+            list-style: none;
+            padding: 0;
+        }
+        .pagination-wrapper .page-link {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            color: #475569;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            background: white;
+            transition: all 0.2s;
+        }
+        .pagination-wrapper .page-link:hover {
+            background: #eff6ff;
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+        .pagination-wrapper .page-item.disabled .page-link {
+            color: #cbd5e1;
+            cursor: not-allowed;
+            background: #f8fafc;
         }
     </style>
 
@@ -152,14 +142,24 @@
             </table>
         </div>
 
-        {{-- ✅ PAGINATION YANG LEBIH RAPI --}}
+        {{-- ✅ PAGINATION SUPER SIMPLE (HANYA PREVIOUS/NEXT) --}}
         @if($students->hasPages())
             <div class="pagination-wrapper">
-                <span class="pagination-info">
-                    Menampilkan {{ $students->firstItem() }} - {{ $students->lastItem() }} dari {{ $students->total() }} data
-                </span>
+                <span>{{ $students->firstItem() }}-{{ $students->lastItem() }} dari {{ $students->total() }} data</span>
                 <nav>
-                    {{ $students->links() }}
+                    <ul class="pagination">
+                        @if($students->onFirstPage())
+                            <li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $students->previousPageUrl() }}">&laquo; Previous</a></li>
+                        @endif
+
+                        @if($students->hasMorePages())
+                            <li class="page-item"><a class="page-link" href="{{ $students->nextPageUrl() }}">Next &raquo;</a></li>
+                        @else
+                            <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
+                        @endif
+                    </ul>
                 </nav>
             </div>
         @endif
