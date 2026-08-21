@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Student, User, ClassRoom}; // Pastikan model Class Anda bernama ClassRoom atau Class
+use App\Models\{Student, User, ClassRoom};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,8 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Student::with(['user', 'class']);
+        // Catatan: Jika relasi di Model Student Anda bernama 'classroom', ubah 'class' menjadi 'classroom'
+        $query = Student::with(['user', 'class']); 
 
         // Fitur Pencarian
         if ($request->filled('search')) {
@@ -28,15 +29,18 @@ class StudentController extends Controller
         }
 
         $students = $query->latest()->paginate(10)->withQueryString();
-        $classes = \App\Models\ClassRoom::orderBy('name')->get(); // Sesuaikan jika model Anda bernama 'Class'
+        $classes = \App\Models\ClassRoom::orderBy('name')->get();
 
-        return view('students.index', compact('students', 'classes'));
+        // ✅ PERBAIKAN 1: Tambahkan prefix 'admin.' agar cocok dengan route group
+        return view('admin.students.index', compact('students', 'classes'));
     }
 
     public function create()
     {
         $classes = \App\Models\ClassRoom::orderBy('name')->get();
-        return view('students.create', compact('classes'));
+        
+        // ✅ PERBAIKAN 2: Tambahkan prefix 'admin.' untuk view create
+        return view('admin.students.create', compact('classes'));
     }
 
     public function store(Request $request)
@@ -47,7 +51,7 @@ class StudentController extends Controller
             'full_name' => 'required|string|max:100',
             'gender' => 'required|in:L,P',
             'birth_date' => 'required|date|before:today',
-            'class_id' => 'required|exists:classes,id',
+            'class_id' => 'required|exists:classes,id', // Sesuaikan 'classes' dengan nama tabel kelas Anda (misal: class_rooms)
             'parent_phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -62,19 +66,17 @@ class StudentController extends Controller
             }
 
             // 3. Buat Akun User untuk Siswa
-            // Password default: NIS + Tanggal Lahir (tanpa tanda hubung), misal: 1234520080101
             $defaultPassword = $validated['nis'] . str_replace('-', '', $validated['birth_date']);
             
             $user = User::create([
                 'name' => $validated['full_name'],
-                'email' => strtolower(str_replace(' ', '', $validated['full_name'])) . '@sikes.sch.id', // Email dummy unik
+                'email' => strtolower(str_replace(' ', '', $validated['full_name'])) . '@sikes.sch.id',
                 'password' => Hash::make($defaultPassword),
                 'phone' => $validated['parent_phone'],
                 'photo' => $photoPath,
                 'status' => 'active',
             ]);
             
-            // Assign Role 'siswa'
             $user->assignRole('siswa');
 
             // 4. Buat Data Siswa
@@ -90,13 +92,13 @@ class StudentController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('students.index')->with('success', 'Data siswa dan akun berhasil dibuat! Password default: ' . $defaultPassword);
+            
+            // ✅ PERBAIKAN 3: Redirect ke route 'admin.students.index'
+            return redirect()->route('admin.students.index')->with('success', 'Data siswa dan akun berhasil dibuat! Password default: ' . $defaultPassword);
 
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage())->withInput();
         }
     }
-
-    // Method edit, update, destroy bisa ditambahkan nanti
 }
