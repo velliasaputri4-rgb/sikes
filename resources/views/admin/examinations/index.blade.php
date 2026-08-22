@@ -162,6 +162,32 @@
 
         .form-hapus { display: inline-block; margin: 0; }
         .form-hapus button { padding: 0; margin: 0; }
+
+        /* ✅ TOMBOL INPUT KUNJUNGAN BARU - DIPERBAIKI */
+        .btn-input-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .btn-input-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+        .btn-input-primary:active {
+            transform: translateY(0);
+        }
     </style>
 
     <div class="content-card">
@@ -174,8 +200,9 @@
                 </h5>
                 <small class="text-muted">Kelola semua data pemeriksaan siswa</small>
             </div>
-            <a href="{{ route('admin.examinations.create') }}" class="btn btn-primary-custom">
-                <i class="fas fa-plus me-1"></i> Input Kunjungan Baru
+            {{-- ✅ TOMBOL DIPERBAIKI --}}
+            <a href="{{ route('admin.examinations.create') }}" class="btn-input-primary">
+                <i class="fas fa-plus"></i> Input Kunjungan Baru
             </a>
         </div>
 
