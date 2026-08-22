@@ -119,7 +119,6 @@
                 <i class="fas fa-calendar-day"></i>
                 {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }}
             </span>
-            {{-- ✅ PERBAIKAN: tanpa target="_blank" --}}
             <a href="{{ route('landing') }}" class="btn-home">
                 <i class="fas fa-home"></i> Beranda
             </a>
@@ -186,6 +185,8 @@
                 <small>Kelola data siswa</small>
             </a>
         </div>
+        
+        {{-- ✅ DIPERBAIKI: Menggunakan route ADMIN agar lolos middleware, tapi tetap menampilkan halaman petugas --}}
         <div class="col-xl-3 col-md-6">
             <a href="{{ route('admin.examinations.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #059669;">
@@ -195,6 +196,8 @@
                 <small>Lihat semua kunjungan</small>
             </a>
         </div>
+        
+        {{-- ✅ DIPERBAIKI: Menggunakan route ADMIN agar lolos middleware, tapi tetap menampilkan halaman petugas --}}
         <div class="col-xl-3 col-md-6">
             <a href="{{ route('admin.medicines.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706;">
@@ -204,6 +207,7 @@
                 <small>Stok & inventaris obat</small>
             </a>
         </div>
+        
         <div class="col-xl-3 col-md-6">
             <a href="{{ route('admin.cms.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); color: #0891b2;">

@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Examination;
 use App\Models\Student;
-use App\Models\Kelas; // ✅ Pastikan nama model kelas sesuai project (Kelas / Class / ClassRoom)
+use App\Models\Kelas; 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ExaminationController extends Controller
 {
@@ -47,6 +48,24 @@ class ExaminationController extends Controller
         ];
     }
 
+    // ✅ HELPER: Menentukan prefix view berdasarkan role (admin atau petugas)
+    private function getViewPrefix()
+    {
+        if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
+            return 'admin';
+        }
+        return 'petugas';
+    }
+
+    // ✅ HELPER: Menentukan prefix route berdasarkan role (admin atau petugas)
+    private function getRoutePrefix()
+    {
+        if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
+            return 'admin';
+        }
+        return 'petugas';
+    }
+
     // 1. Menampilkan Daftar Kunjungan
     public function index(Request $request)
     {
@@ -66,20 +85,20 @@ class ExaminationController extends Controller
 
         $examinations = $query->latest('examination_date')->paginate(15);
 
-        return view('petugas.examinations.index', compact('examinations'));
+        // ✅ Otomatis memilih view: admin.examinations.index ATAU petugas.examinations.index
+        return view($this->getViewPrefix() . '.examinations.index', compact('examinations'));
     }
 
     // 2. Menampilkan Form Tambah Kunjungan
     public function create()
     {
         $jadwalPiket = $this->getJadwalPiket();
-        return view('petugas.examinations.create', compact('jadwalPiket'));
+        return view($this->getViewPrefix() . '.examinations.create', compact('jadwalPiket'));
     }
 
     // 3. Menyimpan Data Kunjungan Baru
     public function store(Request $request)
     {
-        // Validasi dasar (treatment dihapus)
         $validated = $request->validate([
             'nis'              => 'required|string',
             'officer_name'     => 'required|string|max:255',
@@ -94,10 +113,8 @@ class ExaminationController extends Controller
             'notes'            => 'nullable|string|max:500',
         ]);
 
-        // Cari siswa berdasarkan NIS
         $student = Student::where('nis', $validated['nis'])->first();
 
-        // Kalau siswa TIDAK ADA, validasi tambahan & buat siswa baru
         if (!$student) {
             $request->validate([
                 'full_name'  => 'required|string|max:255',
@@ -107,28 +124,23 @@ class ExaminationController extends Controller
                 'class_name.required' => 'Kelas wajib diisi untuk siswa baru.',
             ]);
 
-            // Cari atau buat kelas baru (firstOrCreate mencegah duplikasi)
             $kelas = Kelas::firstOrCreate(['name' => $request->class_name]);
 
-            // Simpan siswa baru (gender dihapus)
             $student = Student::create([
                 'nis'          => $validated['nis'],
                 'full_name'    => $request->full_name,
-                'classroom_id' => $kelas->id, // ✅ pakai classroom_id sesuai migration
+                'classroom_id' => $kelas->id,
             ]);
         }
 
-        // Generate nomor kunjungan
         $examNumber = 'UKS-' . Carbon::now()->format('Ymd') . '-' .
                       str_pad(Examination::whereDate('created_at', today())->count() + 1, 4, '0', STR_PAD_LEFT);
 
-        // Handle upload foto
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
-        // Simpan data kunjungan (treatment dihapus)
         Examination::create([
             'examination_number' => $examNumber,
             'student_id'         => $student->id,
@@ -144,18 +156,15 @@ class ExaminationController extends Controller
             'photo'              => $photoPath,
         ]);
 
-        if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin')) {
-            return redirect()->route('admin.examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
-        }
-
-        return redirect()->route('petugas.examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
+        // ✅ Otomatis redirect ke route yang sesuai role
+        return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
     }
 
     // 4. Menampilkan Detail Kunjungan
     public function show($id)
     {
         $examination = Examination::with(['student.class'])->findOrFail($id);
-        return view('petugas.examinations.show', compact('examination'));
+        return view($this->getViewPrefix() . '.examinations.show', compact('examination'));
     }
 
     // 5. Menampilkan Form Edit
@@ -163,9 +172,9 @@ class ExaminationController extends Controller
     {
         $examination = Examination::with('student.class')->findOrFail($id);
         $jadwalPiket = $this->getJadwalPiket();
-        $students = Student::with('class')->get(); // ✅ Tambah: untuk dropdown di form edit
+        $students = Student::with('class')->get();
 
-        return view('petugas.examinations.edit', compact('examination', 'jadwalPiket', 'students'));
+        return view($this->getViewPrefix() . '.examinations.edit', compact('examination', 'jadwalPiket', 'students'));
     }
 
     // 6. Update Data Kunjungan
@@ -173,9 +182,8 @@ class ExaminationController extends Controller
     {
         $examination = Examination::findOrFail($id);
 
-        // Validasi (pakai student_id, treatment dihapus)
         $validated = $request->validate([
-            'student_id'       => 'required|exists:students,id', // ✅ pakai student_id (dropdown)
+            'student_id'       => 'required|exists:students,id',
             'officer_name'     => 'required|string|max:255',
             'piket_group'      => 'nullable|string|max:255',
             'examination_date' => 'required|date',
@@ -188,7 +196,6 @@ class ExaminationController extends Controller
             'notes'            => 'nullable|string|max:500',
         ]);
 
-        // Pastikan siswa masih ada (sebagai keamanan)
         $student = Student::find($validated['student_id']);
         if (!$student) {
             return back()->withErrors(['student_id' => 'Siswa tidak ditemukan.'])->withInput();
@@ -199,7 +206,6 @@ class ExaminationController extends Controller
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
-        // Update data (treatment dihapus)
         $examination->update([
             'student_id'       => $student->id,
             'officer_name'     => $validated['officer_name'],
@@ -214,11 +220,8 @@ class ExaminationController extends Controller
             'photo'            => $photoPath,
         ]);
 
-        if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin')) {
-            return redirect()->route('admin.examinations.index')->with('success', 'Data kunjungan berhasil diperbarui!');
-        }
-
-        return redirect()->route('petugas.examinations.index')->with('success', 'Data kunjungan berhasil diperbarui!');
+        // ✅ Otomatis redirect ke route yang sesuai role
+        return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil diperbarui!');
     }
 
     // 7. Hapus Data Kunjungan
@@ -227,22 +230,19 @@ class ExaminationController extends Controller
         $examination = Examination::findOrFail($id);
 
         if ($examination->photo) {
-            \Storage::disk('public')->delete($examination->photo);
+            Storage::disk('public')->delete($examination->photo);
         }
 
         $examination->delete();
 
-        if (auth()->user()->hasRole('super-admin') || auth()->user()->hasRole('admin')) {
-            return redirect()->route('admin.examinations.index')->with('success', 'Data kunjungan berhasil dihapus!');
-        }
-
-        return redirect()->route('petugas.examinations.index')->with('success', 'Data kunjungan berhasil dihapus!');
+        // ✅ Otomatis redirect ke route yang sesuai role
+        return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil dihapus!');
     }
 
     // METHOD BARU untuk AJAX cari siswa by NIS
     public function searchStudent($nis)
     {
         $student = Student::with('class')->where('nis', $nis)->first();
-        return response()->json($student); // null kalau tidak ditemukan
+        return response()->json($student);
     }
 }

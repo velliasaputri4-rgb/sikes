@@ -68,9 +68,10 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
 /*
 |--------------------------------------------------------------------------
 | 5. DASHBOARD PETUGAS (KHUSUS INPUT & KELOLA DATA HARIAN)
+| ✅ PERUBAHAN: Ditambahkan |admin|super-admin agar Admin bisa akses halaman ini
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name('petugas.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
     Route::get('/', [DashboardController::class, 'petugasIndex'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -208,8 +209,7 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
     // ===== ✅ JADWAL PETUGAS =====
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
 
-    // ===== ✅ JADWAL PIKET (DIPERBAIKI: DIARAHKAN KE SCHEDULE CONTROLLER) =====
-    // Menggunakan Route::resource agar lebih rapi dan otomatis menangani CRUD (index, create, store, edit, update, destroy)
+    // ===== ✅ JADWAL PIKET =====
     Route::resource('piket', \App\Http\Controllers\ScheduleController::class);
 
     // ===== ✅ INVENTARIS =====
@@ -254,7 +254,6 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
             'item_input.required'    => 'Isi nama barang yang dipinjam.',
         ]);
 
-        // 1. Cari siswa: NIS cocok persis, atau nama mirip
         $q = trim($data['student_input']);
         $student = \App\Models\Student::where('nis', $q)
             ->orWhere('full_name', 'like', "%{$q}%")->first();
@@ -264,7 +263,6 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
                 ->withErrors(['student_input' => "Siswa dengan NIS/nama \"{$q}\" tidak ditemukan."]);
         }
 
-        // 2. Cari barang by nama; kalau belum ada → buat baru otomatis
         $item = \App\Models\Item::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower(trim($data['item_input'])) . '%'])->first();
 
         if (!$item) {
@@ -278,13 +276,11 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
             ]);
         }
 
-        // 3. Cek stok
         if (($item->available ?? 0) < 1) {
             return redirect()->back()->withInput()
                 ->withErrors(['item_input' => "Stok \"{$item->name}\" sedang tidak tersedia."]);
         }
 
-        // 4. Simpan peminjaman + kurangi stok
         \Illuminate\Support\Facades\DB::transaction(function () use ($data, $student, $item) {
             \App\Models\Borrowing::forceCreate([
                 'item_id' => $item->id,
@@ -340,7 +336,6 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
             ]);
         }
 
-        // Logika stok otomatis
         $oldActive = in_array($borrowing->status, ['borrowed', 'overdue']);
         $newActive = in_array($data['status'], ['borrowed', 'overdue']);
 
@@ -382,7 +377,6 @@ Route::middleware(['auth', 'verified', 'role:petugas'])->prefix('petugas')->name
         $borrowing = \App\Models\Borrowing::findOrFail($id);
         
         \Illuminate\Support\Facades\DB::transaction(function () use ($borrowing) {
-            // Kembalikan stok jika masih dipinjam
             if (in_array($borrowing->status, ['borrowed', 'overdue'])) {
                 \App\Models\Item::where('id', $borrowing->item_id)->increment('available');
             }
