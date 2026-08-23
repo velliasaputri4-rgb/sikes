@@ -10,38 +10,41 @@ class SettingController extends Controller
 {
     public function index()
     {
-        // Ambil semua setting dan ubah menjadi array [key => value] agar mudah dipakai di form
         $settings = Setting::all()->pluck('value', 'key')->toArray();
         return view('admin.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
-        $data = $request->except(['_token', '_method', 'school_logo']);
+        // Abaikan token dan field gambar agar tidak diproses sebagai teks
+        $data = $request->except(['_token', '_method', 'navbar_logo', 'about_image']);
 
-        // 1. Simpan data teks/textarea
+        // 1. Simpan semua data teks/textarea
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
-                ['value' => $value, 'type' => 'text']
+                ['value' => $value, 'type' => (strlen($value) > 100) ? 'textarea' : 'text']
             );
         }
 
-        // 2. Handle Upload Logo (Jika ada file baru)
-        if ($request->hasFile('school_logo')) {
-            $file = $request->file('school_logo');
-            $path = $file->store('settings', 'public');
-            
-            // Hapus logo lama jika ada
-            $oldLogo = Setting::where('key', 'school_logo')->value('value');
-            if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
-                Storage::disk('public')->delete($oldLogo);
-            }
+        // 2. Handle Upload Gambar (Navbar Logo & About Image)
+        $imageFields = ['navbar_logo', 'about_image'];
+        foreach ($imageFields as $field) {
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $path = $file->store('settings', 'public');
+                
+                // Hapus gambar lama jika ada
+                $oldPath = Setting::where('key', $field)->value('value');
+                if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
 
-            Setting::updateOrCreate(
-                ['key' => 'school_logo'],
-                ['value' => $path, 'type' => 'image']
-            );
+                Setting::updateOrCreate(
+                    ['key' => $field],
+                    ['value' => $path, 'type' => 'image']
+                );
+            }
         }
 
         return redirect()->route('admin.settings.index')->with('success', 'Semua pengaturan website berhasil diperbarui!');
