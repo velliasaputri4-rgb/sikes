@@ -492,51 +492,6 @@
         margin: 0 auto;
     }
 
-    /* ============ FOOTER ============ */
-    footer {
-        background: var(--gradient-dark);
-        color: white;
-        padding: 80px 0 30px;
-        position: relative;
-        overflow: hidden;
-    }
-    footer::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image:
-            radial-gradient(circle at 10% 20%, rgba(30,58,138,0.25) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(59,130,246,0.15) 0%, transparent 40%);
-    }
-    footer .container { position: relative; z-index: 1; }
-    .footer-logo {
-        display: inline-flex; align-items: center; gap: 12px;
-        margin-bottom: 20px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700; font-size: 1.4rem;
-    }
-    footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
-    .footer-menu { list-style: none; padding: 0; margin: 0; }
-    .footer-menu li { margin-bottom: 12px; }
-    .footer-menu a {
-        color: rgba(255,255,255,0.7);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.95rem;
-        transition: all 0.3s;
-        display: inline-flex; align-items: center; gap: 8px;
-    }
-    .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
-
-    .footer-bottom {
-        border-top: 1px solid rgba(255,255,255,0.1);
-        margin-top: 50px;
-        padding-top: 25px;
-        text-align: center;
-        color: rgba(255,255,255,0.5);
-        font-size: 0.9rem;
-    }
-
     /* ============ SCROLL TO TOP ============ */
     .scroll-top {
         position: fixed;
@@ -799,54 +754,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4">
-                    <div class="footer-logo">
-                        <span>SIKES</span>
-                    </div>
-                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
-                        Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.
-                    </p>
-                </div>
-
-                <div class="col-6 col-lg-2">
-                    <h6>Navigasi</h6>
-                    <ul class="footer-menu">
-                        <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
-                        <li><a href="{{ route('landing') }}#tentang"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
-                        <li><a href="{{ route('landing') }}#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
-                        <li><a href="{{ route('landing') }}#kontak"><i class="fas fa-chevron-right fa-xs"></i> Kontak</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-lg-3">
-                    <h6>Layanan</h6>
-                    <ul class="footer-menu">
-                        <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
-                        <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3">
-                    <h6>Kontak</h6>
-                    <ul class="footer-menu">
-                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. KH. Achmad Fauzan No.17, Bangsri</a></li>
-                        <li><a href="https://instagram.com/pmrwira_eskasaba" target="_blank"><i class="fab fa-instagram"></i> @pmrwira_eskasaba</a></li>
-                        <li><a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank"><i class="fab fa-youtube"></i> @wirasandyaadhimukti3463</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p class="mb-0">&copy; {{ date('Y') }} <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
