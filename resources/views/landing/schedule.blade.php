@@ -34,7 +34,7 @@
 
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: 90px;
+        scroll-padding-top: 20px; /* Disesuaikan karena navbar sudah dihapus */
     }
 
     body {
@@ -57,73 +57,6 @@
     .blob-2 { width: 350px; height: 350px; background: #3b82f6; top: 100px; right: -80px; animation: float2 25s ease-in-out infinite; opacity: 0.2; }
     @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
     @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
-
-    /* ============ NAVBAR ============ */
-    .navbar {
-        background: rgba(255,255,255,0.9);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        box-shadow: 0 4px 30px rgba(30, 58, 138, 0.06);
-        border-bottom: 1px solid rgba(30, 58, 138, 0.08);
-        padding: 12px 0;
-        transition: all 0.4s ease;
-    }
-    .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
-    .navbar-brand { display: flex; align-items: center; }
-    .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
-    .navbar-brand:hover img { transform: scale(1.05); }
-    .nav-link {
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--slate) !important;
-        padding: 10px 18px !important;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        letter-spacing: 0.2px;
-    }
-    .nav-link:hover {
-        color: var(--primary-dark) !important;
-        background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
-        transform: translateY(-1px);
-    }
-    .nav-link.active {
-        color: white !important;
-        background: var(--gradient-primary);
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
-    }
-
-    .user-btn {
-        background: var(--gradient-primary);
-        color: white !important;
-        border: none;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
-        transition: all 0.3s;
-    }
-    .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(30,58,138,0.4); }
-
-    .dropdown-menu {
-        border: none;
-        border-radius: 14px;
-        box-shadow: 0 20px 50px rgba(15,23,42,0.15);
-        padding: 10px;
-        margin-top: 10px;
-    }
-    .dropdown-item {
-        border-radius: 8px;
-        padding: 10px 14px;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-    .dropdown-item:hover {
-        background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
-        transform: translateX(4px);
-    }
 
     /* ============ PAGE HEADER ============ */
     .page-header {
@@ -521,7 +454,6 @@
             font-size: 2.3rem;
             margin: 20px auto 0;
         }
-        .navbar-brand img { max-height: 45px; }
         .schedule-card { padding: 18px; flex-wrap: wrap; }
         .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
         .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
@@ -529,88 +461,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('landing') }}">
-                <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-1">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('landing') && !request()->is('*#*') ? 'active' : '' }}" href="{{ route('landing') }}">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link anchor-link" href="{{ route('landing') }}#tentang">Tentang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link anchor-link" href="{{ route('landing') }}#layanan">Layanan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link anchor-link" href="{{ route('landing') }}#kontak">Kontak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('landing.medicines*') ? 'active' : '' }}" href="{{ route('landing.medicines') }}">Obat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('landing.schedule*') ? 'active' : '' }}" href="{{ route('landing.schedule') }}">Jadwal</a>
-                    </li>
-
-                    <li class="nav-item ms-lg-3">
-                        <div class="dropdown">
-                            <button class="btn user-btn" type="button" data-bs-toggle="dropdown">
-                                <i class="fas {{ auth()->check() ? 'fa-user-check' : 'fa-user' }}"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                @auth
-                                    <li class="dropdown-header text-center pb-2">
-                                        <small class="text-muted d-block">Halo,</small>
-                                        <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
-                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole(['super-admin', 'admin']) ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'siswa.history')) }}">
-                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item text-danger">
-                                                <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                            </button>
-                                        </form>
-                                    </li>
-                                @else
-                                    <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin / Petugas
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('login.siswa') }}">
-                                            <i class="fas fa-user-graduate me-2 text-info"></i> Login Siswa
-                                        </a>
-                                    </li>
-                                @endauth
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -765,24 +615,18 @@
     <script>
         AOS.init({ duration: 700, once: true, offset: 60 });
 
+        // Scroll to top effect (Navbar logic removed)
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
             const scrollTop = document.getElementById('scrollTop');
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 300) scrollTop.classList.add('show');
-            else scrollTop.classList.remove('show');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
         });
 
         document.getElementById('scrollTop').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        document.querySelectorAll('.anchor-link').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
         });
     </script>
 </body>
