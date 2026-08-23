@@ -173,11 +173,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.cms*') ? 'active' : '' }}" href="{{ route('admin.cms.index') }}">
-                    <i class="fas fa-globe"></i> CMS Website
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.settings*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                     <i class="fas fa-cog"></i> Pengaturan
                 </a>

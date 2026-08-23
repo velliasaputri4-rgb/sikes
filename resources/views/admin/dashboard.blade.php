@@ -176,7 +176,7 @@
     <small class="text-muted d-block mb-4">Akses cepat ke fitur utama sistem</small>
     
     <div class="row g-3">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <a href="{{ route('admin.students.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #2563eb;">
                     <i class="fas fa-user-graduate"></i>
@@ -186,8 +186,7 @@
             </a>
         </div>
         
-        {{-- ✅ DIPERBAIKI: Menggunakan route ADMIN agar lolos middleware, tapi tetap menampilkan halaman petugas --}}
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <a href="{{ route('admin.examinations.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #059669;">
                     <i class="fas fa-clipboard-list"></i>
@@ -197,8 +196,7 @@
             </a>
         </div>
         
-        {{-- ✅ DIPERBAIKI: Menggunakan route ADMIN agar lolos middleware, tapi tetap menampilkan halaman petugas --}}
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <a href="{{ route('admin.medicines.index') }}" class="menu-cepat-card">
                 <div class="icon-wrap" style="background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706;">
                     <i class="fas fa-pills"></i>
@@ -207,23 +205,13 @@
                 <small>Stok & inventaris obat</small>
             </a>
         </div>
-        
-        <div class="col-xl-3 col-md-6">
-            <a href="{{ route('admin.cms.index') }}" class="menu-cepat-card">
-                <div class="icon-wrap" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); color: #0891b2;">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <div class="label">CMS Website</div>
-                <small>Kelola konten website</small>
-            </a>
-        </div>
     </div>
 </div>
 
 <!-- Manajemen Sistem -->
 <div class="content-card">
     <h5 class="fw-bold mb-1">Manajemen Sistem</h5>
-    <small class="text-muted d-block mb-4">Kelola pengguna dan pengaturan sistem</small>
+    <small class="text-muted d-block mb-4">Kelola pengguna dan konfigurasi aplikasi</small>
     
     <div class="row g-3">
         <div class="col-md-4">
@@ -232,7 +220,7 @@
                     <i class="fas fa-users-cog"></i>
                 </div>
                 <div class="label">Kelola User</div>
-                <small>Admin & petugas</small>
+                <small>Akun Admin & Petugas</small>
             </a>
         </div>
         <div class="col-md-4">
@@ -241,7 +229,7 @@
                     <i class="fas fa-cog"></i>
                 </div>
                 <div class="label">Pengaturan</div>
-                <small>Konfigurasi sistem</small>
+                <small>Identitas sekolah & konten website</small>
             </a>
         </div>
         <div class="col-md-4">

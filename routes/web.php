@@ -65,7 +65,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
     // ✅ DIPERBAIKI: Menggunakan Resource Controller agar fitur Kelola User berfungsi
     Route::resource('users', \App\Http\Controllers\UserController::class);
     
-    Route::get('/cms', function() { return view('admin.cms.index'); })->name('cms.index');
+    // ✅ CMS DIHAPUS, HANYA SISA PENGATURAN
     Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
 });
 
