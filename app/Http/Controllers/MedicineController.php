@@ -8,39 +8,54 @@ use Carbon\Carbon;
 
 class MedicineController extends Controller
 {
+    // Helper untuk menentukan view prefix (admin atau petugas)
+    private function getViewPrefix()
+    {
+        // Cek apakah URL mengandung '/admin/'
+        if (str_contains(request()->path(), 'admin')) {
+            return 'admin';
+        }
+        return 'petugas';
+    }
+
+    // Helper untuk menentukan route prefix
+    private function getRoutePrefix()
+    {
+        if (str_contains(request()->path(), 'admin')) {
+            return 'admin';
+        }
+        return 'petugas';
+    }
+
     public function index(Request $request)
     {
-        // ✅ Hapus with('category') karena relasi sudah dihapus
         $query = Medicine::query();
 
-        // Fitur Pencarian
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where('name', 'like', "%{$search}%")
                   ->orWhere('code', 'like', "%{$search}%");
         }
 
-        // Filter Status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
         $medicines = $query->latest()->paginate(15);
         
-        // ✅ Hapus logic $categories
-        return view('petugas.medicines.index', compact('medicines'));
+        // ✅ Otomatis pilih view: admin.medicines.index atau petugas.medicines.index
+        return view($this->getViewPrefix() . '.medicines.index', compact('medicines'));
     }
 
     public function create()
     {
-        // ✅ Hapus logic $categories
-        return view('petugas.medicines.create');
+        // ✅ Otomatis pilih view
+        return view($this->getViewPrefix() . '.medicines.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            // ✅ Hapus validasi category_id
             'code' => 'required|unique:medicines,code|max:30',
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:30',
@@ -49,7 +64,6 @@ class MedicineController extends Controller
             'expired_date' => 'nullable|date',
         ]);
 
-        // Tentukan status otomatis berdasarkan stok dan kedaluwarsa
         $status = 'available';
         if ($validated['stock'] == 0) {
             $status = 'empty';
@@ -66,14 +80,15 @@ class MedicineController extends Controller
 
         Medicine::create(array_merge($validated, ['status' => $status]));
 
-        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil ditambahkan!');
+        // ✅ Otomatis redirect ke route yang sesuai
+        return redirect()->route($this->getRoutePrefix() . '.medicines.index')->with('success', 'Data obat berhasil ditambahkan!');
     }
 
     public function edit($id) 
     { 
         $medicine = Medicine::findOrFail($id);
-        // ✅ Hapus logic $categories
-        return view('petugas.medicines.edit', compact('medicine')); 
+        // ✅ Otomatis pilih view
+        return view($this->getViewPrefix() . '.medicines.edit', compact('medicine')); 
     }
 
     public function update(Request $request, $id) 
@@ -81,7 +96,6 @@ class MedicineController extends Controller
         $medicine = Medicine::findOrFail($id);
         
         $validated = $request->validate([
-            // ✅ Hapus validasi category_id
             'code' => 'required|unique:medicines,code,' . $id . '|max:30',
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:30',
@@ -90,7 +104,6 @@ class MedicineController extends Controller
             'expired_date' => 'nullable|date',
         ]);
 
-        // Tentukan status otomatis
         $status = 'available';
         if ($validated['stock'] == 0) {
             $status = 'empty';
@@ -107,7 +120,8 @@ class MedicineController extends Controller
 
         $medicine->update(array_merge($validated, ['status' => $status]));
 
-        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil diperbarui!');
+        // ✅ Otomatis redirect ke route yang sesuai
+        return redirect()->route($this->getRoutePrefix() . '.medicines.index')->with('success', 'Data obat berhasil diperbarui!');
     }
 
     public function destroy($id) 
@@ -115,6 +129,7 @@ class MedicineController extends Controller
         $medicine = Medicine::findOrFail($id);
         $medicine->delete();
         
-        return redirect()->route('petugas.medicines.index')->with('success', 'Data obat berhasil dihapus!');
+        // ✅ Otomatis redirect ke route yang sesuai
+        return redirect()->route($this->getRoutePrefix() . '.medicines.index')->with('success', 'Data obat berhasil dihapus!');
     }
 }
