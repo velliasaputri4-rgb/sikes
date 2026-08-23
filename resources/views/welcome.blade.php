@@ -531,7 +531,7 @@
 </head>
 <body>
 
-    <!-- Navbar (struktur asli, warna palet baru) -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
@@ -546,8 +546,7 @@
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.medicines') }}">Obat</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.schedule') }}">Jadwal</a></li>
+                    <!-- ✅ DIHAPUS: Link Obat dan Jadwal dari Navbar -->
 
                     <li class="nav-item ms-lg-3">
                         <div class="dropdown">
@@ -632,7 +631,6 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
-                                <!-- ✅ DIUBAH: Data Real-time -->
                                 <h3>{{ number_format($totalStudents) }}</h3>
                                 <div class="stat-label">Siswa Terdaftar</div>
                                 <div class="stat-note">Tahun Ajaran 2025/2026</div>
@@ -641,7 +639,6 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
-                                <!-- ✅ DIUBAH: Data Real-time -->
                                 <h3>{{ $examsToday }}</h3>
                                 <div class="stat-label">Kunjungan Hari Ini</div>
                                 <div class="stat-note">Update: Hari Ini</div>
@@ -650,7 +647,6 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
-                                <!-- ✅ DIUBAH: Data Real-time -->
                                 <h3>{{ $examsMonth }}</h3>
                                 <div class="stat-label">Total Kunjungan</div>
                                 <div class="stat-note">Bulan Ini</div>
@@ -659,7 +655,6 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
                             <div>
-                                <!-- ✅ DIUBAH: Data Real-time -->
                                 <h3>{{ $optimalPercentage }}%</h3>
                                 <div class="stat-label">Layanan Optimal</div>
                                 <div class="stat-note">Kami Siap Melayani</div>
@@ -802,7 +797,6 @@
             <div class="row g-5">
                 <div class="col-lg-4">
                     <div class="footer-logo">
-                        <!-- ✅ DIHAPUS: Logo icon SIKES -->
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
