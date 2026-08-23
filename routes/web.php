@@ -57,11 +57,15 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
     Route::resource('students', StudentController::class);
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
+    
+    // ✅ DIPERBAIKI: Menggunakan Resource Controller agar fitur Kelola User berfungsi
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    
     Route::get('/cms', function() { return view('admin.cms.index'); })->name('cms.index');
-    Route::get('/users', function() { return view('admin.users.index'); })->name('users.index');
     Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
 });
 
