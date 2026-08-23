@@ -11,7 +11,7 @@ use App\Http\Controllers\Student\MedicalRecordController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. HALAMAN LOGIN (ADMIN & PETUGAS DIGABUNG, SISWA TERPISAH)
+| 1. LOGIN PAGES (ADMIN & STAFF COMBINED, STUDENT SEPARATED)
 |--------------------------------------------------------------------------
 */
 Route::get('/login-admin', function () { return redirect()->route('login'); })->name('login.admin');
@@ -20,7 +20,7 @@ Route::get('/login-siswa', function () { return view('auth.login-siswa'); })->na
 
 /*
 |--------------------------------------------------------------------------
-| 2. LANDING PAGE (PUBLIK - GUEST)
+| 2. LANDING PAGE (PUBLIC - GUEST)
 |--------------------------------------------------------------------------
 */
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -31,14 +31,14 @@ Route::get('/kontak', [LandingController::class, 'contact'])->name('landing.cont
 
 /*
 |--------------------------------------------------------------------------
-| 3. AUTHENTICATION (DARI BREEZE)
+| 3. AUTHENTICATION (FROM BREEZE)
 |--------------------------------------------------------------------------
 */
 require __DIR__.'/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| 3.5. INPUT KUNJUNGAN (PUBLIK - TANPA LOGIN)
+| 3.5. EXAMINATION INPUT (PUBLIC - NO LOGIN REQUIRED)
 |--------------------------------------------------------------------------
 */
 Route::prefix('petugas')->name('petugas.')->group(function () {
@@ -49,7 +49,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 4. DASHBOARD ADMIN (CMS & MASTER DATA LENGKAP)
+| 4. ADMIN DASHBOARD (CMS & COMPLETE MASTER DATA)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -62,17 +62,18 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
     
-    // ✅ DIPERBAIKI: Menggunakan Resource Controller agar fitur Kelola User berfungsi
+    // ✅ FIXED: Using Resource Controller so the User Management feature works
     Route::resource('users', \App\Http\Controllers\UserController::class);
     
-    // ✅ CMS DIHAPUS, HANYA SISA PENGATURAN
-    Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
+    // ✅ SETTINGS & CMS COMPLETE (Menggunakan SettingController)
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 });
 
 /*
 |--------------------------------------------------------------------------
-| 5. DASHBOARD PETUGAS (KHUSUS INPUT & KELOLA DATA HARIAN)
-| ✅ PERUBAHAN: Ditambahkan |admin|super-admin agar Admin bisa akses halaman ini
+| 5. STAFF DASHBOARD (SPECIFICALLY FOR DAILY INPUT & DATA MANAGEMENT)
+| ✅ CHANGE: Added |admin|super-admin so Admin can access this page
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
@@ -89,7 +90,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
 
     Route::resource('medicines', MedicineController::class);
 
-    // ===== ✅ DATA SISWA (PETUGAS) =====
+    // ===== ✅ STUDENT DATA (STAFF) =====
     Route::get('/students', function () {
         $search = request('search');
         $students = \App\Models\Student::with('class')
@@ -105,7 +106,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         return view('petugas.students.create', compact('classes'));
     })->name('students.create');
 
-    // ✅ Fungsi helper untuk membuat kelas baru (dengan kode unik)
+    // ✅ Helper function to create a new class (with a unique code)
     $createNewClass = function ($newClassName) {
         $classModelClass = get_class((new \App\Models\Student)->class()->getRelated());
         $classTableName = (new $classModelClass)->getTable();
@@ -138,7 +139,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         return $class;
     };
 
-    // Simpan Siswa Baru
+    // Save New Student
     Route::post('students', function (\Illuminate\Http\Request $request) use ($createNewClass) {
         $data = $request->validate([
             'nis'        => 'required|string|max:20|unique:students,nis',
@@ -146,9 +147,9 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'class_name' => 'required|string|max:50',
             'birth_date' => 'required|date',
         ], [
-            'nis.unique'          => 'NIS tersebut sudah terdaftar di database.',
-            'class_name.required' => 'Kelas wajib diisi (pilih atau ketik kelas baru).',
-            'birth_date.required' => 'Tanggal lahir wajib diisi.',
+            'nis.unique'          => 'This NIS is already registered in the database.',
+            'class_name.required' => 'Class is required (select or type a new class).',
+            'birth_date.required' => 'Date of birth is required.',
         ]);
 
         \Illuminate\Support\Facades\DB::transaction(function () use ($data, $createNewClass) {
@@ -165,7 +166,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
                 'classroom_id' => $class->id, 'birth_date' => $data['birth_date'],
             ]);
         });
-        return redirect()->route('petugas.students.index')->with('success', 'Siswa baru berhasil ditambahkan! Password: siswa123');
+        return redirect()->route('petugas.students.index')->with('success', 'New student successfully added! Password: siswa123');
     })->name('students.store');
 
     Route::get('students/{id}/edit', function ($id) {
@@ -174,7 +175,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         return view('petugas.students.edit', compact('student', 'classes'));
     })->name('students.edit');
 
-    // Update Siswa
+    // Update Student
     Route::put('students/{id}', function (\Illuminate\Http\Request $request, $id) use ($createNewClass) {
         $student = \App\Models\Student::findOrFail($id);
         $data = $request->validate([
@@ -183,7 +184,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'class_name' => 'required|string|max:50',
             'birth_date' => 'nullable|date',
         ], [
-            'nis.unique' => 'NIS tersebut sudah terdaftar di database.',
+            'nis.unique' => 'This NIS is already registered in the database.',
         ]);
 
         $class = $createNewClass($data['class_name']);
@@ -192,10 +193,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'nis' => $data['nis'], 'full_name' => $data['full_name'], 'classroom_id' => $class->id,
             'birth_date' => $data['birth_date'] ?? null,
         ]);
-        return redirect()->route('petugas.students.index')->with('success', 'Data siswa berhasil diperbarui!');
+        return redirect()->route('petugas.students.index')->with('success', 'Student data successfully updated!');
     })->name('students.update');
 
-    // ✅ HAPUS SISWA (Trash)
+    // ✅ DELETE STUDENT (Trash)
     Route::delete('students/{id}', function ($id) {
         $student = \App\Models\Student::findOrFail($id);
         try {
@@ -204,24 +205,24 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
                 $student->delete();
                 if ($userId) \App\Models\User::where('id', $userId)->delete();
             });
-            return redirect()->route('petugas.students.index')->with('success', 'Data siswa berhasil dihapus.');
+            return redirect()->route('petugas.students.index')->with('success', 'Student data successfully deleted.');
         } catch (\Throwable $e) {
-            return redirect()->route('petugas.students.index')->with('error', 'Gagal menghapus: data siswa masih terpakai di riwayat kunjungan.');
+            return redirect()->route('petugas.students.index')->with('error', 'Failed to delete: student data is still used in examination history.');
         }
     })->name('students.destroy');
 
-    // ===== ✅ JADWAL PETUGAS =====
+    // ===== ✅ STAFF SCHEDULE =====
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
 
-    // ===== ✅ JADWAL PIKET =====
+    // ===== ✅ DUTY SCHEDULE =====
     Route::resource('piket', \App\Http\Controllers\ScheduleController::class);
 
-    // ===== ✅ INVENTARIS =====
+    // ===== ✅ INVENTORY =====
     Route::resource('items', \App\Http\Controllers\ItemController::class);
 
-    // ===== ✅ PEMINJAMAN (INPUT MANUAL - OVERRIDE) =====
+    // ===== ✅ BORROWING (MANUAL INPUT - OVERRIDE) =====
     
-    // Daftar peminjaman
+    // Borrowing list
     Route::get('borrowings', function () {
         $search = request('search');
 
@@ -238,14 +239,14 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         return view('petugas.borrowings.index', compact('borrowings', 'students', 'items'));
     })->name('borrowings.index');
 
-    // Form tambah peminjaman
+    // Add borrowing form
     Route::get('borrowings/create', function () {
         $students = \App\Models\Student::orderBy('full_name')->get();
         $items = \App\Models\Item::orderBy('name')->get();
         return view('petugas.borrowings.create', compact('students', 'items'));
     })->name('borrowings.create');
 
-    // Simpan peminjaman baru (input manual)
+    // Save new borrowing (manual input)
     Route::post('borrowings', function (\Illuminate\Http\Request $request) {
         $data = $request->validate([
             'student_input'        => 'required|string|max:100',
@@ -254,8 +255,8 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'expected_return_date' => 'nullable|date',
             'notes'                => 'nullable|string',
         ], [
-            'student_input.required' => 'Isi NIS atau nama siswa.',
-            'item_input.required'    => 'Isi nama barang yang dipinjam.',
+            'student_input.required' => 'Enter NIS or student name.',
+            'item_input.required'    => 'Enter the name of the borrowed item.',
         ]);
 
         $q = trim($data['student_input']);
@@ -264,7 +265,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
 
         if (!$student) {
             return redirect()->back()->withInput()
-                ->withErrors(['student_input' => "Siswa dengan NIS/nama \"{$q}\" tidak ditemukan."]);
+                ->withErrors(['student_input' => "Student with NIS/name \"{$q}\" not found."]);
         }
 
         $item = \App\Models\Item::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower(trim($data['item_input'])) . '%'])->first();
@@ -282,7 +283,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
 
         if (($item->available ?? 0) < 1) {
             return redirect()->back()->withInput()
-                ->withErrors(['item_input' => "Stok \"{$item->name}\" sedang tidak tersedia."]);
+                ->withErrors(['item_input' => "Stock for \"{$item->name}\" is currently unavailable."]);
         }
 
         \Illuminate\Support\Facades\DB::transaction(function () use ($data, $student, $item) {
@@ -298,10 +299,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             \App\Models\Item::where('id', $item->id)->decrement('available');
         });
 
-        return redirect()->route('petugas.borrowings.index')->with('success', 'Peminjaman berhasil dicatat!');
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Borrowing successfully recorded!');
     })->name('borrowings.store');
 
-    // Form edit peminjaman
+    // Edit borrowing form
     Route::get('borrowings/{id}/edit', function ($id) {
         $borrowing = \App\Models\Borrowing::findOrFail($id);
         $student = \App\Models\Student::find($borrowing->student_id);
@@ -311,7 +312,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         return view('petugas.borrowings.edit', compact('borrowing', 'student', 'item', 'students', 'items'));
     })->name('borrowings.edit');
 
-    // Update peminjaman (stok disesuaikan otomatis)
+    // Update borrowing (stock adjusted automatically)
     Route::put('borrowings/{id}', function (\Illuminate\Http\Request $request, $id) {
         $borrowing = \App\Models\Borrowing::findOrFail($id);
 
@@ -328,7 +329,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         $student = \App\Models\Student::where('nis', $q)->orWhere('full_name', 'like', "%{$q}%")->first();
         if (!$student) {
             return redirect()->back()->withInput()
-                ->withErrors(['student_input' => "Siswa dengan NIS/nama \"{$q}\" tidak ditemukan."]);
+                ->withErrors(['student_input' => "Student with NIS/name \"{$q}\" not found."]);
         }
 
         $item = \App\Models\Item::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower(trim($data['item_input'])) . '%'])->first();
@@ -350,7 +351,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             if ($newActive && (!$oldActive || $borrowing->item_id != $item->id)) {
                 if (($item->available ?? 0) < 1) {
                     throw new \Illuminate\Validation\ValidationException(
-                        \Illuminate\Validation\Validator::make([], [], ['item_input' => "Stok \"{$item->name}\" tidak tersedia."])
+                        \Illuminate\Validation\Validator::make([], [], ['item_input' => "Stock for \"{$item->name}\" is unavailable."])
                     );
                 }
                 \App\Models\Item::where('id', $item->id)->decrement('available');
@@ -367,16 +368,16 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             ])->save();
         });
 
-        return redirect()->route('petugas.borrowings.index')->with('success', 'Data peminjaman berhasil diperbarui!');
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Borrowing data successfully updated!');
     })->name('borrowings.update');
 
-    // Detail peminjaman
+    // Borrowing details
     Route::get('borrowings/{id}', function ($id) {
         $borrowing = \App\Models\Borrowing::findOrFail($id);
         return redirect()->route('petugas.borrowings.index');
     })->name('borrowings.show');
 
-    // Hapus peminjaman
+    // Delete borrowing
     Route::delete('borrowings/{id}', function ($id) {
         $borrowing = \App\Models\Borrowing::findOrFail($id);
         
@@ -387,10 +388,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             $borrowing->delete();
         });
 
-        return redirect()->route('petugas.borrowings.index')->with('success', 'Data peminjaman berhasil dihapus!');
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Borrowing data successfully deleted!');
     })->name('borrowings.destroy');
 
-    // ✅ Tombol "Kembalikan" (quick action)
+    // ✅ "Return" Button (quick action)
     Route::patch('borrowings/{id}/return', function ($id) {
         $borrowing = \App\Models\Borrowing::findOrFail($id);
 
@@ -402,13 +403,13 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             \App\Models\Item::where('id', $borrowing->item_id)->increment('available');
         });
 
-        return redirect()->route('petugas.borrowings.index')->with('success', 'Barang berhasil dikembalikan!');
+        return redirect()->route('petugas.borrowings.index')->with('success', 'Item successfully returned!');
     })->name('borrowings.return');
 });
 
 /*
 |--------------------------------------------------------------------------
-| 6. RIWAYAT SISWA (KHUSUS ROLE SISWA)
+| 6. STUDENT HISTORY (SPECIFICALLY FOR STUDENT ROLE)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
@@ -417,7 +418,7 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
 
 /*
 |--------------------------------------------------------------------------
-| 7. REDIRECT OTOMATIS SETELAH LOGIN
+| 7. AUTOMATIC REDIRECT AFTER LOGIN
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', function() {
