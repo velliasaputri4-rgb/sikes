@@ -34,7 +34,7 @@
 
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: 20px; /* Disesuaikan karena navbar sudah dihapus */
+        scroll-padding-top: 20px;
     }
 
     body {
@@ -43,6 +43,41 @@
         color: var(--ink);
         line-height: 1.7;
         overflow-x: hidden;
+    }
+
+    /* ============ TOMBOL KEMBALI KE BERANDA ============ */
+    .btn-back-home {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        color: var(--pro);
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(30,58,138,0.1);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 10;
+    }
+    .btn-back-home:hover {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+        transform: translateX(-4px);
+        box-shadow: var(--shadow-md);
+    }
+    .btn-back-home i {
+        transition: transform 0.3s ease;
+    }
+    .btn-back-home:hover i {
+        transform: translateX(-3px);
     }
 
     .blob-bg {
@@ -457,6 +492,20 @@
         .schedule-card { padding: 18px; flex-wrap: wrap; }
         .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
         .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
+        
+        /* Penyesuaian tombol kembali untuk mobile */
+        .btn-back-home {
+            top: 16px;
+            left: 16px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+        .btn-back-home span {
+            display: none; /* Sembunyikan teks di layar kecil, hanya tampilkan ikon */
+        }
+        .btn-back-home i {
+            margin: 0;
+        }
     }
     </style>
 </head>
@@ -467,6 +516,13 @@
         <div class="blob-bg blob-1"></div>
         <div class="blob-bg blob-2"></div>
         <div class="container position-relative" style="z-index: 2;">
+            
+            <!-- ✅ TOMBOL KEMBALI KE BERANDA -->
+            <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="0">
+                <i class="fas fa-arrow-left"></i>
+                <span>Kembali ke Beranda</span>
+            </a>
+
             <div class="row align-items-center g-4">
                 <div class="col-lg-8" data-aos="fade-right">
                     <div class="page-header-badge">
@@ -615,7 +671,7 @@
     <script>
         AOS.init({ duration: 700, once: true, offset: 60 });
 
-        // Scroll to top effect (Navbar logic removed)
+        // Scroll to top effect
         window.addEventListener('scroll', () => {
             const scrollTop = document.getElementById('scrollTop');
             if (window.scrollY > 300) {
