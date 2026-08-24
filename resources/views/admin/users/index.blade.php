@@ -52,6 +52,19 @@
                             @endforeach
                         </td>
                         <td class="text-end pe-3">
+                            @php
+                                // Cek apakah yang login adalah Main Admin (admin@sikes.com) atau punya role super-admin
+                                $isMainAdmin = auth()->user()->email === 'admin@sikes.com' || auth()->user()->hasRole('super-admin');
+                            @endphp
+
+                            {{-- TOMBOL EDIT: Muncul JIKA dia Main Admin ATAU ini adalah akunnya sendiri --}}
+                            @if($isMainAdmin || $user->id === auth()->id())
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @endif
+
+                            {{-- TOMBOL HAPUS: Tetap tidak bisa hapus diri sendiri --}}
                             @if($user->id !== auth()->id())
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user {{ $user->name }}?')">
                                     @csrf 

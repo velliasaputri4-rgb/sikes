@@ -54,18 +54,24 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 */
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'adminIndex'])->name('dashboard');
+    
+    // Route profil bawaan Breeze (bisa tetap ada atau dihapus jika tidak dipakai)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // ✅ BARU: Route khusus untuk edit profil diri sendiri (Aman, tanpa parameter ID)
+    Route::get('/profile-saya/edit', [\App\Http\Controllers\UserController::class, 'editSelf'])->name('profile.edit.self');
+    Route::put('/profile-saya/update', [\App\Http\Controllers\UserController::class, 'updateSelf'])->name('profile.update.self');
     
     Route::resource('students', StudentController::class);
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
     
-    // ✅ FIXED: Using Resource Controller so the User Management feature works
+    // ✅ User Management (Admin mengelola user lain)
     Route::resource('users', \App\Http\Controllers\UserController::class);
     
-    // ✅ SETTINGS & CMS COMPLETE (Menggunakan SettingController)
+    // ✅ SETTINGS & CMS COMPLETE
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 });
@@ -73,7 +79,6 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
 /*
 |--------------------------------------------------------------------------
 | 5. STAFF DASHBOARD (SPECIFICALLY FOR DAILY INPUT & DATA MANAGEMENT)
-| ✅ CHANGE: Added |admin|super-admin so Admin can access this page
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
