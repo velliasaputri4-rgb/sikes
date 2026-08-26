@@ -50,12 +50,21 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Judul Utama (Hero Title)</label>
-                                <textarea name="hero_title" class="form-control" rows="3" placeholder="Masukkan judul utama">{{ strip_tags($settings['hero_title'] ?? '', '<br>') }}</textarea>
-                                <small class="text-muted">Tekan Enter untuk baris baru. Teks akan diformat otomatis di website.</small>
+                                <label class="form-label fw-semibold">Judul Utama</label>
+                                @php
+                                    $rawHero = $settings['hero_title'] ?? "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri";
+                                    // Bersihkan SEMUA variasi <br> dan HTML entities menjadi Enter (\n)
+                                    $cleanHero = str_replace(
+                                        ['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'],
+                                        "\n",
+                                        strip_tags($rawHero)
+                                    );
+                                @endphp
+                                <textarea name="hero_title" class="form-control" rows="3" placeholder="Tekan Enter untuk baris baru">{{ $cleanHero }}</textarea>
+                                <small class="text-muted">Tekan Enter pada keyboard untuk membuat baris baru.</small>
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Subjudul (Hero Subtitle)</label>
+                                <label class="form-label fw-semibold">Subjudul</label>
                                 <textarea name="hero_subtitle" class="form-control" rows="2">{{ $settings['hero_subtitle'] ?? 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.' }}</textarea>
                             </div>
                             <div class="col-md-6">
@@ -83,11 +92,11 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="about_title" class="form-control" value="{{ strip_tags($settings['about_title'] ?? '', '<span>') }}">
+                                <input type="text" name="about_title" class="form-control" value="{{ strip_tags($settings['about_title'] ?? 'Mengenal Lebih Dekat SIKES') }}">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Deskripsi Panjang</label>
-                                <textarea name="about_desc" class="form-control" rows="4">{{ $settings['about_desc'] ?? 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, hingga pembuatan laporan.' }}</textarea>
+                                <textarea name="about_desc" class="form-control" rows="4">{{ $settings['about_desc'] ?? 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien.' }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -106,7 +115,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="services_title" class="form-control" value="{{ strip_tags($settings['services_title'] ?? '', '<span>') }}">
+                                <input type="text" name="services_title" class="form-control" value="{{ strip_tags($settings['services_title'] ?? 'Layanan Kesehatan Profesional') }}">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Subjudul / Deskripsi Section</label>
@@ -137,7 +146,6 @@
                                 <div class="col-md-3">
                                     <label class="form-label fw-semibold">Icon (Class FontAwesome)</label>
                                     <input type="text" name="services[{{ $index }}][icon]" class="form-control" value="{{ $service['icon'] ?? 'fa-star' }}" placeholder="fa-stethoscope">
-                                    <small class="text-muted">Contoh: fa-stethoscope, fa-pills</small>
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-label fw-semibold">Judul Layanan</label>
@@ -165,14 +173,25 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="contact_title" class="form-control" value="{{ strip_tags($settings['contact_title'] ?? '', '<span>') }}">
+                                <input type="text" name="contact_title" class="form-control" value="{{ strip_tags($settings['contact_title'] ?? 'Siap Melayani Anda') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul</label>
+                                <input type="text" name="contact_subtitle" class="form-control" value="{{ $settings['contact_subtitle'] ?? 'Hubungi kami untuk informasi lebih lanjut tentang layanan UKS' }}">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Alamat Lengkap</label>
-                                <textarea name="contact_address" class="form-control" rows="3">{{ str_replace('<br>', "\n", $settings['contact_address'] ?? 'Komplek SMK Negeri 1 Bangsri
-Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara
-Jawa Tengah, 59453') }}</textarea>
-                                <small class="text-muted">Tekan Enter untuk baris baru</small>
+                                @php
+                                    $rawAddress = $settings['contact_address'] ?? "Komplek SMK Negeri 1 Bangsri\nJalan KH. Achmad Fauzan No.17, Bangsri, Jepara\nJawa Tengah, 59453";
+                                    // Bersihkan SEMUA variasi <br> dan HTML entities menjadi Enter (\n)
+                                    $cleanAddress = str_replace(
+                                        ['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'],
+                                        "\n",
+                                        strip_tags($rawAddress)
+                                    );
+                                @endphp
+                                <textarea name="contact_address" class="form-control" rows="3">{{ $cleanAddress }}</textarea>
+                                <small class="text-muted">Tekan Enter pada keyboard untuk baris baru.</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Username Instagram</label>
@@ -213,7 +232,7 @@ Jawa Tengah, 59453') }}</textarea>
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Teks Hak Cipta (Copyright)</label>
-                                <input type="text" name="footer_copyright" class="form-control" value="{{ strip_tags($settings['footer_copyright'] ?? '© ' . date('Y') . ' SIKES - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.', '<strong>') }}">
+                                <input type="text" name="footer_copyright" class="form-control" value="{{ strip_tags($settings['footer_copyright'] ?? '© ' . date('Y') . ' SIKES - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.') }}">
                             </div>
                         </div>
                     </div>

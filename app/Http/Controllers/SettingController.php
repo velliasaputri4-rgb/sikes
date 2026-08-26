@@ -8,21 +8,24 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    /**
+     * Menampilkan halaman pengaturan
+     */
     public function index()
     {
-        // Mengambil semua setting dan mengubahnya menjadi array key => value
         $settings = Setting::all()->pluck('value', 'key')->toArray();
-        
         return view('admin.settings.index', compact('settings'));
     }
 
+    /**
+     * Menyimpan perubahan pengaturan
+     */
     public function update(Request $request)
     {
         // 1. KHUSUS: Handle Array Services (Ubah ke JSON agar bisa disimpan di 1 kolom)
         if ($request->has('services')) {
             $servicesData = $request->input('services');
             
-            // array_values memastikan index array dimulai dari 0, 1, 2 dst (rapi di JSON)
             Setting::updateOrCreate(
                 ['key' => 'services_data'],
                 [
@@ -32,17 +35,16 @@ class SettingController extends Controller
             );
         }
 
-        // 2. Abaikan token, method, gambar, dan services (karena services sudah diproses di atas)
+        // 2. Abaikan token, method, gambar, dan services (karena sudah diproses di atas)
         $data = $request->except(['_token', '_method', 'navbar_logo', 'about_image', 'services']);
 
         // 3. Simpan semua data teks/textarea lainnya
         foreach ($data as $key => $value) {
             
-            // 🔑 INI KUNCINYA: 
-            // Ubah "Enter" (\n) yang diketik admin menjadi <br> secara AMAN.
-            // Fungsi e() mencegah XSS, nl2br() mengubah baris baru menjadi <br> untuk database.
+            // PERBAIKAN: Hapus fungsi e() agar tidak terjadi double encoding (&lt;br /&gt;)
+            // Cukup gunakan nl2br() untuk mengubah Enter menjadi <br>
             if (in_array($key, ['hero_title', 'contact_address'])) {
-                $value = nl2br(e($value));
+                $value = nl2br($value); 
             }
 
             Setting::updateOrCreate(
