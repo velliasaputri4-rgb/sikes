@@ -56,6 +56,21 @@ class ItemController extends Controller
             'category' => 'nullable|string|max:100',
         ]);
 
+        // ✅ PERBAIKAN FINAL: 
+        // Karena tabel borrowings TIDAK punya kolom 'quantity', 
+        // kita gunakan ->count() untuk menghitung berapa banyak baris peminjaman aktif.
+        // (1 baris peminjaman = 1 barang)
+        $totalDipinjam = $item->activeBorrowings()->count();
+        
+        // Stok tersedia = Total Stok - Jumlah yang sedang dipinjam
+        $validated['available'] = $validated['quantity'] - $totalDipinjam;
+
+        // Keamanan: Mencegah stok tersedia menjadi angka negatif 
+        // (jika user menginput quantity lebih kecil dari yang sedang dipinjam)
+        if ($validated['available'] < 0) {
+            $validated['available'] = 0;
+        }
+
         $item->update($validated);
 
         return redirect()->route('petugas.items.index')
