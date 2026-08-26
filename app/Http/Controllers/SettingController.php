@@ -37,6 +37,14 @@ class SettingController extends Controller
 
         // 3. Simpan semua data teks/textarea lainnya
         foreach ($data as $key => $value) {
+            
+            // 🔑 INI KUNCINYA: 
+            // Ubah "Enter" (\n) yang diketik admin menjadi <br> secara AMAN.
+            // Fungsi e() mencegah XSS, nl2br() mengubah baris baru menjadi <br> untuk database.
+            if (in_array($key, ['hero_title', 'contact_address'])) {
+                $value = nl2br(e($value));
+            }
+
             Setting::updateOrCreate(
                 ['key' => $key],
                 [

@@ -19,9 +19,8 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.settings.update') }}" method="POST">
+    <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        {{-- Gunakan @method('PUT') jika route kamu menggunakan Route::put, atau biarkan POST sesuai route kamu --}}
         
         <!-- Tabs Navigasi Cepat -->
         <ul class="nav nav-pills mb-4" id="settingsTab" role="tablist">
@@ -52,7 +51,8 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Judul Utama (Hero Title)</label>
-                                <input type="text" name="hero_title" class="form-control" value="{{ $settings['hero_title'] ?? 'Selamat Datang di<br><span class=\'hero-accent\'>Sistem Informasi UKS</span><br>SMK Negeri 1 Bangsri' }}" placeholder="Boleh menggunakan tag HTML seperti <br> atau <span>">
+                                <textarea name="hero_title" class="form-control" rows="3" placeholder="Masukkan judul utama">{{ strip_tags($settings['hero_title'] ?? '', '<br>') }}</textarea>
+                                <small class="text-muted">Tekan Enter untuk baris baru. Teks akan diformat otomatis di website.</small>
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Subjudul (Hero Subtitle)</label>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="about_title" class="form-control" value="{{ $settings['about_title'] ?? 'Mengenal Lebih Dekat <span class=\'gradient-text\'>SIKES</span>' }}">
+                                <input type="text" name="about_title" class="form-control" value="{{ strip_tags($settings['about_title'] ?? '', '<span>') }}">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Deskripsi Panjang</label>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="services_title" class="form-control" value="{{ $settings['services_title'] ?? 'Layanan Kesehatan <span class=\'gradient-text\'>Profesional</span>' }}">
+                                <input type="text" name="services_title" class="form-control" value="{{ strip_tags($settings['services_title'] ?? '', '<span>') }}">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Subjudul / Deskripsi Section</label>
@@ -117,10 +117,9 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Daftar 6 Layanan (Gunakan nama class FontAwesome, misal: fa-stethoscope)</div>
+                    <div class="card-header bg-light fw-bold">Daftar 6 Layanan</div>
                     <div class="card-body">
                         @php
-                            // Fallback default services jika belum ada di database
                             $defaultServices = [
                                 ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
                                 ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.'],
@@ -129,8 +128,6 @@
                                 ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
                                 ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
                             ];
-                            // Ambil dari database jika ada, formatnya bisa disimpan sebagai JSON di satu kolom 'services_data', 
-                            // atau dipecah per baris. Di sini kita asumsikan disimpan sebagai JSON di kolom 'services_data'
                             $servicesData = json_decode($settings['services_data'] ?? json_encode($defaultServices), true);
                         @endphp
 
@@ -138,8 +135,9 @@
                             <div class="row g-3 mb-3 pb-3 border-bottom">
                                 <div class="col-12"><h6 class="text-primary mb-2">Layanan {{ $index + 1 }}</h6></div>
                                 <div class="col-md-3">
-                                    <label class="form-label fw-semibold">Icon (Class FA)</label>
+                                    <label class="form-label fw-semibold">Icon (Class FontAwesome)</label>
                                     <input type="text" name="services[{{ $index }}][icon]" class="form-control" value="{{ $service['icon'] ?? 'fa-star' }}" placeholder="fa-stethoscope">
+                                    <small class="text-muted">Contoh: fa-stethoscope, fa-pills</small>
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-label fw-semibold">Judul Layanan</label>
@@ -167,11 +165,14 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="contact_title" class="form-control" value="{{ $settings['contact_title'] ?? 'Siap Melayani <span class=\'gradient-text\'>Anda</span>' }}">
+                                <input type="text" name="contact_title" class="form-control" value="{{ strip_tags($settings['contact_title'] ?? '', '<span>') }}">
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Alamat Lengkap (Gunakan <br> untuk baris baru)</label>
-                                <textarea name="contact_address" class="form-control" rows="3">{{ $settings['contact_address'] ?? 'Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453' }}</textarea>
+                                <label class="form-label fw-semibold">Alamat Lengkap</label>
+                                <textarea name="contact_address" class="form-control" rows="3">{{ str_replace('<br>', "\n", $settings['contact_address'] ?? 'Komplek SMK Negeri 1 Bangsri
+Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara
+Jawa Tengah, 59453') }}</textarea>
+                                <small class="text-muted">Tekan Enter untuk baris baru</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Username Instagram</label>
@@ -212,8 +213,7 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Teks Hak Cipta (Copyright)</label>
-                                <input type="text" name="footer_copyright" class="form-control" value="{{ $settings['footer_copyright'] ?? '© ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.' }}">
-                                <small class="text-muted">Boleh menggunakan tag HTML seperti <strong> atau &copy;</small>
+                                <input type="text" name="footer_copyright" class="form-control" value="{{ strip_tags($settings['footer_copyright'] ?? '© ' . date('Y') . ' SIKES - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.', '<strong>') }}">
                             </div>
                         </div>
                     </div>
