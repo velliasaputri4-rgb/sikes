@@ -47,24 +47,20 @@
 
     /* ============ TOMBOL KEMBALI KE BERANDA ============ */
     .btn-back-home {
-        position: absolute;
-        top: 24px;
-        left: 24px;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 10px 20px;
+        padding: 8px 18px;
         background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(10px);
         color: var(--pro);
         border-radius: 50px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         text-decoration: none;
         box-shadow: var(--shadow-sm);
-        border: 1px solid rgba(30,58,138,0.1);
+        border: 1px solid rgba(30,58,138,0.15);
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        z-index: 10;
     }
     .btn-back-home:hover {
         background: var(--gradient-primary);
@@ -110,7 +106,7 @@
         border-radius: 50px;
         font-size: 0.85rem;
         font-weight: 600;
-        margin-bottom: 18px;
+        margin-bottom: 0; /* Diatur oleh wrapper flex */
         border: 1px solid rgba(30,58,138,0.15);
     }
     .page-header-badge .pulse-dot {
@@ -495,8 +491,6 @@
         
         /* Penyesuaian tombol kembali untuk mobile */
         .btn-back-home {
-            top: 16px;
-            left: 16px;
             padding: 8px 14px;
             font-size: 0.8rem;
         }
@@ -516,19 +510,23 @@
         <div class="blob-bg blob-1"></div>
         <div class="blob-bg blob-2"></div>
         <div class="container position-relative" style="z-index: 2;">
-            
-            <!-- ✅ TOMBOL KEMBALI KE BERANDA -->
-            <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="0">
-                <i class="fas fa-arrow-left"></i>
-                <span>Kembali ke Beranda</span>
-            </a>
-
             <div class="row align-items-center g-4">
                 <div class="col-lg-8" data-aos="fade-right">
-                    <div class="page-header-badge">
-                        <span class="pulse-dot"></span>
-                        <span>Jadwal Petugas UKS Aktif</span>
+                    
+                    <!-- Wrapper Flex untuk Badge dan Tombol Kembali -->
+                    <div class="d-flex align-items-center gap-3 flex-wrap" style="margin-bottom: 18px;">
+                        <div class="page-header-badge mb-0">
+                            <span class="pulse-dot"></span>
+                            <span>Jadwal Petugas UKS Aktif</span>
+                        </div>
+                        
+                        <!-- ✅ TOMBOL KEMBALI KE BERANDA (Dipindahkan ke sini) -->
+                        <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Kembali ke Beranda</span>
+                        </a>
                     </div>
+
                     <h1 class="page-title">
                         Jadwal <span class="gradient-text">Petugas</span><br>
                         UKS SMK Negeri 1 Bangsri
