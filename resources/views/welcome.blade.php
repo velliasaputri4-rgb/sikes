@@ -655,7 +655,6 @@
         <div class="container position-relative">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
-                    {{-- ✅ DINAMIS: Mengambil dari database --}}
                     <h1 class="hero-title">{!! \App\Models\Setting::get('hero_title', "Selamat Datang di<br><span class='hero-accent'>Sistem Informasi UKS</span><br>SMK Negeri 1 Bangsri") !!}</h1>
                     <p class="hero-subtitle">{{ \App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.') }}</p>
                     <div class="d-flex gap-3 flex-wrap">
@@ -747,7 +746,6 @@
                     </div>
                 </div>
                 <div class="col-lg-7" data-aos="fade-left">
-                    {{-- ✅ DINAMIS: Mengambil dari database --}}
                     <span class="section-label">{{ \App\Models\Setting::get('about_label', 'Tentang Kami') }}</span>
                     <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
                     <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, hingga pembuatan laporan.') }}</p>
@@ -772,7 +770,6 @@
                 <p class="section-subtitle mx-auto">{{ \App\Models\Setting::get('services_subtitle', 'Berbagai layanan kesehatan lengkap yang kami sediakan untuk siswa') }}</p>
             </div>
             <div class="row g-4">
-                {{-- ✅ DINAMIS: Mengambil array JSON dari database --}}
                 @php
                     $defaultServices = [
                         ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
@@ -813,7 +810,6 @@
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-3">Alamat Kami</h5>
-                        {{-- ✅ DINAMIS: Menggunakan {!! !!} agar tag <br> dari database terbaca --}}
                         <p style="color: var(--slate); line-height: 1.8; margin-bottom: 0;">
                             {!! \App\Models\Setting::get('contact_address', "Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453") !!}
                         </p>
@@ -826,11 +822,12 @@
                         <p style="color: var(--slate); line-height: 2; margin-bottom: 0;">
                             <i class="fab fa-instagram me-2 text-danger"></i>
                             <a href="{{ \App\Models\Setting::get('contact_ig_link', 'https://instagram.com/pmrwira_eskasaba') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
-                                @{{ \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
+                                {{-- ✅ PERBAIKAN: Menggunakan konkatenasi '@' . agar tidak dianggap escape Blade --}}
+                                {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
                             </a><br>
                             <i class="fab fa-youtube me-2 text-danger"></i>
                             <a href="{{ \App\Models\Setting::get('contact_yt_link', 'https://youtube.com/@wirasandyaadhimukti3463') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
-                                @{{ \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
+                                {{ '@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
                             </a>
                         </p>
                     </div>
@@ -875,14 +872,21 @@
                     <h6>Kontak</h6>
                     <ul class="footer-menu">
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. KH. Achmad Fauzan No.17, Bangsri</a></li>
-                        <li><a href="{{ \App\Models\Setting::get('contact_ig_link', '#') }}" target="_blank"><i class="fab fa-instagram"></i> @{{ \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}</a></li>
-                        <li><a href="{{ \App\Models\Setting::get('contact_yt_link', '#') }}" target="_blank"><i class="fab fa-youtube"></i> @{{ \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}</a></li>
+                        <li>
+                            <a href="{{ \App\Models\Setting::get('contact_ig_link', '#') }}" target="_blank">
+                                <i class="fab fa-instagram"></i> {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ \App\Models\Setting::get('contact_yt_link', '#') }}" target="_blank">
+                                <i class="fab fa-youtube"></i> {{ '@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                {{-- ✅ DINAMIS: Copyright juga bisa diubah dari admin --}}
                 <p class="mb-0">{!! \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.') !!}</p>
             </div>
         </div>
