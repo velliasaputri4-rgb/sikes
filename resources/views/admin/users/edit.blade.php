@@ -49,7 +49,7 @@
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Role Saat Ini</label>
                 <input type="text" class="form-control" value="{{ $user->roles->isNotEmpty() ? ucfirst($user->roles->first()->name) : 'Tidak ada' }}" disabled>
-                <small class="text-muted">Hubungi Super Admin jika perlu perubahan role.</small>
+                <small class="text-muted">.</small>
             </div>
         </div>
 

@@ -53,8 +53,8 @@
                         </td>
                         <td class="text-end pe-3">
                             @php
-                                // Cek apakah yang login adalah Main Admin (admin@sikes.com) atau punya role super-admin
-                                $isMainAdmin = auth()->user()->email === 'admin@sikes.com' || auth()->user()->hasRole('super-admin');
+                                // Cek apakah yang login adalah Main Admin (admin@sikes.com)
+                                $isMainAdmin = auth()->user()->email === 'admin@sikes.com';
                             @endphp
 
                             {{-- TOMBOL EDIT: Muncul JIKA dia Main Admin ATAU ini adalah akunnya sendiri --}}
@@ -64,8 +64,8 @@
                                 </a>
                             @endif
 
-                            {{-- TOMBOL HAPUS: Tetap tidak bisa hapus diri sendiri --}}
-                            @if($user->id !== auth()->id())
+                            {{-- TOMBOL HAPUS: HANYA muncul jika yang login adalah admin@sikes.com DAN bukan akun sendiri --}}
+                            @if($isMainAdmin && $user->id !== auth()->id())
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user {{ $user->name }}?')">
                                     @csrf 
                                     @method('DELETE')
@@ -73,7 +73,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                            @else
+                            @elseif(!$isMainAdmin && $user->id === auth()->id())
                                 <span class="badge bg-secondary">Akun Anda</span>
                             @endif
                         </td>
