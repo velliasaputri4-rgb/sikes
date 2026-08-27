@@ -526,117 +526,39 @@
         .hero-subtitle { margin-left: auto; margin-right: auto; text-align: center; }
         .section { padding: 60px 0; }
         .navbar-brand img { max-height: 42px; }
-        
-        /* Sembunyikan dekorasi kompleks di mobile agar tidak berantakan */
         .hero-decor { display: none; }
-        
-        /* Hero Buttons: Rapi di tengah, tidak mepet tepi layar */
-        .d-flex.gap-3.flex-wrap { 
-            justify-content: center; 
-            gap: 12px !important; 
-        }
-        .btn-hero-primary, .btn-hero-outline { 
-            width: 100%; 
-            max-width: 320px;
-            justify-content: center; 
-            padding: 14px 20px;
-        }
+        .d-flex.gap-3.flex-wrap { justify-content: center; gap: 12px !important; }
+        .btn-hero-primary, .btn-hero-outline { width: 100%; max-width: 320px; justify-content: center; padding: 14px 20px; }
     }
 
     @media (max-width: 576px) {
-        /* --- HERO SECTION --- */
         .hero-section { padding: 60px 0 40px; }
-        .hero-title { 
-            font-size: 1.6rem; 
-            line-height: 1.3; 
-            margin-bottom: 16px; 
-        }
-        .hero-subtitle { 
-            font-size: 0.9rem; 
-            margin-bottom: 24px; 
-            padding: 0 10px;
-        }
-        
-        /* --- STAT CARDS --- */
-        .stats-grid { 
-            grid-template-columns: 1fr; 
-            gap: 16px; 
-            padding: 0 10px;
-        }
-        .stat-card { 
-            padding: 18px 20px; 
-            align-items: center; /* Vertically center icon and text */
-        }
-        .stat-icon { 
-            width: 48px; 
-            height: 48px; 
-            font-size: 1.1rem; 
-            flex-shrink: 0; /* Prevent icon from squishing */
-        }
+        .hero-title { font-size: 1.6rem; line-height: 1.3; margin-bottom: 16px; }
+        .hero-subtitle { font-size: 0.9rem; margin-bottom: 24px; padding: 0 10px; }
+        .stats-grid { grid-template-columns: 1fr; gap: 16px; padding: 0 10px; }
+        .stat-card { padding: 18px 20px; align-items: center; }
+        .stat-icon { width: 48px; height: 48px; font-size: 1.1rem; flex-shrink: 0; }
         .stat-card h3 { font-size: 1.35rem; margin-bottom: 2px; }
         .stat-label { font-size: 0.8rem; }
         .stat-note { font-size: 0.7rem; }
-
-        /* --- MENU CARDS --- */
         .row.mt-5 { margin-top: 2rem !important; }
-        .menu-card { 
-            padding: 28px 20px; 
-            margin-bottom: 0;
-        }
-        .menu-icon { 
-            width: 64px; 
-            height: 64px; 
-            font-size: 26px; 
-            margin-bottom: 16px; 
-        }
+        .menu-card { padding: 28px 20px; margin-bottom: 0; }
+        .menu-icon { width: 64px; height: 64px; font-size: 26px; margin-bottom: 16px; }
         .menu-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .menu-card p { font-size: 0.85rem; margin-bottom: 12px; }
-
-        /* --- SERVICE CARDS (Mencegah Overlap Angka) --- */
-        .service-card { 
-            padding: 24px 20px; 
-        }
-        .service-num { 
-            font-size: 2rem; 
-            top: 15px; 
-            right: 15px; 
-            line-height: 1;
-        }
-        .service-card h5 { 
-            font-size: 1.05rem; 
-            margin-bottom: 8px; 
-            padding-right: 35px; /* PENTING: Mencegah teks menabrak angka 01, 02 */
-        }
-        .service-icon { 
-            width: 52px; 
-            height: 52px; 
-            font-size: 1.3rem; 
-            margin-bottom: 16px; 
-        }
+        .service-card { padding: 24px 20px; }
+        .service-num { font-size: 2rem; top: 15px; right: 15px; line-height: 1; }
+        .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; padding-right: 35px; }
+        .service-icon { width: 52px; height: 52px; font-size: 1.3rem; margin-bottom: 16px; }
         .service-card p { font-size: 0.85rem; line-height: 1.5; }
-
-        /* --- ABOUT SECTION --- */
         .about-img-wrap { margin-bottom: 30px; }
-        .about-pill { 
-            padding: 8px 16px; 
-            font-size: 0.8rem; 
-            margin: 4px; 
-        }
+        .about-pill { padding: 8px 16px; font-size: 0.8rem; margin: 4px; }
         .section-title { font-size: 1.5rem; text-align: center; }
         .section-subtitle { font-size: 0.9rem; text-align: center; }
-
-        /* --- CONTACT SECTION --- */
         .info-card { padding: 28px 20px; text-align: center; }
-        .info-icon { 
-            width: 56px; 
-            height: 56px; 
-            font-size: 1.4rem; 
-            margin: 0 auto 16px auto; /* Center icon */
-        }
+        .info-icon { width: 56px; height: 56px; font-size: 1.4rem; margin: 0 auto 16px auto; }
         .info-card h5 { text-align: center; }
         .info-card p { text-align: center; }
-
-        /* --- FOOTER --- */
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
         footer p { text-align: center; }
@@ -644,8 +566,6 @@
         .footer-menu { text-align: center; padding: 0; }
         .footer-menu li { margin-bottom: 10px; }
         .footer-menu a { justify-content: center; font-size: 0.9rem; }
-        
-        /* --- SCROLL TO TOP --- */
         .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
     }
     </style>
@@ -735,14 +655,15 @@
         <div class="container position-relative">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
-                    <h1 class="hero-title">Selamat Datang di<br><span class="hero-accent">Sistem Informasi UKS</span><br>SMK Negeri 1 Bangsri</h1>
-                    <p class="hero-subtitle">Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.</p>
+                    {{-- ✅ DINAMIS: Mengambil dari database --}}
+                    <h1 class="hero-title">{!! \App\Models\Setting::get('hero_title', "Selamat Datang di<br><span class='hero-accent'>Sistem Informasi UKS</span><br>SMK Negeri 1 Bangsri") !!}</h1>
+                    <p class="hero-subtitle">{{ \App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.') }}</p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="btn-hero-primary">
-                            <i class="fas fa-history"></i> Riwayat Kunjungan
+                            <i class="fas fa-history"></i> {{ \App\Models\Setting::get('hero_btn_1_text', 'Riwayat Kunjungan') }}
                         </a>
                         <a href="#tentang" class="btn-hero-outline">
-                            <i class="fas fa-info-circle"></i> Pelajari Lebih Lanjut
+                            <i class="fas fa-info-circle"></i> {{ \App\Models\Setting::get('hero_btn_2_text', 'Pelajari Lebih Lanjut') }}
                         </a>
                     </div>
                 </div>
@@ -751,7 +672,7 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
-                                <h3>{{ number_format($totalStudents) }}</h3>
+                                <h3>{{ number_format($totalStudents ?? 0) }}</h3>
                                 <div class="stat-label">Siswa Terdaftar</div>
                                 <div class="stat-note">Tahun Ajaran 2025/2026</div>
                             </div>
@@ -759,7 +680,7 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
-                                <h3>{{ $examsToday }}</h3>
+                                <h3>{{ $examsToday ?? 0 }}</h3>
                                 <div class="stat-label">Kunjungan Hari Ini</div>
                                 <div class="stat-note">Update: Hari Ini</div>
                             </div>
@@ -767,7 +688,7 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
-                                <h3>{{ $examsMonth }}</h3>
+                                <h3>{{ $examsMonth ?? 0 }}</h3>
                                 <div class="stat-label">Total Kunjungan</div>
                                 <div class="stat-note">Bulan Ini</div>
                             </div>
@@ -775,7 +696,7 @@
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
                             <div>
-                                <h3>{{ $optimalPercentage }}%</h3>
+                                <h3>{{ $optimalPercentage ?? 100 }}%</h3>
                                 <div class="stat-label">Layanan Optimal</div>
                                 <div class="stat-note">Kami Siap Melayani</div>
                             </div>
@@ -826,9 +747,10 @@
                     </div>
                 </div>
                 <div class="col-lg-7" data-aos="fade-left">
-                    <span class="section-label">Tentang Kami</span>
-                    <h2 class="section-title">Mengenal Lebih Dekat <span class="gradient-text">SIKES</span></h2>
-                    <p style="color: var(--slate); margin-bottom: 28px;">SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, hingga pembuatan laporan.</p>
+                    {{-- ✅ DINAMIS: Mengambil dari database --}}
+                    <span class="section-label">{{ \App\Models\Setting::get('about_label', 'Tentang Kami') }}</span>
+                    <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
+                    <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, hingga pembuatan laporan.') }}</p>
 
                     <div class="d-flex flex-wrap gap-3">
                         <span class="about-pill"><i class="fas fa-database"></i> Data Digital</span>
@@ -845,28 +767,31 @@
     <section class="section services-section" id="layanan">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Layanan Kami</span>
-                <h2 class="section-title">Layanan Kesehatan <span class="gradient-text">Profesional</span></h2>
-                <p class="section-subtitle mx-auto">Berbagai layanan kesehatan lengkap yang kami sediakan untuk siswa</p>
+                <span class="section-label">{{ \App\Models\Setting::get('services_label', 'Layanan Kami') }}</span>
+                <h2 class="section-title">{!! \App\Models\Setting::get('services_title', 'Layanan Kesehatan <span class="gradient-text">Profesional</span>') !!}</h2>
+                <p class="section-subtitle mx-auto">{{ \App\Models\Setting::get('services_subtitle', 'Berbagai layanan kesehatan lengkap yang kami sediakan untuk siswa') }}</p>
             </div>
             <div class="row g-4">
+                {{-- ✅ DINAMIS: Mengambil array JSON dari database --}}
                 @php
-                    $services = [
-                        ['stethoscope', 'Pemeriksaan Kesehatan', 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
-                        ['pills', 'Pelayanan Obat', 'Penyediaan obat lengkap dan terjamin kualitasnya.'],
-                        ['heartbeat', 'Pertolongan Pertama', 'Pertolongan pertama pada kecelakaan & keadaan darurat.'],
-                        ['user-md', 'Konsultasi Kesehatan', 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.'],
-                        ['clipboard-check', 'Pemeriksaan Berkala', 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
-                        ['graduation-cap', 'Edukasi Kesehatan', 'Penyuluhan dan edukasi tentang pola hidup sehat.']
+                    $defaultServices = [
+                        ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
+                        ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.'],
+                        ['icon' => 'fa-heartbeat', 'title' => 'Pertolongan Pertama', 'desc' => 'Pertolongan pertama pada kecelakaan & keadaan darurat.'],
+                        ['icon' => 'fa-user-md', 'title' => 'Konsultasi Kesehatan', 'desc' => 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.'],
+                        ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
+                        ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
                     ];
+                    $servicesData = json_decode(\App\Models\Setting::get('services_data', json_encode($defaultServices)), true) ?? $defaultServices;
                 @endphp
-                @foreach($services as $i => $s)
+                
+                @foreach($servicesData as $i => $s)
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
                     <div class="service-card">
                         <span class="service-num">0{{ $i+1 }}</span>
-                        <div class="service-icon"><i class="fas fa-{{ $s[0] }}"></i></div>
-                        <h5 class="fw-bold">{{ $s[1] }}</h5>
-                        <p>{{ $s[2] }}</p>
+                        <div class="service-icon"><i class="fas {{ $s['icon'] ?? 'fa-star' }}"></i></div>
+                        <h5 class="fw-bold">{{ $s['title'] ?? 'Layanan' }}</h5>
+                        <p>{{ $s['desc'] ?? 'Deskripsi layanan' }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -878,9 +803,9 @@
     <section class="section contact-section" id="kontak">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Hubungi Kami</span>
-                <h2 class="section-title">Siap Melayani <span class="gradient-text">Anda</span></h2>
-                <p class="section-subtitle mx-auto">Hubungi kami untuk informasi lebih lanjut tentang layanan UKS</p>
+                <span class="section-label">{{ \App\Models\Setting::get('contact_label', 'Hubungi Kami') }}</span>
+                <h2 class="section-title">{!! \App\Models\Setting::get('contact_title', 'Siap Melayani <span class="gradient-text">Anda</span>') !!}</h2>
+                <p class="section-subtitle mx-auto">{{ \App\Models\Setting::get('contact_subtitle', 'Hubungi kami untuk informasi lebih lanjut tentang layanan UKS') }}</p>
             </div>
 
             <div class="row g-4">
@@ -888,10 +813,9 @@
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-3">Alamat Kami</h5>
+                        {{-- ✅ DINAMIS: Menggunakan {!! !!} agar tag <br> dari database terbaca --}}
                         <p style="color: var(--slate); line-height: 1.8; margin-bottom: 0;">
-                            Komplek SMK Negeri 1 Bangsri<br>
-                            Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>
-                            Jawa Tengah, 59453
+                            {!! \App\Models\Setting::get('contact_address', "Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453") !!}
                         </p>
                     </div>
                 </div>
@@ -901,9 +825,13 @@
                         <h5 class="fw-bold mb-3">Sosial Media</h5>
                         <p style="color: var(--slate); line-height: 2; margin-bottom: 0;">
                             <i class="fab fa-instagram me-2 text-danger"></i>
-                            <a href="https://instagram.com/pmrwira_eskasaba" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">@pmrwira_eskasaba</a><br>
+                            <a href="{{ \App\Models\Setting::get('contact_ig_link', 'https://instagram.com/pmrwira_eskasaba') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
+                                @{{ \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
+                            </a><br>
                             <i class="fab fa-youtube me-2 text-danger"></i>
-                            <a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">@wirasandyaadhimukti3463</a>
+                            <a href="{{ \App\Models\Setting::get('contact_yt_link', 'https://youtube.com/@wirasandyaadhimukti3463') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
+                                @{{ \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -920,7 +848,7 @@
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
-                        Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.
+                        {{ \App\Models\Setting::get('footer_desc', 'Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.') }}
                     </p>
                 </div>
 
@@ -947,14 +875,15 @@
                     <h6>Kontak</h6>
                     <ul class="footer-menu">
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. KH. Achmad Fauzan No.17, Bangsri</a></li>
-                        <li><a href="https://instagram.com/pmrwira_eskasaba" target="_blank"><i class="fab fa-instagram"></i> @pmrwira_eskasaba</a></li>
-                        <li><a href="https://youtube.com/@wirasandyaadhimukti3463" target="_blank"><i class="fab fa-youtube"></i> @wirasandyaadhimukti3463</a></li>
+                        <li><a href="{{ \App\Models\Setting::get('contact_ig_link', '#') }}" target="_blank"><i class="fab fa-instagram"></i> @{{ \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}</a></li>
+                        <li><a href="{{ \App\Models\Setting::get('contact_yt_link', '#') }}" target="_blank"><i class="fab fa-youtube"></i> @{{ \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p class="mb-0">&copy; {{ date('Y') }} <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.</p>
+                {{-- ✅ DINAMIS: Copyright juga bisa diubah dari admin --}}
+                <p class="mb-0">{!! \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.') !!}</p>
             </div>
         </div>
     </footer>
