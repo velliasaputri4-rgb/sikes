@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h5 class="fw-bold mb-0"><i class="fas fa-users-cog me-2 text-primary"></i>Daftar Admin & Petugas</h5>
-            <small class="text-muted">Kelola akun login untuk staf UKS (Admin & Petugas). Data siswa dikelola di menu "Data Siswa".</small>
+            <small class="text-muted">Kelola akun login untuk staf UKS. Data siswa dikelola di menu "Data Siswa".</small>
         </div>
         <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
             <i class="fas fa-plus me-1"></i> Tambah Akun Baru
@@ -53,19 +53,22 @@
                         </td>
                         <td class="text-end pe-3">
                             @php
-                                // Cek apakah yang login adalah Main Admin (admin@sikes.com)
-                                $isMainAdmin = auth()->user()->email === 'admin@sikes.com';
+                                $currentUser = auth()->user();
+                                // Main Admin = admin@sikes.com atau super-admin
+                                $isMainAdmin = $currentUser->email === 'admin@sikes.com' || $currentUser->hasRole('super-admin');
+                                // Can Edit = Memiliki role 'admin' ATAU adalah Main Admin
+                                $canEdit = $currentUser->hasRole('admin') || $isMainAdmin;
                             @endphp
 
-                            {{-- TOMBOL EDIT: Muncul JIKA dia Main Admin ATAU ini adalah akunnya sendiri --}}
-                            @if($isMainAdmin || $user->id === auth()->id())
+                            {{-- TOMBOL EDIT: Muncul untuk semua Administrator --}}
+                            @if($canEdit)
                                 <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary me-1" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             @endif
 
-                            {{-- TOMBOL HAPUS: HANYA muncul jika yang login adalah admin@sikes.com DAN bukan akun sendiri --}}
-                            @if($isMainAdmin && $user->id !== auth()->id())
+                            {{-- TOMBOL HAPUS: HANYA untuk Main Admin DAN bukan akun sendiri --}}
+                            @if($isMainAdmin && $user->id !== $currentUser->id)
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user {{ $user->name }}?')">
                                     @csrf 
                                     @method('DELETE')
@@ -73,7 +76,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                            @elseif(!$isMainAdmin && $user->id === auth()->id())
+                            @elseif(!$canEdit && $user->id === $currentUser->id)
                                 <span class="badge bg-secondary">Akun Anda</span>
                             @endif
                         </td>
