@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
     :root {
-        /* Palet "Biru Profesional": Tegas, Profesional, Terpercaya */
         --primary: #3b82f6;
         --primary-dark: #1e3a8a;
         --secondary: #2563eb;
@@ -45,7 +44,6 @@
         overflow-x: hidden;
     }
 
-    /* ============ TOMBOL KEMBALI KE BERANDA ============ */
     .btn-back-home {
         display: inline-flex;
         align-items: center;
@@ -89,7 +87,6 @@
     @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
     @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
 
-    /* ============ PAGE HEADER ============ */
     .page-header {
         position: relative;
         padding: 80px 0 70px;
@@ -106,7 +103,7 @@
         border-radius: 50px;
         font-size: 0.85rem;
         font-weight: 600;
-        margin-bottom: 0; /* Diatur oleh wrapper flex */
+        margin-bottom: 0;
         border: 1px solid rgba(30,58,138,0.15);
     }
     .page-header-badge .pulse-dot {
@@ -165,7 +162,6 @@
         50% { transform: translateY(-10px) rotate(3deg); }
     }
 
-    /* ============ SECTION ============ */
     .section { padding: 70px 0 90px; }
     .section-label {
         display: inline-block;
@@ -194,7 +190,6 @@
         max-width: 550px;
     }
 
-    /* ============ SIMPLE SCHEDULE CARD ============ */
     .schedule-card {
         background: white;
         border-radius: var(--radius);
@@ -283,18 +278,24 @@
         filter: brightness(1.08);
     }
 
-    /* ============ SIMPLE MODAL ============ */
+    /* Modal Styles */
     .modal-content {
         border: none;
         border-radius: var(--radius);
         box-shadow: 0 30px 80px rgba(15,23,42,0.2);
         overflow: hidden;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
     }
+    
     .modal-header-simple {
         background: white;
         padding: 20px 24px;
         border-bottom: 1px solid #f1f5f9;
+        flex-shrink: 0;
     }
+    
     .modal-title-simple {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
@@ -333,11 +334,18 @@
         color: var(--rose);
     }
 
-    .modal-body { padding: 0; }
-    .members-list {
-        max-height: 500px;
-        overflow-y: auto;
+    .modal-body { 
+        padding: 0; 
+        overflow: hidden;
+        flex: 1;
     }
+    
+    .members-list {
+        max-height: calc(85vh - 140px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
     .member-row {
         display: flex;
         align-items: center;
@@ -405,12 +413,13 @@
     .modal-note {
         padding: 14px 24px;
         background: linear-gradient(135deg, #fef3c7, #fed7aa);
-        border-top: none;
+        border-top: 1px solid #f1f5f9;
         display: flex;
         align-items: flex-start;
         gap: 10px;
         font-size: 0.82rem;
         color: #92400e;
+        flex-shrink: 0;
     }
     .modal-note i {
         color: var(--amber);
@@ -419,7 +428,6 @@
     }
     .modal-note strong { color: var(--rose); }
 
-    /* ============ EMPTY STATE ============ */
     .empty-state {
         text-align: center;
         padding: 80px 20px;
@@ -456,7 +464,6 @@
         margin: 0 auto;
     }
 
-    /* ============ SCROLL TO TOP ============ */
     .scroll-top {
         position: fixed;
         bottom: 30px; right: 30px;
@@ -477,7 +484,7 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
 
-    /* ============ RESPONSIVE ============ */
+    /* Responsive */
     @media (max-width: 768px) {
         .page-header { padding: 60px 0; }
         .header-icon-wrap {
@@ -489,17 +496,55 @@
         .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
         .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
         
-        /* Penyesuaian tombol kembali untuk mobile */
         .btn-back-home {
             padding: 8px 14px;
             font-size: 0.8rem;
         }
         .btn-back-home span {
-            display: none; /* Sembunyikan teks di layar kecil, hanya tampilkan ikon */
+            display: none;
         }
         .btn-back-home i {
             margin: 0;
         }
+
+        /* ✅ PERBAIKAN MODAL MOBILE: LENGKUNG DI SEMUA SISI */
+        .modal-dialog {
+            margin-bottom: 16px; /* Memberi jarak agar lengkungan bawah terlihat */
+        }
+        .modal-content {
+            max-height: 90vh;
+            border-radius: 24px !important; /* Semua sudut melengkung */
+        }
+        
+        .members-list {
+            max-height: calc(90vh - 150px);
+        }
+        
+        .member-row {
+            padding: 12px 16px;
+        }
+        
+        .modal-note {
+            padding: 12px 16px;
+            font-size: 0.75rem;
+            border-radius: 0 0 24px 24px; /* Ikuti lengkungan card */
+        }
+        
+        .modal-header-simple {
+            padding: 16px 20px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .schedule-card { padding: 16px; }
+        .schedule-info h5 { font-size: 0.95rem; }
+        .schedule-meta { font-size: 0.75rem; flex-wrap: wrap; }
+        
+        .modal-content { 
+            border-radius: 20px !important; /* Semua sudut melengkung di layar sangat kecil */
+        }
+        .members-list { max-height: calc(90vh - 140px); }
+        .modal-note { border-radius: 0 0 20px 20px; }
     }
     </style>
 </head>
@@ -513,14 +558,12 @@
             <div class="row align-items-center g-4">
                 <div class="col-lg-8" data-aos="fade-right">
                     
-                    <!-- Wrapper Flex untuk Badge dan Tombol Kembali -->
                     <div class="d-flex align-items-center gap-3 flex-wrap" style="margin-bottom: 18px;">
                         <div class="page-header-badge mb-0">
                             <span class="pulse-dot"></span>
                             <span>Jadwal Petugas UKS Aktif</span>
                         </div>
                         
-                        <!-- ✅ TOMBOL KEMBALI KE BERANDA (Dipindahkan ke sini) -->
                         <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
                             <i class="fas fa-arrow-left"></i>
                             <span>Kembali ke Beranda</span>
@@ -554,7 +597,6 @@
             <div class="row g-3">
                 @forelse($schedules as $schedule)
                     @php
-                        // ✅ PERBAIKAN: Cek apakah members sudah berupa array, jika belum (masih string JSON), baru di-decode
                         $members = is_string($schedule->members) ? json_decode($schedule->members, true) : ($schedule->members ?? []);
                         $members = is_array($members) ? $members : [];
                         
@@ -588,7 +630,7 @@
 
                     <!-- Simple Modal -->
                     <div class="modal fade" id="modalAnggota{{ $schedule->id }}" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header-simple">
                                     <div class="modal-title-simple">
@@ -669,7 +711,6 @@
     <script>
         AOS.init({ duration: 700, once: true, offset: 60 });
 
-        // Scroll to top effect
         window.addEventListener('scroll', () => {
             const scrollTop = document.getElementById('scrollTop');
             if (window.scrollY > 300) {
