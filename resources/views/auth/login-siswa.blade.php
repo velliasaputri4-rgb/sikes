@@ -76,30 +76,22 @@
             to { opacity: 1; transform: none; }
         }
 
-        .logo-circle {
-            width: 60px; height: 60px;
-            border-radius: 18px;
-            background: var(--gradient-primary);
-            color: white;
+        /* ✅ LOGO TANPA LATAR BELAKANG KOTAK/CIRCLE */
+        .logo-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            margin: 0 auto 14px;
-            box-shadow: 0 12px 28px rgba(30, 58, 138, 0.3);
-            position: relative;
-            transition: transform 0.3s;
+            margin: 0 auto 16px;
         }
-        .logo-circle::before {
-            content: '';
-            position: absolute;
-            inset: -7px;
-            border-radius: 22px;
-            background: var(--gradient-primary);
-            opacity: 0.18;
-            z-index: -1;
+        .logo-wrapper img {
+            max-width: 150px; /* Ukuran maksimal agar proporsional */
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
         }
-        .logo-circle:hover { transform: rotate(-6deg) scale(1.05); }
+        .logo-wrapper img:hover {
+            transform: scale(1.05); /* Efek hover halus langsung pada logo */
+        }
 
         .login-title {
             font-family: 'Poppins', sans-serif;
@@ -225,7 +217,8 @@
             body { padding: 24px 14px; }
             .login-card { padding: 22px 18px; border-radius: 16px; }
             .login-title { font-size: 1.2rem; }
-            .logo-circle { width: 54px; height: 54px; font-size: 20px; }
+            /* ✅ Penyesuaian ukuran logo di mobile agar tetap proporsional */
+            .logo-wrapper img { max-width: 120px; }
         }
     </style>
 </head>
@@ -236,9 +229,9 @@
     <div class="blob blob-3"></div>
 
     <div class="login-card">
-        {{-- Logo siswa --}}
-        <div class="logo-circle">
-            <i class="fas fa-user-graduate"></i>
+        {{-- Logo Tanpa Background/Circle --}}
+        <div class="logo-wrapper">
+            <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
         </div>
 
         <div class="text-center">
