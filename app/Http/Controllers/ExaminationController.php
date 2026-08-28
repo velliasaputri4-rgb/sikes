@@ -48,7 +48,6 @@ class ExaminationController extends Controller
         ];
     }
 
-    // ✅ HELPER: Menentukan prefix view berdasarkan role (admin atau petugas)
     private function getViewPrefix()
     {
         if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
@@ -57,7 +56,6 @@ class ExaminationController extends Controller
         return 'petugas';
     }
 
-    // ✅ HELPER: Menentukan prefix route berdasarkan role (admin atau petugas)
     private function getRoutePrefix()
     {
         if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
@@ -66,7 +64,6 @@ class ExaminationController extends Controller
         return 'petugas';
     }
 
-    // 1. Menampilkan Daftar Kunjungan
     public function index(Request $request)
     {
         $query = Examination::with(['student.user', 'student.class']);
@@ -85,20 +82,19 @@ class ExaminationController extends Controller
 
         $examinations = $query->latest('examination_date')->paginate(15);
 
-        // ✅ Otomatis memilih view: admin.examinations.index ATAU petugas.examinations.index
         return view($this->getViewPrefix() . '.examinations.index', compact('examinations'));
     }
 
-    // 2. Menampilkan Form Tambah Kunjungan
     public function create()
     {
         $jadwalPiket = $this->getJadwalPiket();
         return view($this->getViewPrefix() . '.examinations.create', compact('jadwalPiket'));
     }
 
-    // 3. Menyimpan Data Kunjungan Baru
+    // ✅ METHOD STORE YANG SUDAH DIPERBAIKI (MENGGUNAKAN ID UNTUK PENOMORAN)
     public function store(Request $request)
     {
+        // 1. Validasi Input
         $validated = $request->validate([
             'nis'              => 'required|string',
             'officer_name'     => 'required|string|max:255',
@@ -113,8 +109,8 @@ class ExaminationController extends Controller
             'notes'            => 'nullable|string|max:500',
         ]);
 
+        // 2. Cek atau Buat Data Siswa
         $student = Student::where('nis', $validated['nis'])->first();
-
         if (!$student) {
             $request->validate([
                 'full_name'  => 'required|string|max:255',
@@ -125,7 +121,6 @@ class ExaminationController extends Controller
             ]);
 
             $kelas = Kelas::firstOrCreate(['name' => $request->class_name]);
-
             $student = Student::create([
                 'nis'          => $validated['nis'],
                 'full_name'    => $request->full_name,
@@ -133,41 +128,64 @@ class ExaminationController extends Controller
             ]);
         }
 
-        $examNumber = 'UKS-' . Carbon::now()->format('Ymd') . '-' .
-                      str_pad(Examination::whereDate('created_at', today())->count() + 1, 4, '0', STR_PAD_LEFT);
+        // 3. ✅ GENERATE NOMOR PEMERIKSAAN (LOGIKA BARU - PAKAI ID AGAR PASTI)
+        $today = Carbon::now()->format('Ymd');
+        $prefix = 'UKS-' . $today . '-';
+        
+        // Cari data terakhir hari ini berdasarkan ID (paling baru)
+        $lastExam = Examination::where('examination_number', 'like', $prefix . '%')
+            ->orderBy('id', 'desc') // ✅ Menggunakan ID yang selalu unik dan berurutan
+            ->first();
+        
+        if ($lastExam) {
+            // Ambil 4 digit terakhir dari nomor pemeriksaan, ubah ke angka, tambah 1
+            $lastNumber = (int) substr($lastExam->examination_number, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            // Jika belum ada data hari ini, mulai dari 1
+            $newNumber = 1;
+        }
+        
+        // Format jadi 4 digit (0001, 0002, dst)
+        $examNumber = $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
+        // 4. Upload Foto (Jika Ada)
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
-        Examination::create([
-            'examination_number' => $examNumber,
-            'student_id'         => $student->id,
-            'officer_name'       => $validated['officer_name'],
-            'piket_group'        => $validated['piket_group'] ?? null,
-            'examination_date'   => $validated['examination_date'],
-            'arrival_time'       => $validated['arrival_time'] . ':00',
-            'complaint'          => $validated['complaint'],
-            'diagnosis'          => $validated['diagnosis'],
-            'medicine'           => $validated['medicine'],
-            'status'             => $validated['status'],
-            'notes'              => $validated['notes'],
-            'photo'              => $photoPath,
-        ]);
+        // 5. Simpan ke Database
+        try {
+            Examination::create([
+                'examination_number' => $examNumber,
+                'student_id'         => $student->id,
+                'officer_name'       => $validated['officer_name'],
+                'piket_group'        => $validated['piket_group'] ?? null,
+                'examination_date'   => $validated['examination_date'],
+                'arrival_time'       => $validated['arrival_time'] . ':00',
+                'complaint'          => $validated['complaint'],
+                'diagnosis'          => $validated['diagnosis'],
+                'medicine'           => $validated['medicine'],
+                'status'             => $validated['status'],
+                'notes'              => $validated['notes'],
+                'photo'              => $photoPath,
+            ]);
 
-        // ✅ Otomatis redirect ke route yang sesuai role
-        return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil disimpan!');
+            return redirect()->route($this->getRoutePrefix() . '.examinations.index')
+                ->with('success', 'Berhasil! No. Pemeriksaan: ' . $examNumber);
+
+        } catch (\Exception $e) {
+            return back()->withErrors(['general' => 'Gagal menyimpan: ' . $e->getMessage()])->withInput();
+        }
     }
 
-    // 4. Menampilkan Detail Kunjungan
     public function show($id)
     {
         $examination = Examination::with(['student.class'])->findOrFail($id);
         return view($this->getViewPrefix() . '.examinations.show', compact('examination'));
     }
 
-    // 5. Menampilkan Form Edit
     public function edit($id)
     {
         $examination = Examination::with('student.class')->findOrFail($id);
@@ -177,7 +195,6 @@ class ExaminationController extends Controller
         return view($this->getViewPrefix() . '.examinations.edit', compact('examination', 'jadwalPiket', 'students'));
     }
 
-    // 6. Update Data Kunjungan
     public function update(Request $request, $id)
     {
         $examination = Examination::findOrFail($id);
@@ -220,11 +237,9 @@ class ExaminationController extends Controller
             'photo'            => $photoPath,
         ]);
 
-        // ✅ Otomatis redirect ke route yang sesuai role
         return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil diperbarui!');
     }
 
-    // 7. Hapus Data Kunjungan
     public function destroy($id)
     {
         $examination = Examination::findOrFail($id);
@@ -235,11 +250,9 @@ class ExaminationController extends Controller
 
         $examination->delete();
 
-        // ✅ Otomatis redirect ke route yang sesuai role
         return redirect()->route($this->getRoutePrefix() . '.examinations.index')->with('success', 'Data kunjungan berhasil dihapus!');
     }
 
-    // METHOD BARU untuk AJAX cari siswa by NIS
     public function searchStudent($nis)
     {
         $student = Student::with('class')->where('nis', $nis)->first();

@@ -14,6 +14,19 @@
 
     <form action="{{ route('petugas.examinations.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        
+        {{-- ✅ 1. TAMBAHKAN BLOK INI UNTUK MELIHAT PESAN ERROR JIKA ADA YANG SALAH --}}
+        @if($errors->any())
+            <div class="alert alert-danger mb-3">
+                <strong><i class="fas fa-exclamation-triangle"></i> Gagal Menyimpan:</strong>
+                <ul class="mb-0 mt-1">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row g-4">
             <!-- Kolom Kiri: Data Siswa & Petugas -->
             <div class="col-lg-5">
@@ -141,7 +154,6 @@
                     <div class="mb-2">
                         <label class="form-label fw-semibold">Foto Kondisi/Fisik</label>
 
-                        {{-- ✅ 2 pilihan: Kamera realtime atau pilih file --}}
                         <div class="d-flex gap-2 mb-2">
                             <button type="button" class="btn btn-primary flex-fill" onclick="openCamera()">
                                 <i class="fas fa-video me-1"></i> Buka Kamera
@@ -173,7 +185,7 @@
             <!-- Tombol Submit -->
             <div class="col-12 text-end mt-4 pt-3 border-top">
                 <a href="{{ route('petugas.examinations.index') }}" class="btn btn-outline-secondary me-2">Batal</a>
-                <button type="submit" class="btn btn-success px-4">
+                <button type="submit" id="btnSubmit" class="btn btn-success px-4">
                     <i class="fas fa-save me-2"></i> Simpan Data Kunjungan
                 </button>
             </div>
@@ -218,7 +230,7 @@
         clearTimeout(searchTimer);
         searchTimer = setTimeout(() => {
             cariSiswa(this.value.trim());
-        }, 400); // Delay 400ms
+        }, 400);
     });
 
     async function cariSiswa(nis) {
@@ -234,14 +246,11 @@
             const student = await response.json();
 
             if (student && student.id) {
-                // Siswa ditemukan
                 document.getElementById('studentName').value = student.full_name || '';
                 document.getElementById('studentClass').value = student.class ? student.class.name : '';
-                
                 newStudentBox.classList.add('d-none');
                 nisFeedback.innerHTML = '<span class="text-success fw-bold"><i class="fas fa-check-circle"></i> Siswa ditemukan</span>';
             } else {
-                // Siswa tidak ditemukan
                 resetFormSiswa();
                 newStudentBox.classList.remove('d-none');
                 nisFeedback.innerHTML = '<span class="text-danger fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar. Lengkapi data siswa baru.</span>';
@@ -258,7 +267,6 @@
         document.getElementById('studentClass').value = '';
     }
 
-    // Trigger search saat load jika ada old('nis')
     document.addEventListener('DOMContentLoaded', function() {
         if (nisInput.value.trim()) {
             cariSiswa(nisInput.value.trim());
@@ -295,7 +303,7 @@
         if (initialGroup) populateOfficerNames(initialGroup, initialOfficer);
     });
 
-    // 4. ✅ WATERMARK (dipakai oleh kamera & upload file)
+    // 4. WATERMARK
     function drawWatermark(ctx, canvas) {
         const now = new Date();
         const dateStr = now.toLocaleDateString('id-ID', {
@@ -309,22 +317,18 @@
         const padding = fontSize * 0.8;
         const barHeight = fontSize * 3.4;
 
-        // Bar hitam transparan
         ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
         ctx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
 
-        // Baris 1: nama sekolah
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold ' + fontSize + 'px Arial';
         ctx.textBaseline = 'middle';
         ctx.fillText('UKS SMK NEGERI 1 BANGSRI', padding, canvas.height - barHeight + fontSize);
 
-        // Baris 2: tanggal & jam realtime
         ctx.font = (fontSize * 0.85) + 'px Arial';
         ctx.fillText(dateStr + '  |  ' + timeStr, padding, canvas.height - barHeight + fontSize * 2.3);
     }
 
-    // Terapkan foto ber-watermark ke input form + preview
     function applyWatermarkedPhoto(blob) {
         const newFile = new File([blob], 'foto-kunjungan.jpg', { type: 'image/jpeg' });
         const dt = new DataTransfer();
@@ -337,7 +341,7 @@
         document.getElementById('watermarkInfo').classList.remove('d-none');
     }
 
-    // 5. ✅ KAMERA REALTIME (Desktop & HP)
+    // 5. KAMERA REALTIME
     let cameraStream = null;
     let cameraModal = null;
 
@@ -369,13 +373,11 @@
         }
     }
 
-    // Matikan kamera otomatis saat modal ditutup
     document.addEventListener('DOMContentLoaded', function () {
         const modalEl = document.getElementById('cameraModal');
         if (modalEl) modalEl.addEventListener('hidden.bs.modal', stopCamera);
     });
 
-    // Ambil foto dari video → tambah watermark → masuk ke form
     function capturePhoto() {
         const video = document.getElementById('cameraVideo');
         if (!video.videoWidth) {
@@ -398,7 +400,7 @@
         }, 'image/jpeg', 0.9);
     }
 
-    // 6. Upload dari file/galeri → tambah watermark
+    // 6. Upload dari file/galeri
     function processPhotoWithWatermark(input) {
         const file = input.files[0];
         if (!file) return;
@@ -423,5 +425,24 @@
         };
         reader.readAsDataURL(file);
     }
+
+    // 7. ✅ PENCEGAHAN DOUBLE SUBMIT (VERSI AMAN DENGAN VALIDASI)
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form'); 
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        if (form && btnSubmit) {
+            form.addEventListener('submit', function (e) {
+                // ✅ PENTING: Cek apakah form valid (tidak ada kolom required yang kosong)
+                if (!form.checkValidity()) {
+                    return; // Jika ada yang kosong, JANGAN disable tombol. Biarkan browser menampilkan error.
+                }
+
+                // Jika form valid, baru disable tombol dan ubah teks
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Menyimpan...';
+            });
+        }
+    });
 </script>
 @endpush
