@@ -133,6 +133,7 @@
     .badge-penyakit { background: #fce7f3; color: #9d174d; }
     .badge-mental { background: #d1fae5; color: #065f46; }
     .badge-olahraga { background: #fef3c7; color: #92400e; }
+    .badge-umum { background: #f1f5f9; color: #475569; }
 
     .btn-read {
         background: var(--gradient-primary); color: white; border: none;
@@ -166,21 +167,6 @@
     .result-box.show { display: block; animation: slideIn 0.4s ease; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     .result-value { font-size: 1.8rem; font-weight: 700; color: var(--pro); font-family: 'Poppins', sans-serif; }
-
-    /* Gallery */
-    .gallery-item {
-        position: relative; border-radius: var(--radius); overflow: hidden;
-        box-shadow: 0 4px 20px rgba(30,58,138,0.06); border: 1px solid rgba(30,58,138,0.08);
-        cursor: pointer; aspect-ratio: 4/3;
-    }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-overlay {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
-        padding: 20px; color: white; transform: translateY(100%); transition: transform 0.3s ease;
-    }
-    .gallery-item:hover .gallery-overlay { transform: translateY(0); }
 
     .scroll-top {
         position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
@@ -217,13 +203,13 @@
                         <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
                             <i class="fas fa-arrow-left"></i>
                             <span>Kembali ke Beranda</span>
-        </a>
+                        </a>
                     </div>
                     <h1 class="page-title">
                         Informasi <span class="gradient-text">Kesehatan</span><br>
                         & Gaya Hidup Sehat
                     </h1>
-                    <p class="page-subtitle">Artikel edukasi, kalkulator kesehatan, dan dokumentasi kegiatan untuk mendukung kesejahteraan siswa SMK Negeri 1 Bangsri.</p>
+                    <p class="page-subtitle">Artikel edukasi lengkap dan kalkulator kesehatan untuk mendukung kesejahteraan siswa SMK Negeri 1 Bangsri.</p>
                 </div>
                 <div class="col-lg-4 text-lg-end" data-aos="fade-left" data-aos-delay="200">
                     <div class="header-icon-wrap">
@@ -234,7 +220,7 @@
         </div>
     </section>
 
-    <!-- 1. Artikel Kesehatan -->
+    <!-- 1. Artikel Kesehatan (Diperbanyak) -->
     <section class="section" id="artikel">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -244,37 +230,94 @@
             </div>
 
             <div class="row g-4">
+                <!-- Card 1 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="health-card">
                         <div class="health-icon"><i class="fas fa-apple-alt"></i></div>
                         <span class="badge-cat badge-gizi">Gizi & Nutrisi</span>
                         <h5>Pola Makan Sehat untuk Remaja</h5>
                         <p>Panduan lengkap pola makan bergizi seimbang untuk mendukung pertumbuhan dan perkembangan remaja di masa sekolah.</p>
-                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel1">
-                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel1">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
+                <!-- Card 2 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="health-card">
                         <div class="health-icon" style="color: var(--rose);"><i class="fas fa-shield-virus"></i></div>
                         <span class="badge-cat badge-penyakit">Pencegahan</span>
                         <h5>Cara Mencegah Demam Berdarah</h5>
                         <p>Langkah-langkah pencegahan DBD yang efektif di lingkungan sekolah dan rumah dengan metode 3M Plus.</p>
-                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel2">
-                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel2">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
+                <!-- Card 3 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="health-card">
                         <div class="health-icon" style="color: var(--emerald);"><i class="fas fa-brain"></i></div>
                         <span class="badge-cat badge-mental">Kesehatan Mental</span>
                         <h5>Mengatasi Stres Saat Ujian</h5>
                         <p>Tips dan teknik relaksasi sederhana untuk mengatasi kecemasan dan menjaga fokus saat menghadapi ujian.</p>
-                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel3">
-                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel3">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--rose);"><i class="fas fa-tint"></i></div>
+                        <span class="badge-cat badge-penyakit">Penyakit</span>
+                        <h5>Mengenali dan Mencegah Anemia</h5>
+                        <p>Gejala anemia seperti pusing dan lemas sering dialami remaja. Ketahui cara pencegahan dengan konsumsi zat besi.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel4">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--primary);"><i class="fas fa-tooth"></i></div>
+                        <span class="badge-cat badge-gizi">Kesehatan Gigi</span>
+                        <h5>Pentingnya Menjaga Kesehatan Gigi</h5>
+                        <p>Sikat gigi 2x sehari dan kurangi makanan manis untuk mencegah gigi berlubang dan radang gusi.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel5">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--amber);"><i class="fas fa-head-side-cough"></i></div>
+                        <span class="badge-cat badge-penyakit">Penyakit Menular</span>
+                        <h5>Mencegah Penyebaran Flu dan ISPA</h5>
+                        <p>Gunakan masker, cuci tangan, dan jaga jarak jika sedang sakit untuk melindungi teman sekelas.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel6">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 7 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--emerald);"><i class="fas fa-eye"></i></div>
+                        <span class="badge-cat badge-mental">Kesehatan Mata</span>
+                        <h5>Menjaga Kesehatan Mata di Era Digital</h5>
+                        <p>Terapkan aturan 20-20-20 saat menggunakan gadget untuk mengurangi ketegangan dan mata kering.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel7">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 8 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--rose);"><i class="fas fa-ban"></i></div>
+                        <span class="badge-cat badge-penyakit">Pencegahan</span>
+                        <h5>Bahaya Rokok dan Vape bagi Pelajar</h5>
+                        <p>Dampak negatif nikotin terhadap perkembangan otak remaja dan cara menolak tawaran merokok.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel8">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <!-- Card 9 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="health-card">
+                        <div class="health-icon" style="color: var(--primary);"><i class="fas fa-kit-medical"></i></div>
+                        <span class="badge-cat badge-olahraga">P3K</span>
+                        <h5>Dasar-Dasar Pertolongan Pertama</h5>
+                        <p>Langkah awal menangani luka ringan, memar, atau pingsan di sekolah sebelum ditangani petugas UKS.</p>
+                        <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalArtikel9">Baca Selengkapnya <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -368,48 +411,7 @@
         </div>
     </section>
 
-    <!-- 3. Dokumentasi Kegiatan -->
-    <section class="section" id="galeri">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Galeri</span>
-                <h2 class="section-title">Dokumentasi <span class="gradient-text">Kegiatan</span></h2>
-                <p class="section-subtitle mx-auto">Momen-momen kegiatan kesehatan dan UKS di sekolah kami.</p>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop" alt="Penyuluhan">
-                        <div class="gallery-overlay">
-                            <h6 class="fw-bold mb-1">Penyuluhan Kesehatan Mental</h6>
-                            <small><i class="far fa-calendar me-1"></i> 15 Agustus 2026</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&h=400&fit=crop" alt="Pemeriksaan">
-                        <div class="gallery-overlay">
-                            <h6 class="fw-bold mb-1">Pemeriksaan Kesehatan Berkala</h6>
-                            <small><i class="far fa-calendar me-1"></i> 10 Agustus 2026</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="gallery-item">
-                        <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?w=600&h=400&fit=crop" alt="Donor Darah">
-                        <div class="gallery-overlay">
-                            <h6 class="fw-bold mb-1">Kegiatan Donor Darah</h6>
-                            <small><i class="far fa-calendar me-1"></i> 5 Agustus 2026</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modals -->
+    <!-- Modals Artikel -->
     <div class="modal fade" id="modalArtikel1" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border-radius: var(--radius); border: none;">
@@ -467,6 +469,137 @@
                         <li><strong>Pernapasan Dalam:</strong> Tarik napas 4 detik, tahan 4 detik, buang 4 detik</li>
                         <li><strong>Tidur Cukup:</strong> Minimal 7-8 jam per hari</li>
                         <li><strong>Olahraga:</strong> Aktivitas fisik membantu mengurangi hormon stres</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel4" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Mengenali dan Mencegah Anemia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Anemia adalah kondisi ketika tubuh kekurangan sel darah merah sehat. Gejala umum meliputi pusing, lemas, pucat, dan sulit berkonsentrasi.</p>
+                    <h6 class="fw-bold mt-3">Cara Pencegahan:</h6>
+                    <ul>
+                        <li>Konsumsi makanan kaya zat besi (daging merah, bayam, kacang-kacangan)</li>
+                        <li>Kombinasikan dengan vitamin C (jeruk, tomat) untuk penyerapan maksimal</li>
+                        <li>Hindari minum teh atau kopi bersamaan dengan makan</li>
+                        <li>Rutin cek kadar hemoglobin (Hb) di UKS</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel5" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Pentingnya Menjaga Kesehatan Gigi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Kesehatan gigi dan mulut sangat berpengaruh pada kesehatan tubuh secara keseluruhan dan kepercayaan diri.</p>
+                    <h6 class="fw-bold mt-3">Tips Menjaga Kesehatan Gigi:</h6>
+                    <ul>
+                        <li>Sikat gigi minimal 2 kali sehari (pagi setelah sarapan dan malam sebelum tidur)</li>
+                        <li>Gunakan pasta gigi mengandung fluoride</li>
+                        <li>Kurangi konsumsi makanan dan minuman manis atau asam</li>
+                        <li>Ganti sikat gigi setiap 3 bulan sekali</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel6" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Mencegah Penyebaran Flu dan ISPA</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Influenza dan Infeksi Saluran Pernapasan Akut (ISPA) sangat mudah menular di lingkungan sekolah yang padat.</p>
+                    <h6 class="fw-bold mt-3">Langkah Pencegahan:</h6>
+                    <ul>
+                        <li>Cuci tangan dengan sabun dan air mengalir secara rutin</li>
+                        <li>Gunakan masker jika sedang batuk atau pilek</li>
+                        <li>Tutup mulut dan hidung dengan siku bagian dalam saat bersin</li>
+                        <li>Istirahat di rumah jika gejala demam tinggi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel7" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Menjaga Kesehatan Mata di Era Digital</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Penggunaan gadget yang berlebihan dapat menyebabkan Computer Vision Syndrome (mata lelah, kering, dan blur).</p>
+                    <h6 class="fw-bold mt-3">Aturan 20-20-20:</h6>
+                    <ul>
+                        <li>Setiap <strong>20 menit</strong> menatap layar, alihkan pandangan</li>
+                        <li>Lihat objek yang berjarak <strong>20 kaki</strong> (sekitar 6 meter)</li>
+                        <li>Lakukan selama <strong>20 detik</strong></li>
+                        <li>Pastikan pencahayaan ruangan cukup saat belajar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel8" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Bahaya Rokok dan Vape bagi Pelajar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Rokok dan vape mengandung nikotin dan zat kimia berbahaya yang dapat mengganggu perkembangan otak remaja.</p>
+                    <h6 class="fw-bold mt-3">Dampak Negatif:</h6>
+                    <ul>
+                        <li>Gangguan konsentrasi dan daya ingat</li>
+                        <li>Kerusakan paru-paru dan peningkatan risiko penyakit jantung</li>
+                        <li>Kecanduan yang sulit dihentikan</li>
+                    </ul>
+                    <h6 class="fw-bold mt-3">Cara Menolak:</h6>
+                    <ul>
+                        <li>Katakan "Tidak, terima kasih" dengan tegas</li>
+                        <li>Cari alasan (misal: "Saya atlet", "Saya alergi")</li>
+                        <li>Hindari pergaulan yang mendorong perilaku merokok</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArtikel9" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: var(--radius); border: none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                    <h5 class="modal-title fw-bold">Dasar-Dasar Pertolongan Pertama (P3K)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p>Pertolongan Pertama pada Kecelakaan (P3K) adalah tindakan awal yang penting sebelum mendapatkan penanganan medis lanjutan.</p>
+                    <h6 class="fw-bold mt-3">Langkah Dasar:</h6>
+                    <ul>
+                        <li><strong>Luka Ringan:</strong> Bersihkan dengan air mengalir, beri antiseptik, dan tutup dengan plester.</li>
+                        <li><strong>Memar:</strong> Kompres dingin selama 15-20 menit untuk mengurangi bengkak.</li>
+                        <li><strong>Pingsan:</strong> Baringkan, tinggikan kaki, longgarkan pakaian, dan pastikan jalan napas terbuka.</li>
+                        <li>Segera laporkan ke petugas UKS atau guru.</li>
                     </ul>
                 </div>
             </div>

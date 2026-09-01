@@ -774,7 +774,7 @@
                     <a href="{{ route('landing.health-info') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
-                        <p class="text-muted small mb-0">Artikel & tips kesehatan</p>
+                        <p class="text-muted small mb-0">Tips kesehatan dan kalkulator BMI</p>
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
                     </a>
                 </div>
