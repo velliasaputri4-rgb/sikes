@@ -100,4 +100,15 @@ class LandingController extends Controller
     {
         return view('landing.health-info');
     }
+
+    // ✅ BARU: Method untuk halaman Dokumentasi/Berita
+    public function docs()
+    {
+        return view('landing.docs');
+    }
+
+    public function docsDetail($id)
+    {
+        return view('landing.docs-detail', compact('id'));
+    }
 }

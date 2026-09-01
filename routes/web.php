@@ -26,9 +26,13 @@ Route::get('/login-siswa', function () { return view('auth.login-siswa'); })->na
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/tentang', [LandingController::class, 'about'])->name('landing.about');
 Route::get('/informasi-obat', [LandingController::class, 'medicines'])->name('landing.medicines');
-Route::get('/informasi-kesehatan', [LandingController::class, 'healthInfo'])->name('landing.health-info'); // ✅ BARU: Route Informasi Kesehatan
+Route::get('/informasi-kesehatan', [LandingController::class, 'healthInfo'])->name('landing.health-info');
 Route::get('/jadwal-petugas', [LandingController::class, 'schedule'])->name('landing.schedule');
 Route::get('/kontak', [LandingController::class, 'contact'])->name('landing.contact');
+
+// ✅ BARU: Route untuk Halaman Dokumentasi/Berita
+Route::get('/dokumentasi', [LandingController::class, 'docs'])->name('landing.docs');
+Route::get('/dokumentasi/{id}', [LandingController::class, 'docsDetail'])->name('landing.docs-detail');
 
 /*
 |--------------------------------------------------------------------------

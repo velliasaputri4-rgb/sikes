@@ -437,6 +437,105 @@
     .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 10px; }
     .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; }
 
+    /* ============ DOCUMENTATION/Berita ============ */
+    .doc-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(30,58,138,0.08);
+    }
+
+    .doc-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .doc-image {
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .doc-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .doc-card:hover .doc-image img {
+        transform: scale(1.05);
+    }
+
+    .doc-content {
+        padding: 24px;
+    }
+
+    .doc-meta {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 12px;
+        font-size: 0.85rem;
+        color: var(--slate);
+    }
+
+    .doc-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .doc-meta i {
+        color: var(--primary);
+        font-size: 0.9rem;
+    }
+
+    .doc-title {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 1.1rem;
+        line-height: 1.4;
+        margin-bottom: 0;
+    }
+
+    .doc-title a {
+        color: var(--ink);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .doc-title a:hover {
+        color: var(--primary);
+    }
+
+    .btn-doc-all {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 12px 32px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 6px 20px rgba(30,58,138,0.25);
+        transition: all 0.3s ease;
+    }
+
+    .btn-doc-all:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(30,58,138,0.35);
+    }
+
     /* ============ CONTACT ============ */
     .contact-section { background: white; }
     .info-card {
@@ -549,6 +648,9 @@
         .hero-decor { display: none; }
         .d-flex.gap-3.flex-wrap { justify-content: center; gap: 12px !important; }
         .btn-hero-primary, .btn-hero-outline { width: 100%; max-width: 320px; justify-content: center; padding: 14px 20px; }
+        .doc-image { height: 200px; }
+        .doc-content { padding: 20px; }
+        .doc-title { font-size: 1rem; }
     }
 
     @media (max-width: 576px) {
@@ -606,6 +708,7 @@
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#dokumentasi">Dokumentasi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
 
                     <li class="nav-item ms-lg-3">
@@ -850,6 +953,85 @@
         </div>
     </section>
 
+    <!-- Documentation/Berita Section -->
+    <section class="section" id="dokumentasi" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label">{{ \App\Models\Setting::get('docs_label', 'Dokumentasi') }}</span>
+                <h2 class="section-title">{!! \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>') !!}</h2>
+                <p class="section-subtitle mx-auto">{{ \App\Models\Setting::get('docs_subtitle', 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami') }}</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Card 1 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="doc-card">
+                        <div class="doc-image">
+                            <img src="{{ asset('images/docs/doc1.jpg') }}" alt="Dokumentasi 1" onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
+                        </div>
+                        <div class="doc-content">
+                            <div class="doc-meta">
+                                <span><i class="far fa-calendar"></i> 28 Agustus 2024</span>
+                                <span><i class="far fa-eye"></i> 285 kali</span>
+                            </div>
+                            <h5 class="doc-title">
+                                <a href="{{ route('landing.docs-detail', 1) }}">
+                                    Pemkab Buleleng terus Berupaya Tingkatkan Kualitas Kesehatan dan Pendidikan...
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="doc-card">
+                        <div class="doc-image">
+                            <img src="{{ asset('images/docs/doc2.jpg') }}" alt="Dokumentasi 2" onerror="this.src='https://via.placeholder.com/600x400/1e3a8a/ffffff?text=Pembinaan+UKS'">
+                        </div>
+                        <div class="doc-content">
+                            <div class="doc-meta">
+                                <span><i class="far fa-calendar"></i> 30 Juli 2024</span>
+                                <span><i class="far fa-eye"></i> 270 kali</span>
+                            </div>
+                            <h5 class="doc-title">
+                                <a href="{{ route('landing.docs-detail', 2) }}">
+                                    Pembinaan UKS di SD N 6 Busungbiu
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="doc-card">
+                        <div class="doc-image">
+                            <img src="{{ asset('images/docs/doc3.jpg') }}" alt="Dokumentasi 3" onerror="this.src='https://via.placeholder.com/600x400/10b981/ffffff?text=Kegiatan+UKS'">
+                        </div>
+                        <div class="doc-content">
+                            <div class="doc-meta">
+                                <span><i class="far fa-calendar"></i> 29 Juli 2024</span>
+                                <span><i class="far fa-eye"></i> 266 kali</span>
+                            </div>
+                            <h5 class="doc-title">
+                                <a href="{{ route('landing.docs-detail', 3) }}">
+                                    Pembinaan UKS Sasar Kecamatan Busungbiu
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="{{ route('landing.docs') }}" class="btn-doc-all">
+                    Semua Berita <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact -->
     <section class="section contact-section" id="kontak">
         <div class="container">
@@ -920,6 +1102,7 @@
                         <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="{{ route('landing') }}#tentang"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
                         <li><a href="{{ route('landing') }}#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
+                        <li><a href="{{ route('landing') }}#dokumentasi"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                         <li><a href="{{ route('landing') }}#kontak"><i class="fas fa-chevron-right fa-xs"></i> Kontak</a></li>
                     </ul>
                 </div>
