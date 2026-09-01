@@ -132,9 +132,9 @@
                             <label class="form-label fw-semibold">Status Kepulangan <span class="text-danger">*</span></label>
                             <select name="status" class="form-select @error('status') is-invalid @enderror" required>
                                 <option value="">Pilih Status</option>
-                                <option value="pulang" {{ old('status') == 'pulang' ? 'selected' : '' }}>Pulang (Sehat/Sembuh)</option>
+                                <option value="pulang" {{ old('status') == 'pulang' ? 'selected' : '' }}>Pulang</option>
                                 <option value="istirahat_uks" {{ old('status') == 'istirahat_uks' ? 'selected' : '' }}>Istirahat di UKS</option>
-                                <option value="rawat_jalan" {{ old('status') == 'rawat_jalan' ? 'selected' : '' }}>Rawat Jalan</option>
+                                <option value="rawat_jalan" {{ old('status') == 'rawat_jalan' ? 'selected' : '' }}>Rawat Jalan (kasih obat kembali ke kelas)</option>
                                 <option value="rujuk_puskesmas" {{ old('status') == 'rujuk_puskesmas' ? 'selected' : '' }}>Rujuk ke Puskesmas</option>
                                 <option value="rujuk_rs" {{ old('status') == 'rujuk_rs' ? 'selected' : '' }}>Rujuk ke Rumah Sakit</option>
                                 <option value="hubungi_ortu" {{ old('status') == 'hubungi_ortu' ? 'selected' : '' }}>Hubungi Orang Tua/Wali</option>

@@ -380,9 +380,9 @@
                                 <div class="detail-value">
                                     @php
                                         $statusLabels = [
-                                            'pulang' => 'Pulang (Sehat/Sembuh)',
+                                            'pulang' => 'Pulang',
                                             'istirahat_uks' => 'Istirahat di UKS',
-                                            'rawat_jalan' => 'Rawat Jalan',
+                                            'rawat_jalan' => 'Rawat Jalan (kasih obat kembali ke kelas)',
                                             'rujuk_puskesmas' => 'Rujuk ke Puskesmas',
                                             'rujuk_rs' => 'Rujuk ke Rumah Sakit',
                                             'hubungi_ortu' => 'Hubungi Orang Tua/Wali'
