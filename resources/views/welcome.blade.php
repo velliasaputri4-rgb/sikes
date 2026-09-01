@@ -458,6 +458,18 @@
         margin-bottom: 20px;
         box-shadow: 0 10px 25px rgba(30,58,138,0.25);
     }
+    
+    /* PERBAIKAN JARAK ALAMAT */
+    .address-text {
+        display: flex;
+        flex-direction: column;
+        gap: 6px; /* Jarak yang lebih rapat antar baris alamat */
+        color: var(--slate);
+        line-height: 1.6;
+    }
+    .address-line {
+        line-height: 1.6;
+    }
 
     /* ============ FOOTER ============ */
     footer {
@@ -738,9 +750,9 @@
                 </div>
             </div>
 
-            <!-- Menu Cards (3 cards) -->
+            <!-- Menu Cards (4 cards) -->
             <div class="row g-4 mt-5 justify-content-center">
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
                     <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-history"></i></div>
                         <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
@@ -750,7 +762,7 @@
                         @endif
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('landing.medicines') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-pills"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Obat</h5>
@@ -758,7 +770,15 @@
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <a href="{{ route('landing.health-info') }}" class="menu-card">
+                        <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
+                        <p class="text-muted small mb-0">Artikel & tips kesehatan</p>
+                        <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                     <a href="{{ route('landing.schedule') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-user-nurse"></i></div>
                         <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
@@ -844,9 +864,20 @@
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-3">Alamat Kami</h5>
-                        <p style="color: var(--slate); line-height: 1.8; margin-bottom: 0;">
-                            {!! \App\Models\Setting::get('contact_address', "Komplek SMK Negeri 1 Bangsri<br>Jalan KH. Achmad Fauzan No.17, Bangsri, Jepara<br>Jawa Tengah, 59453") !!}
-                        </p>
+                        @php
+                            // Format alamat dengan jarak yang lebih rapat
+                            $addressText = \App\Models\Setting::get('contact_address', "Komplek SMK Negeri 1 Bangsri\nJalan KH. Achmad Fauzan No.17, Bangsri, Jepara\nJawa Tengah, 59453");
+                            $addressText = str_replace(['<br>', '<br/>', '<br />'], "\n", $addressText);
+                            $addressText = strip_tags($addressText);
+                            $addressLines = explode("\n", trim($addressText));
+                        @endphp
+                        <div class="address-text">
+                            @foreach($addressLines as $line)
+                                @if(trim($line) !== '')
+                                    <div class="address-line">{{ e(trim($line)) }}</div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
@@ -897,6 +928,7 @@
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
                         <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
+                        <li><a href="{{ route('landing.health-info') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
                         <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
