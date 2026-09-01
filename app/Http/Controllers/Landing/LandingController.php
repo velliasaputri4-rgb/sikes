@@ -94,4 +94,10 @@ class LandingController extends Controller
     {
         return view('landing.contact');
     }
+
+    // ✅ BARU: Method untuk halaman Informasi Kesehatan
+    public function healthInfo()
+    {
+        return view('landing.health-info');
+    }
 }
