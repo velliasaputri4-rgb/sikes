@@ -140,20 +140,28 @@
     .circle-1 { width: 240px; height: 240px; right: -90px; bottom: -70px; }
     .circle-2 { width: 150px; height: 150px; left: -70px; top: -50px; background: rgba(59,130,246,0.07); }
 
+    /* PERBAIKAN JARAK: Menggunakan flexbox dan gap untuk mengontrol jarak antar baris */
     .hero-title {
         font-family: 'Poppins', sans-serif;
         font-size: clamp(1.9rem, 3.4vw, 2.9rem);
         font-weight: 700;
         color: var(--ink);
-        line-height: 1.25;
+        line-height: 1.15;
         margin-bottom: 20px;
         letter-spacing: -0.5px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px; /* Jarak antar baris yang sangat rapat dan rapi */
+    }
+    .hero-line {
+        line-height: 1.15;
     }
     .hero-accent {
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #2563eb !important;
+        -webkit-text-fill-color: #2563eb !important;
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
     }
     .hero-subtitle {
         color: var(--slate);
@@ -655,7 +663,33 @@
         <div class="container position-relative">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
-                    <h1 class="hero-title">{!! \App\Models\Setting::get('hero_title', "Selamat Datang di<br><span class='hero-accent'>Sistem Informasi UKS</span><br>SMK Negeri 1 Bangsri") !!}</h1>
+                    @php
+                        // 1. Ambil teks dari database (atau gunakan default)
+                        $heroText = \App\Models\Setting::get('hero_title', "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri");
+                        
+                        // 2. Ubah semua variasi <br> menjadi Enter (\n) agar konsisten
+                        $heroText = str_replace(['<br>', '<br/>', '<br />'], "\n", $heroText);
+                        
+                        // 3. Bersihkan tag HTML lain yang mungkin tidak sengaja tersimpan
+                        $heroText = strip_tags($heroText);
+                        
+                        // 4. Pecah per baris dan bungkus dengan <div> agar jaraknya bisa diatur rapat
+                        $lines = explode("\n", trim($heroText));
+                        $heroHtml = '';
+                        foreach ($lines as $line) {
+                            $line = trim(e($line));
+                            if ($line === '') continue;
+                            
+                            if (strpos($line, 'Sistem Informasi UKS') !== false) {
+                                $heroHtml .= '<div class="hero-line hero-accent">' . $line . '</div>';
+                            } else {
+                                $heroHtml .= '<div class="hero-line">' . $line . '</div>';
+                            }
+                        }
+                    @endphp
+                    
+                    <h1 class="hero-title">{!! $heroHtml !!}</h1>
+                    
                     <p class="hero-subtitle">{{ \App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.') }}</p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="btn-hero-primary">
