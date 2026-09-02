@@ -22,12 +22,34 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         try {
-            // 1. Handle Array Services
+            // 1. Handle Array Services (TERMASUK UPLOAD GAMBAR PER ITEM)
             if ($request->has('services') && is_array($request->input('services'))) {
-                $servicesData = array_values(array_filter($request->input('services'), function($s) {
-                    return !empty($s['title']); // Hanya simpan yang judulnya tidak kosong
-                }));
-                
+                $servicesData = [];
+                $oldServices = json_decode(Setting::where('key', 'services_data')->value('value') ?? '[]', true);
+
+                foreach ($request->input('services') as $index => $service) {
+                    if (!empty($service['title'])) {
+                        $imagePath = $service['existing_image'] ?? ''; // Pertahankan gambar lama
+
+                        // Jika ada file gambar baru diupload untuk layanan ini
+                        if ($request->hasFile("services.{$index}.image")) {
+                            // Hapus gambar lama jika ada
+                            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                                Storage::disk('public')->delete($imagePath);
+                            }
+                            // Simpan gambar baru
+                            $imagePath = $request->file("services.{$index}.image")->store('services', 'public');
+                        }
+
+                        $servicesData[] = [
+                            'icon'  => $service['icon'] ?? 'fa-star',
+                            'title' => $service['title'],
+                            'desc'  => $service['desc'] ?? '',
+                            'image' => $imagePath,
+                        ];
+                    }
+                }
+
                 Setting::updateOrCreate(
                     ['key' => 'services_data'],
                     ['value' => json_encode($servicesData, JSON_UNESCAPED_UNICODE), 'type' => 'json']
@@ -69,7 +91,7 @@ class SettingController extends Controller
                 );
             }
 
-            // 3. Abaikan token, method, services, documentations, dan file inputs
+            // 3. Abaikan token, method, services, documentations, dan file inputs utama
             $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'navbar_logo', 'about_image'];
             $data = $request->except($ignoreKeys);
 

@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h5 class="fw-bold mb-0"><i class="fas fa-cog me-2 text-primary"></i>Pengaturan Teks Website</h5>
-            <small class="text-muted">Ubah semua teks, judul, deskripsi, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
+            <small class="text-muted">Ubah semua teks, judul, deskripsi, gambar layanan, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
         </div>
     </div>
 
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <!-- 3. SERVICES SECTION -->
+            <!-- 3. SERVICES SECTION (DIPERBARUI: Dengan Upload Gambar) -->
             <div class="tab-pane fade" id="services" role="tabpanel">
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-light fw-bold">Header Bagian Layanan</div>
@@ -124,35 +124,51 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Daftar 6 Layanan</div>
+                    <div class="card-header bg-light fw-bold">Daftar Layanan</div>
                     <div class="card-body">
                         @php
                             $defaultServices = [
-                                ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
-                                ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.'],
-                                ['icon' => 'fa-heartbeat', 'title' => 'Pertolongan Pertama', 'desc' => 'Pertolongan pertama pada kecelakaan & keadaan darurat.'],
-                                ['icon' => 'fa-user-md', 'title' => 'Konsultasi Kesehatan', 'desc' => 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.'],
-                                ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
-                                ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
+                                ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.', 'image' => ''],
+                                ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.', 'image' => ''],
+                                ['icon' => 'fa-heartbeat', 'title' => 'Pertolongan Pertama', 'desc' => 'Pertolongan pertama pada kecelakaan & keadaan darurat.', 'image' => ''],
+                                ['icon' => 'fa-user-md', 'title' => 'Konsultasi Kesehatan', 'desc' => 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.', 'image' => ''],
+                                ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.', 'image' => ''],
+                                ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.', 'image' => '']
                             ];
                             $servicesRaw = $settings['services_data'] ?? json_encode($defaultServices);
                             $servicesData = is_array($servicesRaw) ? $servicesRaw : json_decode($servicesRaw, true);
                         @endphp
 
                         @foreach($servicesData as $index => $service)
-                            <div class="row g-3 mb-3 pb-3 border-bottom">
-                                <div class="col-12"><h6 class="text-primary mb-2">Layanan {{ $index + 1 }}</h6></div>
-                                <div class="col-md-3">
-                                    <label class="form-label fw-semibold">Icon (Class FontAwesome)</label>
-                                    <input type="text" name="services[{{ $index }}][icon]" class="form-control" value="{{ $service['icon'] ?? 'fa-star' }}" placeholder="fa-stethoscope">
-                                </div>
-                                <div class="col-md-9">
-                                    <label class="form-label fw-semibold">Judul Layanan</label>
-                                    <input type="text" name="services[{{ $index }}][title]" class="form-control" value="{{ $service['title'] ?? '' }}">
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Deskripsi Layanan</label>
-                                    <input type="text" name="services[{{ $index }}][desc]" class="form-control" value="{{ $service['desc'] ?? '' }}">
+                            <div class="service-row border rounded p-3 mb-3 bg-light position-relative">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label small fw-bold">Gambar Layanan</label>
+                                        @if(!empty($service['image']))
+                                            <input type="hidden" name="services[{{ $index }}][existing_image]" value="{{ $service['image'] }}">
+                                            <div class="mb-2">
+                                                <img src="{{ asset('storage/' . $service['image']) }}" class="img-thumbnail" style="max-height: 80px; width: 100%; object-fit: cover;">
+                                            </div>
+                                        @endif
+                                        <input type="file" name="services[{{ $index }}][image]" class="form-control form-control-sm" accept="image/*">
+                                        <small class="text-muted" style="font-size: 0.75rem;">Upload baru untuk mengganti.</small>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label small fw-bold">Icon (FontAwesome)</label>
+                                                <input type="text" name="services[{{ $index }}][icon]" class="form-control" value="{{ $service['icon'] ?? 'fa-star' }}" placeholder="fa-stethoscope">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="form-label small fw-bold">Judul Layanan</label>
+                                                <input type="text" name="services[{{ $index }}][title]" class="form-control" value="{{ $service['title'] ?? '' }}">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label small fw-bold">Deskripsi Layanan</label>
+                                                <input type="text" name="services[{{ $index }}][desc]" class="form-control" value="{{ $service['desc'] ?? '' }}">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -160,9 +176,8 @@
                 </div>
             </div>
 
-            <!-- 4. DOKUMENTASI SECTION (DILENGKAPI: Header Judul & Subjudul) -->
+            <!-- 4. DOKUMENTASI SECTION -->
             <div class="tab-pane fade" id="docs" role="tabpanel">
-                
                 <!-- Header Bagian Dokumentasi -->
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-light fw-bold">Header Bagian Dokumentasi</div>

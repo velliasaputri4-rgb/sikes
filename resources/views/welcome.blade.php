@@ -33,7 +33,10 @@
         --radius: 18px;
     }
 
-    * { -webkit-font-smoothing: antialiased; }
+    * { 
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
     html {
         scroll-behavior: smooth;
@@ -46,6 +49,9 @@
         color: var(--ink);
         line-height: 1.7;
         overflow-x: hidden;
+        /* ✅ FIX: Prevent flickering on body */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
     }
 
     /* ============ NAVBAR ============ */
@@ -57,6 +63,10 @@
         border-bottom: 1px solid rgba(30, 58, 138, 0.08);
         padding: 12px 0;
         transition: all 0.4s ease;
+        /* ✅ FIX: Hardware acceleration */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        will-change: auto; /* Reset will-change to prevent memory leak */
     }
     .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
     .navbar-brand { display: flex; align-items: center; }
@@ -223,6 +233,11 @@
         border: 1px solid #e4ebf5;
         box-shadow: 0 6px 20px rgba(30,58,138,0.06);
         transition: all 0.3s;
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
     .stat-card:hover {
         transform: translateY(-5px);
@@ -262,6 +277,11 @@
         display: block;
         color: inherit;
         overflow: hidden;
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
     .menu-card::before {
         content: '';
@@ -377,7 +397,7 @@
     }
     .about-pill i { color: var(--primary); }
 
-    /* ============ SERVICES (DIPERBARUI: Tanpa Hover, Tanpa Nomor, Dengan Gambar & Icon Pojok) ============ */
+    /* ============ SERVICES ============ */
     .services-section {
         background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 50%, #f3f7fc 100%);
     }
@@ -393,31 +413,90 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        transition: all 0.3s ease;
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+        border-color: transparent;
+    }
+    
+    .service-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        margin: 20px 24px 16px 24px;
+        cursor: pointer;
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
     }
     .service-image {
         width: 100%;
-        height: 180px;
+        height: 120px;
         object-fit: cover;
+        transition: transform 0.4s ease;
     }
+    .service-image-wrapper:hover .service-image {
+        transform: scale(1.05);
+    }
+    
+    .service-image-wrapper::after {
+        content: '\f00e';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 1.2rem;
+        color: white;
+        background: rgba(30, 58, 138, 0.7);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .service-image-wrapper:hover::after {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
     .service-icon {
         position: absolute;
         top: 16px;
         right: 16px;
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(4px);
         color: var(--primary);
-        border-radius: 12px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        z-index: 2;
+        z-index: 3;
+        transition: all 0.3s ease;
+    }
+    .service-card:hover .service-icon {
+        transform: scale(1.1);
+        background: white;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
     }
     .service-content {
-        padding: 20px 24px 24px 24px;
+        padding: 0 24px 24px 24px;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
@@ -425,7 +504,7 @@
     .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; font-size: 1.1rem; }
     .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; line-height: 1.6; }
 
-    /* ============ DOCUMENTATION/Berita ============ */
+    /* ============ DOCUMENTATION ============ */
     .doc-card {
         background: white;
         border-radius: var(--radius);
@@ -434,6 +513,11 @@
         transition: all 0.3s ease;
         height: 100%;
         border: 1px solid rgba(30,58,138,0.08);
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
 
     .doc-card:hover {
@@ -525,7 +609,6 @@
         box-shadow: 0 10px 30px rgba(30,58,138,0.35);
     }
 
-    /* ✅ PERBAIKAN: Video Overlay sekarang bisa diklik */
     .video-overlay {
         position: absolute;
         top: 0;
@@ -587,6 +670,11 @@
         height: 100%;
         border: 1px solid rgba(30,58,138,0.1);
         transition: all 0.3s;
+        /* ✅ FIX: Prevent flickering */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
     .info-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
     .info-icon {
@@ -671,13 +759,14 @@
         transform: translateY(20px);
         transition: all 0.3s;
         z-index: 999;
+        /* ✅ FIX: Prevent flickering */
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
 
-    /* =========================================================
-       PERBAIKAN KHUSUS TAMPILAN MOBILE (RESPONSIVE)
-       ========================================================= */
+    /* ============ RESPONSIVE ============ */
     @media (max-width: 768px) {
         .hero-section { padding: 80px 0 60px; text-align: center; }
         .hero-subtitle { margin-left: auto; margin-right: auto; text-align: center; }
@@ -690,9 +779,9 @@
         .doc-content { padding: 20px; }
         .doc-title { font-size: 1rem; }
         
-        .service-image { height: 150px; }
-        .service-icon { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
-        .service-content { padding: 16px 20px 20px 20px; }
+        .service-image { height: 100px; }
+        .service-icon { width: 36px; height: 36px; font-size: 1rem; top: 12px; right: 12px; }
+        .service-content { padding: 0 20px 20px 20px; }
         .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .service-card p { font-size: 0.85rem; line-height: 1.5; }
     }
@@ -884,7 +973,7 @@
                 </div>
             </div>
 
-            <!-- Menu Cards (4 cards) -->
+            <!-- Menu Cards -->
             <div class="row g-4 mt-5 justify-content-center">
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
                     <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
@@ -924,7 +1013,7 @@
         </div>
     </section>
 
-    <!-- About (Simple) -->
+    <!-- About -->
     <section class="section about-section" id="tentang">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -949,7 +1038,7 @@
         </div>
     </section>
 
-    <!-- Services (DIPERBARUI: Dengan Gambar & Icon Pojok) -->
+    <!-- Services -->
     <section class="section services-section" id="layanan">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -974,13 +1063,18 @@
                 @foreach($servicesData as $i => $s)
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
                     <div class="service-card">
-                        {{-- Gambar Layanan --}}
-                        <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}" 
-                             alt="{{ $s['title'] }}" 
-                             class="service-image"
-                             onerror="this.src='https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS'">
+                        <div class="service-image-wrapper" 
+                             data-bs-toggle="modal" 
+                             data-bs-target="#serviceImageModal"
+                             data-image="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}"
+                             data-title="{{ $s['title'] ?? 'Layanan' }}">
+                            
+                            <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}" 
+                                 alt="{{ $s['title'] }}" 
+                                 class="service-image"
+                                 onerror="this.src='https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS'">
+                        </div>
                         
-                        {{-- Icon di Pojok Kanan Atas --}}
                         <div class="service-icon">
                             <i class="fas {{ $s['icon'] ?? 'fa-star' }}"></i>
                         </div>
@@ -996,7 +1090,7 @@
         </div>
     </section>
 
-    <!-- Documentation/Berita Section -->
+    <!-- Documentation -->
     <section class="section" id="dokumentasi" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -1014,7 +1108,6 @@
                                      alt="{{ $doc->title }}" 
                                      onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
                                 
-                                {{-- ✅ PERBAIKAN: Overlay sekarang menggunakan tag <a> agar bisa diklik --}}
                                 @if(!empty($doc->video_link))
                                     <a href="{{ $doc->video_link }}" 
                                        target="_blank" 
@@ -1166,6 +1259,21 @@
         </div>
     </footer>
 
+    <!-- Modal Preview -->
+    <div class="modal fade" id="serviceImageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="serviceImageModalLabel">Preview Gambar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <img src="" id="modalServiceImage" class="img-fluid rounded" style="max-height: 60vh; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll to Top -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
@@ -1175,26 +1283,51 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
-        AOS.init({ duration: 800, once: true, offset: 80 });
+        // ✅ FIX: Initialize AOS with safer settings
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                AOS.init({ 
+                    duration: 800, 
+                    once: true, 
+                    offset: 80,
+                    disable: function() {
+                        // Disable AOS on mobile if causing issues
+                        var maxWidth = 768;
+                        return window.innerWidth < maxWidth;
+                    }
+                });
+            } catch(e) {
+                console.log('AOS initialization error:', e);
+            }
 
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            const scrollTop = document.getElementById('scrollTop');
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 300) scrollTop.classList.add('show');
-            else scrollTop.classList.remove('show');
-        });
+            // Scroll handler
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                const scrollTop = document.getElementById('scrollTop');
+                
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('show');
+                } else {
+                    scrollTop.classList.remove('show');
+                }
+            }, { passive: true }); // ✅ FIX: Use passive listener for better performance
 
-        document.getElementById('scrollTop').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+            // Scroll to top
+            document.getElementById('scrollTop').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
-        document.addEventListener("DOMContentLoaded", function() {
+            // Active nav link handler
             const sections = document.querySelectorAll("section[id]");
             const navLinks = document.querySelectorAll(".nav-link");
 
-            window.addEventListener("scroll", () => {
+            window.addEventListener("scroll", function() {
                 let current = "";
                 sections.forEach((section) => {
                     const sectionTop = section.offsetTop;
@@ -1211,7 +1344,23 @@
                         link.classList.add("active");
                     }
                 });
-            });
+            }, { passive: true });
+
+            // Modal handler
+            const serviceImageModal = document.getElementById('serviceImageModal');
+            if (serviceImageModal) {
+                serviceImageModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const imageUrl = button.getAttribute('data-image');
+                    const imageTitle = button.getAttribute('data-title');
+                    
+                    const modalImg = serviceImageModal.querySelector('#modalServiceImage');
+                    const modalTitle = serviceImageModal.querySelector('#serviceImageModalLabel');
+                    
+                    modalImg.src = imageUrl;
+                    modalTitle.textContent = imageTitle;
+                });
+            }
         });
     </script>
 </body>
