@@ -140,7 +140,6 @@
     .circle-1 { width: 240px; height: 240px; right: -90px; bottom: -70px; }
     .circle-2 { width: 150px; height: 150px; left: -70px; top: -50px; background: rgba(59,130,246,0.07); }
 
-    /* PERBAIKAN JARAK: Menggunakan flexbox dan gap untuk mengontrol jarak antar baris */
     .hero-title {
         font-family: 'Poppins', sans-serif;
         font-size: clamp(1.9rem, 3.4vw, 2.9rem);
@@ -151,11 +150,9 @@
         letter-spacing: -0.5px;
         display: flex;
         flex-direction: column;
-        gap: 4px; /* Jarak antar baris yang sangat rapat dan rapi */
+        gap: 4px;
     }
-    .hero-line {
-        line-height: 1.15;
-    }
+    .hero-line { line-height: 1.15; }
     .hero-accent {
         color: #2563eb !important;
         -webkit-text-fill-color: #2563eb !important;
@@ -481,6 +478,7 @@
         margin-bottom: 12px;
         font-size: 0.85rem;
         color: var(--slate);
+        flex-wrap: wrap;
     }
 
     .doc-meta span {
@@ -536,6 +534,59 @@
         box-shadow: 0 10px 30px rgba(30,58,138,0.35);
     }
 
+    /* ✅ PERBAIKAN: Video Overlay sekarang bisa diklik */
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 2;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .doc-card:hover .video-overlay {
+        opacity: 1;
+    }
+
+    .video-overlay i {
+        font-size: 3.5rem;
+        color: #ffffff;
+        filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .doc-card:hover .video-overlay i {
+        transform: scale(1.15);
+    }
+
+    .badge-video {
+        background: rgba(244, 63, 94, 0.1);
+        color: var(--rose);
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .doc-excerpt {
+        color: var(--slate);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-top: 8px;
+        margin-bottom: 0;
+    }
+
     /* ============ CONTACT ============ */
     .contact-section { background: white; }
     .info-card {
@@ -558,17 +609,14 @@
         box-shadow: 0 10px 25px rgba(30,58,138,0.25);
     }
     
-    /* PERBAIKAN JARAK ALAMAT */
     .address-text {
         display: flex;
         flex-direction: column;
-        gap: 6px; /* Jarak yang lebih rapat antar baris alamat */
+        gap: 6px;
         color: var(--slate);
         line-height: 1.6;
     }
-    .address-line {
-        line-height: 1.6;
-    }
+    .address-line { line-height: 1.6; }
 
     /* ============ FOOTER ============ */
     footer {
@@ -638,7 +686,6 @@
 
     /* =========================================================
        PERBAIKAN KHUSUS TAMPILAN MOBILE (RESPONSIVE)
-       Fokus: Kerapian, Spacing, dan Mencegah Overlap
        ========================================================= */
     @media (max-width: 768px) {
         .hero-section { padding: 80px 0 60px; text-align: center; }
@@ -779,22 +826,14 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
                     @php
-                        // 1. Ambil teks dari database (atau gunakan default)
                         $heroText = \App\Models\Setting::get('hero_title', "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri");
-                        
-                        // 2. Ubah semua variasi <br> menjadi Enter (\n) agar konsisten
                         $heroText = str_replace(['<br>', '<br/>', '<br />'], "\n", $heroText);
-                        
-                        // 3. Bersihkan tag HTML lain yang mungkin tidak sengaja tersimpan
                         $heroText = strip_tags($heroText);
-                        
-                        // 4. Pecah per baris dan bungkus dengan <div> agar jaraknya bisa diatur rapat
                         $lines = explode("\n", trim($heroText));
                         $heroHtml = '';
                         foreach ($lines as $line) {
                             $line = trim(e($line));
                             if ($line === '') continue;
-                            
                             if (strpos($line, 'Sistem Informasi UKS') !== false) {
                                 $heroHtml .= '<div class="hero-line hero-accent">' . $line . '</div>';
                             } else {
@@ -804,7 +843,6 @@
                     @endphp
                     
                     <h1 class="hero-title">{!! $heroHtml !!}</h1>
-                    
                     <p class="hero-subtitle">{{ \App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.') }}</p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="btn-hero-primary">
@@ -963,65 +1001,49 @@
             </div>
 
             <div class="row g-4">
-                <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="doc-card">
-                        <div class="doc-image">
-                            <img src="{{ asset('images/docs/doc1.jpg') }}" alt="Dokumentasi 1" onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
-                        </div>
-                        <div class="doc-content">
-                            <div class="doc-meta">
-                                <span><i class="far fa-calendar"></i> 28 Agustus 2024</span>
-                                <span><i class="far fa-eye"></i> 285 kali</span>
+                @forelse($documentations as $index => $doc)
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                        <div class="doc-card">
+                            <div class="doc-image">
+                                <img src="{{ $doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS' }}" 
+                                     alt="{{ $doc->title }}" 
+                                     onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
+                                
+                                {{-- ✅ PERBAIKAN: Overlay sekarang menggunakan tag <a> agar bisa diklik --}}
+                                @if(!empty($doc->video_link))
+                                    <a href="{{ $doc->video_link }}" 
+                                       target="_blank" 
+                                       class="video-overlay" 
+                                       title="Putar Video">
+                                        <i class="fas fa-play-circle"></i>
+                                    </a>
+                                @endif
                             </div>
-                            <h5 class="doc-title">
-                                <a href="{{ route('landing.docs-detail', 1) }}">
-                                    Pemkab Buleleng terus Berupaya Tingkatkan Kualitas Kesehatan dan Pendidikan...
-                                </a>
-                            </h5>
+                            <div class="doc-content">
+                                <div class="doc-meta">
+                                    <span><i class="far fa-calendar"></i> {{ \Carbon\Carbon::parse($doc->published_at)->format('d F Y') }}</span>
+                                    @if(!empty($doc->video_link))
+                                        <span class="badge-video"><i class="fas fa-video"></i> Video</span>
+                                    @endif
+                                </div>
+                                <h5 class="doc-title">
+                                    <a href="{{ !empty($doc->video_link) ? $doc->video_link : route('landing.docs-detail', \Illuminate\Support\Str::slug($doc->title)) }}" 
+                                       target="{{ !empty($doc->video_link) ? '_blank' : '_self' }}">
+                                        {{ \Illuminate\Support\Str::limit($doc->title, 65) }}
+                                    </a>
+                                </h5>
+                                @if(!empty($doc->excerpt))
+                                    <p class="doc-excerpt">{{ \Illuminate\Support\Str::limit($doc->excerpt, 90) }}</p>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="doc-card">
-                        <div class="doc-image">
-                            <img src="{{ asset('images/docs/doc2.jpg') }}" alt="Dokumentasi 2" onerror="this.src='https://via.placeholder.com/600x400/1e3a8a/ffffff?text=Pembinaan+UKS'">
-                        </div>
-                        <div class="doc-content">
-                            <div class="doc-meta">
-                                <span><i class="far fa-calendar"></i> 30 Juli 2024</span>
-                                <span><i class="far fa-eye"></i> 270 kali</span>
-                            </div>
-                            <h5 class="doc-title">
-                                <a href="{{ route('landing.docs-detail', 2) }}">
-                                    Pembinaan UKS di SD N 6 Busungbiu
-                                </a>
-                            </h5>
-                        </div>
+                @empty
+                    <div class="col-12 text-center py-5" data-aos="fade-up">
+                        <i class="far fa-folder-open fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Belum ada dokumentasi atau berita yang dipublikasikan.</p>
                     </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="doc-card">
-                        <div class="doc-image">
-                            <img src="{{ asset('images/docs/doc3.jpg') }}" alt="Dokumentasi 3" onerror="this.src='https://via.placeholder.com/600x400/10b981/ffffff?text=Kegiatan+UKS'">
-                        </div>
-                        <div class="doc-content">
-                            <div class="doc-meta">
-                                <span><i class="far fa-calendar"></i> 29 Juli 2024</span>
-                                <span><i class="far fa-eye"></i> 266 kali</span>
-                            </div>
-                            <h5 class="doc-title">
-                                <a href="{{ route('landing.docs-detail', 3) }}">
-                                    Pembinaan UKS Sasar Kecamatan Busungbiu
-                                </a>
-                            </h5>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
 
             <div class="text-center mt-5" data-aos="fade-up">
@@ -1047,7 +1069,6 @@
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-3">Alamat Kami</h5>
                         @php
-                            // Format alamat dengan jarak yang lebih rapat
                             $addressText = \App\Models\Setting::get('contact_address', "Komplek SMK Negeri 1 Bangsri\nJalan KH. Achmad Fauzan No.17, Bangsri, Jepara\nJawa Tengah, 59453");
                             $addressText = str_replace(['<br>', '<br/>', '<br />'], "\n", $addressText);
                             $addressText = strip_tags($addressText);
@@ -1069,7 +1090,6 @@
                         <p style="color: var(--slate); line-height: 2; margin-bottom: 0;">
                             <i class="fab fa-instagram me-2 text-danger"></i>
                             <a href="{{ \App\Models\Setting::get('contact_ig_link', 'https://instagram.com/pmrwira_eskasaba') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
-                                {{-- ✅ PERBAIKAN: Menggunakan konkatenasi '@' . agar tidak dianggap escape Blade --}}
                                 {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
                             </a><br>
                             <i class="fab fa-youtube me-2 text-danger"></i>

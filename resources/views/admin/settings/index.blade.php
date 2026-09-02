@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h5 class="fw-bold mb-0"><i class="fas fa-cog me-2 text-primary"></i>Pengaturan Teks Website</h5>
-            <small class="text-muted">Ubah semua teks, judul, dan deskripsi yang muncul di halaman depan (Landing Page) SIKES.</small>
+            <small class="text-muted">Ubah semua teks, judul, deskripsi, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
         </div>
     </div>
 
@@ -34,6 +34,9 @@
                 <button class="nav-link" id="services-tab" data-bs-toggle="pill" data-bs-target="#services" type="button"><i class="fas fa-concierge-bell me-2"></i>Layanan</button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="docs-tab" data-bs-toggle="pill" data-bs-target="#docs" type="button"><i class="fas fa-newspaper me-2"></i>Dokumentasi</button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact" type="button"><i class="fas fa-address-book me-2"></i>Kontak</button>
             </li>
             <li class="nav-item" role="presentation">
@@ -53,12 +56,7 @@
                                 <label class="form-label fw-semibold">Judul Utama</label>
                                 @php
                                     $rawHero = $settings['hero_title'] ?? "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri";
-                                    // Bersihkan SEMUA variasi <br> dan HTML entities menjadi Enter (\n)
-                                    $cleanHero = str_replace(
-                                        ['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'],
-                                        "\n",
-                                        strip_tags($rawHero)
-                                    );
+                                    $cleanHero = str_replace(['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'], "\n", strip_tags($rawHero));
                                 @endphp
                                 <textarea name="hero_title" class="form-control" rows="3" placeholder="Tekan Enter untuk baris baru">{{ $cleanHero }}</textarea>
                                 <small class="text-muted">Tekan Enter pada keyboard untuk membuat baris baru.</small>
@@ -137,7 +135,9 @@
                                 ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
                                 ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
                             ];
-                            $servicesData = json_decode($settings['services_data'] ?? json_encode($defaultServices), true);
+                            // ✅ PERBAIKAN: Cek apakah sudah array (dari controller) atau masih string JSON
+                            $servicesRaw = $settings['services_data'] ?? json_encode($defaultServices);
+                            $servicesData = is_array($servicesRaw) ? $servicesRaw : json_decode($servicesRaw, true);
                         @endphp
 
                         @foreach($servicesData as $index => $service)
@@ -161,7 +161,76 @@
                 </div>
             </div>
 
-            <!-- 4. CONTACT SECTION -->
+            <!-- 4. DOKUMENTASI SECTION -->
+            <div class="tab-pane fade" id="docs" role="tabpanel">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-newspaper me-2 text-primary"></i>Dokumentasi & Berita (Landing Page)</span>
+                        <button type="button" class="btn btn-sm btn-success" onclick="addDocumentationRow()">
+                            <i class="fas fa-plus"></i> Tambah Item
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Kelola item berita/kegiatan yang muncul di halaman depan. Kosongkan judul untuk menghapus item saat disimpan.</p>
+                        
+                        <div id="documentations-container">
+                            @php
+                                // ✅ PERBAIKAN: Cek apakah sudah array (dari controller) atau masih string JSON
+                                $docsRaw = $settings['documentations_data'] ?? '[]';
+                                $docsData = is_array($docsRaw) ? $docsRaw : json_decode($docsRaw, true);
+                                
+                                if (empty($docsData) || !is_array($docsData)) {
+                                    $docsData = [['title' => '', 'excerpt' => '', 'video_link' => '', 'published_at' => date('Y-m-d'), 'image' => '']];
+                                }
+                                $initialDocCount = count($docsData);
+                            @endphp
+
+                            @foreach($docsData as $index => $doc)
+                                <div class="documentation-row border rounded p-3 mb-3 bg-light position-relative">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-md-5">
+                                            <label class="form-label small fw-bold">Judul Berita/Kegiatan *</label>
+                                            <input type="text" name="documentations[{{ $index }}][title]" class="form-control" value="{{ $doc['title'] ?? '' }}" placeholder="Contoh: Pembinaan UKS">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label small fw-bold">Tanggal</label>
+                                            <input type="date" name="documentations[{{ $index }}][published_at]" class="form-control" value="{{ $doc['published_at'] ?? date('Y-m-d') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label small fw-bold">Link Video (Opsional)</label>
+                                            <input type="url" name="documentations[{{ $index }}][video_link]" class="form-control" value="{{ $doc['video_link'] ?? '' }}" placeholder="https://youtube.com/...">
+                                            <small class="text-muted" style="font-size: 0.75rem;">Jika diisi, akan muncul ikon "Play" di halaman depan.</small>
+                                        </div>
+                                        
+                                        <div class="col-md-8">
+                                            <label class="form-label small fw-bold">Ringkasan (Excerpt)</label>
+                                            <textarea name="documentations[{{ $index }}][excerpt]" class="form-control" rows="2" placeholder="Deskripsi singkat...">{{ $doc['excerpt'] ?? '' }}</textarea>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label class="form-label small fw-bold">Gambar Thumbnail</label>
+                                            @if(!empty($doc['image']))
+                                                <input type="hidden" name="documentations[{{ $index }}][existing_image]" value="{{ $doc['image'] }}">
+                                                <div class="mb-2">
+                                                    <img src="{{ asset('storage/' . $doc['image']) }}" class="img-thumbnail" style="max-height: 80px;">
+                                                </div>
+                                            @endif
+                                            <input type="file" name="documentations[{{ $index }}][image]" class="form-control form-control-sm" accept="image/*">
+                                            <small class="text-muted" style="font-size: 0.75rem;">Upload baru untuk mengganti gambar.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. CONTACT SECTION -->
             <div class="tab-pane fade" id="contact" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Kontak & Alamat</div>
@@ -183,12 +252,7 @@
                                 <label class="form-label fw-semibold">Alamat Lengkap</label>
                                 @php
                                     $rawAddress = $settings['contact_address'] ?? "Komplek SMK Negeri 1 Bangsri\nJalan KH. Achmad Fauzan No.17, Bangsri, Jepara\nJawa Tengah, 59453";
-                                    // Bersihkan SEMUA variasi <br> dan HTML entities menjadi Enter (\n)
-                                    $cleanAddress = str_replace(
-                                        ['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'],
-                                        "\n",
-                                        strip_tags($rawAddress)
-                                    );
+                                    $cleanAddress = str_replace(['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;', '&lt;br /&gt;'], "\n", strip_tags($rawAddress));
                                 @endphp
                                 <textarea name="contact_address" class="form-control" rows="3">{{ $cleanAddress }}</textarea>
                                 <small class="text-muted">Tekan Enter pada keyboard untuk baris baru.</small>
@@ -220,7 +284,7 @@
                 </div>
             </div>
 
-            <!-- 5. FOOTER SECTION -->
+            <!-- 6. FOOTER SECTION -->
             <div class="tab-pane fade" id="footer" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Footer (Bawah)</div>
@@ -250,4 +314,51 @@
         </div>
     </form>
 </div>
+
+<!-- JavaScript untuk Tambah/Hapus Baris Dokumentasi -->
+<script>
+    let docIndex = {{ $initialDocCount ?? 1 }};
+
+    function addDocumentationRow() {
+        const container = document.getElementById('documentations-container');
+        const today = new Date().toISOString().split('T')[0];
+        
+        const newRow = document.createElement('div');
+        newRow.className = 'documentation-row border rounded p-3 mb-3 bg-light position-relative';
+        newRow.innerHTML = `
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris">
+                <i class="fas fa-trash"></i>
+            </button>
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <label class="form-label small fw-bold">Judul Berita/Kegiatan *</label>
+                    <input type="text" name="documentations[${docIndex}][title]" class="form-control" placeholder="Contoh: Pembinaan UKS">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Tanggal</label>
+                    <input type="date" name="documentations[${docIndex}][published_at]" class="form-control" value="${today}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold">Link Video (Opsional)</label>
+                    <input type="url" name="documentations[${docIndex}][video_link]" class="form-control" placeholder="https://youtube.com/...">
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label small fw-bold">Ringkasan (Excerpt)</label>
+                    <textarea name="documentations[${docIndex}][excerpt]" class="form-control" rows="2" placeholder="Deskripsi singkat..."></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold">Gambar Thumbnail</label>
+                    <input type="file" name="documentations[${docIndex}][image]" class="form-control form-control-sm" accept="image/*">
+                </div>
+            </div>
+        `;
+        container.appendChild(newRow);
+        docIndex++;
+    }
+
+    function removeDocumentationRow(button) {
+        const row = button.closest('.documentation-row');
+        row.remove();
+    }
+</script>
 @endsection

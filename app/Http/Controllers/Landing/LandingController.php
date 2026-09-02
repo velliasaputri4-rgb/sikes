@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Medicine;
+use App\Models\Setting; // ✅ Ganti import Documentation dengan Setting
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class LandingController extends Controller
@@ -17,31 +19,25 @@ class LandingController extends Controller
         // 2. Data jadwal (pakai Model Schedule)
         $schedules = \App\Models\Schedule::orderBy('id')->get();
         
-        // 3. Data artikel dummy sementara
-        $articles = collect([
-            (object)['title' => 'Pentingnya Cuci Tangan', 'excerpt' => 'Cuci tangan adalah langkah sederhana namun sangat efektif mencegah penyakit.'],
-            (object)['title' => 'Tips Tetap Sehat di Musim Hujan', 'excerpt' => 'Jaga imunitas tubuh dengan makanan bergizi dan istirahat yang cukup.'],
-            (object)['title' => 'Manfaat Olahraga Pagi', 'excerpt' => 'Olahraga pagi dapat meningkatkan konsentrasi belajar siswa di sekolah.']
-        ]);
+        // 3. ✅ DATA DOKUMENTASI/BERITA (Dibaca dari Setting JSON sebagai Object)
+        $docsJson = Setting::where('key', 'documentations_data')->value('value') ?? '[]';
+        $allDocumentations = collect(json_decode($docsJson)); // Decode sebagai object agar $doc->title tetap bisa dipakai di Blade
+        
+        // Urutkan berdasarkan tanggal turun (terbaru dulu) dan ambil maksimal 3
+        $documentations = $allDocumentations->sortByDesc('published_at')->take(3)->values();
 
         // 4. ✅ DATA STATISTIK REAL-TIME
-        // Jumlah siswa terdaftar (aktif)
-        $totalStudents = DB::table('students')
-            ->whereNull('deleted_at')
-            ->count();
+        $totalStudents = DB::table('students')->whereNull('deleted_at')->count();
 
-        // Kunjungan hari ini
         $examsToday = DB::table('examinations')
             ->whereDate('examination_date', Carbon::today())
             ->count();
 
-        // Total kunjungan bulan ini
         $examsMonth = DB::table('examinations')
             ->whereMonth('examination_date', Carbon::now()->month)
             ->whereYear('examination_date', Carbon::now()->year)
             ->count();
 
-        // Persentase layanan optimal
         $totalExamsMonth = DB::table('examinations')
             ->whereMonth('examination_date', Carbon::now()->month)
             ->whereYear('examination_date', Carbon::now()->year)
@@ -60,7 +56,7 @@ class LandingController extends Controller
         return view('welcome', compact(
             'medicines', 
             'schedules', 
-            'articles',
+            'documentations', 
             'totalStudents',
             'examsToday',
             'examsMonth',
@@ -75,7 +71,6 @@ class LandingController extends Controller
 
     public function medicines()
     {
-        // ✅ PERBAIKAN: Hapus ->with('category') karena relasi sudah dihapus
         $medicines = Medicine::where('stock', '>', 0)
             ->whereNotIn('status', ['expired', 'empty'])
             ->orderBy('name')
@@ -95,20 +90,38 @@ class LandingController extends Controller
         return view('landing.contact');
     }
 
-    // ✅ BARU: Method untuk halaman Informasi Kesehatan
     public function healthInfo()
     {
         return view('landing.health-info');
     }
 
-    // ✅ BARU: Method untuk halaman Dokumentasi/Berita
+    // ✅ Method untuk halaman Daftar Dokumentasi/Berita (Semua dari JSON)
     public function docs()
     {
-        return view('landing.docs');
+        $docsJson = Setting::where('key', 'documentations_data')->value('value') ?? '[]';
+        $allDocumentations = collect(json_decode($docsJson));
+        
+        // Urutkan berdasarkan tanggal turun
+        $documentations = $allDocumentations->sortByDesc('published_at')->values();
+            
+        return view('landing.docs', compact('documentations'));
     }
 
-    public function docsDetail($id)
+    // ✅ Method untuk Detail Dokumentasi (Mencari berdasarkan slug judul)
+    public function docsDetail($slug)
     {
-        return view('landing.docs-detail', compact('id'));
+        $docsJson = Setting::where('key', 'documentations_data')->value('value') ?? '[]';
+        $allDocumentations = collect(json_decode($docsJson));
+        
+        // Cari dokumen yang slug judulnya cocok dengan URL
+        $doc = $allDocumentations->first(function ($item) use ($slug) {
+            return Str::slug($item->title) === $slug;
+        });
+
+        if (!$doc) {
+            abort(404, 'Dokumentasi tidak ditemukan');
+        }
+        
+        return view('landing.docs-detail', compact('doc'));
     }
 }
