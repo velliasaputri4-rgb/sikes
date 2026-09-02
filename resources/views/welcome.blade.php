@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIKES - Sistem Informasi UKS Modern</title>
+    
+    <!-- ✅ FIX: Favicon menggunakan logo SIKES agar loading berhenti dan logo muncul -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo sikes navbar.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo sikes navbar.png') }}">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
     <style>
     :root {
         --primary: #3b82f6;
@@ -49,9 +55,6 @@
         color: var(--ink);
         line-height: 1.7;
         overflow-x: hidden;
-        /* ✅ FIX: Prevent flickering on body */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
     }
 
     /* ============ NAVBAR ============ */
@@ -63,10 +66,6 @@
         border-bottom: 1px solid rgba(30, 58, 138, 0.08);
         padding: 12px 0;
         transition: all 0.4s ease;
-        /* ✅ FIX: Hardware acceleration */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        will-change: auto; /* Reset will-change to prevent memory leak */
     }
     .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
     .navbar-brand { display: flex; align-items: center; }
@@ -233,11 +232,6 @@
         border: 1px solid #e4ebf5;
         box-shadow: 0 6px 20px rgba(30,58,138,0.06);
         transition: all 0.3s;
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
     }
     .stat-card:hover {
         transform: translateY(-5px);
@@ -263,26 +257,24 @@
     .stat-label { font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 2px; }
     .stat-note { color: #8a94a6; font-size: 0.72rem; }
 
-    /* ============ MENU CARDS ============ */
+    /* ============ MENU CARDS (DENGAN INDIKATOR KLIK) ============ */
     .menu-card {
         background: white;
         border-radius: var(--radius);
         padding: 32px 26px;
         text-align: center;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid #e4ebf5;
+        border: 2px solid #e4ebf5;
         height: 100%;
         position: relative;
         text-decoration: none;
         display: block;
         color: inherit;
         overflow: hidden;
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+        cursor: pointer;
     }
+    
+    /* ✅ Indikator visual bahwa ini bisa diklik (Garis atas) */
     .menu-card::before {
         content: '';
         position: absolute;
@@ -293,12 +285,16 @@
         transform-origin: left;
         transition: transform 0.4s ease;
     }
+    
     .menu-card:hover {
         transform: translateY(-12px);
-        box-shadow: 0 25px 60px rgba(30,58,138,0.12);
-        border-color: transparent;
+        box-shadow: 0 25px 60px rgba(30,58,138,0.15);
+        border-color: var(--primary);
     }
-    .menu-card:hover::before { transform: scaleX(1); }
+    
+    .menu-card:hover::before { 
+        transform: scaleX(1); 
+    }
 
     .menu-icon {
         width: 76px; height: 76px;
@@ -324,6 +320,23 @@
     }
     .tag-public { background: #e4f4ec; color: #1e7a55; }
     .tag-login { background: #e6eef8; color: #1e3a8a; }
+    
+    /* ✅ Teks petunjuk klik */
+    .click-hint {
+        display: block;
+        margin-top: 12px;
+        font-size: 0.8rem;
+        color: var(--primary);
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .menu-card:hover .click-hint {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
     /* ============ SECTIONS ============ */
     .section { padding: 90px 0; position: relative; }
@@ -414,11 +427,6 @@
         display: flex;
         flex-direction: column;
         transition: all 0.3s ease;
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
     }
     .service-card:hover {
         transform: translateY(-8px);
@@ -432,10 +440,6 @@
         border-radius: 12px;
         margin: 20px 24px 16px 24px;
         cursor: pointer;
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
     }
     .service-image {
         width: 100%;
@@ -513,11 +517,6 @@
         transition: all 0.3s ease;
         height: 100%;
         border: 1px solid rgba(30,58,138,0.08);
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
     }
 
     .doc-card:hover {
@@ -670,11 +669,6 @@
         height: 100%;
         border: 1px solid rgba(30,58,138,0.1);
         transition: all 0.3s;
-        /* ✅ FIX: Prevent flickering */
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
     }
     .info-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
     .info-icon {
@@ -759,9 +753,6 @@
         transform: translateY(20px);
         transition: all 0.3s;
         z-index: 999;
-        /* ✅ FIX: Prevent flickering */
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
     }
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
@@ -801,6 +792,14 @@
         .menu-icon { width: 64px; height: 64px; font-size: 26px; margin-bottom: 16px; }
         .menu-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .menu-card p { font-size: 0.85rem; margin-bottom: 12px; }
+        
+        /* ✅ FIX: Tampilkan petunjuk klik secara permanen di mobile (layar sentuh) */
+        .click-hint {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            font-size: 0.75rem !important;
+            margin-top: 10px !important;
+        }
         
         .about-img-wrap { margin-bottom: 30px; }
         .about-pill { padding: 8px 16px; font-size: 0.8rem; margin: 4px; }
@@ -973,7 +972,7 @@
                 </div>
             </div>
 
-            <!-- Menu Cards -->
+            <!-- Menu Cards dengan Indikator Klik -->
             <div class="row g-4 mt-5 justify-content-center">
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
                     <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
@@ -983,6 +982,7 @@
                         @if(!auth()->check() || !auth()->user()->hasRole('siswa'))
                             <span class="card-tag tag-login"><i class="fas fa-lock"></i> Login Siswa</span>
                         @endif
+                        <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -991,6 +991,7 @@
                         <h5 class="fw-bold mb-2">Informasi Obat</h5>
                         <p class="text-muted small mb-0">Daftar lengkap obat UKS</p>
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
+                        <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
@@ -999,6 +1000,7 @@
                         <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
                         <p class="text-muted small mb-0">Tips kesehatan dan kalkulator BMI</p>
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
+                        <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
@@ -1007,6 +1009,7 @@
                         <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
                         <p class="text-muted small mb-0">Jadwal bertugas petugas UKS</p>
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
+                        <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
             </div>
@@ -1279,11 +1282,11 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
-        // ✅ FIX: Initialize AOS with safer settings
         document.addEventListener('DOMContentLoaded', function() {
             try {
                 AOS.init({ 
@@ -1291,16 +1294,13 @@
                     once: true, 
                     offset: 80,
                     disable: function() {
-                        // Disable AOS on mobile if causing issues
-                        var maxWidth = 768;
-                        return window.innerWidth < maxWidth;
+                        return window.innerWidth < 768;
                     }
                 });
             } catch(e) {
-                console.log('AOS initialization error:', e);
+                console.error('AOS error:', e);
             }
 
-            // Scroll handler
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -1316,14 +1316,12 @@
                 } else {
                     scrollTop.classList.remove('show');
                 }
-            }, { passive: true }); // ✅ FIX: Use passive listener for better performance
+            }, { passive: true });
 
-            // Scroll to top
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Active nav link handler
             const sections = document.querySelectorAll("section[id]");
             const navLinks = document.querySelectorAll(".nav-link");
 
@@ -1346,7 +1344,6 @@
                 });
             }, { passive: true });
 
-            // Modal handler
             const serviceImageModal = document.getElementById('serviceImageModal');
             if (serviceImageModal) {
                 serviceImageModal.addEventListener('show.bs.modal', function (event) {

@@ -38,7 +38,6 @@
                         <th class="text-center">Stok</th>
                         <th>Satuan</th>
                         <th>Kedaluwarsa</th>
-                        <th>Status</th>
                         <th class="text-end pe-3">Aksi</th>
                     </tr>
                 </thead>
@@ -54,27 +53,6 @@
                             </td>
                             <td>{{ $med->unit }}</td>
                             <td>{{ $med->expired_date ? \Carbon\Carbon::parse($med->expired_date)->format('d M Y') : '-' }}</td>
-                            <td>
-                                @php
-                                    $statusClass = match($med->status) {
-                                        'available' => 'bg-success',
-                                        'low_stock' => 'bg-warning text-dark',
-                                        'empty' => 'bg-danger',
-                                        'near_expired' => 'bg-info text-dark',
-                                        'expired' => 'bg-dark',
-                                        default => 'bg-secondary'
-                                    };
-                                    $statusText = match($med->status) {
-                                        'available' => 'Tersedia',
-                                        'low_stock' => 'Menipis',
-                                        'empty' => 'Habis',
-                                        'near_expired' => 'Hampir Exp',
-                                        'expired' => 'Kedaluwarsa',
-                                        default => 'Tidak Diketahui'
-                                    };
-                                @endphp
-                                <span class="badge {{ $statusClass }} rounded-pill">{{ $statusText }}</span>
-                            </td>
                             <td class="text-end pe-3">
                                 <div class="d-flex justify-content-end gap-2">
                                     <a href="{{ route('petugas.medicines.edit', $med->id) }}" 
@@ -97,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5 text-muted">
+                            <td colspan="6" class="text-center py-5 text-muted">
                                 <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">Belum ada data obat</p>
                                 <a href="{{ route('petugas.medicines.create') }}" class="btn btn-sm btn-outline-primary mt-2">Tambah Obat Pertama</a>
