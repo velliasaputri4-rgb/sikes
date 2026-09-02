@@ -377,62 +377,53 @@
     }
     .about-pill i { color: var(--primary); }
 
-    /* ============ SERVICES ============ */
+    /* ============ SERVICES (DIPERBARUI: Tanpa Hover, Tanpa Nomor, Dengan Gambar & Icon Pojok) ============ */
     .services-section {
         background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 50%, #f3f7fc 100%);
     }
     .service-card {
         background: white;
-        padding: 36px 28px;
         border-radius: var(--radius);
         box-shadow: 0 4px 20px rgba(30,58,138,0.06);
         margin-bottom: 25px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-align: left;
         height: 100%;
         border: 1px solid rgba(30,58,138,0.08);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
-    .service-card::before {
-        content: '';
-        position: absolute;
-        top: -2px; right: -2px;
-        width: 80px; height: 80px;
-        background: var(--gradient-primary);
-        border-radius: 0 var(--radius) 0 80px;
-        opacity: 0.1;
-        transition: all 0.4s;
-    }
-    .service-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg);
-        border-color: transparent;
-    }
-    .service-card:hover::before { width: 140px; height: 140px; opacity: 0.15; }
-    .service-num {
-        position: absolute;
-        top: 20px; right: 24px;
-        font-family: 'Poppins', sans-serif;
-        font-size: 3rem;
-        font-weight: 700;
-        color: rgba(30,58,138,0.08);
-        line-height: 1;
+    .service-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
     }
     .service-icon {
-        width: 64px; height: 64px;
-        background: var(--gradient-primary);
-        color: white;
-        border-radius: 16px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.6rem;
-        margin-bottom: 22px;
-        box-shadow: 0 10px 25px rgba(30,58,138,0.25);
-        transition: all 0.3s;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(4px);
+        color: var(--primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 2;
     }
-    .service-card:hover .service-icon { transform: rotate(-8deg) scale(1.1); }
-    .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 10px; }
-    .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; }
+    .service-content {
+        padding: 20px 24px 24px 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; font-size: 1.1rem; }
+    .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; line-height: 1.6; }
 
     /* ============ DOCUMENTATION/Berita ============ */
     .doc-card {
@@ -698,6 +689,12 @@
         .doc-image { height: 200px; }
         .doc-content { padding: 20px; }
         .doc-title { font-size: 1rem; }
+        
+        .service-image { height: 150px; }
+        .service-icon { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+        .service-content { padding: 16px 20px 20px 20px; }
+        .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
+        .service-card p { font-size: 0.85rem; line-height: 1.5; }
     }
 
     @media (max-width: 576px) {
@@ -715,11 +712,7 @@
         .menu-icon { width: 64px; height: 64px; font-size: 26px; margin-bottom: 16px; }
         .menu-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .menu-card p { font-size: 0.85rem; margin-bottom: 12px; }
-        .service-card { padding: 24px 20px; }
-        .service-num { font-size: 2rem; top: 15px; right: 15px; line-height: 1; }
-        .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; padding-right: 35px; }
-        .service-icon { width: 52px; height: 52px; font-size: 1.3rem; margin-bottom: 16px; }
-        .service-card p { font-size: 0.85rem; line-height: 1.5; }
+        
         .about-img-wrap { margin-bottom: 30px; }
         .about-pill { padding: 8px 16px; font-size: 0.8rem; margin: 4px; }
         .section-title { font-size: 1.5rem; text-align: center; }
@@ -956,7 +949,7 @@
         </div>
     </section>
 
-    <!-- Services -->
+    <!-- Services (DIPERBARUI: Dengan Gambar & Icon Pojok) -->
     <section class="section services-section" id="layanan">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -967,23 +960,35 @@
             <div class="row g-4">
                 @php
                     $defaultServices = [
-                        ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.'],
-                        ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.'],
-                        ['icon' => 'fa-heartbeat', 'title' => 'Pertolongan Pertama', 'desc' => 'Pertolongan pertama pada kecelakaan & keadaan darurat.'],
-                        ['icon' => 'fa-user-md', 'title' => 'Konsultasi Kesehatan', 'desc' => 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.'],
-                        ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
-                        ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
+                        ['icon' => 'fa-stethoscope', 'title' => 'Pemeriksaan Kesehatan', 'desc' => 'Pemeriksaan rutin dan saat sakit dengan tenaga profesional.', 'image' => ''],
+                        ['icon' => 'fa-pills', 'title' => 'Pelayanan Obat', 'desc' => 'Penyediaan obat lengkap dan terjamin kualitasnya.', 'image' => ''],
+                        ['icon' => 'fa-heartbeat', 'title' => 'Pertolongan Pertama', 'desc' => 'Pertolongan pertama pada kecelakaan & keadaan darurat.', 'image' => ''],
+                        ['icon' => 'fa-user-md', 'title' => 'Konsultasi Kesehatan', 'desc' => 'Konsultasi kesehatan fisik dan mental dengan petugas terlatih.', 'image' => ''],
+                        ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.', 'image' => ''],
+                        ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.', 'image' => '']
                     ];
-                    $servicesData = json_decode(\App\Models\Setting::get('services_data', json_encode($defaultServices)), true) ?? $defaultServices;
+                    $servicesRaw = \App\Models\Setting::get('services_data', json_encode($defaultServices));
+                    $servicesData = is_array($servicesRaw) ? $servicesRaw : json_decode($servicesRaw, true);
                 @endphp
                 
                 @foreach($servicesData as $i => $s)
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
                     <div class="service-card">
-                        <span class="service-num">0{{ $i+1 }}</span>
-                        <div class="service-icon"><i class="fas {{ $s['icon'] ?? 'fa-star' }}"></i></div>
-                        <h5 class="fw-bold">{{ $s['title'] ?? 'Layanan' }}</h5>
-                        <p>{{ $s['desc'] ?? 'Deskripsi layanan' }}</p>
+                        {{-- Gambar Layanan --}}
+                        <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}" 
+                             alt="{{ $s['title'] }}" 
+                             class="service-image"
+                             onerror="this.src='https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS'">
+                        
+                        {{-- Icon di Pojok Kanan Atas --}}
+                        <div class="service-icon">
+                            <i class="fas {{ $s['icon'] ?? 'fa-star' }}"></i>
+                        </div>
+
+                        <div class="service-content">
+                            <h5 class="fw-bold">{{ $s['title'] ?? 'Layanan' }}</h5>
+                            <p>{{ $s['desc'] ?? 'Deskripsi layanan' }}</p>
+                        </div>
                     </div>
                 </div>
                 @endforeach
