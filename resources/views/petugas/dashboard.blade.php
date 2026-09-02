@@ -4,13 +4,12 @@
 @section('page-title', 'Dashboard Petugas UKS')
 
 @section('content')
-    <!-- PERUBAHAN: TOMBOL KEMBALI KE BERANDA -->
+    <!-- TOMBOL KEMBALI KE BERANDA -->
     <div class="mb-4">
         <a href="{{ route('landing') }}" class="btn btn-outline-secondary btn-sm">
             <i class="fas fa-home me-1"></i> Kembali ke Beranda
         </a>
     </div>
-    <!-- AKHIR PERUBAHAN -->
 
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
@@ -59,7 +58,7 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="content-card">
+    <div class="content-card mb-4">
         <h5 class="fw-bold mb-3"><i class="fas fa-bolt text-warning me-2"></i>Aksi Cepat</h5>
         <div class="row g-3">
             <div class="col-md-4">
@@ -98,81 +97,79 @@
         </div>
     </div>
 
-    <!-- Kunjungan Terbaru & Obat Menipis -->
-    <div class="row g-4">
-        <div class="col-lg-8">
+    <!-- Kunjungan Hari Ini (TABEL) -->
+    <div class="row">
+        <div class="col-12">
             <div class="content-card">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-bold mb-0"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Terbaru</h6>
-                    <a href="{{ route('petugas.examinations.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th>Siswa</th>
-                                <th>Kelas</th>
-                                <th>Keluhan</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $recentExams = \App\Models\Examination::with(['student.class'])
-                                    ->latest('examination_date')
-                                    ->limit(5)
-                                    ->get();
-                            @endphp
-                            @forelse($recentExams as $exam)
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold">{{ $exam->student->full_name ?? '-' }}</div>
-                                        <small class="text-muted">{{ $exam->student->nis ?? '-' }}</small>
-                                    </td>
-                                    <td><span class="badge bg-light text-dark">{{ $exam->student->class->name ?? '-' }}</span></td>
-                                    <td>{{ Str::limit($exam->complaint, 30) }}</td>
-                                    <td>
-                                        @php
-                                            $isSakit = in_array($exam->status, ['pulang', 'rawat_jalan', 'rujuk_puskesmas', 'rujuk_rs']);
-                                        @endphp
-                                        <span class="badge {{ $isSakit ? 'bg-danger' : 'bg-success' }}">
-                                            {{ $isSakit ? 'Sakit' : 'Sehat' }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4 text-muted">Belum ada kunjungan hari ini</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                <h6 class="fw-bold mb-3"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Hari Ini</h6>
 
-        <div class="col-lg-4">
-            <div class="content-card">
-                <h6 class="fw-bold mb-3"><i class="fas fa-exclamation-triangle text-danger me-2"></i>Obat Menipis</h6>
                 @php
-                    $lowStockMeds = \App\Models\Medicine::whereColumn('stock', '<=', 'minimum_stock')
-                        ->limit(5)
+                    $todayExams = \App\Models\Examination::with(['student.class'])
+                        ->whereDate('examination_date', \Carbon\Carbon::today())
+                        ->latest('examination_date')
                         ->get();
                 @endphp
-                @forelse($lowStockMeds as $med)
-                    <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                        <div>
-                            <div class="fw-semibold small">{{ $med->name }}</div>
-                            <small class="text-muted">{{ $med->category->name ?? '-' }}</small>
+
+                @if($todayExams->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th style="width: 30%;">SISWA</th>
+                                    <th style="width: 20%;">KELAS</th>
+                                    <th style="width: 30%;">KELUHAN</th>
+                                    <th style="width: 10%;">STATUS</th>
+                                    <th style="width: 10%;" class="text-center">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($todayExams as $exam)
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-uppercase" style="font-size: 0.95rem; letter-spacing: 0.3px;">
+                                                {{ $exam->student->full_name ?? '-' }}
+                                            </div>
+                                            <small class="text-muted">{{ $exam->student->nis ?? '-' }}</small>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border" style="font-weight: 500; padding: 6px 12px;">
+                                                {{ $exam->student->class->name ?? '-' }}
+                                            </span>
+                                        </td>
+                                        <td class="text-capitalize">{{ $exam->complaint ?? '-' }}</td>
+                                        <td>
+                                            @php
+                                                $isSakit = in_array($exam->status, ['pulang', 'rawat_jalan', 'rujuk_puskesmas', 'rujuk_rs']);
+                                            @endphp
+                                            <span class="badge {{ $isSakit ? 'bg-danger' : 'bg-success' }} px-3 py-2">
+                                                {{ $isSakit ? 'Sakit' : 'Sehat' }}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ route('petugas.examinations.show', $exam->id) }}" 
+                                               class="btn btn-sm btn-outline-primary" 
+                                               title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <!-- Empty State -->
+                    <div class="text-center py-5">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-calendar-day fa-2x text-muted"></i>
                         </div>
-                        <span class="badge bg-danger rounded-pill">{{ $med->stock }} {{ $med->unit }}</span>
+                        <h6 class="text-muted fw-semibold">Belum ada kunjungan hari ini</h6>
+                        <p class="text-muted small mb-3">Data akan muncul otomatis ketika ada siswa yang diperiksa.</p>
+                        <a href="{{ route('petugas.examinations.create') }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-plus me-1"></i> Input Kunjungan Pertama
+                        </a>
                     </div>
-                @empty
-                    <div class="text-center py-4 text-muted">
-                        <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
-                        <p class="small mb-0">Semua stok aman</p>
-                    </div>
-                @endforelse
+                @endif
             </div>
         </div>
     </div>
