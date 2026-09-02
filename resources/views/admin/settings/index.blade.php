@@ -135,7 +135,6 @@
                                 ['icon' => 'fa-clipboard-check', 'title' => 'Pemeriksaan Berkala', 'desc' => 'Pemeriksaan berkala untuk memantau kondisi siswa.'],
                                 ['icon' => 'fa-graduation-cap', 'title' => 'Edukasi Kesehatan', 'desc' => 'Penyuluhan dan edukasi tentang pola hidup sehat.']
                             ];
-                            // ✅ PERBAIKAN: Cek apakah sudah array (dari controller) atau masih string JSON
                             $servicesRaw = $settings['services_data'] ?? json_encode($defaultServices);
                             $servicesData = is_array($servicesRaw) ? $servicesRaw : json_decode($servicesRaw, true);
                         @endphp
@@ -161,11 +160,34 @@
                 </div>
             </div>
 
-            <!-- 4. DOKUMENTASI SECTION -->
+            <!-- 4. DOKUMENTASI SECTION (DILENGKAPI: Header Judul & Subjudul) -->
             <div class="tab-pane fade" id="docs" role="tabpanel">
+                
+                <!-- Header Bagian Dokumentasi -->
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Header Bagian Dokumentasi</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Label Kecil</label>
+                                <input type="text" name="docs_label" class="form-control" value="{{ $settings['docs_label'] ?? 'Dokumentasi' }}">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Judul Section</label>
+                                <input type="text" name="docs_title" class="form-control" value="{{ strip_tags($settings['docs_title'] ?? 'Berita & <span class="gradient-text">Kegiatan</span>') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul / Deskripsi Section</label>
+                                <input type="text" name="docs_subtitle" class="form-control" value="{{ $settings['docs_subtitle'] ?? 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami' }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Item Dokumentasi -->
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-newspaper me-2 text-primary"></i>Dokumentasi & Berita (Landing Page)</span>
+                        <span><i class="fas fa-newspaper me-2 text-primary"></i>Daftar Item Berita/Kegiatan</span>
                         <button type="button" class="btn btn-sm btn-success" onclick="addDocumentationRow()">
                             <i class="fas fa-plus"></i> Tambah Item
                         </button>
@@ -175,7 +197,6 @@
                         
                         <div id="documentations-container">
                             @php
-                                // ✅ PERBAIKAN: Cek apakah sudah array (dari controller) atau masih string JSON
                                 $docsRaw = $settings['documentations_data'] ?? '[]';
                                 $docsData = is_array($docsRaw) ? $docsRaw : json_decode($docsRaw, true);
                                 
