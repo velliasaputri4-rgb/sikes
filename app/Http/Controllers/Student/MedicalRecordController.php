@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Examination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MedicalRecordController extends Controller
 {
@@ -19,13 +21,48 @@ class MedicalRecordController extends Controller
 
         $student = $user->student;
 
-        // ✅ PERBAIKAN: Hapus with(['officer.user']) karena relasi officer tidak ada lagi
-        // Sekarang officer disimpan sebagai string di kolom officer_name
+        // Ambil riwayat pemeriksaan siswa
         $examinations = Examination::where('student_id', $student->id)
-            ->with(['student.class']) // Cukup load relasi student.class saja
+            ->with(['student.class']) 
             ->latest('examination_date')
             ->paginate(10);
 
-        return view('student.medical-record', compact('student', 'examinations'));
+        // ✅ FITUR BARU: Statistik Frekuensi Kunjungan (3 Tahun Terakhir)
+        $threeYearsAgo = Carbon::now()->subYears(3)->startOfMonth();
+        
+        $monthlyVisits = DB::table('examinations')
+            ->where('student_id', $student->id)
+            ->where('examination_date', '>=', $threeYearsAgo)
+            ->select(
+                DB::raw('YEAR(examination_date) as year'),
+                DB::raw('MONTH(examination_date) as month'),
+                DB::raw('COUNT(*) as count')
+            )
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get();
+
+        // Hitung total dan rata-rata
+        $totalVisits3Years = $monthlyVisits->sum('count');
+        $averagePerMonth = $totalVisits3Years > 0 ? round($totalVisits3Years / 36, 1) : 0;
+
+        // Format data agar mudah dibaca di Blade (Contoh: "Januari 2024")
+        $visitStats = [];
+        foreach ($monthlyVisits as $stat) {
+            $visitStats[] = [
+                'period' => Carbon::createFromDate($stat->year, $stat->month, 1)->locale('id')->isoFormat('MMMM YYYY'),
+                'count'  => $stat->count,
+            ];
+        }
+
+        // Kirim semua variabel ke view 'student.medical-record'
+        return view('student.medical-record', compact(
+            'student', 
+            'examinations', 
+            'visitStats', 
+            'totalVisits3Years', 
+            'averagePerMonth'
+        ));
     }
 }
