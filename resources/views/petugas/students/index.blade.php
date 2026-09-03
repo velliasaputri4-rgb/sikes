@@ -13,6 +13,7 @@
         .filter-card .form-control:focus { border-color: #93c5fd; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
         .table thead th { background: #f8fafc; color: #475569; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid #e2e8f0; }
         .table-hover tbody tr:hover { background-color: #eff6ff; }
+        .phone-cell { font-family: 'SF Mono', 'Consolas', monospace; font-size: 13px; color: #334155; letter-spacing: 0.3px; }
     </style>
 
     <div class="content-card">
@@ -42,6 +43,7 @@
                         <th>Nama Siswa</th>
                         <th>Kelas</th>
                         <th>Tanggal Lahir</th>
+                        <th>No. HP Wali</th>
                         <th style="width: 100px;" class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -55,6 +57,15 @@
                             <td>
                                 @if($student->birth_date) {{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}
                                 @else <span class="text-muted">-</span> @endif
+                            </td>
+                            <td class="phone-cell">
+                                @if($student->parent_phone)
+                                    <a href="tel:{{ $student->parent_phone }}" class="text-decoration-none" title="Klik untuk menelepon">
+                                        <i class="fas fa-phone text-muted me-1" style="font-size: 11px;"></i>{{ $student->parent_phone }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
                             <td class="text-center">
                                 <div class="d-inline-flex gap-1">
@@ -72,7 +83,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-5 text-muted">
+                            <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">Belum ada data siswa</p>
                             </td>

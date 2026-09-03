@@ -152,10 +152,11 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
     // Save New Student
     Route::post('students', function (\Illuminate\Http\Request $request) use ($createNewClass) {
         $data = $request->validate([
-            'nis'        => 'required|string|max:20|unique:students,nis',
-            'full_name'  => 'required|string|max:100',
-            'class_name' => 'required|string|max:50',
-            'birth_date' => 'required|date',
+            'nis'          => 'required|string|max:20|unique:students,nis',
+            'full_name'    => 'required|string|max:100',
+            'class_name'   => 'required|string|max:50',
+            'birth_date'   => 'required|date',
+            'parent_phone' => 'nullable|string|max:20', // ✅ DITAMBAHKAN
         ], [
             'nis.unique'          => 'This NIS is already registered in the database.',
             'class_name.required' => 'Class is required (select or type a new class).',
@@ -166,14 +167,20 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             $class = $createNewClass($data['class_name']);
 
             $user = \App\Models\User::create([
-                'name' => $data['full_name'], 'email' => $data['nis'] . '@sikes.sch.id',
+                'name'     => $data['full_name'], 
+                'email'    => $data['nis'] . '@sikes.sch.id',
                 'password' => \Illuminate\Support\Facades\Hash::make('siswa123'),
+                'phone'    => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
             ]);
             $user->assignRole('siswa');
 
             \App\Models\Student::create([
-                'user_id' => $user->id, 'nis' => $data['nis'], 'full_name' => $data['full_name'],
-                'classroom_id' => $class->id, 'birth_date' => $data['birth_date'],
+                'user_id'      => $user->id, 
+                'nis'          => $data['nis'], 
+                'full_name'    => $data['full_name'],
+                'classroom_id' => $class->id, 
+                'birth_date'   => $data['birth_date'],
+                'parent_phone' => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
             ]);
         });
         return redirect()->route('petugas.students.index')->with('success', 'New student successfully added! Password: siswa123');
@@ -189,10 +196,11 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
     Route::put('students/{id}', function (\Illuminate\Http\Request $request, $id) use ($createNewClass) {
         $student = \App\Models\Student::findOrFail($id);
         $data = $request->validate([
-            'nis'        => 'required|string|max:20|unique:students,nis,' . $id,
-            'full_name'  => 'required|string|max:100',
-            'class_name' => 'required|string|max:50',
-            'birth_date' => 'nullable|date',
+            'nis'          => 'required|string|max:20|unique:students,nis,' . $id,
+            'full_name'    => 'required|string|max:100',
+            'class_name'   => 'required|string|max:50',
+            'birth_date'   => 'nullable|date',
+            'parent_phone' => 'nullable|string|max:20', // ✅ DITAMBAHKAN
         ], [
             'nis.unique' => 'This NIS is already registered in the database.',
         ]);
@@ -200,8 +208,11 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
         $class = $createNewClass($data['class_name']);
 
         $student->update([
-            'nis' => $data['nis'], 'full_name' => $data['full_name'], 'classroom_id' => $class->id,
-            'birth_date' => $data['birth_date'] ?? null,
+            'nis'          => $data['nis'], 
+            'full_name'    => $data['full_name'], 
+            'classroom_id' => $class->id,
+            'birth_date'   => $data['birth_date'] ?? null,
+            'parent_phone' => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
         ]);
         return redirect()->route('petugas.students.index')->with('success', 'Student data successfully updated!');
     })->name('students.update');

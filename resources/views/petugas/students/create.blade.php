@@ -22,11 +22,18 @@
         </div>
 
         @if ($errors->any())
-            <div class="alert alert-danger"><ul class="mb-0">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <form method="POST" action="{{ route('petugas.students.store') }}" class="form-card">
             @csrf
+            
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label class="form-label fw-semibold">NIS <span class="text-danger">*</span></label>
@@ -42,14 +49,23 @@
                 <label class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
                 <input type="text" name="class_name" list="daftar-kelas" class="form-control" value="{{ old('class_name') }}" placeholder="Pilih atau ketik kelas baru..." required>
                 <datalist id="daftar-kelas">
-                    @foreach($classes as $class)<option value="{{ $class->name }}"></option>@endforeach
+                    @foreach($classes as $class)
+                        <option value="{{ $class->name }}"></option>
+                    @endforeach
                 </datalist>
-                <small class="text-muted">💡 Pilih dari daftar atau ketik nama kelas baru (otomatis dibuat).</small>
+                <small class="text-muted">Pilih dari daftar atau ketik nama kelas baru (otomatis dibuat).</small>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-3">
                 <label class="form-label fw-semibold">Tanggal Lahir <span class="text-danger">*</span></label>
                 <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date') }}" required>
+            </div>
+
+            <!-- Field No. HP Wali (Opsional) -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">No. HP Wali <small class="text-muted fw-normal">(Opsional)</small></label>
+                <input type="tel" name="parent_phone" class="form-control" value="{{ old('parent_phone') }}" placeholder="08xxxxxxxxxx" inputmode="tel">
+                <small class="text-muted">Nomor telepon orang tua/wali yang dapat dihubungi.</small>
             </div>
 
             <button type="submit" class="btn btn-primary-custom"><i class="fas fa-save me-1"></i> Simpan Siswa</button>

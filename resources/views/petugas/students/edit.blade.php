@@ -26,7 +26,9 @@
         @endif
 
         <form method="POST" action="{{ route('petugas.students.update', $student->id) }}" class="form-card">
-            @csrf @method('PUT')
+            @csrf 
+            @method('PUT')
+            
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label class="form-label fw-semibold">NIS <span class="text-danger">*</span></label>
@@ -44,12 +46,19 @@
                 <datalist id="daftar-kelas-edit">
                     @foreach($classes as $class)<option value="{{ $class->name }}"></option>@endforeach
                 </datalist>
-                <small class="text-muted">💡 Pilih dari daftar atau ketik nama kelas baru.</small>
+                <small class="text-muted"> Pilih dari daftar atau ketik nama kelas baru.</small>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Tanggal Lahir <span class="text-danger">*</span></label>
+                <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date', $student->birth_date ? \Carbon\Carbon::parse($student->birth_date)->format('Y-m-d') : '') }}" required>
+            </div>
+
+            <!-- Field No. HP Wali (Opsional) -->
             <div class="mb-4">
-                <label class="form-label fw-semibold">Tanggal Lahir</label>
-                <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date', $student->birth_date ? \Carbon\Carbon::parse($student->birth_date)->format('Y-m-d') : '') }}">
+                <label class="form-label fw-semibold">No. HP Wali <small class="text-muted fw-normal">(Opsional)</small></label>
+                <input type="tel" name="parent_phone" class="form-control" value="{{ old('parent_phone', $student->parent_phone ?? '') }}" placeholder="08xxxxxxxxxx" inputmode="tel">
+                <small class="text-muted">Nomor telepon orang tua/wali yang dapat dihubungi.</small>
             </div>
 
             <button type="submit" class="btn btn-primary-custom"><i class="fas fa-save me-1"></i> Simpan Perubahan</button>
