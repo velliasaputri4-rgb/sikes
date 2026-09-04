@@ -125,15 +125,18 @@
     }
     .health-card h5 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
     .health-card p { color: var(--slate); font-size: 0.9rem; flex: 1; }
+    
+    /* Badge Kategori Disamakan Menjadi Biru */
     .badge-cat {
         display: inline-block; padding: 4px 10px; border-radius: 50px;
         font-size: 0.75rem; font-weight: 600; margin-bottom: 12px;
+        background: #dbeafe !important;
+        color: #1e40af !important;
     }
-    .badge-gizi { background: #dbeafe; color: #1e40af; }
-    .badge-penyakit { background: #fce7f3; color: #9d174d; }
-    .badge-mental { background: #d1fae5; color: #065f46; }
-    .badge-olahraga { background: #fef3c7; color: #92400e; }
-    .badge-umum { background: #f1f5f9; color: #475569; }
+    .badge-gizi, .badge-penyakit, .badge-mental, .badge-olahraga, .badge-umum {
+        background: #dbeafe !important;
+        color: #1e40af !important;
+    }
 
     .btn-read {
         background: var(--gradient-primary); color: white; border: none;
@@ -220,7 +223,7 @@
         </div>
     </section>
 
-    <!-- 1. Artikel Kesehatan (Diperbanyak) -->
+    <!-- 1. Artikel Kesehatan -->
     <section class="section" id="artikel">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
@@ -243,7 +246,7 @@
                 <!-- Card 2 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--rose);"><i class="fas fa-shield-virus"></i></div>
+                        <div class="health-icon"><i class="fas fa-shield-virus"></i></div>
                         <span class="badge-cat badge-penyakit">Pencegahan</span>
                         <h5>Cara Mencegah Demam Berdarah</h5>
                         <p>Langkah-langkah pencegahan DBD yang efektif di lingkungan sekolah dan rumah dengan metode 3M Plus.</p>
@@ -253,7 +256,7 @@
                 <!-- Card 3 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--emerald);"><i class="fas fa-brain"></i></div>
+                        <div class="health-icon"><i class="fas fa-brain"></i></div>
                         <span class="badge-cat badge-mental">Kesehatan Mental</span>
                         <h5>Mengatasi Stres Saat Ujian</h5>
                         <p>Tips dan teknik relaksasi sederhana untuk mengatasi kecemasan dan menjaga fokus saat menghadapi ujian.</p>
@@ -263,7 +266,7 @@
                 <!-- Card 4 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--rose);"><i class="fas fa-tint"></i></div>
+                        <div class="health-icon"><i class="fas fa-tint"></i></div>
                         <span class="badge-cat badge-penyakit">Penyakit</span>
                         <h5>Mengenali dan Mencegah Anemia</h5>
                         <p>Gejala anemia seperti pusing dan lemas sering dialami remaja. Ketahui cara pencegahan dengan konsumsi zat besi.</p>
@@ -273,7 +276,7 @@
                 <!-- Card 5 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--primary);"><i class="fas fa-tooth"></i></div>
+                        <div class="health-icon"><i class="fas fa-tooth"></i></div>
                         <span class="badge-cat badge-gizi">Kesehatan Gigi</span>
                         <h5>Pentingnya Menjaga Kesehatan Gigi</h5>
                         <p>Sikat gigi 2x sehari dan kurangi makanan manis untuk mencegah gigi berlubang dan radang gusi.</p>
@@ -283,7 +286,7 @@
                 <!-- Card 6 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--amber);"><i class="fas fa-head-side-cough"></i></div>
+                        <div class="health-icon"><i class="fas fa-head-side-cough"></i></div>
                         <span class="badge-cat badge-penyakit">Penyakit Menular</span>
                         <h5>Mencegah Penyebaran Flu dan ISPA</h5>
                         <p>Gunakan masker, cuci tangan, dan jaga jarak jika sedang sakit untuk melindungi teman sekelas.</p>
@@ -293,7 +296,7 @@
                 <!-- Card 7 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--emerald);"><i class="fas fa-eye"></i></div>
+                        <div class="health-icon"><i class="fas fa-eye"></i></div>
                         <span class="badge-cat badge-mental">Kesehatan Mata</span>
                         <h5>Menjaga Kesehatan Mata di Era Digital</h5>
                         <p>Terapkan aturan 20-20-20 saat menggunakan gadget untuk mengurangi ketegangan dan mata kering.</p>
@@ -303,7 +306,7 @@
                 <!-- Card 8 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--rose);"><i class="fas fa-ban"></i></div>
+                        <div class="health-icon"><i class="fas fa-ban"></i></div>
                         <span class="badge-cat badge-penyakit">Pencegahan</span>
                         <h5>Bahaya Rokok dan Vape bagi Pelajar</h5>
                         <p>Dampak negatif nikotin terhadap perkembangan otak remaja dan cara menolak tawaran merokok.</p>
@@ -313,7 +316,7 @@
                 <!-- Card 9 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="health-card">
-                        <div class="health-icon" style="color: var(--primary);"><i class="fas fa-kit-medical"></i></div>
+                        <div class="health-icon"><i class="fas fa-kit-medical"></i></div>
                         <span class="badge-cat badge-olahraga">P3K</span>
                         <h5>Dasar-Dasar Pertolongan Pertama</h5>
                         <p>Langkah awal menangani luka ringan, memar, atau pingsan di sekolah sebelum ditangani petugas UKS.</p>
@@ -386,24 +389,27 @@
                     </div>
                 </div>
 
-                <!-- Menstruasi -->
+                <!-- Kalkulator Air Minum -->
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="calc-card">
-                        <h5 class="fw-bold mb-3"><i class="fas fa-calendar-alt me-2" style="color: var(--rose);"></i>Jadwal Menstruasi</h5>
-                        <form id="menstrualForm">
-                            <label class="calc-label">Hari Pertama Haid Terakhir</label>
-                            <input type="date" class="calc-input" id="menstrualDate" required>
-                            <label class="calc-label">Rata-rata Siklus (hari)</label>
-                            <input type="number" class="calc-input" id="menstrualCycle" value="28" min="21" max="35" required>
-                            <button type="submit" class="btn-calc" style="background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);">Hitung Jadwal</button>
+                        <h5 class="fw-bold mb-3"><i class="fas fa-glass-water me-2" style="color: #0ea5e9;"></i>Kebutuhan Air Minum</h5>
+                        <form id="waterForm">
+                            <label class="calc-label">Berat Badan (kg)</label>
+                            <input type="number" class="calc-input" id="waterWeight" placeholder="Contoh: 55" required>
+                            <label class="calc-label">Tingkat Aktivitas</label>
+                            <select class="calc-input" id="waterActivity" required>
+                                <option value="">Pilih...</option>
+                                <option value="30">Rendah (Jarang Olahraga)</option>
+                                <option value="35">Sedang (Olahraga 1-3x/minggu)</option>
+                                <option value="40">Tinggi (Olahraga >3x/minggu)</option>
+                            </select>
+                            <button type="submit" class="btn-calc" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">Hitung Kebutuhan</button>
                         </form>
-                        <div id="menstrualResult" class="result-box" style="background: #fdf2f8; border-left-color: #ec4899;">
-                            <small class="text-muted">Prediksi Haid Berikutnya:</small>
-                            <div class="result-value" id="menstrualNextDate" style="color: #be185d; font-size: 1.4rem;">-</div>
-                            <div class="mt-2 pt-2 border-top">
-                                <small class="text-muted d-block">Masa Subur:</small>
-                                <div id="fertileWindow" class="fw-semibold" style="color: #be185d;">-</div>
-                            </div>
+                        <div id="waterResult" class="result-box" style="background: #f0f9ff; border-left-color: #0ea5e9;">
+                            <small class="text-muted">Kebutuhan Air Harian:</small>
+                            <div class="result-value" id="waterValue" style="color: #0284c7; font-size: 1.6rem;">0</div>
+                            <div class="fw-semibold" id="waterDesc" style="color: #0369a1;">liter / hari</div>
+                            <small class="text-muted mt-2 d-block" style="font-size: 0.75rem;">*Disarankan minum secara bertahap sepanjang hari.</small>
                         </div>
                     </div>
                 </div>
@@ -657,27 +663,20 @@
             }
         });
 
-        // Menstrual Calculator
-        document.getElementById('menstrualForm').addEventListener('submit', function(e) {
+        // Water Intake Calculator
+        document.getElementById('waterForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const lastPeriod = new Date(document.getElementById('menstrualDate').value);
-            const cycleLength = parseInt(document.getElementById('menstrualCycle').value);
-            if (lastPeriod) {
-                const nextPeriod = new Date(lastPeriod);
-                nextPeriod.setDate(nextPeriod.getDate() + cycleLength);
+            const weight = parseFloat(document.getElementById('waterWeight').value);
+            const multiplier = parseInt(document.getElementById('waterActivity').value);
+            
+            if (weight > 0 && multiplier > 0) {
+                const totalMl = weight * multiplier;
+                const totalLiters = (totalMl / 1000).toFixed(1);
+                const glasses = Math.round(totalMl / 250);
                 
-                const ovulationDate = new Date(nextPeriod);
-                ovulationDate.setDate(ovulationDate.getDate() - 14);
-                const fertileStart = new Date(ovulationDate);
-                fertileStart.setDate(fertileStart.getDate() - 5);
-                const fertileEnd = new Date(ovulationDate);
-                fertileEnd.setDate(fertileEnd.getDate() + 1);
-                
-                const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                document.getElementById('menstrualNextDate').textContent = nextPeriod.toLocaleDateString('id-ID', options);
-                document.getElementById('fertileWindow').textContent = 
-                    `${fertileStart.toLocaleDateString('id-ID', {day:'numeric', month:'short'})} - ${fertileEnd.toLocaleDateString('id-ID', {day:'numeric', month:'short'})}`;
-                document.getElementById('menstrualResult').classList.add('show');
+                document.getElementById('waterValue').textContent = totalLiters + ' L';
+                document.getElementById('waterDesc').textContent = `atau sekitar ${glasses} gelas (250ml)`;
+                document.getElementById('waterResult').classList.add('show');
             }
         });
     </script>
