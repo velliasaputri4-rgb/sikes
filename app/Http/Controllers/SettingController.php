@@ -16,16 +16,25 @@ class SettingController extends Controller
         $settings['services_data'] = json_decode($settings['services_data'] ?? '[]', true);
         $settings['documentations_data'] = json_decode($settings['documentations_data'] ?? '[]', true);
         
-        return view('admin.settings.index', compact('settings'));
+        // ✅ UBAH: View diarahkan ke folder petugas
+        return view('petugas.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
+        // 🛡️ KEAMANAN: Hanya admin@sikes.com atau super-admin yang boleh menyimpan pengaturan
+        $user = auth()->user();
+        $isMainAdmin = strtolower(trim($user->email)) === 'admin@sikes.com' || $user->hasRole('super-admin');
+
+        if (!$isMainAdmin) {
+            return redirect()->route('petugas.settings.index')
+                ->with('error', 'Akses ditolak: Hanya Administrator Utama yang dapat mengubah pengaturan sistem.');
+        }
+
         try {
             // 1. Handle Array Services (TERMASUK UPLOAD GAMBAR PER ITEM)
             if ($request->has('services') && is_array($request->input('services'))) {
                 $servicesData = [];
-                $oldServices = json_decode(Setting::where('key', 'services_data')->value('value') ?? '[]', true);
 
                 foreach ($request->input('services') as $index => $service) {
                     if (!empty($service['title'])) {
@@ -59,7 +68,6 @@ class SettingController extends Controller
             // 2. Handle Array Documentations (TERMASUK UPLOAD GAMBAR PER ITEM)
             if ($request->has('documentations') && is_array($request->input('documentations'))) {
                 $docsData = [];
-                $oldDocs = json_decode(Setting::where('key', 'documentations_data')->value('value') ?? '[]', true);
 
                 foreach ($request->input('documentations') as $index => $doc) {
                     if (!empty($doc['title'])) {
@@ -128,7 +136,9 @@ class SettingController extends Controller
                 }
             }
 
-            return redirect()->route('admin.settings.index')->with('success', 'Semua pengaturan website berhasil diperbarui!');
+            // ✅ UBAH: Redirect ke route petugas
+            return redirect()->route('petugas.settings.index')
+                ->with('success', 'Semua pengaturan website berhasil diperbarui!');
 
         } catch (\Exception $e) {
             return redirect()->back()

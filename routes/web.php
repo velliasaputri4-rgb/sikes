@@ -55,7 +55,7 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 /*
 |--------------------------------------------------------------------------
 | 4. ADMIN DASHBOARD (CMS & COMPLETE MASTER DATA)
-| Catatan: Manajemen User sudah dipindahkan ke dashboard Petugas
+| Catatan: Manajemen User & Pengaturan sudah dipindahkan ke dashboard Petugas
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -70,15 +70,13 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
     
-    // ✅ SETTINGS & CMS COMPLETE
-    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
+    // ❌ ROUTE SETTINGS SUDAH DIHAPUS DARI SINI (SUDAH DIPINDAH KE PETUGAS DI BAWAH)
 });
 
 /*
 |--------------------------------------------------------------------------
 | 5. STAFF DASHBOARD (SPECIFICALLY FOR DAILY INPUT & DATA MANAGEMENT)
-| ✅ SEKARANG MENJADI PUSAT MANAJEMEN USER UNTUK SEMUA ROLE
+| ✅ SEKARANG MENJADI PUSAT MANAJEMEN USER & PENGATURAN UNTUK SEMUA ROLE
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
@@ -86,6 +84,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
     
     // ✅ BARU: Route Manajemen User (Pindahan dari Admin)
     Route::resource('users', \App\Http\Controllers\UserController::class);
+
+    // ✅ BARU: Route Pengaturan Website (Pindahan dari Admin)
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

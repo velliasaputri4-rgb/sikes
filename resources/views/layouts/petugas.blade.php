@@ -296,7 +296,6 @@
         
         <div class="sidebar-section">Manajemen</div>
         <ul class="nav flex-column">
-            <!-- ✅ BARU: Menu Kelola User -->
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('petugas.users.*') ? 'active' : '' }}" href="{{ route('petugas.users.index') }}">
                     <i class="fas fa-users-cog"></i> Kelola User
@@ -312,7 +311,6 @@
                     <i class="fas fa-user-graduate"></i> Data Siswa
                 </a>
             </li>
-            {{-- ✅ BARU: Menu Edit Jadwal Piket --}}
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('petugas.piket.*') ? 'active' : '' }}" href="{{ route('petugas.piket.index') }}">
                     <i class="fas fa-calendar-alt"></i> Jadwal Piket
@@ -333,8 +331,17 @@
                 </a>
             </li>
         </ul>
+
+        <!-- ✅ BARU: Bagian Sistem & Pengaturan -->
+        <div class="sidebar-section">Sistem</div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('petugas.settings.*') ? 'active' : '' }}" href="{{ route('petugas.settings.index') }}">
+                    <i class="fas fa-cog"></i> Pengaturan
+                </a>
+            </li>
+        </ul>
         
-        {{-- HAPUS BAGIAN AKUN (PROFIL SAYA) --}}
         <div class="sidebar-section">Akun</div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -363,7 +370,6 @@
             </div>
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
-                    {{-- Avatar GOLD --}}
                     <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f59e0b&color=ffffff&bold=true" 
                          class="rounded-circle me-2" width="38" height="38">
                     <div class="text-start d-none d-md-block">
@@ -371,7 +377,6 @@
                         <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
                     </div>
                 </button>
-                {{-- DROPDOWN: HAPUS MENU PROFIL, TINGGAL LOGOUT --}}
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
