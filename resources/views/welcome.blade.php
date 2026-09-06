@@ -853,7 +853,7 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route(auth()->user()->hasRole(['super-admin', 'admin']) ? 'admin.dashboard' : (auth()->user()->hasRole('petugas') ? 'petugas.dashboard' : 'siswa.history')) }}">
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
                                             <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
                                         </a>
                                     </li>
@@ -873,7 +873,7 @@
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin / Petugas
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>

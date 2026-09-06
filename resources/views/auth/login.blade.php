@@ -66,7 +66,7 @@
             margin: auto;
             background: white;
             border-radius: 20px;
-            padding: 26px 24px;
+            padding: 32px 28px;
             box-shadow: 0 25px 60px rgba(30, 58, 138, 0.14);
             border: 1px solid rgba(30, 58, 138, 0.08);
             animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -76,7 +76,6 @@
             to { opacity: 1; transform: none; }
         }
 
-        /* ✅ LOGO TANPA LATAR BELAKANG KOTAK/CIRCLE */
         .logo-wrapper {
             display: flex;
             align-items: center;
@@ -84,13 +83,13 @@
             margin: 0 auto 16px;
         }
         .logo-wrapper img {
-            max-width: 150px; /* Ukuran maksimal agar proporsional */
+            max-width: 150px;
             height: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
         }
         .logo-wrapper img:hover {
-            transform: scale(1.05); /* Efek hover halus langsung pada logo */
+            transform: scale(1.05);
         }
 
         .login-title {
@@ -109,49 +108,10 @@
         }
         .login-subtitle {
             color: var(--slate);
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 500;
             margin-bottom: 0;
         }
-
-        .role-tabs {
-            display: flex;
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 4px;
-            gap: 3px;
-            margin: 18px 0;
-            border: 1px solid rgba(30, 58, 138, 0.05);
-        }
-        .role-tab {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 9px 6px;
-            border-radius: 9px;
-            font-weight: 700;
-            font-size: 12px;
-            color: var(--slate);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            letter-spacing: 0.2px;
-        }
-        .role-tab:hover:not(.active-admin):not(.active-petugas) {
-            color: var(--ink);
-            background: rgba(255,255,255,0.6);
-        }
-        .role-tab.active-admin,
-        .role-tab.active-petugas {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
-            transform: translateY(-1px);
-        }
-        .role-tab i { font-size: 11px; }
 
         .form-label {
             font-weight: 700;
@@ -222,9 +182,9 @@
             border: none;
             color: white;
             font-weight: 700;
-            padding: 11px;
+            padding: 12px;
             border-radius: 11px;
-            font-size: 13.5px;
+            font-size: 14px;
             letter-spacing: 0.3px;
             transition: all 0.3s;
             display: inline-flex;
@@ -234,7 +194,9 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             position: relative;
             overflow: hidden;
-            margin-top: 6px;
+            margin-top: 8px;
+            background: var(--gradient-primary);
+            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.3);
         }
         .btn-login::before {
             content: '';
@@ -248,14 +210,6 @@
         .btn-login:hover {
             transform: translateY(-2px);
             color: white;
-        }
-        .btn-login.gold,
-        .btn-login.blue {
-            background: var(--gradient-primary);
-            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.3);
-        }
-        .btn-login.gold:hover,
-        .btn-login.blue:hover {
             box-shadow: 0 12px 30px rgba(30, 58, 138, 0.45);
         }
 
@@ -281,7 +235,7 @@
             padding: 10px 14px;
             font-size: 12px;
             color: var(--slate);
-            margin-top: 16px !important;
+            margin-top: 20px !important;
             font-weight: 500;
         }
         .siswa-note i { color: var(--primary); }
@@ -293,17 +247,17 @@
         }
         .siswa-note a:hover { color: var(--pro-light); }
 
-        .mb-3 { margin-bottom: 12px !important; }
+        .mb-3 { margin-bottom: 14px !important; }
 
         .alert-error {
             background: linear-gradient(135deg, #fee2e2, #fecaca);
             border: 1px solid #fca5a5;
             color: #991b1b;
-            padding: 9px 12px;
+            padding: 10px 12px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -311,10 +265,8 @@
 
         @media (max-width: 480px) {
             body { padding: 24px 14px; }
-            .login-card { padding: 22px 18px; border-radius: 16px; }
+            .login-card { padding: 24px 20px; border-radius: 16px; }
             .login-title { font-size: 1.2rem; }
-            .role-tab { font-size: 11px; padding: 8px 4px; }
-            /* ✅ Penyesuaian ukuran logo di mobile agar tetap proporsional */
             .logo-wrapper img { max-width: 120px; }
         }
     </style>
@@ -331,22 +283,12 @@
             <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
         </div>
 
-        <div class="text-center">
+        <div class="text-center mb-4">
             <h3 class="login-title mb-1">Welcome to <span class="gradient-text">SIKES</span></h3>
-            <p class="login-subtitle">Masuk ke Sistem Informasi UKS</p>
+            <p class="login-subtitle">Masuk ke Dashboard Sistem Informasi UKS</p>
         </div>
 
-        {{-- TAB PILIHAN ROLE --}}
-        <div class="role-tabs">
-            <button type="button" id="tabAdmin" class="role-tab active-admin" onclick="switchRole('admin')">
-                <i class="fas fa-user-shield"></i> Admin
-            </button>
-            <button type="button" id="tabPetugas" class="role-tab" onclick="switchRole('petugas')">
-                <i class="fas fa-user-nurse"></i> Petugas UKS
-            </button>
-        </div>
-
-        {{-- Error --}}
+        {{-- Error Message --}}
         @if($errors->any())
             <div class="alert-error">
                 <i class="fas fa-exclamation-circle"></i>
@@ -354,7 +296,7 @@
             </div>
         @endif
 
-        {{-- Form Login --}}
+        {{-- Form Login Unified --}}
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -389,8 +331,8 @@
                 </a>
             </div>
 
-            <button type="submit" id="btnSubmit" class="btn-login gold">
-                <i class="fas fa-sign-in-alt"></i><span id="btnLabel">Masuk sebagai Admin</span>
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
             </button>
         </form>
 
@@ -402,25 +344,6 @@
     </div>
 
     <script>
-        function switchRole(role) {
-            const tabAdmin = document.getElementById('tabAdmin');
-            const tabPetugas = document.getElementById('tabPetugas');
-            const btn = document.getElementById('btnSubmit');
-            const label = document.getElementById('btnLabel');
-
-            if (role === 'admin') {
-                tabAdmin.className = 'role-tab active-admin';
-                tabPetugas.className = 'role-tab';
-                btn.className = 'btn-login gold';
-                label.textContent = 'Masuk sebagai Admin';
-            } else {
-                tabAdmin.className = 'role-tab';
-                tabPetugas.className = 'role-tab active-petugas';
-                btn.className = 'btn-login blue';
-                label.textContent = 'Masuk sebagai Petugas';
-            }
-        }
-
         function togglePassword() {
             const p = document.getElementById('password');
             const icon = document.getElementById('eyeIcon');
