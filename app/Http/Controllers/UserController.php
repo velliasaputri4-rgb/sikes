@@ -26,34 +26,48 @@ class UserController extends Controller
         return $isMainEmail || $isSuperAdmin;
     }
 
+    /**
+     * Menampilkan daftar semua user (untuk dashboard Petugas)
+     * TIDAK MENAMPILKAN SISWA
+     */
     public function index()
     {
-        $allowedRoles = $this->isMainAdmin() 
-            ? ['super-admin', 'admin', 'petugas'] 
-            : ['admin', 'petugas'];
+        // Hanya ambil user dengan role admin, super-admin, atau petugas (BUKAN siswa)
+        $users = User::whereHas('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'super-admin', 'petugas']);
+        })
+        ->with('roles')
+        ->latest()
+        ->paginate(15);
 
-        $users = User::whereHas('roles', function ($query) use ($allowedRoles) {
-            $query->whereIn('name', $allowedRoles);
-        })->with('roles')->latest()->paginate(15);
-
-        return view('admin.users.index', compact('users'));
+        return view('petugas.users.index', compact('users'));
     }
 
+    /**
+     * Menampilkan form tambah user baru
+     */
     public function create()
     {
-        $allowedRoles = $this->isMainAdmin() 
-            ? ['super-admin', 'admin', 'petugas'] 
-            : ['admin', 'petugas'];
-            
-        $roles = Role::whereIn('name', $allowedRoles)->get();
-        return view('admin.users.create', compact('roles'));
+        // Hanya Main Admin yang boleh menambah user baru
+        if (!$this->isMainAdmin()) {
+            abort(403, 'Hanya Administrator Utama yang dapat menambah akun baru.');
+        }
+
+        $roles = Role::whereIn('name', ['admin', 'super-admin', 'petugas'])->get();
+        
+        return view('petugas.users.create', compact('roles'));
     }
 
+    /**
+     * Menyimpan user baru ke database
+     */
     public function store(Request $request)
     {
-        $allowedRoles = $this->isMainAdmin() 
-            ? ['super-admin', 'admin', 'petugas'] 
-            : ['admin', 'petugas'];
+        if (!$this->isMainAdmin()) {
+            abort(403, 'Hanya Administrator Utama yang dapat menambah akun baru.');
+        }
+
+        $allowedRoles = ['admin', 'super-admin', 'petugas'];
 
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
@@ -70,34 +84,36 @@ class UserController extends Controller
 
         $user->assignRole($validated['role']);
 
-        return redirect()->route('admin.users.index')->with('success', 'Akun berhasil dibuat!');
+        return redirect()->route('petugas.users.index')
+            ->with('success', 'Akun pengguna berhasil dibuat!');
     }
 
+    /**
+     * Menampilkan form edit user
+     */
     public function edit(User $user)
     {
-        // 🛡️ PENGAMAN BACKEND: Jika BUKAN Main Admin, DAN mencoba mengedit akun ORANG LAIN -> Blokir!
+        // ️ PENGAMAN: Jika BUKAN Main Admin, DAN mencoba mengedit akun ORANG LAIN -> Blokir!
         if (!$this->isMainAdmin() && $user->id !== auth()->id()) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit akun pengguna lain.');
         }
 
-        $allowedRoles = $this->isMainAdmin() 
-            ? ['super-admin', 'admin', 'petugas'] 
-            : ['admin', 'petugas'];
-            
-        $roles = Role::whereIn('name', $allowedRoles)->get();
-        return view('admin.users.edit', compact('user', 'roles'));
+        $roles = Role::whereIn('name', ['admin', 'super-admin', 'petugas'])->get();
+        
+        return view('petugas.users.edit', compact('user', 'roles'));
     }
 
+    /**
+     * Memperbarui data user
+     */
     public function update(Request $request, User $user)
     {
-        // 🛡️ PENGAMAN BACKEND: Jika BUKAN Main Admin, DAN mencoba mengupdate akun ORANG LAIN -> Blokir!
+        // ️ PENGAMAN: Jika BUKAN Main Admin, DAN mencoba mengupdate akun ORANG LAIN -> Blokir!
         if (!$this->isMainAdmin() && $user->id !== auth()->id()) {
             abort(403, 'Anda tidak memiliki izin untuk memperbarui akun pengguna lain.');
         }
 
-        $allowedRoles = $this->isMainAdmin() 
-            ? ['super-admin', 'admin', 'petugas'] 
-            : ['admin', 'petugas'];
+        $allowedRoles = ['admin', 'super-admin', 'petugas'];
 
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
@@ -116,51 +132,36 @@ class UserController extends Controller
         $user->save();
         $user->syncRoles([$validated['role']]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Akun berhasil diperbarui!');
+        return redirect()->route('petugas.users.index')
+            ->with('success', 'Data akun berhasil diperbarui!');
     }
 
+    /**
+     * Menghapus user
+     */
     public function destroy(User $user)
     {
+        // ️ PENGAMAN 1: Mencegah user menghapus akunnya sendiri (Mencegah Lockout)
         if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+            return redirect()->route('petugas.users.index')
+                ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
-        if (!$this->isMainAdmin() && $user->hasRole('super-admin')) {
-            return redirect()->route('admin.users.index')->with('error', 'Anda tidak memiliki izin untuk menghapus akun Super Admin.');
+        // 🛡️ PENGAMAN 2: Hanya Main Admin yang boleh menghapus orang lain
+        if (!$this->isMainAdmin()) {
+            return redirect()->route('petugas.users.index')
+                ->with('error', 'Hanya Administrator Utama (admin@sikes.com) yang dapat menghapus akun pengguna lain.');
+        }
+
+        // 🛡️ PENGAMAN 3: Mencegah penghapusan akun Super Admin oleh orang yang tidak berhak
+        if ($user->hasRole('super-admin') && !$this->isMainAdmin()) {
+            return redirect()->route('petugas.users.index')
+                ->with('error', 'Akun Super Admin tidak dapat dihapus.');
         }
 
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'Akun pengguna berhasil dihapus.');
-    }
-
-    /* ==========================================================
-       FITUR: EDIT PROFIL SENDIRI (TIDAK BISA UBAH ROLE)
-       ========================================================== */
-    public function editSelf()
-    {
-        $user = auth()->user();
-        return view('admin.users.edit-self', compact('user'));
-    }
-
-    public function updateSelf(Request $request)
-    {
-        $user = auth()->user();
-
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-        ]);
-
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($validated['password']);
-        }
-
-        $user->save();
-
-        return redirect()->back()->with('success', 'Profil Anda berhasil diperbarui!');
+        
+        return redirect()->route('petugas.users.index')
+            ->with('success', 'Akun pengguna berhasil dihapus.');
     }
 }

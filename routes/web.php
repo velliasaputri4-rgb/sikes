@@ -55,26 +55,20 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 /*
 |--------------------------------------------------------------------------
 | 4. ADMIN DASHBOARD (CMS & COMPLETE MASTER DATA)
+| Catatan: Manajemen User sudah dipindahkan ke dashboard Petugas
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'adminIndex'])->name('dashboard');
     
-    // Route profil bawaan Breeze (bisa tetap ada atau dihapus jika tidak dipakai)
+    // Route profil bawaan Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // ✅ BARU: Route khusus untuk edit profil diri sendiri (Aman, tanpa parameter ID)
-    Route::get('/profile-saya/edit', [\App\Http\Controllers\UserController::class, 'editSelf'])->name('profile.edit.self');
-    Route::put('/profile-saya/update', [\App\Http\Controllers\UserController::class, 'updateSelf'])->name('profile.update.self');
-    
     Route::resource('students', StudentController::class);
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
-    
-    // ✅ User Management (Admin mengelola user lain)
-    Route::resource('users', \App\Http\Controllers\UserController::class);
     
     // ✅ SETTINGS & CMS COMPLETE
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
@@ -84,10 +78,15 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
 /*
 |--------------------------------------------------------------------------
 | 5. STAFF DASHBOARD (SPECIFICALLY FOR DAILY INPUT & DATA MANAGEMENT)
+| ✅ SEKARANG MENJADI PUSAT MANAJEMEN USER UNTUK SEMUA ROLE
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
     Route::get('/', [DashboardController::class, 'petugasIndex'])->name('dashboard');
+    
+    // ✅ BARU: Route Manajemen User (Pindahan dari Admin)
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -156,7 +155,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'full_name'    => 'required|string|max:100',
             'class_name'   => 'required|string|max:50',
             'birth_date'   => 'required|date',
-            'parent_phone' => 'nullable|string|max:20', // ✅ DITAMBAHKAN
+            'parent_phone' => 'nullable|string|max:20',
         ], [
             'nis.unique'          => 'This NIS is already registered in the database.',
             'class_name.required' => 'Class is required (select or type a new class).',
@@ -170,7 +169,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
                 'name'     => $data['full_name'], 
                 'email'    => $data['nis'] . '@sikes.sch.id',
                 'password' => \Illuminate\Support\Facades\Hash::make('siswa123'),
-                'phone'    => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
+                'phone'    => $data['parent_phone'] ?? null,
             ]);
             $user->assignRole('siswa');
 
@@ -180,7 +179,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
                 'full_name'    => $data['full_name'],
                 'classroom_id' => $class->id, 
                 'birth_date'   => $data['birth_date'],
-                'parent_phone' => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
+                'parent_phone' => $data['parent_phone'] ?? null,
             ]);
         });
         return redirect()->route('petugas.students.index')->with('success', 'New student successfully added! Password: siswa123');
@@ -200,7 +199,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'full_name'    => 'required|string|max:100',
             'class_name'   => 'required|string|max:50',
             'birth_date'   => 'nullable|date',
-            'parent_phone' => 'nullable|string|max:20', // ✅ DITAMBAHKAN
+            'parent_phone' => 'nullable|string|max:20',
         ], [
             'nis.unique' => 'This NIS is already registered in the database.',
         ]);
@@ -212,7 +211,7 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
             'full_name'    => $data['full_name'], 
             'classroom_id' => $class->id,
             'birth_date'   => $data['birth_date'] ?? null,
-            'parent_phone' => $data['parent_phone'] ?? null, // ✅ DITAMBAHKAN
+            'parent_phone' => $data['parent_phone'] ?? null,
         ]);
         return redirect()->route('petugas.students.index')->with('success', 'Student data successfully updated!');
     })->name('students.update');
@@ -440,12 +439,19 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
 /*
 |--------------------------------------------------------------------------
 | 7. AUTOMATIC REDIRECT AFTER LOGIN
+| ✅ DIUPDATE: Semua role (admin, super-admin, petugas) diarahkan ke 1 dashboard yang sama
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', function() {
     $user = auth()->user();
-    if ($user->hasRole('super-admin') || $user->hasRole('admin')) return redirect()->route('admin.dashboard');
-    elseif ($user->hasRole('petugas')) return redirect()->route('petugas.dashboard');
-    elseif ($user->hasRole('siswa')) return redirect()->route('siswa.history');
+    
+    // ✅ SEMUA DIARAHKAN KE DASHBOARD PETUGAS
+    if ($user->hasRole('super-admin') || $user->hasRole('admin') || $user->hasRole('petugas')) {
+        return redirect()->route('petugas.dashboard');
+    } 
+    elseif ($user->hasRole('siswa')) {
+        return redirect()->route('siswa.history');
+    }
+    
     return redirect()->route('landing');
 })->name('dashboard');
