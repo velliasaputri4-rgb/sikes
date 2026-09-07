@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - Petugas UKS</title>
+    <title><?php echo $__env->yieldContent('title', 'Dashboard'); ?> - Petugas UKS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
@@ -274,7 +274,7 @@
         <div class="sidebar-section">Menu Utama</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.dashboard') ? 'active' : '' }}" href="{{ route('petugas.dashboard') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.dashboard') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.dashboard')); ?>">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
             </li>
@@ -283,12 +283,12 @@
         <div class="sidebar-section">Pelayanan</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.examinations.create') ? 'active' : '' }}" href="{{ route('petugas.examinations.create') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.examinations.create') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.examinations.create')); ?>">
                     <i class="fas fa-plus-circle"></i> Input Kunjungan
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.examinations.index') ? 'active' : '' }}" href="{{ route('petugas.examinations.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.examinations.index') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.examinations.index')); ?>">
                     <i class="fas fa-clipboard-list"></i> Data Kunjungan
                 </a>
             </li>
@@ -297,22 +297,22 @@
         <div class="sidebar-section">Manajemen</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.users.*') ? 'active' : '' }}" href="{{ route('petugas.users.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.users.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.users.index')); ?>">
                     <i class="fas fa-users-cog"></i> Kelola User
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.medicines.*') ? 'active' : '' }}" href="{{ route('petugas.medicines.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.medicines.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.medicines.index')); ?>">
                     <i class="fas fa-pills"></i> Data Obat
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.students.index') ? 'active' : '' }}" href="{{ route('petugas.students.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.students.index') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.students.index')); ?>">
                     <i class="fas fa-user-graduate"></i> Data Siswa
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.piket.*') ? 'active' : '' }}" href="{{ route('petugas.piket.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.piket.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.piket.index')); ?>">
                     <i class="fas fa-calendar-alt"></i> Jadwal Piket
                 </a>
             </li>
@@ -321,12 +321,12 @@
         <div class="sidebar-section">Inventaris</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.items.*') ? 'active' : '' }}" href="{{ route('petugas.items.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.items.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.items.index')); ?>">
                     <i class="fas fa-boxes"></i> Data Barang
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.borrowings.*') ? 'active' : '' }}" href="{{ route('petugas.borrowings.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.borrowings.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.borrowings.index')); ?>">
                     <i class="fas fa-hand-holding-medical"></i> Peminjaman
                 </a>
             </li>
@@ -336,7 +336,7 @@
         <div class="sidebar-section">Sistem</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.settings.*') ? 'active' : '' }}" href="{{ route('petugas.settings.index') }}">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.settings.*') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.settings.index')); ?>">
                     <i class="fas fa-cog"></i> Pengaturan
                 </a>
             </li>
@@ -345,8 +345,8 @@
         <div class="sidebar-section">Akun</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                <form method="POST" action="<?php echo e(route('logout')); ?>">
+                    <?php echo csrf_field(); ?>
                     <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start text-danger">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
@@ -364,23 +364,23 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <h5 class="mb-0 fw-bold text-dark">
-                    @yield('page-title', 'Dashboard')
+                    <?php echo $__env->yieldContent('page-title', 'Dashboard'); ?>
                     <span class="role-badge">Petugas</span>
                 </h5>
             </div>
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f59e0b&color=ffffff&bold=true" 
+                    <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode(auth()->user()->name)); ?>&background=f59e0b&color=ffffff&bold=true" 
                          class="rounded-circle me-2" width="38" height="38">
                     <div class="text-start d-none d-md-block">
-                        <div class="fw-semibold small text-dark">{{ auth()->user()->name }}</div>
+                        <div class="fw-semibold small text-dark"><?php echo e(auth()->user()->name); ?></div>
                         <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
                     </div>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                     <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                        <form method="POST" action="<?php echo e(route('logout')); ?>">
+                            <?php echo csrf_field(); ?>
                             <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                         </form>
                     </li>
@@ -390,26 +390,28 @@
 
         <!-- Content -->
         <div class="p-4">
-            @if(session('success'))
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            @if(session('error'))
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?>
                 <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                    <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
-</html>
+</html><?php /**PATH C:\laragon\www\sikes\resources\views/layouts/petugas.blade.php ENDPATH**/ ?>

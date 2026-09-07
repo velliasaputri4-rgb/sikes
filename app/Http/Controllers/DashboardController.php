@@ -29,9 +29,6 @@ class DashboardController extends Controller
     public function petugasIndex()
     {
         $data = [
-            // ✅ BARU: Menambahkan total siswa untuk card dashboard
-            'totalStudents'   => Student::count(),
-            
             'exams_today'     => Examination::whereDate('examination_date', today())->count(),
             'exams_month'     => Examination::whereMonth('examination_date', now()->month)->count(),
             'low_stock'       => Medicine::whereColumn('stock', '<=', 'minimum_stock')->count(),

@@ -48,20 +48,35 @@ class ExaminationController extends Controller
         ];
     }
 
+    // ✅ DIPERBAIKI: Mendeteksi berdasarkan Route/URL, bukan hanya Role User
     private function getViewPrefix()
     {
+        // 1. Cek berdasarkan nama route yang sedang diakses (Paling Akurat)
+        if (request()->routeIs('petugas.*')) {
+            return 'petugas';
+        }
+        if (request()->routeIs('admin.*')) {
+            return 'admin';
+        }
+
+        // 2. Fallback: Cek berdasarkan segmen pertama URL (misal: 'petugas' atau 'admin')
+        $prefix = request()->segment(1);
+        if (in_array($prefix, ['admin', 'petugas'])) {
+            return $prefix;
+        }
+
+        // 3. Fallback terakhir berdasarkan role (jika route tidak terdeteksi)
         if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
             return 'admin';
         }
+        
         return 'petugas';
     }
 
+    // ✅ DIPERBAIKI: Menggunakan logika yang sama agar redirect selalu konsisten
     private function getRoutePrefix()
     {
-        if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
-            return 'admin';
-        }
-        return 'petugas';
+        return $this->getViewPrefix();
     }
 
     public function index(Request $request)
@@ -220,6 +235,9 @@ class ExaminationController extends Controller
 
         $photoPath = $examination->photo;
         if ($request->hasFile('photo')) {
+            if ($examination->photo) {
+                Storage::disk('public')->delete($examination->photo);
+            }
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
