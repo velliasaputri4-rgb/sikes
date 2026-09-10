@@ -4,8 +4,119 @@
 @section('page-title', 'Pengaturan Teks Landing Page')
 
 @section('content')
+<style>
+    /* ✅ PERBAIKAN Z-INDEX: Pastikan modal muncul di atas sidebar & sticky bottom */
+    .modal {
+        z-index: 1060 !important;
+    }
+    .modal-backdrop {
+        z-index: 1050 !important;
+    }
+    .sticky-bottom {
+        z-index: 100 !important; /* Di bawah modal, tapi di atas konten biasa */
+    }
+
+    /* CSS KHUSUS UNTUK TAB NAVIGASI BERGAYA CARD */
+    .settings-tab-wrapper {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 14px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+        position: relative;
+        z-index: 1;
+    }
+    .settings-tab-wrapper .nav-pills {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .settings-tab-wrapper .nav-link {
+        background: #ffffff;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.25s ease;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .settings-tab-wrapper .nav-link:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        color: #1e293b;
+    }
+    .settings-tab-wrapper .nav-link.active {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        transform: translateY(-2px);
+    }
+    .settings-tab-wrapper .nav-link.active i {
+        color: #ffffff;
+    }
+    .settings-tab-wrapper .nav-link i {
+        color: #64748b;
+        font-size: 1rem;
+        transition: color 0.25s ease;
+    }
+    .settings-tab-wrapper .nav-link:hover i {
+        color: #2563eb;
+    }
+
+    /* ✅ OPTIMASI MOBILE: Tab scroll horizontal & form rapi */
+    @media (max-width: 768px) {
+        .settings-tab-wrapper {
+            padding: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        .settings-tab-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .settings-tab-wrapper .nav-pills {
+            flex-wrap: nowrap;
+            width: max-content;
+            gap: 10px;
+        }
+        .settings-tab-wrapper .nav-link {
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .settings-tab-wrapper .nav-link i {
+            font-size: 0.9rem;
+        }
+        
+        /* Form adjustments for mobile */
+        .content-card {
+            padding: 16px;
+        }
+        .card-body {
+            padding: 16px;
+        }
+        .form-label {
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+        .form-control, .form-select {
+            font-size: 0.95rem; /* Mencegah auto-zoom di iOS */
+            padding: 10px 12px;
+        }
+    }
+</style>
+
 <div class="content-card">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
             <h5 class="fw-bold mb-0"><i class="fas fa-cog me-2 text-primary"></i>Pengaturan Teks Website</h5>
             <small class="text-muted">Ubah semua teks, judul, deskripsi, gambar layanan, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
@@ -25,66 +136,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
-
-    <!-- ✅ CSS KHUSUS UNTUK TAB NAVIGASI BERGAYA CARD -->
-    <style>
-        .settings-tab-wrapper {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 14px;
-            margin-bottom: 24px;
-            border: 1px solid #e2e8f0;
-        }
-        .settings-tab-wrapper .nav-pills {
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .settings-tab-wrapper .nav-link {
-            background: #ffffff;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 10px 18px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.25s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .settings-tab-wrapper .nav-link:hover {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            color: #1e293b;
-        }
-        .settings-tab-wrapper .nav-link.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: #ffffff;
-            border-color: #2563eb;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-            transform: translateY(-2px);
-        }
-        .settings-tab-wrapper .nav-link.active i {
-            color: #ffffff;
-        }
-        .settings-tab-wrapper .nav-link i {
-            color: #64748b;
-            font-size: 1rem;
-            transition: color 0.25s ease;
-        }
-        .settings-tab-wrapper .nav-link:hover i {
-            color: #2563eb;
-        }
-        @media (max-width: 768px) {
-            .settings-tab-wrapper .nav-link {
-                padding: 8px 14px;
-                font-size: 0.82rem;
-            }
-        }
-    </style>
 
     <form action="{{ route('petugas.settings.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -285,10 +336,10 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
+                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <span><i class="fas fa-newspaper me-2 text-primary"></i>Daftar Item Berita/Kegiatan</span>
-                        <button type="button" class="btn btn-sm btn-success" onclick="addDocumentationRow()">
-                            <i class="fas fa-plus"></i> Tambah Item
+                        <button type="button" class="btn btn-sm btn-success w-100 w-md-auto" onclick="addDocumentationRow()">
+                            <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Tambah Item</span><span class="d-sm-none">Tambah</span>
                         </button>
                     </div>
                     <div class="card-body">

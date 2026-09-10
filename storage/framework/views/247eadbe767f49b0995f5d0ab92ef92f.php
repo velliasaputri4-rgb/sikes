@@ -4,17 +4,140 @@
 <?php $__env->startSection('page-title', 'Kelola Tips Kesehatan'); ?>
 
 <?php $__env->startSection('content'); ?>
+<style>
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .table-responsive {
+            border: 0;
+            box-shadow: none;
+        }
+        
+        .table thead {
+            display: none;
+        }
+        
+        .table tbody tr {
+            display: block;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .table tbody td {
+            display: block;
+            padding: 8px 0;
+            border: none;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .table tbody td:last-child {
+            border-bottom: none;
+        }
+        
+        .table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #64748b;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        
+        .mobile-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .mobile-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0f172a;
+            flex: 1;
+            margin-right: 8px;
+            line-height: 1.4;
+        }
+        
+        .mobile-badge {
+            white-space: nowrap;
+        }
+        
+        .mobile-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .mobile-actions .btn {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .content-card {
+            padding: 16px;
+        }
+        
+        .page-header-mobile {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 12px;
+        }
+        
+        .page-header-mobile h5 {
+            font-size: 1.1rem;
+        }
+        
+        .btn-primary-custom {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    /* Desktop Styles */
+    @media (min-width: 769px) {
+        .mobile-card-header,
+        .mobile-title,
+        .mobile-badge,
+        .mobile-actions {
+            display: none !important;
+        }
+    }
+    
+    /* Hide mobile elements on desktop */
+    .mobile-only {
+        display: none;
+    }
+    
+    @media (max-width: 768px) {
+        .mobile-only {
+            display: block;
+        }
+        .desktop-only {
+            display: none;
+        }
+    }
+</style>
+
 <div class="content-card">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 page-header-mobile">
         <h5 class="fw-bold mb-0 text-dark">
             <i class="fas fa-lightbulb text-warning me-2"></i>Daftar Tips Kesehatan
         </h5>
         <a href="<?php echo e(route('petugas.health-tips.create')); ?>" class="btn btn-primary-custom btn-sm">
-            <i class="fas fa-plus me-1"></i> Tambah Tips Baru
+            <i class="fas fa-plus me-1"></i> <span class="d-none d-sm-inline">Tambah Tips Baru</span><span class="d-sm-none">Tambah</span>
         </a>
     </div>
 
-    <div class="table-responsive">
+    <!-- Desktop Table View -->
+    <div class="table-responsive desktop-only">
         <table class="table table-hover align-middle">
             <thead>
                 <tr>
@@ -61,9 +184,45 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Mobile Card View -->
+    <div class="mobile-only">
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $tips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $tip): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+        <div class="mb-3 p-3 border rounded-3 bg-white shadow-sm">
+            <div class="mobile-card-header">
+                <div class="mobile-title"><?php echo e($tip->title); ?></div>
+                <span class="badge bg-info text-dark mobile-badge">
+                    <?php echo e(ucfirst(str_replace('_', ' ', $tip->category))); ?>
+
+                </span>
+            </div>
+            <div class="mb-3">
+                <small class="text-muted d-block"><?php echo e(Str::limit(strip_tags($tip->content), 80)); ?></small>
+            </div>
+            <div class="mobile-actions">
+                <a href="<?php echo e(route('petugas.health-tips.edit', $tip->id)); ?>" class="btn btn-sm btn-warning text-white flex-fill">
+                    <i class="fas fa-edit me-1"></i> Edit
+                </a>
+                <form action="<?php echo e(route('petugas.health-tips.destroy', $tip->id)); ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus tips ini?')" class="flex-fill">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
+                    <button type="submit" class="btn btn-sm btn-danger w-100">
+                        <i class="fas fa-trash me-1"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+        <div class="text-center text-muted py-5">
+            <i class="fas fa-inbox fa-3x mb-3 d-block opacity-25"></i>
+            <p class="mb-0">Belum ada data tips kesehatan.</p>
+            <small>Silakan tambah data baru.</small>
+        </div>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    </div>
     
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($tips->hasPages()): ?>
-    <div class="mt-3 d-flex justify-content-end">
+    <div class="mt-3 d-flex justify-content-center">
         <?php echo e($tips->links()); ?>
 
     </div>
