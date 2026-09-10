@@ -4,6 +4,14 @@
 <?php $__env->startSection('page-title', 'Dashboard Petugas UKS'); ?>
 
 <?php $__env->startSection('content'); ?>
+    
+    <?php
+        $todayExams = \App\Models\Examination::with(['student.class'])
+            ->whereDate('examination_date', \Carbon\Carbon::today())
+            ->latest('examination_date')
+            ->paginate(5);
+    ?>
+
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
         <!-- Card 1: Kunjungan Hari Ini -->
@@ -38,7 +46,7 @@
             </div>
         </div>
 
-        <!-- ✅ Card 3: DIGANTI dari Stok Obat menjadi Total Siswa Aktif -->
+        <!-- Card 3: Total Siswa Aktif -->
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color: #8b5cf6;">
                 <div class="d-flex justify-content-between align-items-start">
@@ -84,8 +92,6 @@
                     </div>
                 </a>
             </div>
-            
-            <!-- ✅ Quick Action 3: DIGANTI dari Kelola Stok Obat menjadi Data Siswa -->
             <div class="col-md-4">
                 <a href="<?php echo e(route('petugas.students.index')); ?>" class="text-decoration-none">
                     <div class="p-4 border rounded-3 text-center" style="transition: all 0.2s;">
@@ -100,18 +106,19 @@
         </div>
     </div>
 
-    <!-- Kunjungan Hari Ini (TABEL) -->
+    <!-- Kunjungan Hari Ini (TABEL DENGAN PAGINATION) -->
     <div class="row">
         <div class="col-12">
             <div class="content-card">
-                <h6 class="fw-bold mb-3"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Hari Ini</h6>
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h6 class="fw-bold mb-0"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Hari Ini</h6>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($todayExams->hasPages()): ?>
+                        <span class="badge bg-light text-dark border">
+                            Halaman <?php echo e($todayExams->currentPage()); ?> dari <?php echo e($todayExams->lastPage()); ?>
 
-                <?php
-                    $todayExams = \App\Models\Examination::with(['student.class'])
-                        ->whereDate('examination_date', \Carbon\Carbon::today())
-                        ->latest('examination_date')
-                        ->get();
-                ?>
+                        </span>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                </div>
 
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($todayExams->count() > 0): ?>
                     <div class="table-responsive">
@@ -163,6 +170,57 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- ✅ PAGINATION CONTROLS -->
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($todayExams->hasPages()): ?>
+                        <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <small class="text-muted">
+                                Menampilkan <?php echo e($todayExams->firstItem()); ?> - <?php echo e($todayExams->lastItem()); ?> dari <?php echo e($todayExams->total()); ?> kunjungan
+                            </small>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($todayExams->onFirstPage()): ?>
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="fas fa-chevron-left"></i> Sebelumnya</span>
+                                        </li>
+                                    <?php else: ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<?php echo e($todayExams->previousPageUrl()); ?>">
+                                                <i class="fas fa-chevron-left"></i> Sebelumnya
+                                            </a>
+                                        </li>
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+                                    
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $todayExams->getUrlRange(1, $todayExams->lastPage()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($page == $todayExams->currentPage()): ?>
+                                            <li class="page-item active">
+                                                <span class="page-link"><?php echo e($page); ?></span>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="<?php echo e($url); ?>"><?php echo e($page); ?></a>
+                                            </li>
+                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+
+                                    
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($todayExams->hasMorePages()): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<?php echo e($todayExams->nextPageUrl()); ?>">
+                                                Selanjutnya <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    <?php else: ?>
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Selanjutnya <i class="fas fa-chevron-right"></i></span>
+                                        </li>
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                </ul>
+                            </nav>
+                        </div>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <?php else: ?>
                     <!-- Empty State -->
                     <div class="text-center py-5">

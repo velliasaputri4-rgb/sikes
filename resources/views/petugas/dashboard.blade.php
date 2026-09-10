@@ -4,6 +4,14 @@
 @section('page-title', 'Dashboard Petugas UKS')
 
 @section('content')
+    {{-- ✅ DEFINISIKAN $todayExams DI AWAL AGAR BISA DIGUNAKAN DI SELURUH HALAMAN --}}
+    @php
+        $todayExams = \App\Models\Examination::with(['student.class'])
+            ->whereDate('examination_date', \Carbon\Carbon::today())
+            ->latest('examination_date')
+            ->paginate(5);
+    @endphp
+
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
         <!-- Card 1: Kunjungan Hari Ini -->
@@ -38,7 +46,7 @@
             </div>
         </div>
 
-        <!-- ✅ Card 3: DIGANTI dari Stok Obat menjadi Total Siswa Aktif -->
+        <!-- Card 3: Total Siswa Aktif -->
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color: #8b5cf6;">
                 <div class="d-flex justify-content-between align-items-start">
@@ -84,8 +92,6 @@
                     </div>
                 </a>
             </div>
-            
-            <!-- ✅ Quick Action 3: DIGANTI dari Kelola Stok Obat menjadi Data Siswa -->
             <div class="col-md-4">
                 <a href="{{ route('petugas.students.index') }}" class="text-decoration-none">
                     <div class="p-4 border rounded-3 text-center" style="transition: all 0.2s;">
@@ -100,18 +106,18 @@
         </div>
     </div>
 
-    <!-- Kunjungan Hari Ini (TABEL) -->
+    <!-- Kunjungan Hari Ini (TABEL DENGAN PAGINATION) -->
     <div class="row">
         <div class="col-12">
             <div class="content-card">
-                <h6 class="fw-bold mb-3"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Hari Ini</h6>
-
-                @php
-                    $todayExams = \App\Models\Examination::with(['student.class'])
-                        ->whereDate('examination_date', \Carbon\Carbon::today())
-                        ->latest('examination_date')
-                        ->get();
-                @endphp
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <h6 class="fw-bold mb-0"><i class="fas fa-clock text-primary me-2"></i>Kunjungan Hari Ini</h6>
+                    @if($todayExams->hasPages())
+                        <span class="badge bg-light text-dark border">
+                            Halaman {{ $todayExams->currentPage() }} dari {{ $todayExams->lastPage() }}
+                        </span>
+                    @endif
+                </div>
 
                 @if($todayExams->count() > 0)
                     <div class="table-responsive">
@@ -160,6 +166,57 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- ✅ PAGINATION CONTROLS -->
+                    @if($todayExams->hasPages())
+                        <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <small class="text-muted">
+                                Menampilkan {{ $todayExams->firstItem() }} - {{ $todayExams->lastItem() }} dari {{ $todayExams->total() }} kunjungan
+                            </small>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    {{-- Previous Button --}}
+                                    @if($todayExams->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="fas fa-chevron-left"></i> Sebelumnya</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $todayExams->previousPageUrl() }}">
+                                                <i class="fas fa-chevron-left"></i> Sebelumnya
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Numbers --}}
+                                    @foreach($todayExams->getUrlRange(1, $todayExams->lastPage()) as $page => $url)
+                                        @if($page == $todayExams->currentPage())
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ $page }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Button --}}
+                                    @if($todayExams->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $todayExams->nextPageUrl() }}">
+                                                Selanjutnya <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <span class="page-link">Selanjutnya <i class="fas fa-chevron-right"></i></span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
+                    @endif
                 @else
                     <!-- Empty State -->
                     <div class="text-center py-5">

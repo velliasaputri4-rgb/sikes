@@ -255,16 +255,81 @@
             letter-spacing: 0.3px;
         }
         
+        /* ✅ RESPONSIVE MOBILE IMPROVEMENTS */
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.show { transform: translateX(0); }
             .main-content { margin-left: 0; }
+            
+            /* Topbar mobile improvements */
+            .topbar {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            
+            .topbar > div:first-child {
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .topbar h5 {
+                font-size: 1rem !important;
+                line-height: 1.3;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .role-badge {
+                padding: 3px 8px;
+                font-size: 9px;
+                order: -1;
+            }
+            
+            .topbar .d-flex.align-items-center:last-child {
+                width: 100%;
+                justify-content: space-between;
+                order: 2;
+                margin-top: 4px;
+            }
+            
+            .topbar .btn-sm {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            /* Profile dropdown mobile */
+            .topbar .dropdown-toggle .text-start {
+                display: none !important;
+            }
+            
+            .topbar .dropdown-toggle img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 10px 12px;
+            }
+            
+            .topbar h5 {
+                font-size: 0.95rem !important;
+            }
+            
+            .role-badge {
+                padding: 2px 6px;
+                font-size: 8px;
+            }
         }
     </style>
 </head>
 <body>
 
-        <!-- Sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h4><i class="fas fa-heartbeat"></i> SIKES</h4>
@@ -369,7 +434,7 @@
         <!-- Topbar -->
         <div class="topbar">
             <div class="d-flex align-items-center">
-                <button class="btn btn-light d-md-none me-3" onclick="document.getElementById('sidebar').classList.toggle('show')">
+                <button class="btn btn-light d-md-none me-2 me-sm-3" onclick="document.getElementById('sidebar').classList.toggle('show')">
                     <i class="fas fa-bars"></i>
                 </button>
                 <h5 class="mb-0 fw-bold text-dark">
@@ -382,8 +447,8 @@
             <div class="d-flex align-items-center gap-2 gap-md-3">
                 <!-- TOMBOL KEMBALI KE BERANDA -->
                 <a href="<?php echo e(route('landing')); ?>" class="btn btn-sm btn-light border text-primary fw-semibold" title="Kembali ke Beranda">
-                    <i class="fas fa-home me-1"></i> 
-                    <span class="d-none d-md-inline">Kembali ke Beranda</span>
+                    <i class="fas fa-home"></i> 
+                    <span class="d-none d-sm-inline ms-1">Beranda</span>
                 </a>
 
                 <!-- DROPDOWN PROFIL -->
@@ -409,7 +474,7 @@
         </div>
 
         <!-- Content -->
-        <div class="p-4">
+        <div class="p-3 p-md-4">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
                     <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
