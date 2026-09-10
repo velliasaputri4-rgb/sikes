@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIKES - Sistem Informasi UKS Modern</title>
     
-    <!-- ✅ FIX: Favicon menggunakan logo SIKES agar loading berhenti dan logo muncul -->
     <link rel="icon" type="image/png" href="{{ asset('images/logo sikes navbar.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo sikes navbar.png') }}">
     
@@ -57,7 +56,6 @@
         overflow-x: hidden;
     }
 
-    /* ============ NAVBAR ============ */
     .navbar {
         background: rgba(255,255,255,0.95);
         backdrop-filter: blur(20px);
@@ -124,7 +122,6 @@
         transform: translateX(4px);
     }
 
-    /* ============ HERO ============ */
     .hero-section {
         position: relative;
         padding: 100px 0 80px;
@@ -148,6 +145,33 @@
     .decor-circle { position: absolute; border-radius: 50%; background: rgba(30,58,138,0.05); }
     .circle-1 { width: 240px; height: 240px; right: -90px; bottom: -70px; }
     .circle-2 { width: 150px; height: 150px; left: -70px; top: -50px; background: rgba(59,130,246,0.07); }
+
+    .hero-photo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 44%;
+        height: 640px;
+        max-height: 90%;
+        z-index: 0;
+        overflow: hidden;
+        border-radius: 0 0 0 160px;
+        pointer-events: none;
+    }
+    .hero-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 40%;
+        display: block;
+    }
+    .hero-photo::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #f7fafc 0%, rgba(247,250,252,0.85) 12%, rgba(247,250,252,0.35) 30%, rgba(247,250,252,0) 55%);
+        z-index: 1;
+    }
 
     .hero-title {
         font-family: 'Poppins', sans-serif;
@@ -216,7 +240,6 @@
         transform: translateY(-3px);
     }
 
-    /* ============ STAT CARDS ============ */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -257,7 +280,6 @@
     .stat-label { font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 2px; }
     .stat-note { color: #8a94a6; font-size: 0.72rem; }
 
-    /* ============ MENU CARDS (DENGAN INDIKATOR KLIK) ============ */
     .menu-card {
         background: white;
         border-radius: var(--radius);
@@ -273,8 +295,6 @@
         overflow: hidden;
         cursor: pointer;
     }
-    
-    /* ✅ Indikator visual bahwa ini bisa diklik (Garis atas) */
     .menu-card::before {
         content: '';
         position: absolute;
@@ -285,13 +305,11 @@
         transform-origin: left;
         transition: transform 0.4s ease;
     }
-    
     .menu-card:hover {
         transform: translateY(-12px);
         box-shadow: 0 25px 60px rgba(30,58,138,0.15);
         border-color: var(--primary);
     }
-    
     .menu-card:hover::before { 
         transform: scaleX(1); 
     }
@@ -321,7 +339,6 @@
     .tag-public { background: #e4f4ec; color: #1e7a55; }
     .tag-login { background: #e6eef8; color: #1e3a8a; }
     
-    /* ✅ Teks petunjuk klik */
     .click-hint {
         display: block;
         margin-top: 12px;
@@ -332,13 +349,11 @@
         transform: translateY(10px);
         transition: all 0.3s ease;
     }
-    
     .menu-card:hover .click-hint {
         opacity: 1;
         transform: translateY(0);
     }
 
-    /* ============ SECTIONS ============ */
     .section { padding: 90px 0; position: relative; }
     .section-label {
         display: inline-block;
@@ -373,7 +388,6 @@
         background-clip: text;
     }
 
-    /* ============ ABOUT ============ */
     .about-section { background: white; }
     .about-img-wrap {
         position: relative;
@@ -410,7 +424,6 @@
     }
     .about-pill i { color: var(--primary); }
 
-    /* ============ SERVICES ============ */
     .services-section {
         background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 50%, #f3f7fc 100%);
     }
@@ -433,7 +446,6 @@
         box-shadow: var(--shadow-lg);
         border-color: transparent;
     }
-    
     .service-image-wrapper {
         position: relative;
         overflow: hidden;
@@ -450,7 +462,6 @@
     .service-image-wrapper:hover .service-image {
         transform: scale(1.05);
     }
-    
     .service-image-wrapper::after {
         content: '\f00e';
         position: absolute;
@@ -508,7 +519,6 @@
     .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; font-size: 1.1rem; }
     .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; line-height: 1.6; }
 
-    /* ============ DOCUMENTATION ============ */
     .doc-card {
         background: white;
         border-radius: var(--radius);
@@ -518,34 +528,28 @@
         height: 100%;
         border: 1px solid rgba(30,58,138,0.08);
     }
-
     .doc-card:hover {
         transform: translateY(-8px);
         box-shadow: var(--shadow-lg);
     }
-
     .doc-image {
         width: 100%;
         height: 240px;
         overflow: hidden;
         position: relative;
     }
-
     .doc-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.5s ease;
     }
-
     .doc-card:hover .doc-image img {
         transform: scale(1.05);
     }
-
     .doc-content {
         padding: 24px;
     }
-
     .doc-meta {
         display: flex;
         gap: 20px;
@@ -554,18 +558,15 @@
         color: var(--slate);
         flex-wrap: wrap;
     }
-
     .doc-meta span {
         display: inline-flex;
         align-items: center;
         gap: 6px;
     }
-
     .doc-meta i {
         color: var(--primary);
         font-size: 0.9rem;
     }
-
     .doc-title {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
@@ -573,7 +574,6 @@
         line-height: 1.4;
         margin-bottom: 0;
     }
-
     .doc-title a {
         color: var(--ink);
         text-decoration: none;
@@ -583,11 +583,9 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-
     .doc-title a:hover {
         color: var(--primary);
     }
-
     .btn-doc-all {
         background: var(--gradient-primary);
         color: white;
@@ -601,13 +599,11 @@
         box-shadow: 0 6px 20px rgba(30,58,138,0.25);
         transition: all 0.3s ease;
     }
-
     .btn-doc-all:hover {
         color: white;
         transform: translateY(-2px);
         box-shadow: 0 10px 30px rgba(30,58,138,0.35);
     }
-
     .video-overlay {
         position: absolute;
         top: 0;
@@ -624,22 +620,18 @@
         text-decoration: none;
         cursor: pointer;
     }
-
     .doc-card:hover .video-overlay {
         opacity: 1;
     }
-
     .video-overlay i {
         font-size: 3.5rem;
         color: #ffffff;
         filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
         transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     .doc-card:hover .video-overlay i {
         transform: scale(1.15);
     }
-
     .badge-video {
         background: rgba(244, 63, 94, 0.1);
         color: var(--rose);
@@ -651,7 +643,6 @@
         align-items: center;
         gap: 5px;
     }
-
     .doc-excerpt {
         color: var(--slate);
         font-size: 0.9rem;
@@ -660,7 +651,6 @@
         margin-bottom: 0;
     }
 
-    /* ============ CONTACT ============ */
     .contact-section { background: white; }
     .info-card {
         background: linear-gradient(135deg, #f6f9fc, #f3f7fc);
@@ -681,7 +671,6 @@
         margin-bottom: 20px;
         box-shadow: 0 10px 25px rgba(30,58,138,0.25);
     }
-    
     .address-text {
         display: flex;
         flex-direction: column;
@@ -691,7 +680,6 @@
     }
     .address-line { line-height: 1.6; }
 
-    /* ============ FOOTER ============ */
     footer {
         background: var(--gradient-dark);
         color: white;
@@ -736,7 +724,6 @@
         font-size: 0.9rem;
     }
 
-    /* ============ SCROLL TO TOP ============ */
     .scroll-top {
         position: fixed;
         bottom: 30px; right: 30px;
@@ -757,66 +744,209 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
 
-    /* ============ RESPONSIVE ============ */
+    @media (max-width: 991px) {
+        .hero-photo { 
+            position: relative;
+            width: 100%;
+            height: 280px;
+            max-height: none;
+            border-radius: 0 0 32px 32px;
+            margin-bottom: 30px;
+        }
+        .hero-photo img {
+            object-position: center 45%;
+        }
+        .hero-photo::before {
+            background: linear-gradient(0deg, rgba(247,250,252,1) 0%, rgba(247,250,252,0.7) 30%, rgba(247,250,252,0.2) 70%, rgba(247,250,252,0) 100%);
+        }
+        .hero-title { text-align: center; }
+        .hero-subtitle { 
+            text-align: center; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+        .d-flex.gap-3.flex-wrap { justify-content: center; }
+        
+        /* About Section - Tablet & Mobile Center */
+        .about-content-wrapper {
+            text-align: center;
+        }
+        .about-content-wrapper .section-label {
+            display: inline-block;
+        }
+        .about-content-wrapper .section-title {
+            text-align: center;
+        }
+        .about-content-wrapper > p {
+            text-align: center !important;
+        }
+        .about-content-wrapper .d-flex.flex-wrap.gap-3 {
+            justify-content: center;
+        }
+    }
+
     @media (max-width: 768px) {
-        .hero-section { padding: 80px 0 60px; text-align: center; }
-        .hero-subtitle { margin-left: auto; margin-right: auto; text-align: center; }
         .section { padding: 60px 0; }
         .navbar-brand img { max-height: 42px; }
         .hero-decor { display: none; }
-        .d-flex.gap-3.flex-wrap { justify-content: center; gap: 12px !important; }
-        .btn-hero-primary, .btn-hero-outline { width: 100%; max-width: 320px; justify-content: center; padding: 14px 20px; }
+        .hero-section { padding: 0 0 40px; }
+        .hero-title { 
+            font-size: 1.8rem; 
+            margin-top: 20px;
+            text-align: center;
+        }
+        .hero-subtitle { 
+            font-size: 0.95rem; 
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .btn-hero-primary, .btn-hero-outline { 
+            width: auto; 
+            max-width: none; 
+            padding: 10px 18px; 
+            font-size: 0.9rem;
+        }
+        .d-flex.gap-3.flex-wrap { 
+            gap: 12px !important;
+            justify-content: center;
+        }
+        
+        .stats-grid { 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 16px; 
+            margin-top: 30px; 
+        }
+        .stat-card { padding: 16px; }
+        .stat-icon { width: 44px; height: 44px; font-size: 1.1rem; }
+        .stat-card h3 { font-size: 1.25rem; }
+        .stat-label { font-size: 0.75rem; }
+        .stat-note { font-size: 0.65rem; }
+        
         .doc-image { height: 200px; }
         .doc-content { padding: 20px; }
         .doc-title { font-size: 1rem; }
-        
-        .service-image { height: 100px; }
+        .service-image { height: 110px; }
         .service-icon { width: 36px; height: 36px; font-size: 1rem; top: 12px; right: 12px; }
         .service-content { padding: 0 20px 20px 20px; }
         .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .service-card p { font-size: 0.85rem; line-height: 1.5; }
+        
+        /* About Section Mobile */
+        .about-content-wrapper .section-title {
+            font-size: 1.6rem;
+        }
+        .about-content-wrapper > p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .hero-section .row.mt-4 > div, 
+        .hero-section .row.mt-md-5 > div {
+            width: 100%;
+            padding: 0 8px;
+        }
+        .menu-card { padding: 16px 10px; }
+        .menu-icon { width: 44px; height: 44px; font-size: 18px; margin-bottom: 10px; }
+        .menu-card h5 { font-size: 0.8rem; margin-bottom: 4px; }
+        .menu-card p { font-size: 0.65rem; margin-bottom: 8px; }
+        .card-tag { font-size: 0.6rem; padding: 2px 6px; }
+        .click-hint { font-size: 0.6rem; margin-top: 6px; opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 576px) {
-        .hero-section { padding: 60px 0 40px; }
-        .hero-title { font-size: 1.6rem; line-height: 1.3; margin-bottom: 16px; }
-        .hero-subtitle { font-size: 0.9rem; margin-bottom: 24px; padding: 0 10px; }
-        .stats-grid { grid-template-columns: 1fr; gap: 16px; padding: 0 10px; }
-        .stat-card { padding: 18px 20px; align-items: center; }
-        .stat-icon { width: 48px; height: 48px; font-size: 1.1rem; flex-shrink: 0; }
-        .stat-card h3 { font-size: 1.35rem; margin-bottom: 2px; }
-        .stat-label { font-size: 0.8rem; }
-        .stat-note { font-size: 0.7rem; }
-        .row.mt-5 { margin-top: 2rem !important; }
-        .menu-card { padding: 28px 20px; margin-bottom: 0; }
-        .menu-icon { width: 64px; height: 64px; font-size: 26px; margin-bottom: 16px; }
-        .menu-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
-        .menu-card p { font-size: 0.85rem; margin-bottom: 12px; }
-        
-        /* ✅ FIX: Tampilkan petunjuk klik secara permanen di mobile (layar sentuh) */
-        .click-hint {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-            font-size: 0.75rem !important;
-            margin-top: 10px !important;
+        .hero-photo {
+            height: 240px;
+            border-radius: 0 0 24px 24px;
+        }
+        .hero-photo img {
+            object-position: center 50%;
+        }
+        .hero-title { 
+            font-size: 1.5rem; 
+            text-align: center;
+            line-height: 1.3; 
+            margin-top: 20px; 
+            margin-bottom: 16px; 
+        }
+        .hero-subtitle { 
+            font-size: 0.9rem; 
+            text-align: center; 
+            padding: 0; 
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .about-img-wrap { margin-bottom: 30px; }
-        .about-pill { padding: 8px 16px; font-size: 0.8rem; margin: 4px; }
-        .section-title { font-size: 1.5rem; text-align: center; }
-        .section-subtitle { font-size: 0.9rem; text-align: center; }
-        .info-card { padding: 28px 20px; text-align: center; }
-        .info-icon { width: 56px; height: 56px; font-size: 1.4rem; margin: 0 auto 16px auto; }
-        .info-card h5 { text-align: center; }
-        .info-card p { text-align: center; }
+        .stats-grid { 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 12px; 
+            padding: 0; 
+        }
+        .stat-card { 
+            padding: 14px 12px; 
+            align-items: flex-start; 
+            text-align: left; 
+            flex-direction: row; 
+        }
+        .stat-icon { width: 40px; height: 40px; font-size: 1rem; flex-shrink: 0; }
+        .stat-card h3 { font-size: 1.15rem; margin-bottom: 2px; }
+        .stat-label { font-size: 0.7rem; }
+        .stat-note { font-size: 0.6rem; }
+        
+        .row.mt-5 { margin-top: 2rem !important; }
+        .about-img-wrap { 
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 280px;
+        }
+        .about-pill { 
+            padding: 8px 16px; 
+            font-size: 0.85rem;
+            margin: 4px auto;
+        }
+        
+        .section-title { 
+            font-size: 1.4rem; 
+            text-align: center;
+        }
+        .section-subtitle { 
+            font-size: 0.9rem; 
+            text-align: center; 
+            padding: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .info-card { padding: 24px 20px; text-align: center; }
+        .info-icon { 
+            width: 50px; 
+            height: 50px; 
+            font-size: 1.3rem; 
+            margin: 0 auto 16px auto; 
+        }
+        .info-card h5, .info-card p { text-align: center; }
+        .address-text { text-align: center; }
+        
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
-        footer p { text-align: center; }
+        footer p { text-align: center; padding: 0; }
         footer h6 { text-align: center; margin-bottom: 16px; }
         .footer-menu { text-align: center; padding: 0; }
         .footer-menu li { margin-bottom: 10px; }
         .footer-menu a { justify-content: center; font-size: 0.9rem; }
+        
         .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+        .container { padding-left: 15px; padding-right: 15px; }
+    }
+
+    @media (max-width: 375px) {
+        .hero-title { font-size: 1.4rem; }
+        .stat-card h3 { font-size: 1.1rem; }
+        .menu-icon { width: 40px; height: 40px; font-size: 16px; }
     }
     </style>
 </head>
@@ -902,9 +1032,12 @@
             <i class="fas fa-plus decor-plus plus-4"></i>
             <span class="decor-circle circle-1"></span>
             <span class="decor-circle circle-2"></span>
+        </div> 
+        <div class="hero-photo">
+            <img src="{{ asset('images/hero-sekolah.png') }}" alt="Gedung SMK Negeri 1 Bangsri">
         </div>
         <div class="container position-relative">
-            <div class="row align-items-center g-5">
+            <div class="row align-items-center g-4 g-lg-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
                     @php
                         $heroText = \App\Models\Setting::get('hero_title', "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri");
@@ -972,8 +1105,7 @@
                 </div>
             </div>
 
-            <!-- Menu Cards dengan Indikator Klik -->
-            <div class="row g-4 mt-5 justify-content-center">
+            <div class="row g-3 g-md-4 mt-4 mt-md-5 justify-content-center">
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
                     <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-history"></i></div>
@@ -998,7 +1130,7 @@
                     <a href="{{ route('landing.health-info') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
-                        <p class="text-muted small mb-0">Tips kesehatan dan kalkulator BMI</p>
+                        <p class="text-muted small mb-0">Tips kesehatan</p>
                         <span class="card-tag tag-public"><i class="fas fa-globe"></i> Publik</span>
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
@@ -1026,15 +1158,17 @@
                     </div>
                 </div>
                 <div class="col-lg-7" data-aos="fade-left">
-                    <span class="section-label">{{ \App\Models\Setting::get('about_label', 'Tentang Kami') }}</span>
-                    <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
-                    <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, hingga pembuatan laporan.') }}</p>
+                    <div class="about-content-wrapper">
+                        <span class="section-label">{{ \App\Models\Setting::get('about_label', 'Tentang Kami') }}</span>
+                        <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
+                        <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, pendataan barang serta peminjamannya.') }}</p>
 
-                    <div class="d-flex flex-wrap gap-3">
-                        <span class="about-pill"><i class="fas fa-database"></i> Data Digital</span>
-                        <span class="about-pill"><i class="fas fa-link"></i> Terintegrasi</span>
-                        <span class="about-pill"><i class="fas fa-bolt"></i> Efisien</span>
-                        <span class="about-pill"><i class="fas fa-shield-alt"></i> Terpercaya</span>
+                        <div class="d-flex flex-wrap gap-3 justify-content-lg-start justify-content-center">
+                            <span class="about-pill"><i class="fas fa-database"></i> Data Digital</span>
+                            <span class="about-pill"><i class="fas fa-link"></i> Terintegrasi</span>
+                            <span class="about-pill"><i class="fas fa-bolt"></i> Efisien</span>
+                            <span class="about-pill"><i class="fas fa-shield-alt"></i> Terpercaya</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1262,7 +1396,6 @@
         </div>
     </footer>
 
-    <!-- Modal Preview -->
     <div class="modal fade" id="serviceImageModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg">
@@ -1277,12 +1410,10 @@
         </div>
     </div>
 
-    <!-- Scroll to Top -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Medicine;
-use App\Models\Setting; // ✅ Ganti import Documentation dengan Setting
+use App\Models\Setting;
+use App\Models\HealthTip; // ✅ TAMBAHKAN IMPORT INI
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class LandingController extends Controller
         
         // 3. ✅ DATA DOKUMENTASI/BERITA (Dibaca dari Setting JSON sebagai Object)
         $docsJson = Setting::where('key', 'documentations_data')->value('value') ?? '[]';
-        $allDocumentations = collect(json_decode($docsJson)); // Decode sebagai object agar $doc->title tetap bisa dipakai di Blade
+        $allDocumentations = collect(json_decode($docsJson)); 
         
         // Urutkan berdasarkan tanggal turun (terbaru dulu) dan ambil maksimal 3
         $documentations = $allDocumentations->sortByDesc('published_at')->take(3)->values();
@@ -90,9 +91,11 @@ class LandingController extends Controller
         return view('landing.contact');
     }
 
+    // ✅ DIPERBAIKI: Mengambil data dari database dan mengirimkannya ke view
     public function healthInfo()
     {
-        return view('landing.health-info');
+        $healthTips = HealthTip::latest()->paginate(9);
+        return view('landing.health-info', compact('healthTips'));
     }
 
     // ✅ Method untuk halaman Daftar Dokumentasi/Berita (Semua dari JSON)

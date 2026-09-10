@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Petugas UKS - SIKES</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+    :root {
+        --primary: #3b82f6;
+        --primary-dark: #1e3a8a;
+        --secondary: #2563eb;
+        --pro: #1e3a8a;
+        --pro-light: #3b82f6;
+        --emerald: #10b981;
+        --rose: #f43f5e;
+        --amber: #f59e0b;
+        --ink: #0f172a;
+        --slate: #475569;
+        --muted: #94a3b8;
+        --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --shadow-sm: 0 4px 20px rgba(30, 58, 138, 0.08);
+        --shadow-md: 0 10px 40px rgba(30, 58, 138, 0.12);
+        --shadow-lg: 0 25px 60px rgba(30, 58, 138, 0.18);
+        --radius: 18px;
+    }
+
+    * { -webkit-font-smoothing: antialiased; }
+
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 20px;
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        background: #fafbfc;
+        color: var(--ink);
+        line-height: 1.7;
+        overflow-x: hidden;
+    }
+
+    .btn-back-home {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        color: var(--pro);
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(30,58,138,0.15);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .btn-back-home:hover {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+        transform: translateX(-4px);
+        box-shadow: var(--shadow-md);
+    }
+    .btn-back-home i {
+        transition: transform 0.3s ease;
+    }
+    .btn-back-home:hover i {
+        transform: translateX(-3px);
+    }
+
+    .blob-bg {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .blob-1 { width: 400px; height: 400px; background: #1e3a8a; top: -100px; left: -100px; animation: float1 20s ease-in-out infinite; opacity: 0.25; }
+    .blob-2 { width: 350px; height: 350px; background: #3b82f6; top: 100px; right: -80px; animation: float2 25s ease-in-out infinite; opacity: 0.2; }
+    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
+    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
+
+    .page-header {
+        position: relative;
+        padding: 80px 0 70px;
+        background: linear-gradient(180deg, #f7fafc 0%, #edf2fa 100%);
+        overflow: hidden;
+    }
+    .page-header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        background: rgba(59,130,246,0.1);
+        color: var(--pro);
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        border: 1px solid rgba(30,58,138,0.15);
+    }
+    .page-header-badge .pulse-dot {
+        width: 8px; height: 8px;
+        background: var(--emerald);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.4); } }
+
+    .page-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2rem, 4.5vw, 3rem);
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.2;
+        margin-bottom: 14px;
+        letter-spacing: -1px;
+    }
+    .gradient-text {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .page-subtitle {
+        color: var(--slate);
+        font-size: 1.05rem;
+        max-width: 580px;
+        margin-bottom: 0;
+    }
+
+    .header-icon-wrap {
+        width: 120px; height: 120px;
+        background: var(--gradient-primary);
+        border-radius: 30px;
+        display: flex; align-items: center; justify-content: center;
+        color: white;
+        font-size: 3rem;
+        box-shadow: 0 20px 50px rgba(30,58,138,0.3);
+        margin-left: auto;
+        animation: iconFloat 5s ease-in-out infinite;
+        position: relative;
+    }
+    .header-icon-wrap::before {
+        content: '';
+        position: absolute;
+        inset: -10px;
+        border-radius: 34px;
+        background: var(--gradient-primary);
+        opacity: 0.2;
+        z-index: -1;
+    }
+    @keyframes iconFloat {
+        0%,100% { transform: translateY(0) rotate(0); }
+        50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .section { padding: 70px 0 90px; }
+    .section-label {
+        display: inline-block;
+        padding: 6px 16px;
+        background: rgba(59,130,246,0.1);
+        color: var(--pro);
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .section-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+    }
+    .section-subtitle {
+        color: var(--slate);
+        font-size: 1rem;
+        max-width: 550px;
+    }
+
+    .schedule-card {
+        background: white;
+        border-radius: var(--radius);
+        padding: 22px;
+        box-shadow: 0 4px 20px rgba(30,58,138,0.06);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(30,58,138,0.08);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+    .schedule-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(30,58,138,0.15);
+    }
+
+    .schedule-num {
+        width: 56px; height: 56px;
+        background: linear-gradient(135deg, #f6f9fc, #edf2fa);
+        border: 2px solid rgba(30,58,138,0.15);
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: var(--pro);
+        flex-shrink: 0;
+    }
+
+    .schedule-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .schedule-info h5 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 4px;
+        font-size: 1.05rem;
+        line-height: 1.3;
+    }
+    .schedule-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--slate);
+        font-size: 0.82rem;
+        font-weight: 500;
+    }
+    .schedule-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .schedule-meta i {
+        color: var(--pro);
+        font-size: 0.75rem;
+    }
+    .meta-divider {
+        width: 3px; height: 3px;
+        background: #cbd5e1;
+        border-radius: 50%;
+    }
+
+    .btn-view {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(30,58,138,0.25);
+        flex-shrink: 0;
+    }
+    .btn-view:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(30,58,138,0.4);
+        filter: brightness(1.08);
+    }
+
+    /* Modal Styles */
+    .modal-content {
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: 0 30px 80px rgba(15,23,42,0.2);
+        overflow: hidden;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .modal-header-simple {
+        background: white;
+        padding: 20px 24px;
+        border-bottom: 1px solid #f1f5f9;
+        flex-shrink: 0;
+    }
+    
+    .modal-title-simple {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        color: var(--ink);
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-title-simple .title-icon {
+        width: 36px; height: 36px;
+        background: var(--gradient-primary);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: white;
+        font-size: 0.95rem;
+    }
+    .modal-title-simple small {
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 0.78rem;
+        display: block;
+        margin-top: 2px;
+    }
+    .btn-close-simple {
+        background: #f1f5f9;
+        border: none;
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--slate);
+        transition: all 0.2s;
+    }
+    .btn-close-simple:hover {
+        background: #fee2e2;
+        color: var(--rose);
+    }
+
+    .modal-body { 
+        padding: 0; 
+        overflow: hidden;
+        flex: 1;
+    }
+    
+    .members-list {
+        max-height: calc(85vh - 140px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .member-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 24px;
+        border-bottom: 1px solid #f8fafc;
+        transition: background 0.2s;
+    }
+    .member-row:last-child { border-bottom: none; }
+    .member-row:hover { background: #fafbfc; }
+
+    .member-num {
+        width: 32px; height: 32px;
+        background: #f1f5f9;
+        color: var(--slate);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    .member-row.has-phone .member-num {
+        background: var(--gradient-primary);
+        color: white;
+    }
+    .member-name {
+        flex: 1;
+        font-weight: 600;
+        color: var(--ink);
+        font-size: 0.95rem;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .member-name .phone-label {
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 500;
+        margin-top: 2px;
+    }
+    .wa-btn {
+        background: #d1fae5;
+        color: #047857;
+        border: none;
+        border-radius: 8px;
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+    .wa-btn:hover {
+        background: #10b981;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .modal-note {
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #fef3c7, #fed7aa);
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.82rem;
+        color: #92400e;
+        flex-shrink: 0;
+    }
+    .modal-note i {
+        color: var(--amber);
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    .modal-note strong { color: var(--rose); }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+    }
+    .empty-icon-wrap {
+        width: 100px; height: 100px;
+        background: linear-gradient(135deg, #f6f9fc, #edf2fa);
+        border-radius: 26px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .empty-icon-wrap i {
+        font-size: 2.8rem;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .empty-state h5 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 8px;
+    }
+    .empty-state p {
+        color: var(--slate);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .scroll-top {
+        position: fixed;
+        bottom: 30px; right: 30px;
+        width: 50px; height: 50px;
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 10px 30px rgba(30,58,138,0.35);
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 0.3s;
+        z-index: 999;
+    }
+    .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header { padding: 60px 0; }
+        .header-icon-wrap {
+            width: 90px; height: 90px;
+            font-size: 2.3rem;
+            margin: 20px auto 0;
+        }
+        .schedule-card { padding: 18px; flex-wrap: wrap; }
+        .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
+        .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
+        
+        .btn-back-home {
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+        .btn-back-home span {
+            display: none;
+        }
+        .btn-back-home i {
+            margin: 0;
+        }
+
+        /* ✅ PERBAIKAN MODAL MOBILE: LENGKUNG DI SEMUA SISI */
+        .modal-dialog {
+            margin-bottom: 16px; /* Memberi jarak agar lengkungan bawah terlihat */
+        }
+        .modal-content {
+            max-height: 90vh;
+            border-radius: 24px !important; /* Semua sudut melengkung */
+        }
+        
+        .members-list {
+            max-height: calc(90vh - 150px);
+        }
+        
+        .member-row {
+            padding: 12px 16px;
+        }
+        
+        .modal-note {
+            padding: 12px 16px;
+            font-size: 0.75rem;
+            border-radius: 0 0 24px 24px; /* Ikuti lengkungan card */
+        }
+        
+        .modal-header-simple {
+            padding: 16px 20px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .schedule-card { padding: 16px; }
+        .schedule-info h5 { font-size: 0.95rem; }
+        .schedule-meta { font-size: 0.75rem; flex-wrap: wrap; }
+        
+        .modal-content { 
+            border-radius: 20px !important; /* Semua sudut melengkung di layar sangat kecil */
+        }
+        .members-list { max-height: calc(90vh - 140px); }
+        .modal-note { border-radius: 0 0 20px 20px; }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="blob-bg blob-1"></div>
+        <div class="blob-bg blob-2"></div>
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8" data-aos="fade-right">
+                    
+                    <div class="d-flex align-items-center gap-3 flex-wrap" style="margin-bottom: 18px;">
+                        <div class="page-header-badge mb-0">
+                            <span class="pulse-dot"></span>
+                            <span>Jadwal Petugas UKS Aktif</span>
+                        </div>
+                        
+                        <a href="<?php echo e(route('landing')); ?>" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Kembali ke Beranda</span>
+                        </a>
+                    </div>
+
+                    <h1 class="page-title">
+                        Jadwal <span class="gradient-text">Petugas</span><br>
+                        UKS SMK Negeri 1 Bangsri
+                    </h1>
+                    <p class="page-subtitle">Informasi lengkap jadwal petugas yang bertugas di Unit Kesehatan Sekolah.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end" data-aos="fade-left" data-aos-delay="200">
+                    <div class="header-icon-wrap">
+                        <i class="fas fa-user-nurse"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="section-label">Grup Piket</span>
+                <h2 class="section-title">Daftar <span class="gradient-text">Petugas</span> Piket</h2>
+                <p class="section-subtitle mx-auto">Pilih grup untuk melihat daftar anggota piket</p>
+            </div>
+
+            <div class="row g-3">
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $schedules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $schedule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                    <?php
+                        $members = is_string($schedule->members) ? json_decode($schedule->members, true) : ($schedule->members ?? []);
+                        $members = is_array($members) ? $members : [];
+                        
+                        $membersCount = count($members);
+                        $emergencyCount = 0;
+                        foreach($members as $m) {
+                            if (is_array($m) && !empty($m['phone'])) $emergencyCount++;
+                        }
+                    ?>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 60); ?>">
+                        <div class="schedule-card">
+                            <div class="schedule-num"><?php echo e($loop->iteration); ?></div>
+                            <div class="schedule-info">
+                                <h5><?php echo e($schedule->group_name ?? 'Grup ' . $loop->iteration); ?></h5>
+                                <div class="schedule-meta">
+                                    <span><i class="fas fa-users"></i> <?php echo e($membersCount); ?> anggota</span>
+                                    <span class="meta-divider"></span>
+                                    <span>
+                                        <i class="fas fa-phone"></i>
+                                        <?php echo e($emergencyCount); ?> kontak
+                                    </span>
+                                </div>
+                            </div>
+                            <button class="btn btn-view"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalAnggota<?php echo e($schedule->id); ?>">
+                                Lihat <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Simple Modal -->
+                    <div class="modal fade" id="modalAnggota<?php echo e($schedule->id); ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header-simple">
+                                    <div class="modal-title-simple">
+                                        <div class="title-icon"><i class="fas fa-users"></i></div>
+                                        <div>
+                                            <?php echo e($schedule->group_name ?? 'Grup'); ?>
+
+                                            <small><?php echo e($membersCount); ?> anggota piket</small>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-close-simple" data-bs-dismiss="modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="members-list">
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($membersCount > 0): ?>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $idx => $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                                <?php
+                                                    $name = $member['name'] ?? '-';
+                                                    $phone = $member['phone'] ?? '';
+                                                ?>
+                                                <div class="member-row <?php echo e(!empty($phone) ? 'has-phone' : ''); ?>">
+                                                    <div class="member-num"><?php echo e($idx + 1); ?></div>
+                                                    <div class="member-name">
+                                                        <?php echo e($name); ?>
+
+                                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($phone)): ?>
+                                                            <span class="phone-label">Kontak darurat</span>
+                                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                                    </div>
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($phone)): ?>
+                                                        <a href="https://wa.me/<?php echo e(preg_replace('/\D/', '', $phone)); ?>"
+                                                           target="_blank"
+                                                           class="wa-btn">
+                                                            <i class="fab fa-whatsapp"></i> Chat
+                                                        </a>
+                                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                                </div>
+                                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+                                        <?php else: ?>
+                                            <div class="text-center py-5">
+                                                <i class="fas fa-user-slash text-muted" style="font-size: 2rem;"></i>
+                                                <p class="text-muted mt-2 mb-0">Data anggota belum tersedia</p>
+                                            </div>
+                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="modal-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        Anggota dengan <strong>kontak darurat</strong> dapat dihubungi via WhatsApp jika membutuhkan bantuan di luar jam operasional.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+                    <div class="col-12">
+                        <div class="empty-state" data-aos="fade-up">
+                            <div class="empty-icon-wrap">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <h5>Belum Ada Jadwal</h5>
+                            <p>Jadwal petugas belum tersedia. Silakan hubungi admin UKS.</p>
+                        </div>
+                    </div>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            </div>
+        </div>
+    </section>
+
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        AOS.init({ duration: 700, once: true, offset: 60 });
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+        });
+
+        document.getElementById('scrollTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html><?php /**PATH C:\laragon\www\sikes\resources\views/landing/schedule.blade.php ENDPATH**/ ?>

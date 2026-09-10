@@ -264,7 +264,7 @@
 </head>
 <body>
 
-    <!-- Sidebar -->
+        <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h4><i class="fas fa-heartbeat"></i> SIKES</h4>
@@ -332,7 +332,16 @@
             </li>
         </ul>
 
-        <!-- ✅ BARU: Bagian Sistem & Pengaturan -->
+        <!-- ✅ BARU: Bagian Edukasi & Informasi -->
+        <div class="sidebar-section">Edukasi & Informasi</div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('petugas.health-tips.*') ? 'active' : '' }}" href="{{ route('petugas.health-tips.index') }}">
+                    <i class="fas fa-lightbulb"></i> Tips Kesehatan
+                </a>
+            </li>
+        </ul>
+
         <div class="sidebar-section">Sistem</div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -354,7 +363,7 @@
             </li>
         </ul>
     </div>
-
+    
     <!-- Main Content -->
     <div class="main-content">
         <!-- Topbar -->
@@ -368,23 +377,34 @@
                     <span class="role-badge">Petugas</span>
                 </h5>
             </div>
-            <div class="dropdown">
-                <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f59e0b&color=ffffff&bold=true" 
-                         class="rounded-circle me-2" width="38" height="38">
-                    <div class="text-start d-none d-md-block">
-                        <div class="fw-semibold small text-dark">{{ auth()->user()->name }}</div>
-                        <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
-                    </div>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
-                        </form>
-                    </li>
-                </ul>
+
+            <!-- ✅ WRAPPER KANAN: Mengelompokkan tombol kembali & dropdown profil agar space-between tetap rapi -->
+            <div class="d-flex align-items-center gap-2 gap-md-3">
+                <!-- TOMBOL KEMBALI KE BERANDA -->
+                <a href="{{ route('landing') }}" class="btn btn-sm btn-light border text-primary fw-semibold" title="Kembali ke Beranda">
+                    <i class="fas fa-home me-1"></i> 
+                    <span class="d-none d-md-inline">Kembali ke Beranda</span>
+                </a>
+
+                <!-- DROPDOWN PROFIL -->
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f59e0b&color=ffffff&bold=true" 
+                             class="rounded-circle me-2" width="38" height="38">
+                        <div class="text-start d-none d-md-block">
+                            <div class="fw-semibold small text-dark">{{ auth()->user()->name }}</div>
+                            <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
+                        </div>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 

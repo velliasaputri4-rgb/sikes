@@ -28,30 +28,109 @@
         </div>
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
+    <!-- ✅ CSS KHUSUS UNTUK TAB NAVIGASI BERGAYA CARD -->
+    <style>
+        .settings-tab-wrapper {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+        }
+        .settings-tab-wrapper .nav-pills {
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .settings-tab-wrapper .nav-link {
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .settings-tab-wrapper .nav-link:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            color: #1e293b;
+        }
+        .settings-tab-wrapper .nav-link.active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+            transform: translateY(-2px);
+        }
+        .settings-tab-wrapper .nav-link.active i {
+            color: #ffffff;
+        }
+        .settings-tab-wrapper .nav-link i {
+            color: #64748b;
+            font-size: 1rem;
+            transition: color 0.25s ease;
+        }
+        .settings-tab-wrapper .nav-link:hover i {
+            color: #2563eb;
+        }
+        @media (max-width: 768px) {
+            .settings-tab-wrapper .nav-link {
+                padding: 8px 14px;
+                font-size: 0.82rem;
+            }
+        }
+    </style>
+
     <form action="<?php echo e(route('petugas.settings.update')); ?>" method="POST" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
         
-        <!-- Tabs Navigasi Cepat -->
-        <ul class="nav nav-pills mb-4" id="settingsTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="hero-tab" data-bs-toggle="pill" data-bs-target="#hero" type="button"><i class="fas fa-home me-2"></i>Hero (Beranda)</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="about-tab" data-bs-toggle="pill" data-bs-target="#about" type="button"><i class="fas fa-info-circle me-2"></i>Tentang</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="services-tab" data-bs-toggle="pill" data-bs-target="#services" type="button"><i class="fas fa-concierge-bell me-2"></i>Layanan</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="docs-tab" data-bs-toggle="pill" data-bs-target="#docs" type="button"><i class="fas fa-newspaper me-2"></i>Dokumentasi</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact" type="button"><i class="fas fa-address-book me-2"></i>Kontak</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="footer-tab" data-bs-toggle="pill" data-bs-target="#footer" type="button"><i class="fas fa-shoe-prints me-2"></i>Footer</button>
-            </li>
-        </ul>
+        <!-- ✅ Tabs Navigasi dengan Card Tipis -->
+        <div class="settings-tab-wrapper">
+            <ul class="nav nav-pills" id="settingsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="hero-tab" data-bs-toggle="pill" data-bs-target="#hero" type="button">
+                        <i class="fas fa-home"></i> Hero (Beranda)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="about-tab" data-bs-toggle="pill" data-bs-target="#about" type="button">
+                        <i class="fas fa-info-circle"></i> Tentang
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="services-tab" data-bs-toggle="pill" data-bs-target="#services" type="button">
+                        <i class="fas fa-concierge-bell"></i> Layanan
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="docs-tab" data-bs-toggle="pill" data-bs-target="#docs" type="button">
+                        <i class="fas fa-newspaper"></i> Dokumentasi
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="health-info-tab" data-bs-toggle="pill" data-bs-target="#health-info" type="button">
+                        <i class="fas fa-heartbeat"></i> Info Kesehatan
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact" type="button">
+                        <i class="fas fa-address-book"></i> Kontak
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="footer-tab" data-bs-toggle="pill" data-bs-target="#footer" type="button">
+                        <i class="fas fa-shoe-prints"></i> Footer
+                    </button>
+                </li>
+            </ul>
+        </div>
 
         <div class="tab-content" id="settingsTabContent">
             
@@ -187,7 +266,6 @@
 
             <!-- 4. DOKUMENTASI SECTION -->
             <div class="tab-pane fade" id="docs" role="tabpanel">
-                <!-- Header Bagian Dokumentasi -->
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-light fw-bold">Header Bagian Dokumentasi</div>
                     <div class="card-body">
@@ -198,7 +276,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="docs_title" class="form-control" value="<?php echo e(strip_tags($settings['docs_title'] ?? 'Berita & <span class="gradient-text">Kegiatan</span>')); ?>">
+                                <input type="text" name="docs_title" class="form-control" value="<?php echo e(strip_tags($settings['docs_title'] ?? 'Berita & Kegiatan')); ?>">
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Subjudul / Deskripsi Section</label>
@@ -208,7 +286,6 @@
                     </div>
                 </div>
 
-                <!-- Daftar Item Dokumentasi -->
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
                         <span><i class="fas fa-newspaper me-2 text-primary"></i>Daftar Item Berita/Kegiatan</span>
@@ -270,6 +347,31 @@
                                     </div>
                                 </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ 4.5. HEALTH INFO SECTION -->
+            <div class="tab-pane fade" id="health-info" role="tabpanel">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light fw-bold">Bagian Informasi Kesehatan (Landing Page)</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Label Kecil (Badge)</label>
+                                <input type="text" name="health_info_label" class="form-control" value="<?php echo e(strip_tags($settings['health_info_label'] ?? 'Pusat Informasi Kesehatan')); ?>">
+                                <small class="text-muted">Contoh: Pusat Informasi Kesehatan</small>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Judul Utama Halaman</label>
+                                <input type="text" name="health_info_title" class="form-control" value="<?php echo e(strip_tags($settings['health_info_title'] ?? 'Informasi Kesehatan & Gaya Hidup Sehat')); ?>">
+                                <small class="text-muted">Judul yang muncul di halaman Informasi Kesehatan.</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul / Deskripsi Halaman</label>
+                                <textarea name="health_info_subtitle" class="form-control" rows="3"><?php echo e(strip_tags($settings['health_info_subtitle'] ?? 'Artikel edukasi lengkap untuk mendukung kesejahteraan dan gaya hidup sehat siswa SMK Negeri 1 Bangsri.')); ?></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -348,7 +450,7 @@
                 </div>
             </div>
 
-        </div> <!-- End Tab Content -->
+        </div>
 
         <!-- Tombol Simpan -->
         <div class="d-flex justify-content-end mt-4 pt-3 border-top sticky-bottom bg-white pb-3">

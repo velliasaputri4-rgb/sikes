@@ -69,8 +69,6 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
     Route::resource('students', StudentController::class);
     Route::resource('examinations', ExaminationController::class);
     Route::resource('medicines', MedicineController::class);
-    
-    // ❌ ROUTE SETTINGS SUDAH DIHAPUS DARI SINI (SUDAH DIPINDAH KE PETUGAS DI BAWAH)
 });
 
 /*
@@ -427,6 +425,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
 
         return redirect()->route('petugas.borrowings.index')->with('success', 'Item successfully returned!');
     })->name('borrowings.return');
+
+    // ===== ✅ BARU: HEALTH TIPS (TIPS KESEHATAN) =====
+    Route::resource('health-tips', \App\Http\Controllers\Petugas\HealthTipController::class);
+
 });
 
 /*

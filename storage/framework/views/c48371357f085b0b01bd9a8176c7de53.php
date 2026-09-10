@@ -171,19 +171,20 @@
                     <div class="d-flex align-items-center gap-3 flex-wrap" style="margin-bottom: 18px;">
                         <div class="page-header-badge mb-0">
                             <span style="width: 8px; height: 8px; background: var(--emerald); border-radius: 50%; display: inline-block;"></span>
-                            <span>{{ $settings['health_info_label'] ?? 'Pusat Informasi Kesehatan' }}</span>
+                            <span><?php echo e($settings['health_info_label'] ?? 'Pusat Informasi Kesehatan'); ?></span>
                         </div>
-                        <a href="{{ route('landing') }}" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
+                        <a href="<?php echo e(route('landing')); ?>" class="btn-back-home" data-aos="fade-right" data-aos-delay="100">
                             <i class="fas fa-arrow-left"></i>
                             <span>Kembali ke Beranda</span>
                         </a>
                     </div>
                     
                     <h1 class="page-title">
-                        {!! $settings['health_info_title'] ?? 'Informasi <span class="gradient-text">Kesehatan</span><br>& Gaya Hidup Sehat' !!}
+                        <?php echo $settings['health_info_title'] ?? 'Informasi <span class="gradient-text">Kesehatan</span><br>& Gaya Hidup Sehat'; ?>
+
                     </h1>
                     
-                    <p class="page-subtitle">{{ $settings['health_info_subtitle'] ?? 'Artikel edukasi lengkap untuk mendukung kesejahteraan dan gaya hidup sehat siswa SMK Negeri 1 Bangsri.' }}</p>
+                    <p class="page-subtitle"><?php echo e($settings['health_info_subtitle'] ?? 'Artikel edukasi lengkap untuk mendukung kesejahteraan dan gaya hidup sehat siswa SMK Negeri 1 Bangsri.'); ?></p>
                 </div>
                 <div class="col-lg-4 text-lg-end" data-aos="fade-left" data-aos-delay="200">
                     <div class="header-icon-wrap">
@@ -202,8 +203,8 @@
             </div>
             
             <div class="row g-4">
-                @forelse($healthTips as $tip)
-                    @php
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $healthTips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tip): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                    <?php
                         // Mapping ikon yang AMAN dan BEBAS ERROR sintaks
                         $categoryLower = strtolower($tip->category ?? '');
                         $icons = [
@@ -229,59 +230,60 @@
                                 break;
                             }
                         }
-                    @endphp
+                    ?>
 
-                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
                         <div class="health-card">
-                            <div class="health-icon"><i class="fas {{ $icon }}"></i></div>
-                            <span class="badge-cat">{{ str_replace('_', ' ', ucfirst($tip->category ?? 'Umum')) }}</span>
-                            <h5>{{ $tip->title }}</h5>
-                            <p>{{ Str::limit(strip_tags($tip->content), 100, '...') }}</p>
-                            <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalTip{{ $tip->id }}">
+                            <div class="health-icon"><i class="fas <?php echo e($icon); ?>"></i></div>
+                            <span class="badge-cat"><?php echo e(str_replace('_', ' ', ucfirst($tip->category ?? 'Umum'))); ?></span>
+                            <h5><?php echo e($tip->title); ?></h5>
+                            <p><?php echo e(Str::limit(strip_tags($tip->content), 100, '...')); ?></p>
+                            <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalTip<?php echo e($tip->id); ?>">
                                 Baca Selengkapnya <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
-                @empty
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <div class="col-12 text-center py-5" data-aos="fade-up">
                         <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
                         <p class="text-muted fs-5">Belum ada informasi kesehatan yang tersedia saat ini.</p>
-                        <a href="{{ route('landing') }}" class="btn btn-outline-primary mt-2">Kembali ke Beranda</a>
+                        <a href="<?php echo e(route('landing')); ?>" class="btn btn-outline-primary mt-2">Kembali ke Beranda</a>
                     </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
             <!-- Pagination -->
-            @if(isset($healthTips) && $healthTips->hasPages())
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($healthTips) && $healthTips->hasPages()): ?>
                 <div class="d-flex justify-content-center mt-5">
-                    {{ $healthTips->links('pagination::bootstrap-5') }}
+                    <?php echo e($healthTips->links('pagination::bootstrap-5')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </section>
 
     <!-- Modals Artikel (DINAMIS) -->
-    @foreach($healthTips as $tip)
-    <div class="modal fade" id="modalTip{{ $tip->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $tip->id }}" aria-hidden="true">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $healthTips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tip): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+    <div class="modal fade" id="modalTip<?php echo e($tip->id); ?>" tabindex="-1" aria-labelledby="modalLabel<?php echo e($tip->id); ?>" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border-radius: var(--radius); border: none;">
                 <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
-                    <h5 class="modal-title fw-bold" id="modalLabel{{ $tip->id }}">{{ $tip->title }}</h5>
+                    <h5 class="modal-title fw-bold" id="modalLabel<?php echo e($tip->id); ?>"><?php echo e($tip->title); ?></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <p style="white-space: pre-wrap; line-height: 1.8;">{{ $tip->content }}</p>
+                    <p style="white-space: pre-wrap; line-height: 1.8;"><?php echo e($tip->content); ?></p>
                     
                     <hr class="my-4">
                     <div class="d-flex justify-content-between align-items-center text-muted small">
-                        <span><i class="fas fa-tag me-1"></i> {{ str_replace('_', ' ', ucfirst($tip->category ?? 'Umum')) }}</span>
-                        <span><i class="fas fa-calendar-alt me-1"></i> {{ $tip->created_at->format('d M Y') }}</span>
+                        <span><i class="fas fa-tag me-1"></i> <?php echo e(str_replace('_', ' ', ucfirst($tip->category ?? 'Umum'))); ?></span>
+                        <span><i class="fas fa-calendar-alt me-1"></i> <?php echo e($tip->created_at->format('d M Y')); ?></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @endforeach
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
 
     <button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">
         <i class="fas fa-arrow-up"></i>
@@ -307,4 +309,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\laragon\www\sikes\resources\views/landing/health-info.blade.php ENDPATH**/ ?>

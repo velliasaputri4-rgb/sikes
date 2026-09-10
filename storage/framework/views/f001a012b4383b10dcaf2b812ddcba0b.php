@@ -4,13 +4,6 @@
 <?php $__env->startSection('page-title', 'Dashboard Petugas UKS'); ?>
 
 <?php $__env->startSection('content'); ?>
-    <!-- TOMBOL KEMBALI KE BERANDA -->
-    <div class="mb-4">
-        <a href="<?php echo e(route('landing')); ?>" class="btn btn-outline-secondary btn-sm">
-            <i class="fas fa-home me-1"></i> Kembali ke Beranda
-        </a>
-    </div>
-
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
         <!-- Card 1: Kunjungan Hari Ini -->
