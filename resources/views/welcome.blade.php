@@ -404,26 +404,6 @@
     }
     .about-img-wrap img { width: 100%; height: auto; display: block; }
 
-    .about-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        background: linear-gradient(135deg, #f6f9fc, #eef3fb);
-        border: 1px solid rgba(30,58,138,0.15);
-        color: var(--primary-dark);
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.3s;
-    }
-    .about-pill:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-sm);
-        border-color: rgba(59,130,246,0.4);
-    }
-    .about-pill i { color: var(--primary); }
-
     .services-section {
         background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 50%, #f3f7fc 100%);
     }
@@ -903,11 +883,6 @@
             margin-right: auto;
             max-width: 280px;
         }
-        .about-pill { 
-            padding: 8px 16px; 
-            font-size: 0.85rem;
-            margin: 4px auto;
-        }
         
         .section-title { 
             font-size: 1.4rem; 
@@ -1163,12 +1138,21 @@
                         <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
                         <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, pendataan barang serta peminjamannya.') }}</p>
 
-                        <div class="d-flex flex-wrap gap-3 justify-content-lg-start justify-content-center">
-                            <span class="about-pill"><i class="fas fa-database"></i> Data Digital</span>
-                            <span class="about-pill"><i class="fas fa-link"></i> Terintegrasi</span>
-                            <span class="about-pill"><i class="fas fa-bolt"></i> Efisien</span>
-                            <span class="about-pill"><i class="fas fa-shield-alt"></i> Terpercaya</span>
-                        </div>
+                        <!-- Bagian ini telah diubah dari bentuk card/pill menjadi daftar teks bersih dengan ikon -->
+                        <ul class="list-unstyled d-flex flex-wrap gap-3 gap-md-4 justify-content-lg-start justify-content-center mt-2">
+                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
+                                <i class="fas fa-database" style="color: var(--primary);"></i> Data Digital
+                            </li>
+                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
+                                <i class="fas fa-link" style="color: var(--primary);"></i> Terintegrasi
+                            </li>
+                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
+                                <i class="fas fa-bolt" style="color: var(--primary);"></i> Efisien
+                            </li>
+                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
+                                <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Terpercaya
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
