@@ -1291,21 +1291,6 @@
                         <h2 class="section-title">{!! \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>') !!}</h2>
                         <p style="color: var(--slate); margin-bottom: 28px;">{{ \App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, pendataan barang serta peminjamannya.') }}</p>
 
-                        <ul class="list-unstyled d-flex flex-wrap gap-3 gap-md-4 justify-content-lg-start justify-content-center mt-2 mb-4">
-                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
-                                <i class="fas fa-database" style="color: var(--primary);"></i> Data Digital
-                            </li>
-                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
-                                <i class="fas fa-link" style="color: var(--primary);"></i> Terintegrasi
-                            </li>
-                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
-                                <i class="fas fa-bolt" style="color: var(--primary);"></i> Efisien
-                            </li>
-                            <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
-                                <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Terpercaya
-                            </li>
-                        </ul>
-
                         <a href="{{ route('landing.about') }}" class="btn-hero-primary">
                             <i class="fas fa-arrow-right me-2"></i> Pelajari Lebih Lanjut
                         </a>
