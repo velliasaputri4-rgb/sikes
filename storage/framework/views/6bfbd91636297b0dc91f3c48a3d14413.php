@@ -197,7 +197,7 @@
             <!-- 2.5. HALAMAN TENTANG (FILE TERPISAH / about.blade.php) -->
             <div class="tab-pane fade" id="about-page" role="tabpanel">
                 
-                <!-- ✅ BARU: Upload Gambar Khusus Halaman Tentang -->
+                <!-- Upload Gambar Khusus Halaman Tentang -->
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-light fw-bold">Gambar Halaman Tentang</div>
                     <div class="card-body">
@@ -276,91 +276,6 @@
                                 <label class="form-label fw-semibold">Misi (satu per baris)</label>
                                 <textarea name="about_page_mission" class="form-control" rows="4"><?php echo e($settings['about_page_mission'] ?? "Mendigitalisasi seluruh rekam medis dan inventaris UKS.\nMempercepat respon penanganan kesehatan siswa melalui data yang terintegrasi.\nMenyediakan informasi kesehatan yang akurat dan mudah diakses oleh siswa dan guru."); ?></textarea>
                                 <small class="text-muted">Tekan Enter untuk setiap poin misi baru.</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section Nilai Inti dengan 4 Kartu yang Bisa Diedit -->
-                <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Section: Nilai Inti</div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Judul Section</label>
-                                <input type="text" name="about_page_values_title" class="form-control" value="<?php echo e($settings['about_page_values_title'] ?? 'Mengapa Memilih SIKES?'); ?>">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Subjudul Section</label>
-                                <textarea name="about_page_values_subtitle" class="form-control" rows="2"><?php echo e($settings['about_page_values_subtitle'] ?? 'Empat pilar utama yang menjadi fondasi pengembangan sistem kami.'); ?></textarea>
-                            </div>
-                            
-                            <!-- Kartu 1 -->
-                            <div class="col-12 mt-3 pt-3 border-top">
-                                <h6 class="fw-bold mb-3"><i class="fas fa-database me-2 text-primary"></i>Kartu 1</h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Judul Kartu 1</label>
-                                <input type="text" name="value_card_1_title" class="form-control" value="<?php echo e($settings['value_card_1_title'] ?? 'Data Digital'); ?>">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Icon Kartu 1 (FontAwesome)</label>
-                                <input type="text" name="value_card_1_icon" class="form-control" value="<?php echo e($settings['value_card_1_icon'] ?? 'fa-database'); ?>" placeholder="fa-database">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small fw-semibold">Deskripsi Kartu 1</label>
-                                <textarea name="value_card_1_desc" class="form-control" rows="2"><?php echo e($settings['value_card_1_desc'] ?? 'Tidak ada lagi berkas kertas yang hilang. Seluruh riwayat kesehatan tersimpan aman di sistem.'); ?></textarea>
-                            </div>
-                            
-                            <!-- Kartu 2 -->
-                            <div class="col-12 mt-3 pt-3 border-top">
-                                <h6 class="fw-bold mb-3"><i class="fas fa-link me-2 text-primary"></i>Kartu 2</h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Judul Kartu 2</label>
-                                <input type="text" name="value_card_2_title" class="form-control" value="<?php echo e($settings['value_card_2_title'] ?? 'Terintegrasi'); ?>">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Icon Kartu 2 (FontAwesome)</label>
-                                <input type="text" name="value_card_2_icon" class="form-control" value="<?php echo e($settings['value_card_2_icon'] ?? 'fa-link'); ?>" placeholder="fa-link">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small fw-semibold">Deskripsi Kartu 2</label>
-                                <textarea name="value_card_2_desc" class="form-control" rows="2"><?php echo e($settings['value_card_2_desc'] ?? 'Hubungan yang mulus antara data siswa, stok obat, dan jadwal petugas dalam satu dashboard.'); ?></textarea>
-                            </div>
-                            
-                            <!-- Kartu 3 -->
-                            <div class="col-12 mt-3 pt-3 border-top">
-                                <h6 class="fw-bold mb-3"><i class="fas fa-bolt me-2 text-primary"></i>Kartu 3</h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Judul Kartu 3</label>
-                                <input type="text" name="value_card_3_title" class="form-control" value="<?php echo e($settings['value_card_3_title'] ?? 'Efisien'); ?>">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Icon Kartu 3 (FontAwesome)</label>
-                                <input type="text" name="value_card_3_icon" class="form-control" value="<?php echo e($settings['value_card_3_icon'] ?? 'fa-bolt'); ?>" placeholder="fa-bolt">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small fw-semibold">Deskripsi Kartu 3</label>
-                                <textarea name="value_card_3_desc" class="form-control" rows="2"><?php echo e($settings['value_card_3_desc'] ?? 'Proses pencatatan kunjungan yang cepat dan laporan otomatis yang menghemat waktu.'); ?></textarea>
-                            </div>
-                            
-                            <!-- Kartu 4 -->
-                            <div class="col-12 mt-3 pt-3 border-top">
-                                <h6 class="fw-bold mb-3"><i class="fas fa-shield-alt me-2 text-primary"></i>Kartu 4</h6>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Judul Kartu 4</label>
-                                <input type="text" name="value_card_4_title" class="form-control" value="<?php echo e($settings['value_card_4_title'] ?? 'Terpercaya'); ?>">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold">Icon Kartu 4 (FontAwesome)</label>
-                                <input type="text" name="value_card_4_icon" class="form-control" value="<?php echo e($settings['value_card_4_icon'] ?? 'fa-shield-alt'); ?>" placeholder="fa-shield-alt">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small fw-semibold">Deskripsi Kartu 4</label>
-                                <textarea name="value_card_4_desc" class="form-control" rows="2"><?php echo e($settings['value_card_4_desc'] ?? 'Keamanan data privasi siswa adalah prioritas utama kami dengan standar enkripsi tinggi.'); ?></textarea>
                             </div>
                         </div>
                     </div>

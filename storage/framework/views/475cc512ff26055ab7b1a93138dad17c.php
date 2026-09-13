@@ -245,9 +245,6 @@
         $missionRaw = \App\Models\Setting::get('about_page_mission', "Mendigitalisasi seluruh rekam medis dan inventaris UKS.\nMempercepat respon penanganan kesehatan siswa melalui data yang terintegrasi.\nMenyediakan informasi kesehatan yang akurat dan mudah diakses oleh siswa dan guru.");
         $missions = array_filter(array_map('trim', explode("\n", $missionRaw)));
         
-        $valuesTitle = \App\Models\Setting::get('about_page_values_title', 'Mengapa Memilih SIKES?');
-        $valuesSubtitle = \App\Models\Setting::get('about_page_values_subtitle', 'Empat pilar utama yang menjadi fondasi pengembangan sistem kami.');
-        
         $ctaTitle = \App\Models\Setting::get('about_page_cta_title', 'Siap Meningkatkan Kesehatan Sekolah?');
         $ctaDesc = \App\Models\Setting::get('about_page_cta_desc', 'Bergabunglah dengan sistem yang telah dipercaya untuk menangani ratusan kunjungan siswa setiap bulannya dengan lebih profesional.');
         $ctaBtn = \App\Models\Setting::get('about_page_cta_btn', 'Lihat Layanan Kami');
@@ -299,65 +296,9 @@
                         <h4><i class="fas fa-bullseye me-2 text-primary"></i> Misi</h4>
                         <ul class="list-unstyled">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $missions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <li><i class="fas fa-check-circle text-primary me-2"></i> <?php echo e($mission); ?></li>
+                                <li><i class="fas fa-check-circle text-primary me-2"></i> <?php echo $mission; ?></li>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ✅ UPDATE: Section Nilai Inti Sekarang Dinamis -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Nilai Inti</span>
-                <h2 class="section-title"><?php echo e($valuesTitle); ?></h2>
-                <p class="section-subtitle mx-auto"><?php echo e($valuesSubtitle); ?></p>
-            </div>
-            <div class="row g-4">
-                <!-- Kartu 1 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
-                    <div class="value-card text-center">
-                        <div class="value-icon mx-auto">
-                            <i class="fas <?php echo e(\App\Models\Setting::get('value_card_1_icon', 'fa-database')); ?>"></i>
-                        </div>
-                        <h5 class="fw-bold mb-3"><?php echo e(\App\Models\Setting::get('value_card_1_title', 'Data Digital')); ?></h5>
-                        <p class="text-muted small"><?php echo e(\App\Models\Setting::get('value_card_1_desc', 'Tidak ada lagi berkas kertas yang hilang. Seluruh riwayat kesehatan tersimpan aman di sistem.')); ?></p>
-                    </div>
-                </div>
-                
-                <!-- Kartu 2 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="value-card text-center">
-                        <div class="value-icon mx-auto">
-                            <i class="fas <?php echo e(\App\Models\Setting::get('value_card_2_icon', 'fa-link')); ?>"></i>
-                        </div>
-                        <h5 class="fw-bold mb-3"><?php echo e(\App\Models\Setting::get('value_card_2_title', 'Terintegrasi')); ?></h5>
-                        <p class="text-muted small"><?php echo e(\App\Models\Setting::get('value_card_2_desc', 'Hubungan yang mulus antara data siswa, stok obat, dan jadwal petugas dalam satu dashboard.')); ?></p>
-                    </div>
-                </div>
-                
-                <!-- Kartu 3 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="value-card text-center">
-                        <div class="value-icon mx-auto">
-                            <i class="fas <?php echo e(\App\Models\Setting::get('value_card_3_icon', 'fa-bolt')); ?>"></i>
-                        </div>
-                        <h5 class="fw-bold mb-3"><?php echo e(\App\Models\Setting::get('value_card_3_title', 'Efisien')); ?></h5>
-                        <p class="text-muted small"><?php echo e(\App\Models\Setting::get('value_card_3_desc', 'Proses pencatatan kunjungan yang cepat dan laporan otomatis yang menghemat waktu.')); ?></p>
-                    </div>
-                </div>
-                
-                <!-- Kartu 4 -->
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="value-card text-center">
-                        <div class="value-icon mx-auto">
-                            <i class="fas <?php echo e(\App\Models\Setting::get('value_card_4_icon', 'fa-shield-alt')); ?>"></i>
-                        </div>
-                        <h5 class="fw-bold mb-3"><?php echo e(\App\Models\Setting::get('value_card_4_title', 'Terpercaya')); ?></h5>
-                        <p class="text-muted small"><?php echo e(\App\Models\Setting::get('value_card_4_desc', 'Keamanan data privasi siswa adalah prioritas utama kami dengan standar enkripsi tinggi.')); ?></p>
                     </div>
                 </div>
             </div>
