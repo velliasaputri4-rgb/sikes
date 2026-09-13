@@ -946,9 +946,8 @@
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing') }}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#dokumentasi">Dokumentasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#kontak">Kontak</a></li>
-
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.docs') }}" class="btn-doc-all">Dokumentasi</a></li>
+                   
                     <li class="nav-item ms-lg-3">
                         <div class="dropdown">
                             <button class="btn user-btn" type="button" data-bs-toggle="dropdown">
@@ -1087,7 +1086,7 @@
                             <div>
                                 <h3>{{ number_format($totalStudents ?? 0) }}</h3>
                                 <div class="stat-label">Siswa Terdaftar</div>
-                                <div class="stat-note">Tahun Ajaran 2025/2026</div>
+                                <div class="stat-note">siswa ESKASABA</div>
                             </div>
                         </div>
                         
@@ -1482,8 +1481,7 @@
                         <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="{{ route('landing.about') }}"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
                         <li><a href="{{ route('landing') }}#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
-                        <li><a href="{{ route('landing') }}#dokumentasi"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
-                        <li><a href="{{ route('landing') }}#kontak"><i class="fas fa-chevron-right fa-xs"></i> Kontak</a></li>
+                        <li><a href="{{ route('landing.docs') }}" class="btn-doc-all"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
 

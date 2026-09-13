@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dokumentasi & Berita - SIKES</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo sikes navbar.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo sikes navbar.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -25,24 +27,103 @@
             --pro-light: #3b82f6;
             --gradient-pro: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --shadow-sm: 0 4px 20px rgba(30, 58, 138, 0.08);
+            --shadow-md: 0 10px 40px rgba(30, 58, 138, 0.12);
             --shadow-lg: 0 25px 60px rgba(30, 58, 138, 0.18);
             --radius: 18px;
         }
+        
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+        
         body {
             font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
             background: #fafbfc;
             color: var(--ink);
             line-height: 1.7;
+            overflow-x: hidden;
         }
-        .section { padding: 80px 0; }
+
+        /* ===== NAVBAR (SAMA PERSIS DENGAN LANDING PAGE) ===== */
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(30, 58, 138, 0.06);
+            border-bottom: 1px solid rgba(30, 58, 138, 0.08);
+            padding: 12px 0;
+            transition: all 0.4s ease;
+        }
+        .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
+        .navbar-brand { display: flex; align-items: center; }
+        .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
+        .navbar-brand:hover img { transform: scale(1.05); }
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--slate) !important;
+            padding: 10px 18px !important;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+        }
+        .nav-link:hover {
+            color: var(--primary-dark) !important;
+            background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: white !important;
+            background: var(--gradient-primary);
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+        }
+
+        .user-btn {
+            background: var(--gradient-primary);
+            color: white !important;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+            transition: all 0.3s;
+        }
+        .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(30,58,138,0.4); }
+
+        .dropdown-menu {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 20px 50px rgba(15,23,42,0.15);
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .dropdown-item {
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+            transform: translateX(4px);
+        }
+
+        .section { padding: 80px 0; position: relative; }
         .section-label {
             display: inline-block; padding: 6px 16px; background: rgba(59,130,246,0.12); color: var(--pro);
             border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
         }
         .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
         .section-subtitle { color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
-        .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* Doc Card Styling */
         .doc-card {
@@ -54,32 +135,69 @@
         .doc-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .doc-card:hover .doc-image img { transform: scale(1.05); }
         
-        /* ✅ PERBAIKAN: Tambahkan text-decoration: none dan cursor: pointer agar bisa diklik */
         .video-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4);
             display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; z-index: 2;
-            text-decoration: none;
-            cursor: pointer;
+            text-decoration: none; cursor: pointer;
         }
         .doc-card:hover .video-overlay { opacity: 1; }
-        .video-overlay i { font-size: 3.5rem; color: #ffffff; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); transition: transform 0.3s; }
+        .video-overlay i { font-size: 3.5rem; color: #ffffff; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .doc-card:hover .video-overlay i { transform: scale(1.15); }
 
         .doc-content { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
         .doc-meta { display: flex; gap: 20px; margin-bottom: 12px; font-size: 0.85rem; color: var(--slate); flex-wrap: wrap; }
         .doc-meta span { display: inline-flex; align-items: center; gap: 6px; }
-        .doc-meta i { color: var(--primary); }
+        .doc-meta i { color: var(--primary); font-size: 0.9rem; }
         .badge-video { background: rgba(244, 63, 94, 0.1); color: var(--rose); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 5px; }
         
         .doc-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; line-height: 1.4; margin-bottom: 8px; }
-        .doc-title a { color: var(--ink); text-decoration: none; transition: color 0.3s ease; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .doc-title a { color: var(--ink); text-decoration: none; transition: color 0.3s ease; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .doc-title a:hover { color: var(--primary); }
-        .doc-excerpt { color: var(--slate); font-size: 0.9rem; line-height: 1.6; margin-top: auto; }
+        .doc-excerpt { color: var(--slate); font-size: 0.9rem; line-height: 1.6; margin-top: 8px; margin-bottom: 0; }
 
-        /* Footer Simple */
-        footer { background: var(--pro-dark); color: white; padding: 40px 0; text-align: center; margin-top: auto; }
-        footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
-        footer a:hover { color: white; }
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(30,58,138,0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59,130,246,0.15) 0%, transparent 40%);
+        }
+        footer .container { position: relative; z-index: 1; }
+        .footer-logo {
+            display: inline-flex; align-items: center; gap: 12px;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700; font-size: 1.4rem;
+        }
+        footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+        .footer-menu { list-style: none; padding: 0; margin: 0; }
+        .footer-menu li { margin-bottom: 12px; }
+        .footer-menu a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            padding-top: 25px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
 
         @media (max-width: 768px) {
             .doc-image { height: 200px; }
@@ -88,6 +206,74 @@
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar (SAMA PERSIS DENGAN LANDING PAGE) -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('landing') }}">
+                <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-1">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('landing.docs') }}" class="btn-doc-all">Dokumentasi</a></li>
+                   
+                    <li class="nav-item ms-lg-3">
+                        <div class="dropdown">
+                            <button class="btn user-btn" type="button" data-bs-toggle="dropdown">
+                                <i class="fas {{ auth()->check() ? 'fa-user-check' : 'fa-user' }}"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @auth
+                                    <li class="dropdown-header text-center pb-2">
+                                        <small class="text-muted d-block">Halo,</small>
+                                        <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
+                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted">Pilih Login</small>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
+                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('login.siswa') }}">
+                                            <i class="fas fa-user-graduate me-2 text-info"></i> Login Siswa
+                                        </a>
+                                    </li>
+                                @endauth
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Header & Content Section -->
     <section class="section flex-grow-1" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
@@ -107,7 +293,6 @@
                                      alt="{{ $doc->title }}" 
                                      onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
                                 
-                                {{-- ✅ PERBAIKAN: Ubah div menjadi tag <a> agar bisa diklik --}}
                                 @if(!empty($doc->video_link))
                                     <a href="{{ $doc->video_link }}" target="_blank" class="video-overlay" title="Putar Video">
                                         <i class="fas fa-play-circle"></i>
@@ -137,32 +322,81 @@
                     <div class="col-12 text-center py-5" data-aos="fade-up">
                         <i class="far fa-folder-open fa-4x text-muted mb-3"></i>
                         <h4 class="text-muted">Belum ada dokumentasi atau berita yang dipublikasikan.</h4>
-                        <a href="{{ route('landing') }}" class="btn btn-primary mt-3">Kembali ke Beranda</a>
                     </div>
                 @endforelse
             </div>
-
-            @if(isset($documentations) && $documentations->isNotEmpty())
-                <div class="text-center mt-5" data-aos="fade-up">
-                    <a href="{{ route('landing') }}#dokumentasi" class="btn btn-outline-primary px-4 py-2 rounded-pill fw-bold">
-                        <i class="fas fa-arrow-left me-2"></i> Kembali ke Beranda
-                    </a>
-                </div>
-            @endif
         </div>
     </section>
 
-    <!-- Footer Simple -->
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p class="mb-0">{!! \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS. All rights reserved.') !!}</p>
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-logo">
+                        <span>SIKES</span>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
+                        {{ \App\Models\Setting::get('footer_desc', 'Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.') }}
+                    </p>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6>Navigasi</h6>
+                    <ul class="footer-menu">
+                        <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
+                        <li><a href="{{ route('landing.about') }}"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
+                        <li><a href="{{ route('landing') }}#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
+                        <li><a href="{{ route('landing.docs') }}" class="btn-doc-all"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6>Layanan</h6>
+                    <ul class="footer-menu">
+                        <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
+                        <li><a href="{{ route('landing.health-info') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
+                        <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
+                        <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6>Kontak</h6>
+                    <ul class="footer-menu">
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. KH. Achmad Fauzan No.17, Bangsri</a></li>
+                        <li>
+                            <a href="{{ \App\Models\Setting::get('contact_ig_link', '#') }}" target="_blank">
+                                <i class="fab fa-instagram"></i> {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ \App\Models\Setting::get('contact_yt_link', '#') }}" target="_blank">
+                                <i class="fab fa-youtube"></i> {{ '@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">{!! \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.') !!}</p>
+            </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true, offset: 80 });
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 800, once: true, offset: 80 });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }, { passive: true });
+        });
     </script>
 </body>
 </html>
