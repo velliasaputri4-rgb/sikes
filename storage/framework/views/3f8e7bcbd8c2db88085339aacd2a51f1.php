@@ -939,10 +939,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link active" href="<?php echo e(route('landing')); ?>">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#dokumentasi">Dokumentasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.about')); ?>">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing')); ?>#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing')); ?>#dokumentasi">Dokumentasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing')); ?>#kontak">Kontak</a></li>
 
                     <li class="nav-item ms-lg-3">
                         <div class="dropdown">
@@ -1038,7 +1038,7 @@
                             <i class="fas fa-history"></i> <?php echo e(\App\Models\Setting::get('hero_btn_1_text', 'Riwayat Kunjungan')); ?>
 
                         </a>
-                        <a href="#tentang" class="btn-hero-outline">
+                        <a href="<?php echo e(route('landing.about')); ?>" class="btn-hero-outline">
                             <i class="fas fa-info-circle"></i> <?php echo e(\App\Models\Setting::get('hero_btn_2_text', 'Pelajari Lebih Lanjut')); ?>
 
                         </a>
@@ -1131,7 +1131,11 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-5" data-aos="fade-right">
                     <div class="about-img-wrap">
-                        <img src="<?php echo e(asset('images/logo sikes.png')); ?>" alt="Tentang UKS">
+                        <?php
+                            $aboutImg = \App\Models\Setting::get('about_image');
+                            $imgSrc = $aboutImg ? asset('storage/' . $aboutImg) : asset('images/logo sikes.png');
+                        ?>
+                        <img src="<?php echo e($imgSrc); ?>" alt="Tentang UKS">
                     </div>
                 </div>
                 <div class="col-lg-7" data-aos="fade-left">
@@ -1140,8 +1144,7 @@
                         <h2 class="section-title"><?php echo \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>'); ?></h2>
                         <p style="color: var(--slate); margin-bottom: 28px;"><?php echo e(\App\Models\Setting::get('about_desc', 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien — mulai dari pencatatan pemeriksaan, pengelolaan stok obat, pendataan barang serta peminjamannya.')); ?></p>
 
-                        <!-- Bagian ini telah diubah dari bentuk card/pill menjadi daftar teks bersih dengan ikon -->
-                        <ul class="list-unstyled d-flex flex-wrap gap-3 gap-md-4 justify-content-lg-start justify-content-center mt-2">
+                        <ul class="list-unstyled d-flex flex-wrap gap-3 gap-md-4 justify-content-lg-start justify-content-center mt-2 mb-4">
                             <li class="d-flex align-items-center gap-2" style="color: var(--ink); font-weight: 600; font-size: 0.95rem;">
                                 <i class="fas fa-database" style="color: var(--primary);"></i> Data Digital
                             </li>
@@ -1155,6 +1158,10 @@
                                 <i class="fas fa-shield-alt" style="color: var(--primary);"></i> Terpercaya
                             </li>
                         </ul>
+
+                        <a href="<?php echo e(route('landing.about')); ?>" class="btn-hero-primary">
+                            <i class="fas fa-arrow-right me-2"></i> Pelajari Lebih Lanjut
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1345,7 +1352,7 @@
                     <h6>Navigasi</h6>
                     <ul class="footer-menu">
                         <li><a href="<?php echo e(route('landing')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
-                        <li><a href="<?php echo e(route('landing')); ?>#tentang"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
+                        <li><a href="<?php echo e(route('landing.about')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
                         <li><a href="<?php echo e(route('landing')); ?>#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
                         <li><a href="<?php echo e(route('landing')); ?>#dokumentasi"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                         <li><a href="<?php echo e(route('landing')); ?>#kontak"><i class="fas fa-chevron-right fa-xs"></i> Kontak</a></li>

@@ -16,13 +16,12 @@ class SettingController extends Controller
         $settings['services_data'] = json_decode($settings['services_data'] ?? '[]', true);
         $settings['documentations_data'] = json_decode($settings['documentations_data'] ?? '[]', true);
         
-        // ✅ UBAH: View diarahkan ke folder petugas
         return view('petugas.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
-        // 🛡️ KEAMANAN: Hanya admin@sikes.com atau super-admin yang boleh menyimpan pengaturan
+        // ️ KEAMANAN: Hanya admin@sikes.com atau super-admin yang boleh menyimpan pengaturan
         $user = auth()->user();
         $isMainAdmin = strtolower(trim($user->email)) === 'admin@sikes.com' || $user->hasRole('super-admin');
 
@@ -100,14 +99,15 @@ class SettingController extends Controller
             }
 
             // 3. Abaikan token, method, services, documentations, dan file inputs utama
-            $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'navbar_logo', 'about_image'];
+            // ✅ PERBAIKAN: Tambahkan 'about_page_image' agar tidak diproses sebagai teks biasa
+            $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'navbar_logo', 'about_image', 'about_page_image'];
             $data = $request->except($ignoreKeys);
 
             // 4. Simpan data teks/textarea lainnya
             foreach ($data as $key => $value) {
                 $stringValue = is_array($value) ? json_encode($value) : (string)($value ?? '');
                 
-                if (in_array($key, ['hero_title', 'contact_address'])) {
+                if (in_array($key, ['hero_title', 'contact_address', 'about_page_mission'])) {
                     $stringValue = nl2br($stringValue); 
                 }
 
@@ -117,8 +117,9 @@ class SettingController extends Controller
                 );
             }
 
-            // 5. Handle Upload Gambar Utama (Navbar & About)
-            $imageFields = ['navbar_logo', 'about_image'];
+            // 5. Handle Upload Gambar Utama (Navbar, About Beranda, & Halaman Tentang)
+            // ✅ PERBAIKAN: Tambahkan 'about_page_image' di sini agar gambar tersimpan
+            $imageFields = ['navbar_logo', 'about_image', 'about_page_image'];
             foreach ($imageFields as $field) {
                 if ($request->hasFile($field)) {
                     $file = $request->file($field);
@@ -136,7 +137,6 @@ class SettingController extends Controller
                 }
             }
 
-            // ✅ UBAH: Redirect ke route petugas
             return redirect()->route('petugas.settings.index')
                 ->with('success', 'Semua pengaturan website berhasil diperbarui!');
 

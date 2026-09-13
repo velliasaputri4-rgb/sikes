@@ -5,113 +5,41 @@
 
 <?php $__env->startSection('content'); ?>
 <style>
-    /* ✅ PERBAIKAN Z-INDEX: Pastikan modal muncul di atas sidebar & sticky bottom */
-    .modal {
-        z-index: 1060 !important;
-    }
-    .modal-backdrop {
-        z-index: 1050 !important;
-    }
-    .sticky-bottom {
-        z-index: 100 !important; /* Di bawah modal, tapi di atas konten biasa */
-    }
+    .modal { z-index: 1060 !important; }
+    .modal-backdrop { z-index: 1050 !important; }
+    .sticky-bottom { z-index: 100 !important; }
 
-    /* CSS KHUSUS UNTUK TAB NAVIGASI BERGAYA CARD */
     .settings-tab-wrapper {
-        background: #f8fafc;
-        padding: 12px;
-        border-radius: 14px;
-        margin-bottom: 24px;
-        border: 1px solid #e2e8f0;
-        position: relative;
-        z-index: 1;
+        background: #f8fafc; padding: 12px; border-radius: 14px; margin-bottom: 24px;
+        border: 1px solid #e2e8f0; position: relative; z-index: 1;
     }
-    .settings-tab-wrapper .nav-pills {
-        gap: 8px;
-        flex-wrap: wrap;
-    }
+    .settings-tab-wrapper .nav-pills { gap: 8px; flex-wrap: wrap; }
     .settings-tab-wrapper .nav-link {
-        background: #ffffff;
-        color: #475569;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 10px 18px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.25s ease;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        background: #ffffff; color: #475569; border: 1px solid #e2e8f0; border-radius: 10px;
+        padding: 10px 18px; font-weight: 600; font-size: 0.9rem; transition: all 0.25s ease;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 8px;
     }
     .settings-tab-wrapper .nav-link:hover {
-        background: #f1f5f9;
-        border-color: #cbd5e1;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        color: #1e293b;
+        background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08); color: #1e293b;
     }
     .settings-tab-wrapper .nav-link.active {
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        color: #ffffff;
-        border-color: #2563eb;
-        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-        transform: translateY(-2px);
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff;
+        border-color: #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); transform: translateY(-2px);
     }
-    .settings-tab-wrapper .nav-link.active i {
-        color: #ffffff;
-    }
-    .settings-tab-wrapper .nav-link i {
-        color: #64748b;
-        font-size: 1rem;
-        transition: color 0.25s ease;
-    }
-    .settings-tab-wrapper .nav-link:hover i {
-        color: #2563eb;
-    }
+    .settings-tab-wrapper .nav-link.active i { color: #ffffff; }
+    .settings-tab-wrapper .nav-link i { color: #64748b; font-size: 1rem; transition: color 0.25s ease; }
+    .settings-tab-wrapper .nav-link:hover i { color: #2563eb; }
 
-    /* ✅ OPTIMASI MOBILE: Tab scroll horizontal & form rapi */
     @media (max-width: 768px) {
-        .settings-tab-wrapper {
-            padding: 10px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-        }
-        .settings-tab-wrapper::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-        .settings-tab-wrapper .nav-pills {
-            flex-wrap: nowrap;
-            width: max-content;
-            gap: 10px;
-        }
-        .settings-tab-wrapper .nav-link {
-            padding: 10px 16px;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .settings-tab-wrapper .nav-link i {
-            font-size: 0.9rem;
-        }
-        
-        /* Form adjustments for mobile */
-        .content-card {
-            padding: 16px;
-        }
-        .card-body {
-            padding: 16px;
-        }
-        .form-label {
-            font-size: 0.85rem;
-            margin-bottom: 6px;
-        }
-        .form-control, .form-select {
-            font-size: 0.95rem; /* Mencegah auto-zoom di iOS */
-            padding: 10px 12px;
-        }
+        .settings-tab-wrapper { padding: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+        .settings-tab-wrapper::-webkit-scrollbar { display: none; }
+        .settings-tab-wrapper .nav-pills { flex-wrap: nowrap; width: max-content; gap: 10px; }
+        .settings-tab-wrapper .nav-link { padding: 10px 16px; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
+        .settings-tab-wrapper .nav-link i { font-size: 0.9rem; }
+        .content-card, .card-body { padding: 16px; }
+        .form-label { font-size: 0.85rem; margin-bottom: 6px; }
+        .form-control, .form-select { font-size: 0.95rem; padding: 10px 12px; }
     }
 </style>
 
@@ -142,7 +70,6 @@
     <form action="<?php echo e(route('petugas.settings.update')); ?>" method="POST" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
         
-        <!-- ✅ Tabs Navigasi dengan Card Tipis -->
         <div class="settings-tab-wrapper">
             <ul class="nav nav-pills" id="settingsTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -152,7 +79,12 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="about-tab" data-bs-toggle="pill" data-bs-target="#about" type="button">
-                        <i class="fas fa-info-circle"></i> Tentang
+                        <i class="fas fa-info-circle"></i> Tentang (Beranda)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="about-page-tab" data-bs-toggle="pill" data-bs-target="#about-page" type="button">
+                        <i class="fas fa-file-alt"></i> Halaman Tentang
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -217,10 +149,10 @@
                 </div>
             </div>
 
-            <!-- 2. ABOUT SECTION -->
+            <!-- 2. ABOUT SECTION (BERANDA) -->
             <div class="tab-pane fade" id="about" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Tentang Kami</div>
+                    <div class="card-header bg-light fw-bold">Bagian Tentang Kami (Di Beranda)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -234,6 +166,221 @@
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Deskripsi Panjang</label>
                                 <textarea name="about_desc" class="form-control" rows="4"><?php echo e($settings['about_desc'] ?? 'SIKES adalah sistem informasi berbasis web yang membantu Unit Kesehatan Sekolah (UKS) mengelola data kesehatan siswa secara digital, terintegrasi, dan efisien.'); ?></textarea>
+                            </div>
+
+                            <!-- Upload Gambar Tentang (Beranda) -->
+                            <div class="col-12 border-top pt-3 mt-2">
+                                <label class="form-label fw-semibold">Gambar Ilustrasi (Tentang Kami di Beranda)</label>
+                                <?php $aboutImage = $settings['about_image'] ?? ''; ?>
+                                
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($aboutImage)): ?>
+                                    <input type="hidden" name="existing_about_image" value="<?php echo e($aboutImage); ?>">
+                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                        <img src="<?php echo e(asset('storage/' . $aboutImage)); ?>" class="img-fluid rounded" style="max-height: 150px; width: auto; object-fit: cover;">
+                                    </div>
+                                    <p class="text-muted small mb-2">Gambar saat ini. Upload gambar baru di bawah untuk mengganti.</p>
+                                <?php else: ?>
+                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                        <img src="<?php echo e(asset('images/logo sikes.png')); ?>" class="img-fluid rounded" style="max-height: 150px; width: auto; object-fit: cover;" alt="Default Image">
+                                    </div>
+                                    <p class="text-muted small mb-2">Gambar default. Upload gambar baru di bawah untuk mengganti.</p>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                
+                                <input type="file" name="about_image" class="form-control" accept="image/png, image/jpeg, image/jpg, image/webp">
+                                <small class="text-muted">Format: JPG, PNG, atau WEBP. Maksimal 2MB. Kosongkan jika tidak ingin mengubah gambar.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.5. HALAMAN TENTANG (FILE TERPISAH / about.blade.php) -->
+            <div class="tab-pane fade" id="about-page" role="tabpanel">
+                
+                <!-- ✅ BARU: Upload Gambar Khusus Halaman Tentang -->
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Gambar Halaman Tentang</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Upload Foto untuk Halaman Tentang</label>
+                                <?php 
+                                    $aboutPageImage = $settings['about_page_image'] ?? ''; 
+                                ?>
+                                
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($aboutPageImage)): ?>
+                                    <input type="hidden" name="existing_about_page_image" value="<?php echo e($aboutPageImage); ?>">
+                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                        <img src="<?php echo e(asset('storage/' . $aboutPageImage)); ?>" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;">
+                                    </div>
+                                    <p class="text-muted small mb-2 d-block">Foto saat ini untuk halaman Tentang. Upload foto baru di bawah untuk mengganti.</p>
+                                <?php else: ?>
+                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                        <img src="<?php echo e(asset('images/logo sikes.png')); ?>" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;" alt="Default Image">
+                                    </div>
+                                    <p class="text-muted small mb-2 d-block">Belum ada foto. Upload foto untuk halaman Tentang di bawah.</p>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                
+                                <input type="file" name="about_page_image" class="form-control" accept="image/png, image/jpeg, image/jpg, image/webp">
+                                <small class="text-muted">Format: JPG, PNG, atau WEBP. Maksimal 2MB. Kosongkan jika tidak ingin mengubah gambar.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Header Halaman Tentang</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Judul Header</label>
+                                <input type="text" name="about_page_header_title" class="form-control" value="<?php echo e($settings['about_page_header_title'] ?? 'Membangun Sekolah yang Lebih Sehat'); ?>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul Header</label>
+                                <textarea name="about_page_header_subtitle" class="form-control" rows="2"><?php echo e($settings['about_page_header_subtitle'] ?? 'Mengenal lebih dalam filosofi, visi, dan komitmen SIKES dalam mendukung kesehatan seluruh warga SMK Negeri 1 Bangsri.'); ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Section: Cerita Kami</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Judul Cerita</label>
+                                <input type="text" name="about_page_story_title" class="form-control" value="<?php echo e($settings['about_page_story_title'] ?? 'Dedikasi untuk Kesehatan Siswa'); ?>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Paragraf 1</label>
+                                <textarea name="about_page_story_p1" class="form-control" rows="3"><?php echo e($settings['about_page_story_p1'] ?? 'SIKES (Sistem Informasi UKS) lahir dari kebutuhan nyata akan pengelolaan kesehatan sekolah yang modern. Kami menyadari bahwa pencatatan manual sering kali rentan terhadap kehilangan data, sulit dilacak, dan tidak efisien.'); ?></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Paragraf 2</label>
+                                <textarea name="about_page_story_p2" class="form-control" rows="3"><?php echo e($settings['about_page_story_p2'] ?? 'Oleh karena itu, kami mengembangkan platform yang tidak hanya mencatat riwayat kunjungan, tetapi juga mengelola inventaris obat, menjadwalkan petugas, dan memberikan edukasi kesehatan secara terpusat. Semua dirancang agar petugas UKS bisa fokus pada hal yang paling penting: merawat siswa.'); ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Section: Visi & Misi</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Visi</label>
+                                <textarea name="about_page_vision" class="form-control" rows="3"><?php echo e($settings['about_page_vision'] ?? 'Menjadi sistem informasi kesehatan sekolah terdepan yang menciptakan lingkungan pendidikan sehat, sigap, dan berbasis data untuk mendukung prestasi dan kesejahteraan seluruh siswa.'); ?></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Misi (satu per baris)</label>
+                                <textarea name="about_page_mission" class="form-control" rows="4"><?php echo e($settings['about_page_mission'] ?? "Mendigitalisasi seluruh rekam medis dan inventaris UKS.\nMempercepat respon penanganan kesehatan siswa melalui data yang terintegrasi.\nMenyediakan informasi kesehatan yang akurat dan mudah diakses oleh siswa dan guru."); ?></textarea>
+                                <small class="text-muted">Tekan Enter untuk setiap poin misi baru.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Nilai Inti dengan 4 Kartu yang Bisa Diedit -->
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Section: Nilai Inti</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Judul Section</label>
+                                <input type="text" name="about_page_values_title" class="form-control" value="<?php echo e($settings['about_page_values_title'] ?? 'Mengapa Memilih SIKES?'); ?>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul Section</label>
+                                <textarea name="about_page_values_subtitle" class="form-control" rows="2"><?php echo e($settings['about_page_values_subtitle'] ?? 'Empat pilar utama yang menjadi fondasi pengembangan sistem kami.'); ?></textarea>
+                            </div>
+                            
+                            <!-- Kartu 1 -->
+                            <div class="col-12 mt-3 pt-3 border-top">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-database me-2 text-primary"></i>Kartu 1</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Judul Kartu 1</label>
+                                <input type="text" name="value_card_1_title" class="form-control" value="<?php echo e($settings['value_card_1_title'] ?? 'Data Digital'); ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Icon Kartu 1 (FontAwesome)</label>
+                                <input type="text" name="value_card_1_icon" class="form-control" value="<?php echo e($settings['value_card_1_icon'] ?? 'fa-database'); ?>" placeholder="fa-database">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Deskripsi Kartu 1</label>
+                                <textarea name="value_card_1_desc" class="form-control" rows="2"><?php echo e($settings['value_card_1_desc'] ?? 'Tidak ada lagi berkas kertas yang hilang. Seluruh riwayat kesehatan tersimpan aman di sistem.'); ?></textarea>
+                            </div>
+                            
+                            <!-- Kartu 2 -->
+                            <div class="col-12 mt-3 pt-3 border-top">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-link me-2 text-primary"></i>Kartu 2</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Judul Kartu 2</label>
+                                <input type="text" name="value_card_2_title" class="form-control" value="<?php echo e($settings['value_card_2_title'] ?? 'Terintegrasi'); ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Icon Kartu 2 (FontAwesome)</label>
+                                <input type="text" name="value_card_2_icon" class="form-control" value="<?php echo e($settings['value_card_2_icon'] ?? 'fa-link'); ?>" placeholder="fa-link">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Deskripsi Kartu 2</label>
+                                <textarea name="value_card_2_desc" class="form-control" rows="2"><?php echo e($settings['value_card_2_desc'] ?? 'Hubungan yang mulus antara data siswa, stok obat, dan jadwal petugas dalam satu dashboard.'); ?></textarea>
+                            </div>
+                            
+                            <!-- Kartu 3 -->
+                            <div class="col-12 mt-3 pt-3 border-top">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-bolt me-2 text-primary"></i>Kartu 3</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Judul Kartu 3</label>
+                                <input type="text" name="value_card_3_title" class="form-control" value="<?php echo e($settings['value_card_3_title'] ?? 'Efisien'); ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Icon Kartu 3 (FontAwesome)</label>
+                                <input type="text" name="value_card_3_icon" class="form-control" value="<?php echo e($settings['value_card_3_icon'] ?? 'fa-bolt'); ?>" placeholder="fa-bolt">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Deskripsi Kartu 3</label>
+                                <textarea name="value_card_3_desc" class="form-control" rows="2"><?php echo e($settings['value_card_3_desc'] ?? 'Proses pencatatan kunjungan yang cepat dan laporan otomatis yang menghemat waktu.'); ?></textarea>
+                            </div>
+                            
+                            <!-- Kartu 4 -->
+                            <div class="col-12 mt-3 pt-3 border-top">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-shield-alt me-2 text-primary"></i>Kartu 4</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Judul Kartu 4</label>
+                                <input type="text" name="value_card_4_title" class="form-control" value="<?php echo e($settings['value_card_4_title'] ?? 'Terpercaya'); ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Icon Kartu 4 (FontAwesome)</label>
+                                <input type="text" name="value_card_4_icon" class="form-control" value="<?php echo e($settings['value_card_4_icon'] ?? 'fa-shield-alt'); ?>" placeholder="fa-shield-alt">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Deskripsi Kartu 4</label>
+                                <textarea name="value_card_4_desc" class="form-control" rows="2"><?php echo e($settings['value_card_4_desc'] ?? 'Keamanan data privasi siswa adalah prioritas utama kami dengan standar enkripsi tinggi.'); ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light fw-bold">Section: Call to Action (CTA)</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Judul CTA</label>
+                                <input type="text" name="about_page_cta_title" class="form-control" value="<?php echo e($settings['about_page_cta_title'] ?? 'Siap Meningkatkan Kesehatan Sekolah?'); ?>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Deskripsi CTA</label>
+                                <textarea name="about_page_cta_desc" class="form-control" rows="2"><?php echo e($settings['about_page_cta_desc'] ?? 'Bergabunglah dengan sistem yang telah dipercaya untuk menangani ratusan kunjungan siswa setiap bulannya dengan lebih profesional.'); ?></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Teks Tombol CTA</label>
+                                <input type="text" name="about_page_cta_btn" class="form-control" value="<?php echo e($settings['about_page_cta_btn'] ?? 'Lihat Layanan Kami'); ?>">
                             </div>
                         </div>
                     </div>
@@ -351,7 +498,6 @@
                             <?php
                                 $docsRaw = $settings['documentations_data'] ?? '[]';
                                 $docsData = is_array($docsRaw) ? $docsRaw : json_decode($docsRaw, true);
-                                
                                 if (empty($docsData) || !is_array($docsData)) {
                                     $docsData = [['title' => '', 'excerpt' => '', 'video_link' => '', 'published_at' => date('Y-m-d'), 'image' => '']];
                                 }
@@ -403,7 +549,7 @@
                 </div>
             </div>
 
-            <!-- ✅ 4.5. HEALTH INFO SECTION -->
+            <!-- 5. HEALTH INFO SECTION -->
             <div class="tab-pane fade" id="health-info" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Informasi Kesehatan (Landing Page)</div>
@@ -428,7 +574,7 @@
                 </div>
             </div>
 
-            <!-- 5. CONTACT SECTION -->
+            <!-- 6. CONTACT SECTION -->
             <div class="tab-pane fade" id="contact" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Kontak & Alamat</div>
@@ -482,7 +628,7 @@
                 </div>
             </div>
 
-            <!-- 6. FOOTER SECTION -->
+            <!-- 7. FOOTER SECTION -->
             <div class="tab-pane fade" id="footer" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Footer (Bawah)</div>
@@ -506,7 +652,7 @@
         <!-- Tombol Simpan -->
         <div class="d-flex justify-content-end mt-4 pt-3 border-top sticky-bottom bg-white pb-3">
             <a href="<?php echo e(route('petugas.dashboard')); ?>" class="btn btn-outline-secondary me-2">Batal</a>
-            <button type="submit" class="btn btn-primary-custom px-4">
+            <button type="submit" class="btn btn-primary px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
                 <i class="fas fa-save me-2"></i> Simpan Semua Perubahan
             </button>
         </div>
@@ -555,8 +701,10 @@
     }
 
     function removeDocumentationRow(button) {
-        const row = button.closest('.documentation-row');
-        row.remove();
+        if(confirm('Yakin ingin menghapus baris ini?')) {
+            const row = button.closest('.documentation-row');
+            row.remove();
+        }
     }
 </script>
 <?php $__env->stopSection(); ?>
