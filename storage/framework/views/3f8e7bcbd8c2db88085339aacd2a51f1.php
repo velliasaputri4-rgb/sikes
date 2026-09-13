@@ -255,10 +255,17 @@
         border: 1px solid #e4ebf5;
         box-shadow: 0 6px 20px rgba(30,58,138,0.06);
         transition: all 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
     }
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 30px rgba(30,58,138,0.1);
+        box-shadow: 0 12px 30px rgba(30,58,138,0.15);
+        border-color: var(--primary);
+    }
+    .stat-card:active {
+        transform: translateY(-2px);
     }
     .stat-icon {
         flex: 0 0 52px;
@@ -747,7 +754,6 @@
         }
         .d-flex.gap-3.flex-wrap { justify-content: center; }
         
-        /* About Section - Tablet & Mobile Center */
         .about-content-wrapper {
             text-align: center;
         }
@@ -812,7 +818,6 @@
         .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .service-card p { font-size: 0.85rem; line-height: 1.5; }
         
-        /* About Section Mobile */
         .about-content-wrapper .section-title {
             font-size: 1.6rem;
         }
@@ -1045,8 +1050,41 @@
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="700">
+                    <?php
+                        // ✅ LOGIKA CERDAS: Mencari jumlah anggota PMR dari berbagai sumber kemungkinan
+                        $pmrMemberCount = $totalStudents ?? 0; // Default fallback ke total siswa
+                        
+                        try {
+                            // 1. Cek tabel pivot schedule_student (jika anggota disimpan di relasi many-to-many)
+                            if (\Illuminate\Support\Facades\Schema::hasTable('schedule_student')) {
+                                $count = \Illuminate\Support\Facades\DB::table('schedule_student')->distinct('student_id')->count('student_id');
+                                if ($count > 0) $pmrMemberCount = $count;
+                            }
+                            // 2. Cek tabel pivot schedule_user
+                            elseif (\Illuminate\Support\Facades\Schema::hasTable('schedule_user')) {
+                                $count = \Illuminate\Support\Facades\DB::table('schedule_user')->distinct('user_id')->count('user_id');
+                                if ($count > 0) $pmrMemberCount = $count;
+                            }
+                            // 3. Cek apakah ada kolom is_pmr di tabel students
+                            elseif (\Illuminate\Support\Facades\Schema::hasTable('students') && \Illuminate\Support\Facades\Schema::hasColumn('students', 'is_pmr')) {
+                                $count = \App\Models\Student::where('is_pmr', 1)->count();
+                                if ($count > 0) $pmrMemberCount = $count;
+                            }
+                            // 4. Cek dari role Spatie (jika ada role khusus 'pmr')
+                            else {
+                                $hasPmrRole = \Spatie\Permission\Models\Role::where('name', 'pmr')->exists();
+                                if ($hasPmrRole) {
+                                    $count = \App\Models\User::role('pmr')->count();
+                                    if ($count > 0) $pmrMemberCount = $count;
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            // Biarkan default $totalStudents jika terjadi error
+                        }
+                    ?>
                     <div class="stats-grid">
-                        <div class="stat-card">
+                        <!-- Card 1: Siswa Terdaftar -->
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
                                 <h3><?php echo e(number_format($totalStudents ?? 0)); ?></h3>
@@ -1054,7 +1092,9 @@
                                 <div class="stat-note">Tahun Ajaran 2025/2026</div>
                             </div>
                         </div>
-                        <div class="stat-card">
+                        
+                        <!-- Card 2: Kunjungan Hari Ini -->
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalKunjunganHari" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
                                 <h3><?php echo e($examsToday ?? 0); ?></h3>
@@ -1062,7 +1102,9 @@
                                 <div class="stat-note">Update: Hari Ini</div>
                             </div>
                         </div>
-                        <div class="stat-card">
+                        
+                        <!-- Card 3: Total Kunjungan -->
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalTotalKunjungan" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
                                 <h3><?php echo e($examsMonth ?? 0); ?></h3>
@@ -1070,13 +1112,120 @@
                                 <div class="stat-note">Bulan Ini</div>
                             </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                        
+                        <!-- ✅ Card 4: Anggota PMR (Dihitung dari sumber data anggota, bukan jumlah jadwal) -->
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalPMR" style="cursor: pointer;">
+                            <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
                             <div>
-                                <h3><?php echo e($optimalPercentage ?? 100); ?>%</h3>
-                                <div class="stat-label">Layanan Optimal</div>
-                                <div class="stat-note">Kami Siap Melayani</div>
+                                <h3><?php echo e(number_format($pmrMemberCount)); ?></h3>
+                                <div class="stat-label">Anggota PMR</div>
+                                <div class="stat-note">Palang Merah Remaja</div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ MODAL-MODAL BARU UNTUK DESKRIPSI SINGKAT -->
+            <!-- Modal Siswa Terdaftar -->
+            <div class="modal fade" id="modalSiswa" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold"><i class="fas fa-users me-2 text-primary"></i>Siswa Terdaftar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3">Total <strong><?php echo e(number_format($totalStudents ?? 0)); ?> siswa</strong> terdaftar di sistem SIKES untuk tahun ajaran 2025/2026.</p>
+                            <div class="alert alert-info mb-0">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Data ini mencakup seluruh siswa aktif yang memiliki rekam medis di UKS.
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                                <a href="<?php echo e(route('petugas.students.index')); ?>" class="btn btn-primary">Lihat Data Siswa</a>
+                            <?php else: ?>
+                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Kunjungan Hari Ini -->
+            <div class="modal fade" id="modalKunjunganHari" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2 text-primary"></i>Kunjungan Hari Ini</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3">Hari ini terdapat <strong><?php echo e($examsToday ?? 0); ?> kunjungan</strong> siswa ke UKS.</p>
+                            <div class="alert alert-success mb-0">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Data diperbarui secara real-time setiap ada pemeriksaan baru.
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-primary">Lihat Riwayat</a>
+                            <?php else: ?>
+                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Total Kunjungan -->
+            <div class="modal fade" id="modalTotalKunjungan" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold"><i class="fas fa-heart-pulse me-2 text-primary"></i>Total Kunjungan Bulan Ini</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3">Total <strong><?php echo e($examsMonth ?? 0); ?> kunjungan</strong> siswa ke UKS sepanjang bulan ini.</p>
+                            <div class="alert alert-info mb-0">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Statistik ini membantu memantau tren kesehatan siswa di sekolah.
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-primary">Lihat Detail</a>
+                            <?php else: ?>
+                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ✅ Modal Anggota PMR -->
+            <div class="modal fade" id="modalPMR" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold"><i class="fas fa-hand-holding-heart me-2 text-danger"></i>Anggota PMR</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3">Terdapat <strong><?php echo e(number_format($pmrMemberCount)); ?> anggota</strong> Palang Merah Remaja (PMR) yang aktif di UKS SMK Negeri 1 Bangsri.</p>
+                            <div class="alert alert-danger mb-0">
+                                <i class="fas fa-heart me-2"></i>
+                                Anggota PMR terlatih dalam pertolongan pertama dan siap membantu sesama siswa.
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <a href="<?php echo e(route('landing.schedule')); ?>" class="btn btn-primary">Lihat Jadwal</a>
                         </div>
                     </div>
                 </div>
