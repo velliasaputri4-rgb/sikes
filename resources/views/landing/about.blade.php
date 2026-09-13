@@ -177,7 +177,7 @@
                 <ul class="navbar-nav ms-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link active" href="{{ route('landing.about') }}">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.services') }}">Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('landing.docs') }}" class="btn-doc-all">Dokumentasi</a></li>
 
                     <li class="nav-item ms-lg-3">
@@ -331,7 +331,7 @@
                     <ul class="footer-menu">
                         <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="{{ route('landing.about') }}"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
-                        <li><a href="{{ route('landing') }}#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
+                        <li><a href="{{ route('landing.services') }}"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
                         <li><a href="{{ route('landing.docs') }}dokumentasi"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>

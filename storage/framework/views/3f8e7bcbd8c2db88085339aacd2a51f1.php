@@ -945,8 +945,8 @@
                 <ul class="navbar-nav ms-auto align-items-center gap-1">
                     <li class="nav-item"><a class="nav-link active" href="<?php echo e(route('landing')); ?>">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.about')); ?>">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing')); ?>#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.docs')); ?>" class="btn-doc-all">Dokumentasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.services')); ?>">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.docs')); ?>">Dokumentasi</a></li>
                    
                     <li class="nav-item ms-lg-3">
                         <div class="dropdown">
@@ -1325,6 +1325,14 @@
                 </div>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
             </div>
+            
+            <!-- ✅ TOMBOL LIHAT SEMUA LAYANAN -->
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="<?php echo e(route('landing.services')); ?>" class="btn-doc-all">
+                    Lihat Semua Layanan <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+            
         </div>
     </section>
 
@@ -1461,7 +1469,7 @@
                     <ul class="footer-menu">
                         <li><a href="<?php echo e(route('landing')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="<?php echo e(route('landing.about')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
-                        <li><a href="<?php echo e(route('landing')); ?>#layanan"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
+                        <li><a href="<?php echo e(route('landing.services')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
                         <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>

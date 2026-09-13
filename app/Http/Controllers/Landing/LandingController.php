@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Landing;
 use App\Http\Controllers\Controller;
 use App\Models\Medicine;
 use App\Models\Setting;
-use App\Models\HealthTip; // ✅ TAMBAHKAN IMPORT INI
+use App\Models\HealthTip;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -70,6 +70,12 @@ class LandingController extends Controller
         return view('landing.about');
     }
 
+    // ✅ BARU: Method untuk halaman Layanan
+    public function services()
+    {
+        return view('landing.services');
+    }
+
     public function medicines()
     {
         $medicines = Medicine::where('stock', '>', 0)
@@ -91,7 +97,7 @@ class LandingController extends Controller
         return view('landing.contact');
     }
 
-    // ✅ DIPERBAIKI: Mengambil data dari database dan mengirimkannya ke view
+    // ✅ Method untuk halaman Informasi Kesehatan
     public function healthInfo()
     {
         $healthTips = HealthTip::latest()->paginate(9);
