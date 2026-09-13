@@ -1141,14 +1141,6 @@
                                 Data ini mencakup seluruh siswa aktif yang memiliki rekam medis di UKS.
                             </div>
                         </div>
-                        <div class="modal-footer border-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
-                                <a href="<?php echo e(route('petugas.students.index')); ?>" class="btn btn-primary">Lihat Data Siswa</a>
-                            <?php else: ?>
-                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
-                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1168,14 +1160,6 @@
                                 Data diperbarui secara real-time setiap ada pemeriksaan baru.
                             </div>
                         </div>
-                        <div class="modal-footer border-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
-                                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-primary">Lihat Riwayat</a>
-                            <?php else: ?>
-                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
-                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1192,16 +1176,8 @@
                             <p class="mb-3">Total <strong><?php echo e($examsMonth ?? 0); ?> kunjungan</strong> siswa ke UKS sepanjang bulan ini.</p>
                             <div class="alert alert-info mb-0">
                                 <i class="fas fa-chart-line me-2"></i>
-                                Statistik ini membantu memantau tren kesehatan siswa di sekolah.
+                                Statistik ini membantu memantau kesehatan siswa di sekolah.
                             </div>
-                        </div>
-                        <div class="modal-footer border-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
-                                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-primary">Lihat Detail</a>
-                            <?php else: ?>
-                                <a href="<?php echo e(route('login')); ?>" class="btn btn-primary">Login untuk Melihat</a>
-                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -1223,7 +1199,6 @@
                             </div>
                         </div>
                         <div class="modal-footer border-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                             <a href="<?php echo e(route('landing.schedule')); ?>" class="btn btn-primary">Lihat Jadwal</a>
                         </div>
                     </div>
