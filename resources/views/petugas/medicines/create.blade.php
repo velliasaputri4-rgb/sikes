@@ -28,6 +28,14 @@
                     @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
+                <!-- ✅ BARU: Kolom Kegunaan / Keterangan Obat -->
+                <div class="col-md-12">
+                    <label class="form-label fw-semibold">Kegunaan / Keterangan Obat</label>
+                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="3" placeholder="Contoh: Untuk meredakan demam, sakit kepala, dan nyeri ringan">{{ old('description') }}</textarea>
+                    <small class="text-muted">Jelaskan secara singkat kegunaan atau manfaat obat ini.</small>
+                    @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">Stok Awal <span class="text-danger">*</span></label>
                     <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" value="{{ old('stock', 0) }}" min="0" required>

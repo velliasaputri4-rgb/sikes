@@ -9,15 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --secondary: #2563eb;
-            --pro: #1e3a8a;
-            --pro-light: #3b82f6;
+            /* ✅ TEMA MERAH (PMR/UKS) */
+            --primary: #ef4444;
+            --primary-dark: #991b1b;
+            --secondary: #dc2626;
+            --pro: #991b1b;
+            --pro-light: #ef4444;
             --ink: #0f172a;
             --slate: #475569;
             --muted: #cbd5e1;
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
         }
 
         * { -webkit-font-smoothing: antialiased; }
@@ -32,9 +33,9 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ Background Gambar dengan Overlay Samar */
+            /* ✅ Background Gambar dengan Overlay Merah Samar */
             background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(30, 58, 138, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(153, 27, 27, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
                 url('/images/login.jpeg');
             background-size: cover;
             background-position: center;
@@ -42,13 +43,13 @@
             background-attachment: fixed;
         }
 
-        /* ✅ Overlay tambahan untuk memastikan teks tetap terbaca */
+        /* ✅ Overlay tambahan merah untuk memastikan teks tetap terbaca */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(153, 27, 27, 0.2) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
         }
@@ -103,7 +104,8 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            background: linear-gradient(135deg, #93c5fd 0%, #ffffff 100%);
+            /* ✅ Gradient teks merah muda ke putih */
+            background: linear-gradient(135deg, #fca5a5 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -147,12 +149,12 @@
             color: rgba(255, 255, 255, 0.5);
         }
         .form-control:focus {
-            border-color: rgba(147, 197, 253, 0.8);
+            border-color: rgba(252, 165, 165, 0.8);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
             color: #ffffff;
         }
-        .input-icon:focus-within > i:first-child { color: #93c5fd; }
+        .input-icon:focus-within > i:first-child { color: #fca5a5; }
 
         .toggle-pass {
             position: absolute;
@@ -185,7 +187,7 @@
             border-color: var(--primary);
         }
         .form-check-input:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
         }
 
         .btn-login {
@@ -207,7 +209,7 @@
             overflow: hidden;
             margin-top: 8px;
             background: var(--gradient-primary);
-            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.5);
+            box-shadow: 0 8px 22px rgba(153, 27, 27, 0.5);
         }
         .btn-login::before {
             content: '';
@@ -221,7 +223,7 @@
         .btn-login:hover {
             transform: translateY(-2px);
             color: white;
-            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.6);
         }
 
         .link-home {
@@ -235,7 +237,7 @@
             gap: 4px;
         }
         .link-home:hover {
-            color: #93c5fd;
+            color: #fca5a5;
             transform: translateX(-3px);
         }
 
@@ -250,14 +252,14 @@
             margin-top: 20px !important;
             font-weight: 500;
         }
-        .siswa-note i { color: #93c5fd; }
+        .siswa-note i { color: #fca5a5; }
         .siswa-note a {
             color: #ffffff;
             font-weight: 700;
             text-decoration: none;
             transition: color 0.2s;
         }
-        .siswa-note a:hover { color: #93c5fd; }
+        .siswa-note a:hover { color: #fca5a5; }
 
         .mb-3 { margin-bottom: 14px !important; }
 

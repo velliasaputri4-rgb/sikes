@@ -222,129 +222,142 @@
         box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
     }
 
-    /* ============ MEDICINE CARDS ============ */
+    /* ============ MEDICINE CARDS (SIMPLE & INFORMATIF) ============ */
     .medicine-card {
         background: white;
         border-radius: var(--radius);
-        padding: 0;
-        box-shadow: 0 4px 20px rgba(153, 27, 27, 0.06);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        padding: 24px;
+        box-shadow: 0 2px 15px rgba(153, 27, 27, 0.04);
+        transition: all 0.3s ease;
         height: 100%;
         border: 1px solid rgba(153, 27, 27, 0.08);
-        overflow: hidden;
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
     .medicine-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg);
-        border-color: transparent;
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(239, 68, 68, 0.2);
     }
-    .medicine-card-header {
-        position: relative;
-        padding: 30px 24px 20px;
-        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-        border-bottom: 1px dashed #fecaca;
+
+    .medicine-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
     }
-    .medicine-icon {
-        width: 70px; height: 70px;
-        background: var(--gradient-primary);
-        border-radius: 18px;
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        font-size: 1.8rem;
-        box-shadow: 0 12px 30px rgba(153, 27, 27, 0.25);
-        margin-bottom: 16px;
-        transition: all 0.4s;
+
+    .medicine-name {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--ink);
+        line-height: 1.3;
+        margin: 0;
     }
-    .medicine-card:hover .medicine-icon {
-        transform: scale(1.08) rotate(-6deg);
-        box-shadow: 0 16px 40px rgba(153, 27, 27, 0.35);
-    }
+
     .stock-badge {
-        position: absolute;
-        top: 20px; right: 20px;
-        padding: 6px 12px;
+        padding: 5px 10px;
         border-radius: 50px;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         font-weight: 700;
         display: inline-flex;
         align-items: center;
         gap: 5px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        flex-shrink: 0;
     }
-    .stock-badge.available {
-        background: #d1fae5;
-        color: #047857;
-    }
-    .stock-badge.low {
-        background: #fef3c7;
-        color: #b45309;
-    }
-    .stock-badge.out {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
+    .stock-badge.available { background: #dcfce7; color: #15803d; }
+    .stock-badge.low { background: #fef9c3; color: #a16207; }
+    .stock-badge.out { background: #fee2e2; color: #b91c1c; }
+    
     .stock-badge .pulse-dot {
-        width: 7px; height: 7px;
+        width: 6px; height: 6px;
         border-radius: 50%;
         background: currentColor;
         animation: pulse 2s infinite;
     }
-    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
 
-    .medicine-name {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        font-size: 1.15rem;
-        color: var(--ink);
-        margin-bottom: 8px;
-        line-height: 1.3;
-    }
-
-    .medicine-card-body {
-        padding: 24px;
-    }
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #f1f5f9;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-label {
-        color: var(--slate);
+    /* ✅ BARU: Bagian Keterangan Kegunaan Obat */
+    .medicine-indication {
         font-size: 0.85rem;
+        color: var(--slate);
+        line-height: 1.5;
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #f1f5f9;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    .medicine-indication i {
+        color: var(--primary);
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
+
+    .medicine-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        background: #fafbfc;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid #f1f5f9;
+    }
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .detail-item.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+        color: var(--slate);
+        font-weight: 600;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-    .info-label i {
-        color: var(--pro);
-        font-size: 0.9rem;
-        width: 16px;
-    }
-    .info-value {
+    .detail-label i { color: var(--primary); font-size: 0.8rem; }
+
+    .detail-value {
         font-weight: 700;
         color: var(--ink);
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
-    .info-value.text-expired { color: var(--rose); }
-    .info-value.text-warning { color: var(--amber); }
-    .info-value.text-success { color: var(--emerald); }
+    .detail-value small {
+        font-weight: 500;
+        font-size: 0.85em;
+        color: var(--slate);
+    }
+
+    .detail-value.text-expired { color: var(--rose); }
+    .detail-value.text-warning { color: var(--amber); }
+    .detail-value.text-success { color: var(--emerald); }
 
     .stock-bar {
-        margin-top: 14px;
-        padding-top: 14px;
+        margin-top: auto;
+        padding-top: 16px;
         border-top: 1px dashed #e2e8f0;
     }
     .stock-bar-label {
         display: flex;
         justify-content: space-between;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: var(--slate);
         margin-bottom: 6px;
+        font-weight: 600;
     }
     .stock-bar-track {
         height: 6px;
@@ -643,72 +656,73 @@
                             $expDate = \Carbon\Carbon::parse($med->expired_date);
                             if ($expDate->isPast()) {
                                 $expiredStatus = 'text-expired';
-                                $expiredText = ' (Kedaluwarsa)';
+                                $expiredText = '(Kedaluwarsa)';
                             } elseif ($expDate->diffInDays(now()) <= 90) {
                                 $expiredStatus = 'text-warning';
-                                $expiredText = ' (Segera)';
+                                $expiredText = '(Segera)';
                             } else {
                                 $expiredStatus = 'text-success';
                             }
                         }
+
+                        // ✅ Ambil keterangan kegunaan dari berbagai kemungkinan nama kolom
+                        $indication = $med->indication ?? $med->description ?? $med->kegunaan ?? 'Digunakan untuk pertolongan pertama dan pengobatan umum sesuai petunjuk petugas.';
                     ?>
                     <div class="col-md-6 col-lg-4 medicine-item"
                          data-aos="fade-up"
                          data-aos-delay="<?php echo e($loop->index * 50); ?>"
                          data-name="<?php echo e(strtolower($med->name)); ?>">
+                        
                         <div class="medicine-card">
-                            <div class="medicine-card-header">
+                            <div class="medicine-header">
+                                <h3 class="medicine-name"><?php echo e($med->name); ?></h3>
                                 <span class="stock-badge <?php echo e($statusClass); ?>">
                                     <span class="pulse-dot"></span>
                                     <?php echo e($statusText); ?>
 
                                 </span>
-                                <div class="medicine-icon">
-                                    <i class="fas fa-capsules"></i>
-                                </div>
-                                <h3 class="medicine-name"><?php echo e($med->name); ?></h3>
                             </div>
 
-                            <div class="medicine-card-body">
-                                <div class="info-row">
-                                    <span class="info-label">
-                                        <i class="fas fa-cube"></i> Satuan
-                                    </span>
-                                    <span class="info-value"><?php echo e($med->unit); ?></span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">
-                                        <i class="fas fa-boxes"></i> Stok
-                                    </span>
-                                    <span class="info-value <?php echo e($med->stock == 0 ? 'text-expired' : ($med->stock <= ($med->minimum_stock ?? 5) ? 'text-warning' : '')); ?>">
-                                        <?php echo e($med->stock); ?> <?php echo e($med->unit); ?>
+                            <!-- ✅ BARU: Bagian Keterangan Kegunaan Obat -->
+                            <div class="medicine-indication">
+                                <i class="fas fa-info-circle"></i>
+                                <span><?php echo e($indication); ?></span>
+                            </div>
 
+                            <div class="medicine-details">
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="fas fa-boxes"></i> Stok</span>
+                                    <span class="detail-value <?php echo e($med->stock == 0 ? 'text-expired' : ($med->stock <= $minStock ? 'text-warning' : '')); ?>">
+                                        <?php echo e($med->stock); ?> <small><?php echo e($med->unit); ?></small>
                                     </span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="fas fa-cube"></i> Satuan</span>
+                                    <span class="detail-value"><?php echo e($med->unit); ?></span>
                                 </div>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($med->expired_date): ?>
-                                <div class="info-row">
-                                    <span class="info-label">
-                                        <i class="fas fa-calendar-alt"></i> Kedaluwarsa
-                                    </span>
-                                    <span class="info-value <?php echo e($expiredStatus); ?>">
+                                <div class="detail-item full-width">
+                                    <span class="detail-label"><i class="fas fa-calendar-alt"></i> Kedaluwarsa</span>
+                                    <span class="detail-value <?php echo e($expiredStatus); ?>">
                                         <?php echo e(\Carbon\Carbon::parse($med->expired_date)->format('d M Y')); ?>
 
-                                        <small><?php echo e($expiredText); ?></small>
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($expiredText): ?> <small style="color: inherit; font-weight: 600;"><?php echo e($expiredText); ?></small> <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     </span>
                                 </div>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            </div>
 
-                                <div class="stock-bar">
-                                    <div class="stock-bar-label">
-                                        <span>Level Stok</span>
-                                        <span><?php echo e(round($stockPercent)); ?>%</span>
-                                    </div>
-                                    <div class="stock-bar-track">
-                                        <div class="stock-bar-fill <?php echo e($barClass); ?>" style="width: <?php echo e($stockPercent); ?>%"></div>
-                                    </div>
+                            <div class="stock-bar">
+                                <div class="stock-bar-label">
+                                    <span>Kapasitas Stok</span>
+                                    <span><?php echo e(round($stockPercent)); ?>%</span>
+                                </div>
+                                <div class="stock-bar-track">
+                                    <div class="stock-bar-fill <?php echo e($barClass); ?>" style="width: <?php echo e($stockPercent); ?>%"></div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <div class="col-12">

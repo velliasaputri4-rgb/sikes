@@ -35,6 +35,7 @@
                     <tr>
                         <th class="ps-3">Kode</th>
                         <th>Nama Obat</th>
+                        <th>Keterangan</th>
                         <th class="text-center">Stok</th>
                         <th>Satuan</th>
                         <th>Kedaluwarsa</th>
@@ -45,7 +46,22 @@
                     @forelse($medicines as $med)
                         <tr>
                             <td class="ps-3 fw-semibold">{{ $med->code }}</td>
-                            <td>{{ $med->name }}</td>
+                            <td>
+                                <strong>{{ $med->name }}</strong>
+                            </td>
+                            <!-- ✅ BARU: Kolom Keterangan -->
+                            <td>
+                                @if(!empty($med->description))
+                                    <span class="text-muted" title="{{ $med->description }}">
+                                        <i class="fas fa-info-circle me-1 text-primary"></i>
+                                        {{ \Illuminate\Support\Str::limit($med->description, 50) }}
+                                    </span>
+                                @else
+                                    <span class="text-muted fst-italic">
+                                        <i class="fas fa-minus me-1"></i> Belum diisi
+                                    </span>
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <span class="fw-bold {{ $med->stock <= ($med->minimum_stock ?? 5) ? 'text-danger' : 'text-dark' }}">
                                     {{ $med->stock }}
@@ -75,7 +91,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-5 text-muted">
+                            <td colspan="7" class="text-center py-5 text-muted">
                                 <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
                                 <p class="mb-0">Belum ada data obat</p>
                                 <a href="{{ route('petugas.medicines.create') }}" class="btn btn-sm btn-outline-primary mt-2">Tambah Obat Pertama</a>

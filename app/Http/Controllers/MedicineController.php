@@ -62,6 +62,7 @@ class MedicineController extends Controller
             'stock' => 'required|integer|min:0',
             'minimum_stock' => 'required|integer|min:0',
             'expired_date' => 'nullable|date',
+            'description' => 'nullable|string', // ✅ DITAMBAHKAN
         ]);
 
         $status = 'available';
@@ -102,6 +103,7 @@ class MedicineController extends Controller
             'stock' => 'required|integer|min:0',
             'minimum_stock' => 'required|integer|min:0',
             'expired_date' => 'nullable|date',
+            'description' => 'nullable|string', // ✅ DITAMBAHKAN
         ]);
 
         $status = 'available';
