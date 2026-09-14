@@ -124,7 +124,9 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // ✅ ROUTE REKAPAN DITAMBAHKAN DI SINI (Sebelum route dengan parameter {examination})
     Route::get('examinations', [ExaminationController::class, 'index'])->name('examinations.index');
+    Route::get('examinations/recap', [ExaminationController::class, 'recap'])->name('examinations.recap');
     Route::get('examinations/{examination}', [ExaminationController::class, 'show'])->name('examinations.show');
     Route::get('examinations/{examination}/edit', [ExaminationController::class, 'edit'])->name('examinations.edit');
     Route::put('examinations/{examination}', [ExaminationController::class, 'update'])->name('examinations.update');

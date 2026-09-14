@@ -358,6 +358,16 @@
                 </a>
             </li>
         </ul>
+
+        <!-- ✅ BARU: Bagian Laporan & Statistik -->
+        <div class="sidebar-section">Laporan & Statistik</div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link <?php echo e(request()->routeIs('petugas.examinations.recap') ? 'active' : ''); ?>" href="<?php echo e(route('petugas.examinations.recap')); ?>">
+                    <i class="fas fa-chart-bar"></i> Rekapan Kunjungan
+                </a>
+            </li>
+        </ul>
         
         <div class="sidebar-section">Manajemen</div>
         <ul class="nav flex-column">
@@ -397,7 +407,6 @@
             </li>
         </ul>
 
-        <!-- ✅ BARU: Bagian Edukasi & Informasi -->
         <div class="sidebar-section">Edukasi & Informasi</div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -443,7 +452,7 @@
                 </h5>
             </div>
 
-            <!-- ✅ WRAPPER KANAN: Mengelompokkan tombol kembali & dropdown profil agar space-between tetap rapi -->
+            <!-- WRAPPER KANAN: Mengelompokkan tombol kembali & dropdown profil agar space-between tetap rapi -->
             <div class="d-flex align-items-center gap-2 gap-md-3">
                 <!-- TOMBOL KEMBALI KE BERANDA -->
                 <a href="<?php echo e(route('landing')); ?>" class="btn btn-sm btn-light border text-primary fw-semibold" title="Kembali ke Beranda">

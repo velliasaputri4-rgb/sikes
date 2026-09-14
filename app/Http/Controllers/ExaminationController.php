@@ -291,6 +291,109 @@ class ExaminationController extends Controller
     }
 
     /**
+     * ✅ FITUR BARU: Rekapan dan Statistik Kunjungan
+     */
+    public function recap(Request $request)
+    {
+        // ✅ DIPERBAIKI: Pastikan $year dan $month bertipe integer
+        $year = (int) $request->input('year', date('Y'));
+        $month = $request->input('month') ? (int) $request->input('month') : null;
+        
+        $query = Examination::with(['student.class']);
+        $query->whereYear('examination_date', $year);
+        
+        if ($month) {
+            $query->whereMonth('examination_date', $month);
+        }
+        
+        $examinations = $query->get();
+        
+        // 1. Top 5 Penyakit Paling Sering
+        $topDiagnoses = Examination::selectRaw('diagnosis, COUNT(*) as count')
+            ->whereYear('examination_date', $year)
+            ->when($month, function($q) use ($month) {
+                return $q->whereMonth('examination_date', $month);
+            })
+            ->groupBy('diagnosis')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
+        
+        // 2. Top 5 Obat Paling Sering Diberikan
+        $topMedicines = Examination::selectRaw('medicine, COUNT(*) as count')
+            ->whereYear('examination_date', $year)
+            ->when($month, function($q) use ($month) {
+                return $q->whereMonth('examination_date', $month);
+            })
+            ->whereNotNull('medicine')
+            ->where('medicine', '!=', '')
+            ->groupBy('medicine')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
+        
+        // 3. Top 5 Siswa Paling Sering Sakit
+        $topSickStudents = Examination::with(['student.class'])
+            ->selectRaw('student_id, COUNT(*) as count')
+            ->whereYear('examination_date', $year)
+            ->when($month, function($q) use ($month) {
+                return $q->whereMonth('examination_date', $month);
+            })
+            ->groupBy('student_id')
+            ->orderByDesc('count')
+            ->limit(5)
+            ->get();
+        
+        // 4. Statistik Status Kepulangan
+        $statusStats = Examination::selectRaw('status, COUNT(*) as count')
+            ->whereYear('examination_date', $year)
+            ->when($month, function($q) use ($month) {
+                return $q->whereMonth('examination_date', $month);
+            })
+            ->groupBy('status')
+            ->get();
+        
+        // 5. Total Kunjungan per Bulan (untuk grafik) - ✅ DIPERBAIKI
+        $monthlyStats = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $count = Examination::whereYear('examination_date', $year)
+                ->whereMonth('examination_date', $m)
+                ->count();
+            $monthlyStats[] = [
+                // ✅ Menggunakan createFromDate agar aman di Carbon 3.x
+                'month' => Carbon::createFromDate($year, $m, 1)->format('F'),
+                'count' => $count
+            ];
+        }
+        
+        // 6. Statistik per Kelas (Top 10)
+        $classStats = Examination::selectRaw('classroom_id, COUNT(*) as count')
+            ->join('students', 'examinations.student_id', '=', 'students.id')
+            ->whereYear('examinations.examination_date', $year)
+            ->when($month, function($q) use ($month) {
+                return $q->whereMonth('examinations.examination_date', $month);
+            })
+            ->groupBy('classroom_id')
+            ->orderByDesc('count')
+            ->limit(10)
+            ->get();
+        
+        // Total kunjungan
+        $totalVisits = $examinations->count();
+        
+        // Daftar tahun untuk filter
+        $years = Examination::selectRaw('YEAR(examination_date) as year')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year');
+        
+        return view($this->getViewPrefix() . '.examinations.recap', compact(
+            'year', 'month', 'years', 'totalVisits', 'topDiagnoses', 
+            'topMedicines', 'topSickStudents', 'statusStats', 'monthlyStats', 'classStats'
+        ));
+    }
+
+    /**
      * ✅ FUNGSI HELPER: Menyesuaikan stok obat berdasarkan string input
      * 
      * @param string $medicineString (Contoh: "Paracetamol 500mg (2 tablet)")
