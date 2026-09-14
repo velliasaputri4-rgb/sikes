@@ -47,7 +47,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
             <h5 class="fw-bold mb-0"><i class="fas fa-cog me-2 text-primary"></i>Pengaturan Teks Website</h5>
-            <small class="text-muted">Ubah semua teks, judul, deskripsi, gambar layanan, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
+            <small class="text-muted">Ubah semua teks, judul, deskripsi, gambar layanan, FAQ, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
         </div>
     </div>
 
@@ -98,6 +98,12 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="health-info-tab" data-bs-toggle="pill" data-bs-target="#health-info" type="button">
                         <i class="fas fa-heartbeat"></i> Info Kesehatan
+                    </button>
+                </li>
+                <!-- ✅ TAB FAQ -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="faq-tab" data-bs-toggle="pill" data-bs-target="#faq" type="button">
+                        <i class="fas fa-question-circle"></i> FAQ
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -192,19 +198,15 @@
                 </div>
             </div>
 
-            <!-- 2.5. HALAMAN TENTANG (FILE TERPISAH / about.blade.php) -->
+            <!-- 2.5. HALAMAN TENTANG -->
             <div class="tab-pane fade" id="about-page" role="tabpanel">
-                
-                <!-- Upload Gambar Khusus Halaman Tentang -->
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-light fw-bold">Gambar Halaman Tentang</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Upload Foto untuk Halaman Tentang</label>
-                                @php 
-                                    $aboutPageImage = $settings['about_page_image'] ?? ''; 
-                                @endphp
+                                @php $aboutPageImage = $settings['about_page_image'] ?? ''; @endphp
                                 
                                 @if(!empty($aboutPageImage))
                                     <input type="hidden" name="existing_about_page_image" value="{{ $aboutPageImage }}">
@@ -487,7 +489,75 @@
                 </div>
             </div>
 
-            <!-- 6. CONTACT SECTION -->
+            <!-- ✅ 6. FAQ SECTION -->
+            <div class="tab-pane fade" id="faq" role="tabpanel">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-light fw-bold">Pengaturan Header FAQ</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Label Kecil (Badge)</label>
+                                <input type="text" name="faq_label" class="form-control" value="{{ $settings['faq_label'] ?? 'FAQ' }}">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Judul Section</label>
+                                <input type="text" name="faq_title" class="form-control" value="{{ strip_tags($settings['faq_title'] ?? 'Pertanyaan yang Sering Diajukan') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Subjudul / Deskripsi Section</label>
+                                <textarea name="faq_subtitle" class="form-control" rows="2">{{ $settings['faq_subtitle'] ?? 'Temukan jawaban atas pertanyaan umum seputar layanan UKS dan penggunaan aplikasi SIKES di sekolah kita.' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span><i class="fas fa-question-circle me-2 text-primary"></i>Daftar Pertanyaan & Jawaban</span>
+                        <button type="button" class="btn btn-sm btn-success w-100 w-md-auto" onclick="addFaqRow()">
+                            <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Tambah Pertanyaan</span><span class="d-sm-none">Tambah</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Kelola daftar pertanyaan. Kosongkan kolom "Pertanyaan" untuk menghapus item saat disimpan.</p>
+                        
+                        <div id="faq-container">
+                            @php
+                                $defaultFaqs = [
+                                    ['question' => 'Apakah data rekam medis saya aman di SIKES?', 'answer' => 'Sangat aman. SIKES menggunakan sistem login terenkripsi dan hanya dapat diakses oleh siswa yang bersangkutan, petugas UKS, dan admin sekolah. Privasi data kesehatan Anda adalah prioritas kami.'],
+                                    ['question' => 'Bagaimana prosedur jika saya sakit saat jam pelajaran?', 'answer' => 'Mintalah izin kepada guru pengampu, lalu pergilah ke ruang UKS dengan didampingi teman atau ketua kelas. Petugas UKS akan melakukan pemeriksaan dan memberikan surat izin istirahat jika diperlukan.'],
+                                    ['question' => 'Apakah siswa bisa mengambil obat bebas di UKS?', 'answer' => 'Tidak. Seluruh pemberian obat di UKS harus melalui pemeriksaan dan persetujuan petugas UKS untuk memastikan dosis dan jenis obat sesuai dengan kondisi kesehatan Anda.'],
+                                    ['question' => 'Kapan jam operasional ruang UKS?', 'answer' => 'Ruang UKS dibuka setiap hari Senin hingga Jumat, pukul 07.30 hingga 15.00 WIB, atau menyesuaikan dengan jam kegiatan belajar mengajar di sekolah.']
+                                ];
+                                $faqsRaw = $settings['faqs_data'] ?? json_encode($defaultFaqs);
+                                $faqsData = is_array($faqsRaw) ? $faqsRaw : json_decode($faqsRaw, true);
+                                $initialFaqCount = count($faqsData);
+                            @endphp
+
+                            @foreach($faqsData as $index => $faq)
+                                <div class="faq-row border rounded p-3 mb-3 bg-light position-relative">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label small fw-bold">Pertanyaan *</label>
+                                            <input type="text" name="faqs[{{ $index }}][question]" class="form-control" value="{{ $faq['question'] ?? '' }}" placeholder="Contoh: Apakah data saya aman?">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label small fw-bold">Jawaban</label>
+                                            <textarea name="faqs[{{ $index }}][answer]" class="form-control" rows="3" placeholder="Jelaskan jawabannya di sini...">{{ $faq['answer'] ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. CONTACT SECTION -->
             <div class="tab-pane fade" id="contact" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Kontak & Alamat</div>
@@ -541,7 +611,7 @@
                 </div>
             </div>
 
-            <!-- 7. FOOTER SECTION -->
+            <!-- 8. FOOTER SECTION -->
             <div class="tab-pane fade" id="footer" role="tabpanel">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light fw-bold">Bagian Footer (Bawah)</div>
@@ -572,10 +642,12 @@
     </form>
 </div>
 
-<!-- JavaScript untuk Tambah/Hapus Baris Dokumentasi -->
+<!-- JavaScript untuk Tambah/Hapus Baris -->
 <script>
     let docIndex = {{ $initialDocCount ?? 1 }};
+    let faqIndex = {{ $initialFaqCount ?? 1 }};
 
+    // --- Dokumentasi ---
     function addDocumentationRow() {
         const container = document.getElementById('documentations-container');
         const today = new Date().toISOString().split('T')[0];
@@ -616,6 +688,38 @@
     function removeDocumentationRow(button) {
         if(confirm('Yakin ingin menghapus baris ini?')) {
             const row = button.closest('.documentation-row');
+            row.remove();
+        }
+    }
+
+    // --- FAQ ---
+    function addFaqRow() {
+        const container = document.getElementById('faq-container');
+        
+        const newRow = document.createElement('div');
+        newRow.className = 'faq-row border rounded p-3 mb-3 bg-light position-relative';
+        newRow.innerHTML = `
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris">
+                <i class="fas fa-trash"></i>
+            </button>
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="form-label small fw-bold">Pertanyaan *</label>
+                    <input type="text" name="faqs[${faqIndex}][question]" class="form-control" placeholder="Contoh: Apakah data saya aman?">
+                </div>
+                <div class="col-12">
+                    <label class="form-label small fw-bold">Jawaban</label>
+                    <textarea name="faqs[${faqIndex}][answer]" class="form-control" rows="3" placeholder="Jelaskan jawabannya di sini..."></textarea>
+                </div>
+            </div>
+        `;
+        container.appendChild(newRow);
+        faqIndex++;
+    }
+
+    function removeFaqRow(button) {
+        if(confirm('Yakin ingin menghapus pertanyaan ini?')) {
+            const row = button.closest('.faq-row');
             row.remove();
         }
     }

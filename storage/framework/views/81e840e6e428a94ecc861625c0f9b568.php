@@ -62,42 +62,12 @@
         .service-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; font-size: 1.1rem; }
         .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; line-height: 1.6; }
 
-        /* ✅ BARU: Alur Pelayanan */
-        .flow-step { text-align: center; position: relative; padding: 20px; }
-        .flow-step-icon {
-            width: 70px; height: 70px; background: var(--gradient-primary); color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin: 0 auto 16px; box-shadow: 0 8px 20px rgba(30, 58, 138, 0.2);
-            position: relative; z-index: 2;
-        }
-        .flow-step-number {
-            position: absolute; top: -5px; right: -5px; width: 28px; height: 28px;
-            background: var(--amber); color: white; border-radius: 50%; font-size: 0.8rem;
-            font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid white;
-        }
-        .flow-step h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-        .flow-step p { color: var(--slate); font-size: 0.9rem; margin: 0; }
-        @media (min-width: 992px) {
-            .flow-step:not(:last-child)::after {
-                content: ''; position: absolute; top: 55px; right: -50%; width: 100%; height: 3px;
-                background: linear-gradient(90deg, var(--primary) 50%, transparent 100%); z-index: 1; opacity: 0.3;
-            }
-        }
-
-        /* ✅ BARU: Fasilitas */
-        .facility-item {
-            background: white; border-radius: var(--radius); padding: 24px; text-align: center;
-            border: 1px solid rgba(30,58,138,0.08); transition: all 0.3s ease; height: 100%;
-        }
-        .facility-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary); }
-        .facility-icon {
-            width: 50px; height: 50px; background: rgba(59,130,246,0.1); color: var(--primary);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; margin: 0 auto 16px; transition: all 0.3s;
-        }
-        .facility-item:hover .facility-icon { background: var(--gradient-primary); color: white; }
-        .facility-item h6 { font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-        .facility-item p { color: var(--slate); font-size: 0.85rem; margin: 0; }
+        /* Custom Accordion FAQ */
+        .accordion-item { border: 1px solid rgba(30,58,138,0.08) !important; }
+        .accordion-button { font-weight: 600; font-size: 1rem; color: var(--ink); background: white; box-shadow: none !important; padding: 20px 24px; }
+        .accordion-button:not(.collapsed) { background: linear-gradient(135deg, rgba(30,58,138,0.04), rgba(59,130,246,0.04)); color: var(--primary-dark); }
+        .accordion-button:focus { border-color: transparent; box-shadow: none; }
+        .accordion-body { padding: 0 24px 24px 24px; color: var(--slate); line-height: 1.7; font-size: 0.95rem; }
 
         /* Footer & Button */
         .btn-doc-all { background: var(--gradient-primary); color: white; padding: 12px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(30,58,138,0.25); transition: all 0.3s ease; }
@@ -231,110 +201,49 @@
         </div>
     </section>
 
-    <!-- ✅ BARU: Alur Pelayanan Section -->
-    <section class="section" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
+    <!-- ✅ FAQ Section DINAMIS (Mengambil dari Database) -->
+    <section class="section" style="background: #f8fafc;">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Prosedur</span>
-                <h2 class="section-title">Alur <span class="gradient-text">Pelayanan</span> UKS</h2>
-                <p class="section-subtitle mx-auto">Langkah-langkah mudah dan cepat saat siswa membutuhkan penanganan kesehatan di sekolah.</p>
+                <span class="section-label"><?php echo e(\App\Models\Setting::get('faq_label', 'FAQ')); ?></span>
+                <h2 class="section-title"><?php echo \App\Models\Setting::get('faq_title', 'Pertanyaan yang <span class="gradient-text">Sering Diajukan</span>'); ?></h2>
+                <p class="section-subtitle mx-auto"><?php echo e(\App\Models\Setting::get('faq_subtitle', 'Temukan jawaban atas pertanyaan umum seputar layanan UKS dan penggunaan aplikasi SIKES di sekolah kita.')); ?></p>
             </div>
             
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
-                    <div class="flow-step">
-                        <div class="flow-step-icon">
-                            <i class="fas fa-door-open"></i>
-                            <span class="flow-step-number">1</span>
-                        </div>
-                        <h5>Kedatangan</h5>
-                        <p>Siswa datang ke ruang UKS dengan didampingi guru atau teman saat merasa kurang sehat.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="flow-step">
-                        <div class="flow-step-icon">
-                            <i class="fas fa-stethoscope"></i>
-                            <span class="flow-step-number">2</span>
-                        </div>
-                        <h5>Pemeriksaan</h5>
-                        <p>Petugas UKS melakukan anamnesa dan pemeriksaan awal (tensi, suhu, dll) secara cepat.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flow-step">
-                        <div class="flow-step-icon">
-                            <i class="fas fa-pills"></i>
-                            <span class="flow-step-number">3</span>
-                        </div>
-                        <h5>Penanganan</h5>
-                        <p>Pemberian obat dasar, pertolongan pertama, atau istirahat di ruang pemulihan yang nyaman.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                    <div class="flow-step">
-                        <div class="flow-step-icon">
-                            <i class="fas fa-clipboard-check"></i>
-                            <span class="flow-step-number">4</span>
-                        </div>
-                        <h5>Tindak Lanjut</h5>
-                        <p>Pencatatan rekam medis digital dan koordinasi dengan orang tua jika diperlukan rujukan.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="row justify-content-center" data-aos="fade-up">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <?php
+                            $faqsRaw = \App\Models\Setting::get('faqs_data');
+                            $faqsData = is_array($faqsRaw) ? $faqsRaw : json_decode($faqsRaw, true);
+                            
+                            // Fallback jika database masih kosong
+                            if (empty($faqsData)) {
+                                $faqsData = [
+                                    ['question' => 'Apakah data rekam medis saya aman di SIKES?', 'answer' => 'Sangat aman. SIKES menggunakan sistem login terenkripsi dan hanya dapat diakses oleh siswa yang bersangkutan, petugas UKS, dan admin sekolah.'],
+                                    ['question' => 'Bagaimana prosedur jika saya sakit saat jam pelajaran?', 'answer' => 'Mintalah izin kepada guru pengampu, lalu pergilah ke ruang UKS dengan didampingi teman atau ketua kelas.']
+                                ];
+                            }
+                        ?>
 
-    <!-- ✅ BARU: Fasilitas Pendukung Section -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Fasilitas</span>
-                <h2 class="section-title">Fasilitas <span class="gradient-text">Pendukung</span></h2>
-                <p class="section-subtitle mx-auto">Dilengkapi dengan berbagai fasilitas modern untuk menunjang pelayanan kesehatan yang optimal.</p>
-            </div>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $faqsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($faq['question'])): ?>
+                            <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button <?php echo e($index === 0 ? '' : 'collapsed'); ?>" type="button" data-bs-toggle="collapse" data-bs-target="#faq<?php echo e($index); ?>">
+                                        <?php echo e($faq['question']); ?>
 
-            <div class="row g-4">
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="0">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-bed"></i></div>
-                        <h6>Tempat Tidur</h6>
-                        <p>Ruang istirahat nyaman</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="50">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-briefcase-medical"></i></div>
-                        <h6>Alat P3K</h6>
-                        <p>Lengkap & terstandar</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="100">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-weight"></i></div>
-                        <h6>Timbangan</h6>
-                        <p>Pemeriksaan berkala</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="150">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-temperature-high"></i></div>
-                        <h6>Termometer</h6>
-                        <p>Pengecekan suhu</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="200">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-laptop-medical"></i></div>
-                        <h6>Rekam Medis</h6>
-                        <p>Sistem digital SIKES</p>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="250">
-                    <div class="facility-item">
-                        <div class="facility-icon"><i class="fas fa-hand-holding-water"></i></div>
-                        <h6>Cuci Tangan</h6>
-                        <p>Kebersihan terjaga</p>
+                                    </button>
+                                </h2>
+                                <div id="faq<?php echo e($index); ?>" class="accordion-collapse collapse <?php echo e($index === 0 ? 'show' : ''); ?>" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <?php echo e($faq['answer']); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     </div>
                 </div>
             </div>

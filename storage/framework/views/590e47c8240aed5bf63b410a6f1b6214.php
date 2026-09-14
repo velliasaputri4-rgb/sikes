@@ -49,7 +49,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== NAVBAR ===== */
+        /* ===== NAVBAR (SAMA PERSIS DENGAN LANDING PAGE) ===== */
         .navbar {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
@@ -155,84 +155,6 @@
         .doc-title a:hover { color: var(--primary); }
         .doc-excerpt { color: var(--slate); font-size: 0.9rem; line-height: 1.6; margin-top: 8px; margin-bottom: 0; }
 
-        /* ✅ BARU: Statistik Section */
-        .stats-box {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px 20px;
-            text-align: center;
-            border: 1px solid rgba(30,58,138,0.08);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        .stats-box:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary);
-        }
-        .stats-icon {
-            width: 60px; height: 60px;
-            background: rgba(59,130,246,0.1);
-            color: var(--primary);
-            border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            margin: 0 auto 16px;
-            transition: all 0.3s;
-        }
-        .stats-box:hover .stats-icon {
-            background: var(--gradient-primary);
-            color: white;
-        }
-        .stats-number {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 4px;
-        }
-        .stats-label {
-            color: var(--slate);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* ✅ BARU: CTA Section */
-        .cta-section {
-            background: var(--gradient-primary);
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                              radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
-        }
-        .cta-section .container { position: relative; z-index: 1; }
-        .btn-cta {
-            background: white;
-            color: var(--primary-dark);
-            padding: 12px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-        .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            color: var(--primary);
-        }
-
         /* ===== FOOTER ===== */
         footer {
             background: var(--gradient-dark);
@@ -285,7 +207,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Navbar -->
+    <!-- Navbar (SAMA PERSIS DENGAN LANDING PAGE) -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
@@ -401,57 +323,10 @@
                     <div class="col-12 text-center py-5" data-aos="fade-up">
                         <i class="far fa-folder-open fa-4x text-muted mb-3"></i>
                         <h4 class="text-muted">Belum ada dokumentasi atau berita yang dipublikasikan.</h4>
-                        <p class="text-muted small">Nantikan update kegiatan terbaru dari kami!</p>
                     </div>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
         </div>
-    </section>
-
-    <!-- ✅ BARU: Statistik Kegiatan Section -->
-    <section class="section" style="background: white;">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Pencapaian</span>
-                <h2 class="section-title">Dampak <span class="gradient-text">Kegiatan</span> Kami</h2>
-            </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="stats-box">
-                        <div class="stats-icon"><i class="fas fa-calendar-check"></i></div>
-                        <div class="stats-number">50+</div>
-                        <div class="stats-label">Kegiatan Terlaksana / Tahun</div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="stats-box">
-                        <div class="stats-icon"><i class="fas fa-users"></i></div>
-                        <div class="stats-number">100%</div>
-                        <div class="stats-label">Siswa Teredukasi Kesehatan</div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stats-box">
-                        <div class="stats-icon"><i class="fas fa-heart"></i></div>
-                        <div class="stats-number">24/7</div>
-                        <div class="stats-label">Kesiapan Tanggap Darurat</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ✅ BARU: Call to Action (CTA) Section -->
-    <section class="section cta-section">
-        <div class="container" data-aos="zoom-in">
-            <h2 class="fw-bold mb-3" style="font-family: 'Poppins', sans-serif;">Punya Kegiatan atau Prestasi untuk Dibagikan?</h2>
-            <p style="max-width: 600px; margin: 0 auto 10px; opacity: 0.9;">
-                Laporakan kegiatan kelas, ekstrakurikuler, atau prestasi kesehatan Anda kepada petugas UKS untuk didokumentasikan di halaman ini.
-            </p>
-            <a href="<?php echo e(route('landing')); ?>#kontak" class="btn-cta">
-                <i class="fas fa-paper-plane"></i> Hubungi Petugas UKS
-            </a>
-        </div
     </section>
 
     <!-- Footer -->
@@ -473,7 +348,7 @@
                         <li><a href="<?php echo e(route('landing')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="<?php echo e(route('landing.about')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
                         <li><a href="<?php echo e(route('landing.services')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
-                        <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
+                        <li><a href="<?php echo e(route('landing.docs')); ?>" class="btn-doc-all"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-3">

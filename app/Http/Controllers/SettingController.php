@@ -12,16 +12,19 @@ class SettingController extends Controller
     {
         $settings = Setting::all()->pluck('value', 'key')->toArray();
         
-        // Decode JSON services dan documentations agar bisa ditampilkan di form
+        // Decode JSON agar bisa ditampilkan/di-looping di form
         $settings['services_data'] = json_decode($settings['services_data'] ?? '[]', true);
         $settings['documentations_data'] = json_decode($settings['documentations_data'] ?? '[]', true);
+        
+        // ✅ BARU: Decode data FAQ
+        $settings['faqs_data'] = json_decode($settings['faqs_data'] ?? '[]', true);
         
         return view('petugas.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
-        // ️ KEAMANAN: Hanya admin@sikes.com atau super-admin yang boleh menyimpan pengaturan
+        // Keamanan: Hanya admin@sikes.com atau super-admin yang boleh menyimpan pengaturan
         $user = auth()->user();
         $isMainAdmin = strtolower(trim($user->email)) === 'admin@sikes.com' || $user->hasRole('super-admin');
 
@@ -37,15 +40,12 @@ class SettingController extends Controller
 
                 foreach ($request->input('services') as $index => $service) {
                     if (!empty($service['title'])) {
-                        $imagePath = $service['existing_image'] ?? ''; // Pertahankan gambar lama
+                        $imagePath = $service['existing_image'] ?? ''; 
 
-                        // Jika ada file gambar baru diupload untuk layanan ini
                         if ($request->hasFile("services.{$index}.image")) {
-                            // Hapus gambar lama jika ada
                             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                                 Storage::disk('public')->delete($imagePath);
                             }
-                            // Simpan gambar baru
                             $imagePath = $request->file("services.{$index}.image")->store('services', 'public');
                         }
 
@@ -70,15 +70,12 @@ class SettingController extends Controller
 
                 foreach ($request->input('documentations') as $index => $doc) {
                     if (!empty($doc['title'])) {
-                        $imagePath = $doc['existing_image'] ?? ''; // Pertahankan gambar lama
+                        $imagePath = $doc['existing_image'] ?? ''; 
 
-                        // Jika ada file gambar baru diupload untuk baris ini
                         if ($request->hasFile("documentations.{$index}.image")) {
-                            // Hapus gambar lama jika ada
                             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                                 Storage::disk('public')->delete($imagePath);
                             }
-                            // Simpan gambar baru
                             $imagePath = $request->file("documentations.{$index}.image")->store('documentations', 'public');
                         }
 
@@ -98,15 +95,36 @@ class SettingController extends Controller
                 );
             }
 
-            // 3. Abaikan token, method, services, documentations, dan file inputs utama
-            // ✅ PERBAIKAN: Tambahkan 'about_page_image' agar tidak diproses sebagai teks biasa
-            $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'navbar_logo', 'about_image', 'about_page_image'];
+            // ✅ 3. BARU: Handle Array FAQs (Tanpa gambar, hanya teks)
+            if ($request->has('faqs') && is_array($request->input('faqs'))) {
+                $faqsData = [];
+
+                foreach ($request->input('faqs') as $index => $faq) {
+                    // Hanya simpan jika kolom pertanyaan tidak kosong (fitur hapus implisit)
+                    if (!empty(trim($faq['question']))) {
+                        $faqsData[] = [
+                            'question' => trim($faq['question']),
+                            'answer'   => trim($faq['answer'] ?? ''),
+                        ];
+                    }
+                }
+
+                Setting::updateOrCreate(
+                    ['key' => 'faqs_data'],
+                    ['value' => json_encode($faqsData, JSON_UNESCAPED_UNICODE), 'type' => 'json']
+                );
+            }
+
+            // 4. Abaikan token, method, array data, dan file inputs utama
+            // ✅ PERBAIKAN: Tambahkan 'faqs' ke daftar ignore
+            $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'faqs', 'navbar_logo', 'about_image', 'about_page_image'];
             $data = $request->except($ignoreKeys);
 
-            // 4. Simpan data teks/textarea lainnya
+            // 5. Simpan data teks/textarea lainnya
             foreach ($data as $key => $value) {
                 $stringValue = is_array($value) ? json_encode($value) : (string)($value ?? '');
                 
+                // Ubah baris baru menjadi <br> untuk field tertentu
                 if (in_array($key, ['hero_title', 'contact_address', 'about_page_mission'])) {
                     $stringValue = nl2br($stringValue); 
                 }
@@ -117,8 +135,7 @@ class SettingController extends Controller
                 );
             }
 
-            // 5. Handle Upload Gambar Utama (Navbar, About Beranda, & Halaman Tentang)
-            // ✅ PERBAIKAN: Tambahkan 'about_page_image' di sini agar gambar tersimpan
+            // 6. Handle Upload Gambar Utama (Navbar, About Beranda, & Halaman Tentang)
             $imageFields = ['navbar_logo', 'about_image', 'about_page_image'];
             foreach ($imageFields as $field) {
                 if ($request->hasFile($field)) {
