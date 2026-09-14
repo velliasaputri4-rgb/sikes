@@ -15,26 +15,27 @@
     
     <style>
     :root {
-        --primary: #3b82f6;
-        --primary-dark: #1e3a8a;
-        --secondary: #2563eb;
-        --accent: #8b5cf6;
+        /* ✅ TEMA MERAH (PMR/UKS) */
+        --primary: #ef4444;
+        --primary-dark: #991b1b;
+        --secondary: #dc2626;
+        --accent: #f43f5e;
         --emerald: #10b981;
         --rose: #f43f5e;
         --amber: #f59e0b;
         --ink: #0f172a;
         --slate: #475569;
         --light: #f8fafc;
-        --pro: #1e3a8a;
-        --pro-dark: #172c6e;
-        --pro-light: #3b82f6;
-        --gradient-pro: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        --pro: #991b1b;
+        --pro-dark: #7f1d1d;
+        --pro-light: #ef4444;
+        --gradient-pro: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+        --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+        --gradient-accent: linear-gradient(135deg, #f43f5e 0%, #ef4444 100%);
         --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        --shadow-sm: 0 4px 20px rgba(30, 58, 138, 0.08);
-        --shadow-md: 0 10px 40px rgba(30, 58, 138, 0.12);
-        --shadow-lg: 0 25px 60px rgba(30, 58, 138, 0.18);
+        --shadow-sm: 0 4px 20px rgba(153, 27, 27, 0.08);
+        --shadow-md: 0 10px 40px rgba(153, 27, 27, 0.12);
+        --shadow-lg: 0 25px 60px rgba(153, 27, 27, 0.18);
         --radius: 18px;
     }
 
@@ -56,22 +57,19 @@
         overflow-x: hidden;
     }
 
-    /* ✅ PERBAIKAN 1: Navbar fixed-top agar tetap di atas sampai bawah */
     .navbar {
         background: rgba(255,255,255,0.95);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        box-shadow: 0 4px 30px rgba(30, 58, 138, 0.06);
-        border-bottom: 1px solid rgba(30, 58, 138, 0.08);
+        box-shadow: 0 4px 30px rgba(153, 27, 27, 0.06);
+        border-bottom: 1px solid rgba(153, 27, 27, 0.08);
         padding: 12px 0;
         transition: all 0.4s ease;
-        z-index: 1030; /* Pastikan di atas elemen lain */
     }
-    .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
+    .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(153, 27, 27, 0.1); }
     .navbar-brand { display: flex; align-items: center; }
     .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
     .navbar-brand:hover img { transform: scale(1.05); }
-    
     .nav-link {
         font-weight: 600;
         font-size: 0.95rem;
@@ -83,13 +81,13 @@
     }
     .nav-link:hover {
         color: var(--primary-dark) !important;
-        background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+        background: linear-gradient(135deg, rgba(153, 27, 27, 0.08), rgba(239, 68, 68, 0.08));
         transform: translateY(-1px);
     }
     .nav-link.active {
         color: white !important;
         background: var(--gradient-primary);
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
     }
 
     .user-btn {
@@ -102,10 +100,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3);
         transition: all 0.3s;
     }
-    .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(30,58,138,0.4); }
+    .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(153, 27, 27, 0.4); }
 
     .dropdown-menu {
         border: none;
@@ -121,33 +119,33 @@
         transition: all 0.2s;
     }
     .dropdown-item:hover {
-        background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+        background: linear-gradient(135deg, rgba(153, 27, 27, 0.08), rgba(239, 68, 68, 0.08));
         transform: translateX(4px);
     }
 
     .hero-section {
         position: relative;
-        padding: 100px 0 80px; /* Padding atas 100px sudah cukup untuk navbar fixed-top */
-        background: linear-gradient(180deg, #f7fafc 0%, #edf2fa 100%);
+        padding: 100px 0 80px;
+        background: linear-gradient(180deg, #f7fafc 0%, #fef2f2 100%);
         overflow: hidden;
     }
     .hero-decor { position: absolute; inset: 0; pointer-events: none; }
     .decor-dots {
         position: absolute;
         width: 140px; height: 95px;
-        background-image: radial-gradient(circle, rgba(30,58,138,0.22) 2px, transparent 2.6px);
+        background-image: radial-gradient(circle, rgba(153, 27, 27, 0.22) 2px, transparent 2.6px);
         background-size: 16px 16px;
     }
     .dots-1 { top: 55px; right: 55px; }
     .dots-2 { bottom: 55px; left: 35px; }
-    .decor-plus { position: absolute; color: rgba(30,58,138,0.18); }
-    .plus-1 { top: 42%; left: 3%; font-size: 22px; color: rgba(59,130,246,0.3); }
+    .decor-plus { position: absolute; color: rgba(153, 27, 27, 0.18); }
+    .plus-1 { top: 42%; left: 3%; font-size: 22px; color: rgba(239, 68, 68, 0.3); }
     .plus-2 { top: 16%; right: 24%; font-size: 15px; }
-    .plus-3 { bottom: 20%; right: 6%; font-size: 20px; color: rgba(59,130,246,0.28); }
+    .plus-3 { bottom: 20%; right: 6%; font-size: 20px; color: rgba(239, 68, 68, 0.28); }
     .plus-4 { top: 12%; left: 22%; font-size: 14px; }
-    .decor-circle { position: absolute; border-radius: 50%; background: rgba(30,58,138,0.05); }
+    .decor-circle { position: absolute; border-radius: 50%; background: rgba(153, 27, 27, 0.05); }
     .circle-1 { width: 240px; height: 240px; right: -90px; bottom: -70px; }
-    .circle-2 { width: 150px; height: 150px; left: -70px; top: -50px; background: rgba(59,130,246,0.07); }
+    .circle-2 { width: 150px; height: 150px; left: -70px; top: -50px; background: rgba(239, 68, 68, 0.07); }
 
     .hero-photo {
         position: absolute;
@@ -190,8 +188,8 @@
     }
     .hero-line { line-height: 1.15; }
     .hero-accent {
-        color: #2563eb !important;
-        -webkit-text-fill-color: #2563eb !important;
+        color: var(--primary) !important;
+        -webkit-text-fill-color: var(--primary) !important;
         background: none !important;
         -webkit-background-clip: unset !important;
         background-clip: unset !important;
@@ -213,14 +211,14 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        box-shadow: 0 6px 20px rgba(30,58,138,0.25);
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
         transition: all 0.3s;
         text-decoration: none;
     }
     .btn-hero-primary:hover {
         color: white;
         transform: translateY(-3px);
-        box-shadow: 0 10px 28px rgba(30,58,138,0.35);
+        box-shadow: 0 10px 28px rgba(153, 27, 27, 0.35);
         filter: brightness(1.08);
     }
     .btn-hero-outline {
@@ -228,13 +226,13 @@
         color: var(--pro);
         padding: 12px 26px;
         border-radius: 10px;
-        border: 1px solid #d5e0ec;
+        border: 1px solid #fecaca;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 8px;
         transition: all 0.3s;
-        box-shadow: 0 3px 12px rgba(30,58,138,0.06);
+        box-shadow: 0 3px 12px rgba(153, 27, 27, 0.06);
         text-decoration: none;
     }
     .btn-hero-outline:hover {
@@ -255,8 +253,8 @@
         display: flex;
         align-items: flex-start;
         gap: 16px;
-        border: 1px solid #e4ebf5;
-        box-shadow: 0 6px 20px rgba(30,58,138,0.06);
+        border: 1px solid #fee2e2;
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.06);
         transition: all 0.3s;
         cursor: pointer;
         text-decoration: none;
@@ -264,7 +262,7 @@
     }
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 30px rgba(30,58,138,0.15);
+        box-shadow: 0 12px 30px rgba(153, 27, 27, 0.15);
         border-color: var(--primary);
     }
     .stat-card:active {
@@ -274,7 +272,7 @@
         flex: 0 0 52px;
         width: 52px; height: 52px;
         border-radius: 12px;
-        background: linear-gradient(135deg, rgba(30,58,138,0.1), rgba(59,130,246,0.12));
+        background: linear-gradient(135deg, rgba(153, 27, 27, 0.1), rgba(239, 68, 68, 0.12));
         color: var(--pro);
         display: flex; align-items: center; justify-content: center;
         font-size: 1.25rem;
@@ -296,7 +294,7 @@
         padding: 32px 26px;
         text-align: center;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 2px solid #e4ebf5;
+        border: 2px solid #fee2e2;
         height: 100%;
         position: relative;
         text-decoration: none;
@@ -317,7 +315,7 @@
     }
     .menu-card:hover {
         transform: translateY(-12px);
-        box-shadow: 0 25px 60px rgba(30,58,138,0.15);
+        box-shadow: 0 25px 60px rgba(153, 27, 27, 0.15);
         border-color: var(--primary);
     }
     .menu-card:hover::before { 
@@ -332,12 +330,12 @@
         font-size: 30px;
         color: white;
         background: var(--gradient-pro);
-        box-shadow: 0 12px 30px rgba(30,58,138,0.25);
+        box-shadow: 0 12px 30px rgba(153, 27, 27, 0.25);
         transition: all 0.4s;
     }
     .menu-card:hover .menu-icon {
         transform: scale(1.1) rotate(-8deg);
-        box-shadow: 0 18px 40px rgba(30,58,138,0.35);
+        box-shadow: 0 18px 40px rgba(153, 27, 27, 0.35);
     }
     .menu-card h5 { font-weight: 700; color: var(--ink); margin-bottom: 8px; }
     .menu-card .card-tag {
@@ -347,7 +345,7 @@
         margin-top: 10px;
     }
     .tag-public { background: #e4f4ec; color: #1e7a55; }
-    .tag-login { background: #e6eef8; color: #1e3a8a; }
+    .tag-login { background: #fee2e2; color: #991b1b; }
     
     .click-hint {
         display: block;
@@ -368,7 +366,7 @@
     .section-label {
         display: inline-block;
         padding: 6px 16px;
-        background: rgba(59,130,246,0.12);
+        background: rgba(239, 68, 68, 0.12);
         color: var(--pro);
         border-radius: 50px;
         font-size: 0.8rem;
@@ -409,22 +407,22 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, rgba(30,58,138,0.15), transparent 60%);
+        background: linear-gradient(135deg, rgba(153, 27, 27, 0.15), transparent 60%);
         z-index: 1;
     }
     .about-img-wrap img { width: 100%; height: auto; display: block; }
 
     .services-section {
-        background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 50%, #f3f7fc 100%);
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 50%, #fef2f2 100%);
     }
     .service-card {
         background: white;
         border-radius: var(--radius);
-        box-shadow: 0 4px 20px rgba(30,58,138,0.06);
+        box-shadow: 0 4px 20px rgba(153, 27, 27, 0.06);
         margin-bottom: 25px;
         text-align: left;
         height: 100%;
-        border: 1px solid rgba(30,58,138,0.08);
+        border: 1px solid rgba(153, 27, 27, 0.08);
         position: relative;
         overflow: hidden;
         display: flex;
@@ -462,7 +460,7 @@
         font-weight: 900;
         font-size: 1.2rem;
         color: white;
-        background: rgba(30, 58, 138, 0.7);
+        background: rgba(153, 27, 27, 0.7);
         width: 36px;
         height: 36px;
         border-radius: 50%;
@@ -516,7 +514,7 @@
         box-shadow: var(--shadow-sm);
         transition: all 0.3s ease;
         height: 100%;
-        border: 1px solid rgba(30,58,138,0.08);
+        border: 1px solid rgba(153, 27, 27, 0.08);
     }
     .doc-card:hover {
         transform: translateY(-8px);
@@ -586,13 +584,13 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        box-shadow: 0 6px 20px rgba(30,58,138,0.25);
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
         transition: all 0.3s ease;
     }
     .btn-doc-all:hover {
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(30,58,138,0.35);
+        box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
     }
     .video-overlay {
         position: absolute;
@@ -643,11 +641,11 @@
 
     .contact-section { background: white; }
     .info-card {
-        background: linear-gradient(135deg, #f6f9fc, #f3f7fc);
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
         border-radius: var(--radius);
         padding: 40px 30px;
         height: 100%;
-        border: 1px solid rgba(30,58,138,0.1);
+        border: 1px solid rgba(153, 27, 27, 0.1);
         transition: all 0.3s;
     }
     .info-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
@@ -659,7 +657,7 @@
         display: flex; align-items: center; justify-content: center;
         font-size: 1.5rem;
         margin-bottom: 20px;
-        box-shadow: 0 10px 25px rgba(30,58,138,0.25);
+        box-shadow: 0 10px 25px rgba(153, 27, 27, 0.25);
     }
     .address-text {
         display: flex;
@@ -682,8 +680,8 @@
         position: absolute;
         inset: 0;
         background-image:
-            radial-gradient(circle at 10% 20%, rgba(30,58,138,0.25) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(59,130,246,0.15) 0%, transparent 40%);
+            radial-gradient(circle at 10% 20%, rgba(153, 27, 27, 0.25) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.15) 0%, transparent 40%);
     }
     footer .container { position: relative; z-index: 1; }
     .footer-logo {
@@ -703,7 +701,7 @@
         transition: all 0.3s;
         display: inline-flex; align-items: center; gap: 8px;
     }
-    .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
+    .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
 
     .footer-bottom {
         border-top: 1px solid rgba(255,255,255,0.1);
@@ -723,7 +721,7 @@
         border: none;
         border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 10px 30px rgba(30,58,138,0.35);
+        box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
         cursor: pointer;
         opacity: 0;
         visibility: hidden;
@@ -732,7 +730,7 @@
         z-index: 999;
     }
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-    .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(59,130,246,0.5); }
+    .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
     @media (max-width: 991px) {
         .hero-photo { 
@@ -935,8 +933,8 @@
 </head>
 <body>
 
-    <!-- ✅ PERBAIKAN 1: Menggunakan fixed-top agar navbar selalu di atas sampai bawah -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('landing') }}">
                 <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
@@ -961,12 +959,12 @@
                                     <li class="dropdown-header text-center pb-2">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
-                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                        <span class="badge mt-1" style="background: var(--primary); color: white;">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
+                                            <i class="fas fa-tachometer-alt me-2" style="color: var(--primary);"></i> Dashboard
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
@@ -985,13 +983,13 @@
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('login.siswa') }}">
-                                            <i class="fas fa-user-graduate me-2 text-info"></i> Login Siswa
+                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>
                                 @endauth
@@ -1118,7 +1116,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-users me-2 text-primary"></i>Siswa Terdaftar</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-users me-2" style="color: var(--primary);"></i>Siswa Terdaftar</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -1137,7 +1135,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2 text-primary"></i>Kunjungan Hari Ini</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2" style="color: var(--primary);"></i>Kunjungan Hari Ini</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -1156,7 +1154,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-heart-pulse me-2 text-primary"></i>Total Kunjungan Bulan Ini</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-heart-pulse me-2" style="color: var(--primary);"></i>Total Kunjungan Bulan Ini</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -1186,7 +1184,7 @@
                             </div>
                         </div>
                         <div class="modal-footer border-0">
-                            <a href="{{ route('landing.schedule') }}" class="btn btn-primary">Lihat Jadwal</a>
+                            <a href="{{ route('landing.schedule') }}" class="btn" style="background: var(--primary); color: white;">Lihat Jadwal</a>
                         </div>
                     </div>
                 </div>
@@ -1291,13 +1289,13 @@
                         <div class="service-image-wrapper" 
                              data-bs-toggle="modal" 
                              data-bs-target="#serviceImageModal"
-                             data-image="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}"
+                             data-image="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS' }}"
                              data-title="{{ $s['title'] ?? 'Layanan' }}">
                             
-                            <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}" 
+                            <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS' }}" 
                                  alt="{{ $s['title'] }}" 
                                  class="service-image"
-                                 onerror="this.src='https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS'">
+                                 onerror="this.src='https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS'">
                         </div>
                         
                         <div class="service-icon">
@@ -1323,7 +1321,7 @@
     </section>
 
     <!-- Documentation -->
-    <section class="section" id="dokumentasi" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
+    <section class="section" id="dokumentasi" style="background: linear-gradient(180deg, #fafbfc 0%, #fef2f2 100%);">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-label">{{ \App\Models\Setting::get('docs_label', 'Dokumentasi') }}</span>
@@ -1336,9 +1334,9 @@
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                         <div class="doc-card">
                             <div class="doc-image">
-                                <img src="{{ $doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS' }}" 
+                                <img src="{{ $doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/ef4444/ffffff?text=Dokumentasi+UKS' }}" 
                                      alt="{{ $doc->title }}" 
-                                     onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
+                                     onerror="this.src='https://via.placeholder.com/600x400/ef4444/ffffff?text=Dokumentasi+UKS'">
                                 
                                 @if(!empty($doc->video_link))
                                     <a href="{{ $doc->video_link }}" 
@@ -1418,11 +1416,11 @@
                         <div class="info-icon"><i class="fab fa-instagram"></i></div>
                         <h5 class="fw-bold mb-3">Sosial Media</h5>
                         <p style="color: var(--slate); line-height: 2; margin-bottom: 0;">
-                            <i class="fab fa-instagram me-2 text-danger"></i>
+                            <i class="fab fa-instagram me-2" style="color: var(--primary);"></i>
                             <a href="{{ \App\Models\Setting::get('contact_ig_link', 'https://instagram.com/pmrwira_eskasaba') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
                                 {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
                             </a><br>
-                            <i class="fab fa-youtube me-2 text-danger"></i>
+                            <i class="fab fa-youtube me-2" style="color: var(--primary);"></i>
                             <a href="{{ \App\Models\Setting::get('contact_yt_link', 'https://youtube.com/@wirasandyaadhimukti3463') }}" target="_blank" style="color: var(--ink); text-decoration: none; font-weight: 600;">
                                 {{ '@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
                             </a>
@@ -1550,32 +1548,23 @@
             const sections = document.querySelectorAll("section[id]");
             const navLinks = document.querySelectorAll(".nav-link");
 
-            // ✅ PERBAIKAN 2: Logika Scroll Spy agar tombol "Beranda" tetap aktif sampai bawah
             window.addEventListener("scroll", function() {
                 let current = "";
                 sections.forEach((section) => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= (sectionTop - 150)) {
+                    if (window.scrollY >= (sectionTop - 150)) {
                         current = section.getAttribute("id");
                     }
                 });
 
                 navLinks.forEach((link) => {
-                    const linkHref = link.getAttribute("href");
-                    // Cek apakah ini link Beranda
-                    const isBeranda = linkHref === "{{ route('landing') }}" || linkHref === "#beranda" || linkHref === "/";
+                    link.classList.remove("active");
+                    const href = link.getAttribute("href");
                     
-                    // Hapus class 'active' dari link lain, TAPI biarkan Beranda tetap active
-                    if (!isBeranda) {
-                        link.classList.remove("active");
-                    }
-                    
-                    // Tambahkan class 'active' ke section yang sedang di-scroll
-                    if (linkHref === "#" + current) {
+                    if (href === "#" + current) {
                         link.classList.add("active");
                     } 
-                    // Pastikan Beranda tetap active jika di paling atas atau jika memang halaman landing
-                    else if ((current === "" || current === "beranda") && isBeranda) {
+                    else if ((current === "" || current === "beranda") && (href === "{{ route('landing') }}" || href === "/" || href === window.location.pathname)) {
                         link.classList.add("active");
                     }
                 });

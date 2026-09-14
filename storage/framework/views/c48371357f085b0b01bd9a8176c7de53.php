@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informasi Kesehatan - SIKES</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo sikes navbar.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo sikes navbar.png') }}">
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo sikes navbar.png')); ?>">
+    <link rel="apple-touch-icon" href="<?php echo e(asset('images/logo sikes navbar.png')); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -247,63 +247,63 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('landing') }}">
-                <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
+            <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
+                <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center gap-1">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.about') }}">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.services') }}">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('landing.docs') }}">Dokumentasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing')); ?>">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.about')); ?>">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.services')); ?>">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo e(route('landing.docs')); ?>">Dokumentasi</a></li>
                    
                     <li class="nav-item ms-lg-3">
                         <div class="dropdown">
                             <button class="btn user-btn" type="button" data-bs-toggle="dropdown">
-                                <i class="fas {{ auth()->check() ? 'fa-user-check' : 'fa-user' }}"></i>
+                                <i class="fas <?php echo e(auth()->check() ? 'fa-user-check' : 'fa-user'); ?>"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                @auth
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                                     <li class="dropdown-header text-center pb-2">
                                         <small class="text-muted d-block">Halo,</small>
-                                        <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
-                                        <span class="badge mt-1" style="background: var(--primary); color: white;">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                        <strong class="text-dark"><?php echo e(auth()->user()->name ?? 'User'); ?></strong>
+                                        <span class="badge mt-1" style="background: var(--primary); color: white;"><?php echo e(auth()->user()->getRoleNames()->first() ?? 'User'); ?></span>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        <a class="dropdown-item" href="<?php echo e(route('dashboard')); ?>">
                                             <i class="fas fa-tachometer-alt me-2" style="color: var(--primary);"></i> Dashboard
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
+                                        <form method="POST" action="<?php echo e(route('logout')); ?>">
+                                            <?php echo csrf_field(); ?>
                                             <button type="submit" class="dropdown-item text-danger">
                                                 <i class="fas fa-sign-out-alt me-2"></i> Logout
                                             </button>
                                         </form>
                                     </li>
-                                @else
+                                <?php else: ?>
                                     <li class="dropdown-header text-center">
                                         <small class="text-muted">Pilih Login</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
+                                        <a class="dropdown-item fw-semibold" href="<?php echo e(route('login')); ?>">
                                             <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('login.siswa') }}">
+                                        <a class="dropdown-item" href="<?php echo e(route('login.siswa')); ?>">
                                             <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>
-                                @endauth
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </ul>
                         </div>
                     </li>
@@ -321,14 +321,15 @@
                 <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
                     <div class="page-header-badge mb-3 d-inline-flex">
                         <span style="width: 8px; height: 8px; background: var(--emerald); border-radius: 50%; display: inline-block;"></span>
-                        <span>{{ $settings['health_info_label'] ?? 'Pusat Informasi Kesehatan' }}</span>
+                        <span><?php echo e($settings['health_info_label'] ?? 'Pusat Informasi Kesehatan'); ?></span>
                     </div>
                     
                     <h1 class="page-title">
-                        {!! $settings['health_info_title'] ?? 'Informasi <span class="gradient-text">Kesehatan</span><br>& Gaya Hidup Sehat' !!}
+                        <?php echo $settings['health_info_title'] ?? 'Informasi <span class="gradient-text">Kesehatan</span><br>& Gaya Hidup Sehat'; ?>
+
                     </h1>
                     
-                    <p class="page-subtitle mx-auto">{{ $settings['health_info_subtitle'] ?? 'Artikel edukasi lengkap untuk mendukung kesejahteraan dan gaya hidup sehat siswa SMK Negeri 1 Bangsri.' }}</p>
+                    <p class="page-subtitle mx-auto"><?php echo e($settings['health_info_subtitle'] ?? 'Artikel edukasi lengkap untuk mendukung kesejahteraan dan gaya hidup sehat siswa SMK Negeri 1 Bangsri.'); ?></p>
                 </div>
             </div>
         </div>
@@ -342,8 +343,8 @@
             </div>
             
             <div class="row g-4">
-                @forelse($healthTips as $tip)
-                    @php
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $healthTips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tip): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                    <?php
                         $categoryLower = strtolower($tip->category ?? '');
                         $icons = [
                             'gizi' => 'fa-apple-alt', 'makan' => 'fa-apple-alt',
@@ -361,57 +362,58 @@
                                 break;
                             }
                         }
-                    @endphp
+                    ?>
 
-                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
                         <div class="health-card">
-                            <div class="health-icon"><i class="fas {{ $icon }}"></i></div>
-                            <span class="badge-cat">{{ str_replace('_', ' ', ucfirst($tip->category ?? 'Umum')) }}</span>
-                            <h5>{{ $tip->title }}</h5>
-                            <p>{{ Str::limit(strip_tags($tip->content), 100, '...') }}</p>
-                            <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalTip{{ $tip->id }}">
+                            <div class="health-icon"><i class="fas <?php echo e($icon); ?>"></i></div>
+                            <span class="badge-cat"><?php echo e(str_replace('_', ' ', ucfirst($tip->category ?? 'Umum'))); ?></span>
+                            <h5><?php echo e($tip->title); ?></h5>
+                            <p><?php echo e(Str::limit(strip_tags($tip->content), 100, '...')); ?></p>
+                            <button class="btn-read" data-bs-toggle="modal" data-bs-target="#modalTip<?php echo e($tip->id); ?>">
                                 Baca Selengkapnya <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
-                @empty
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <div class="col-12 text-center py-5" data-aos="fade-up">
                         <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
                         <p class="text-muted fs-5">Belum ada informasi kesehatan yang tersedia saat ini.</p>
                     </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
-            @if(isset($healthTips) && method_exists($healthTips, 'hasPages') && $healthTips->hasPages())
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($healthTips) && method_exists($healthTips, 'hasPages') && $healthTips->hasPages()): ?>
                 <div class="d-flex justify-content-center mt-5" data-aos="fade-up">
-                    {{ $healthTips->links('pagination::bootstrap-5') }}
+                    <?php echo e($healthTips->links('pagination::bootstrap-5')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </section>
 
     <!-- Modals Artikel -->
-    @foreach($healthTips as $tip)
-    <div class="modal fade" id="modalTip{{ $tip->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $tip->id }}" aria-hidden="true">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $healthTips; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tip): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+    <div class="modal fade" id="modalTip<?php echo e($tip->id); ?>" tabindex="-1" aria-labelledby="modalLabel<?php echo e($tip->id); ?>" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border-radius: var(--radius); border: none;">
                 <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
-                    <h5 class="modal-title fw-bold" id="modalLabel{{ $tip->id }}">{{ $tip->title }}</h5>
+                    <h5 class="modal-title fw-bold" id="modalLabel<?php echo e($tip->id); ?>"><?php echo e($tip->title); ?></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <p style="white-space: pre-wrap; line-height: 1.8;">{{ $tip->content }}</p>
+                    <p style="white-space: pre-wrap; line-height: 1.8;"><?php echo e($tip->content); ?></p>
                     
                     <hr class="my-4">
                     <div class="d-flex justify-content-between align-items-center text-muted small">
-                        <span><i class="fas fa-tag me-1"></i> {{ str_replace('_', ' ', ucfirst($tip->category ?? 'Umum')) }}</span>
-                        <span><i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($tip->created_at)->format('d M Y') }}</span>
+                        <span><i class="fas fa-tag me-1"></i> <?php echo e(str_replace('_', ' ', ucfirst($tip->category ?? 'Umum'))); ?></span>
+                        <span><i class="fas fa-calendar-alt me-1"></i> <?php echo e(\Carbon\Carbon::parse($tip->created_at)->format('d M Y')); ?></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @endforeach
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
 
     <!-- Footer -->
     <footer>
@@ -422,25 +424,26 @@
                         <span>SIKES</span>
                     </div>
                     <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px;">
-                        {{ \App\Models\Setting::get('footer_desc', 'Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.') }}
+                        <?php echo e(\App\Models\Setting::get('footer_desc', 'Sistem Informasi Unit Kesehatan Sekolah modern dan terpercaya untuk meningkatkan kualitas kesehatan seluruh warga sekolah.')); ?>
+
                     </p>
                 </div>
                 <div class="col-6 col-lg-2">
                     <h6>Navigasi</h6>
                     <ul class="footer-menu">
-                        <li><a href="{{ route('landing') }}"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
-                        <li><a href="{{ route('landing.about') }}"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
-                        <li><a href="{{ route('landing.services') }}"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
-                        <li><a href="{{ route('landing.docs') }}"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
+                        <li><a href="<?php echo e(route('landing')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
+                        <li><a href="<?php echo e(route('landing.about')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
+                        <li><a href="<?php echo e(route('landing.services')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
+                        <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
-                        <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
-                        <li><a href="{{ route('landing.health-info') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
-                        <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
+                        <li><a href="<?php echo e(route('landing.medicines')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
+                        <li><a href="<?php echo e(route('landing.health-info')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
+                        <li><a href="<?php echo e(route('landing.schedule')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
+                        <li><a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3">
@@ -448,20 +451,22 @@
                     <ul class="footer-menu">
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. KH. Achmad Fauzan No.17, Bangsri</a></li>
                         <li>
-                            <a href="{{ \App\Models\Setting::get('contact_ig_link', '#') }}" target="_blank">
-                                <i class="fab fa-instagram"></i> {{ '@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba') }}
+                            <a href="<?php echo e(\App\Models\Setting::get('contact_ig_link', '#')); ?>" target="_blank">
+                                <i class="fab fa-instagram"></i> <?php echo e('@' . \App\Models\Setting::get('contact_ig_handle', 'pmrwira_eskasaba')); ?>
+
                             </a>
                         </li>
                         <li>
-                            <a href="{{ \App\Models\Setting::get('contact_yt_link', '#') }}" target="_blank">
-                                <i class="fab fa-youtube"></i> {{ '@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463') }}
+                            <a href="<?php echo e(\App\Models\Setting::get('contact_yt_link', '#')); ?>" target="_blank">
+                                <i class="fab fa-youtube"></i> <?php echo e('@' . \App\Models\Setting::get('contact_yt_handle', 'wirasandyaadhimukti3463')); ?>
+
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="mb-0">{!! \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.') !!}</p>
+                <p class="mb-0"><?php echo \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.'); ?></p>
             </div>
         </div>
     </footer>
@@ -501,4 +506,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\laragon\www\sikes\resources\views/landing/health-info.blade.php ENDPATH**/ ?>

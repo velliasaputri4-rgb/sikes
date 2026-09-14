@@ -12,13 +12,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3b82f6; --primary-dark: #1e3a8a; --secondary: #2563eb;
-            --ink: #0f172a; --slate: #475569; --pro: #1e3a8a; --amber: #f59e0b;
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            /* ✅ TEMA MERAH (PMR/UKS) */
+            --primary: #ef4444;
+            --primary-dark: #991b1b;
+            --secondary: #dc2626;
+            --ink: #0f172a;
+            --slate: #475569;
+            --pro: #991b1b;
+            --amber: #f59e0b;
+            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
             --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --shadow-sm: 0 4px 20px rgba(30, 58, 138, 0.08);
-            --shadow-md: 0 10px 40px rgba(30, 58, 138, 0.12);
-            --shadow-lg: 0 25px 60px rgba(30, 58, 138, 0.18);
+            --shadow-sm: 0 4px 20px rgba(153, 27, 27, 0.08);
+            --shadow-md: 0 10px 40px rgba(153, 27, 27, 0.12);
+            --shadow-lg: 0 25px 60px rgba(153, 27, 27, 0.18);
             --radius: 18px;
         }
         * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -26,35 +32,35 @@
         body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #fafbfc; color: var(--ink); line-height: 1.7; overflow-x: hidden; }
 
         /* Navbar */
-        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(30, 58, 138, 0.06); border-bottom: 1px solid rgba(30, 58, 138, 0.08); padding: 12px 0; transition: all 0.4s ease; }
-        .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(153, 27, 27, 0.06); border-bottom: 1px solid rgba(153, 27, 27, 0.08); padding: 12px 0; transition: all 0.4s ease; }
+        .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(153, 27, 27, 0.1); }
         .navbar-brand { display: flex; align-items: center; }
         .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
         .navbar-brand:hover img { transform: scale(1.05); }
         .nav-link { font-weight: 600; font-size: 0.95rem; color: var(--slate) !important; padding: 10px 18px !important; border-radius: 10px; transition: all 0.3s ease; letter-spacing: 0.2px; }
-        .nav-link:hover { color: var(--primary-dark) !important; background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08)); transform: translateY(-1px); }
-        .nav-link.active { color: white !important; background: var(--gradient-primary); box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25); }
-        .user-btn { background: var(--gradient-primary); color: white !important; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3); transition: all 0.3s; }
-        .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(30,58,138,0.4); }
+        .nav-link:hover { color: var(--primary-dark) !important; background: linear-gradient(135deg, rgba(153,27,27,0.08), rgba(239,68,68,0.08)); transform: translateY(-1px); }
+        .nav-link.active { color: white !important; background: var(--gradient-primary); box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25); }
+        .user-btn { background: var(--gradient-primary); color: white !important; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3); transition: all 0.3s; }
+        .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(153,27,27,0.4); }
         .dropdown-menu { border: none; border-radius: 14px; box-shadow: 0 20px 50px rgba(15,23,42,0.15); padding: 10px; margin-top: 10px; }
         .dropdown-item { border-radius: 8px; padding: 10px 14px; font-weight: 500; transition: all 0.2s; }
-        .dropdown-item:hover { background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08)); transform: translateX(4px); }
+        .dropdown-item:hover { background: linear-gradient(135deg, rgba(153,27,27,0.08), rgba(239,68,68,0.08)); transform: translateX(4px); }
 
         /* Header & Layout */
-        .page-header { background: linear-gradient(135deg, #f6f9fc 0%, #eef3fb 100%); padding: 140px 0 80px; text-align: center; position: relative; }
+        .page-header { background: linear-gradient(135deg, #f6f9fc 0%, #fef2f2 100%); padding: 140px 0 80px; text-align: center; position: relative; }
         .section { padding: 90px 0; position: relative; }
-        .section-label { display: inline-block; padding: 6px 16px; background: rgba(59,130,246,0.12); color: #1e3a8a; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+        .section-label { display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: #991b1b; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
         .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; line-height: 1.2; }
         .section-subtitle { color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
         .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* Service Card */
-        .service-card { background: white; border-radius: var(--radius); box-shadow: 0 4px 20px rgba(30,58,138,0.06); margin-bottom: 25px; text-align: left; height: 100%; border: 1px solid rgba(30,58,138,0.08); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .service-card { background: white; border-radius: var(--radius); box-shadow: 0 4px 20px rgba(153,27,27,0.06); margin-bottom: 25px; text-align: left; height: 100%; border: 1px solid rgba(153,27,27,0.08); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: transparent; }
         .service-image-wrapper { position: relative; overflow: hidden; border-radius: 12px; margin: 20px 24px 16px 24px; cursor: pointer; }
         .service-image { width: 100%; height: 160px; object-fit: cover; transition: transform 0.4s ease; }
         .service-image-wrapper:hover .service-image { transform: scale(1.05); }
-        .service-image-wrapper::after { content: '\f00e'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.2rem; color: white; background: rgba(30, 58, 138, 0.7); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; z-index: 2; pointer-events: none; }
+        .service-image-wrapper::after { content: '\f00e'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 1.2rem; color: white; background: rgba(153, 27, 27, 0.7); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; z-index: 2; pointer-events: none; }
         .service-image-wrapper:hover::after { transform: translate(-50%, -50%) scale(1); }
         .service-icon { position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(4px); color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 3; transition: all 0.3s ease; }
         .service-card:hover .service-icon { transform: scale(1.1); background: white; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
@@ -63,24 +69,24 @@
         .service-card p { color: var(--slate); font-size: 0.92rem; margin-bottom: 0; line-height: 1.6; }
 
         /* Custom Accordion FAQ */
-        .accordion-item { border: 1px solid rgba(30,58,138,0.08) !important; }
+        .accordion-item { border: 1px solid rgba(153,27,27,0.08) !important; }
         .accordion-button { font-weight: 600; font-size: 1rem; color: var(--ink); background: white; box-shadow: none !important; padding: 20px 24px; }
-        .accordion-button:not(.collapsed) { background: linear-gradient(135deg, rgba(30,58,138,0.04), rgba(59,130,246,0.04)); color: var(--primary-dark); }
+        .accordion-button:not(.collapsed) { background: linear-gradient(135deg, rgba(153,27,27,0.04), rgba(239,68,68,0.04)); color: var(--primary-dark); }
         .accordion-button:focus { border-color: transparent; box-shadow: none; }
         .accordion-body { padding: 0 24px 24px 24px; color: var(--slate); line-height: 1.7; font-size: 0.95rem; }
 
         /* Footer & Button */
-        .btn-doc-all { background: var(--gradient-primary); color: white; padding: 12px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(30,58,138,0.25); transition: all 0.3s ease; }
-        .btn-doc-all:hover { color: white; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(30,58,138,0.35); }
+        .btn-doc-all { background: var(--gradient-primary); color: white; padding: 12px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(153,27,27,0.25); transition: all 0.3s ease; }
+        .btn-doc-all:hover { color: white; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(153,27,27,0.35); }
         footer { background: var(--gradient-dark); color: white; padding: 80px 0 30px; position: relative; overflow: hidden; }
-        footer::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 10% 20%, rgba(30,58,138,0.25) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(59,130,246,0.15) 0%, transparent 40%); }
+        footer::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 10% 20%, rgba(153,27,27,0.25) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(239,68,68,0.15) 0%, transparent 40%); }
         footer .container { position: relative; z-index: 1; }
         .footer-logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.4rem; }
         footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
         .footer-menu { list-style: none; padding: 0; margin: 0; }
         .footer-menu li { margin-bottom: 12px; }
         .footer-menu a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
+        .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
 
         @media (max-width: 768px) { 
@@ -119,10 +125,10 @@
                                     <li class="dropdown-header text-center pb-2">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark">{{ auth()->user()->name ?? 'User' }}</strong>
-                                        <span class="badge bg-primary mt-1">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
+                                        <span class="badge mt-1" style="background: var(--primary); color: white;">{{ auth()->user()->getRoleNames()->first() ?? 'User' }}</span>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt me-2" style="color: var(--primary);"></i> Dashboard</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
@@ -133,9 +139,9 @@
                                 @else
                                     <li class="dropdown-header text-center"><small class="text-muted">Pilih Login</small></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item fw-semibold" href="{{ route('login') }}"><i class="fas fa-user-shield me-2 text-primary"></i> Admin</a></li>
+                                    <li><a class="dropdown-item fw-semibold" href="{{ route('login') }}"><i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ route('login.siswa') }}"><i class="fas fa-user-graduate me-2 text-info"></i> Login Siswa</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('login.siswa') }}"><i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa</a></li>
                                 @endauth
                             </ul>
                         </div>
@@ -177,13 +183,13 @@
                         <div class="service-image-wrapper" 
                              data-bs-toggle="modal" 
                              data-bs-target="#serviceImageModal"
-                             data-image="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}"
+                             data-image="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS' }}"
                              data-title="{{ $s['title'] ?? 'Layanan' }}">
                             
-                            <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS' }}" 
+                            <img src="{{ !empty($s['image']) ? asset('storage/' . $s['image']) : 'https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS' }}" 
                                  alt="{{ $s['title'] }}" 
                                  class="service-image"
-                                 onerror="this.src='https://via.placeholder.com/400x200/3b82f6/ffffff?text=Layanan+UKS'">
+                                 onerror="this.src='https://via.placeholder.com/400x200/ef4444/ffffff?text=Layanan+UKS'">
                         </div>
                         
                         <div class="service-icon">

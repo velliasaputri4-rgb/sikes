@@ -12,25 +12,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --secondary: #2563eb;
-            --accent: #8b5cf6;
+            /* ✅ TEMA MERAH (PMR/UKS) */
+            --primary: #ef4444;
+            --primary-dark: #991b1b;
+            --secondary: #dc2626;
+            --accent: #f43f5e;
             --emerald: #10b981;
             --rose: #f43f5e;
             --amber: #f59e0b;
             --ink: #0f172a;
             --slate: #475569;
             --light: #f8fafc;
-            --pro: #1e3a8a;
-            --pro-dark: #172c6e;
-            --pro-light: #3b82f6;
-            --gradient-pro: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --pro: #991b1b;
+            --pro-dark: #7f1d1d;
+            --pro-light: #ef4444;
+            --gradient-pro: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
             --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --shadow-sm: 0 4px 20px rgba(30, 58, 138, 0.08);
-            --shadow-md: 0 10px 40px rgba(30, 58, 138, 0.12);
-            --shadow-lg: 0 25px 60px rgba(30, 58, 138, 0.18);
+            --shadow-sm: 0 4px 20px rgba(153, 58, 27, 0.08);
+            --shadow-md: 0 10px 40px rgba(153, 58, 27, 0.12);
+            --shadow-lg: 0 25px 60px rgba(153, 58, 27, 0.18);
             --radius: 18px;
         }
         
@@ -49,17 +50,17 @@
             overflow-x: hidden;
         }
 
-        /* ===== NAVBAR (SAMA PERSIS DENGAN LANDING PAGE) ===== */
+        /* ===== NAVBAR ===== */
         .navbar {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(30, 58, 138, 0.06);
-            border-bottom: 1px solid rgba(30, 58, 138, 0.08);
+            box-shadow: 0 4px 30px rgba(153, 27, 27, 0.06);
+            border-bottom: 1px solid rgba(153, 27, 27, 0.08);
             padding: 12px 0;
             transition: all 0.4s ease;
         }
-        .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
+        .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(153, 27, 27, 0.1); }
         .navbar-brand { display: flex; align-items: center; }
         .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
         .navbar-brand:hover img { transform: scale(1.05); }
@@ -74,13 +75,13 @@
         }
         .nav-link:hover {
             color: var(--primary-dark) !important;
-            background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+            background: linear-gradient(135deg, rgba(153, 27, 27, 0.08), rgba(239, 68, 68, 0.08));
             transform: translateY(-1px);
         }
         .nav-link.active {
             color: white !important;
             background: var(--gradient-primary);
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.25);
+            box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
         }
 
         .user-btn {
@@ -93,10 +94,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+            box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3);
             transition: all 0.3s;
         }
-        .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(30,58,138,0.4); }
+        .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(153, 27, 27, 0.4); }
 
         .dropdown-menu {
             border: none;
@@ -112,13 +113,13 @@
             transition: all 0.2s;
         }
         .dropdown-item:hover {
-            background: linear-gradient(135deg, rgba(30,58,138,0.08), rgba(59,130,246,0.08));
+            background: linear-gradient(135deg, rgba(153, 27, 27, 0.08), rgba(239, 68, 68, 0.08));
             transform: translateX(4px);
         }
 
         .section { padding: 80px 0; position: relative; }
         .section-label {
-            display: inline-block; padding: 6px 16px; background: rgba(59,130,246,0.12); color: var(--pro);
+            display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: var(--pro);
             border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
         }
         .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
@@ -128,7 +129,7 @@
         /* Doc Card Styling */
         .doc-card {
             background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease; height: 100%; border: 1px solid rgba(30,58,138,0.08); display: flex; flex-direction: column;
+            transition: all 0.3s ease; height: 100%; border: 1px solid rgba(153, 27, 27, 0.08); display: flex; flex-direction: column;
         }
         .doc-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
         .doc-image { width: 100%; height: 240px; overflow: hidden; position: relative; }
@@ -168,8 +169,8 @@
             position: absolute;
             inset: 0;
             background-image:
-                radial-gradient(circle at 10% 20%, rgba(30,58,138,0.25) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(59,130,246,0.15) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(153, 27, 27, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.15) 0%, transparent 40%);
         }
         footer .container { position: relative; z-index: 1; }
         .footer-logo {
@@ -189,7 +190,7 @@
             transition: all 0.3s;
             display: inline-flex; align-items: center; gap: 8px;
         }
-        .footer-menu a:hover { color: #93c5fd; transform: translateX(6px); }
+        .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
             margin-top: 50px;
@@ -207,7 +208,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Navbar (SAMA PERSIS DENGAN LANDING PAGE) -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
@@ -233,12 +234,12 @@
                                     <li class="dropdown-header text-center pb-2">
                                         <small class="text-muted d-block">Halo,</small>
                                         <strong class="text-dark"><?php echo e(auth()->user()->name ?? 'User'); ?></strong>
-                                        <span class="badge bg-primary mt-1"><?php echo e(auth()->user()->getRoleNames()->first() ?? 'User'); ?></span>
+                                        <span class="badge mt-1" style="background: var(--primary); color: white;"><?php echo e(auth()->user()->getRoleNames()->first() ?? 'User'); ?></span>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="<?php echo e(route('dashboard')); ?>">
-                                            <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
+                                            <i class="fas fa-tachometer-alt me-2" style="color: var(--primary);"></i> Dashboard
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
@@ -257,13 +258,13 @@
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item fw-semibold" href="<?php echo e(route('login')); ?>">
-                                            <i class="fas fa-user-shield me-2 text-primary"></i> Admin
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="<?php echo e(route('login.siswa')); ?>">
-                                            <i class="fas fa-user-graduate me-2 text-info"></i> Login Siswa
+                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -276,7 +277,7 @@
     </nav>
 
     <!-- Header & Content Section -->
-    <section class="section flex-grow-1" style="background: linear-gradient(180deg, #fafbfc 0%, #f0f4f8 100%);">
+    <section class="section flex-grow-1" style="background: linear-gradient(180deg, #fafbfc 0%, #fef2f2 100%);">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-label"><?php echo e(\App\Models\Setting::get('docs_label', 'Dokumentasi')); ?></span>
@@ -289,9 +290,9 @@
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e(($index % 3) * 100); ?>">
                         <div class="doc-card">
                             <div class="doc-image">
-                                <img src="<?php echo e($doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'); ?>" 
+                                <img src="<?php echo e($doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/ef4444/ffffff?text=Dokumentasi+UKS'); ?>" 
                                      alt="<?php echo e($doc->title); ?>" 
-                                     onerror="this.src='https://via.placeholder.com/600x400/3b82f6/ffffff?text=Dokumentasi+UKS'">
+                                     onerror="this.src='https://via.placeholder.com/600x400/ef4444/ffffff?text=Dokumentasi+UKS'">
                                 
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($doc->video_link)): ?>
                                     <a href="<?php echo e($doc->video_link); ?>" target="_blank" class="video-overlay" title="Putar Video">
@@ -348,7 +349,7 @@
                         <li><a href="<?php echo e(route('landing')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Beranda</a></li>
                         <li><a href="<?php echo e(route('landing.about')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Tentang</a></li>
                         <li><a href="<?php echo e(route('landing.services')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Layanan</a></li>
-                        <li><a href="<?php echo e(route('landing.docs')); ?>" class="btn-doc-all"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
+                        <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-3">

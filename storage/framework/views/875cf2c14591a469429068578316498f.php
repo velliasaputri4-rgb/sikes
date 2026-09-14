@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palet "Biru Profesional": Tegas, Profesional, Terpercaya */
             --primary: #3b82f6;
             --primary-dark: #1e3a8a;
             --secondary: #2563eb;
@@ -17,9 +16,8 @@
             --pro-light: #3b82f6;
             --ink: #0f172a;
             --slate: #475569;
-            --muted: #94a3b8;
+            --muted: #cbd5e1;
             --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            --gradient-light: linear-gradient(180deg, #f7fafc 0%, #edf2fa 100%);
         }
 
         * { -webkit-font-smoothing: antialiased; }
@@ -27,33 +25,30 @@
         body {
             min-height: 100vh;
             display: flex;
-            background: var(--gradient-light);
             font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
             position: relative;
             overflow-x: hidden;
             padding: 40px 16px;
-            color: var(--ink);
+            color: #ffffff;
+            margin: 0;
+
+            /* ✅ Background Gambar dengan Overlay Samar */
+            background: 
+                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(30, 58, 138, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
+                url('/images/login.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            pointer-events: none;
-        }
-        .blob-1 { width: 420px; height: 420px; background: #1e3a8a; top: -120px; left: -120px; animation: float1 22s ease-in-out infinite; opacity: 0.22; }
-        .blob-2 { width: 380px; height: 380px; background: #3b82f6; top: 50%; right: -100px; animation: float2 28s ease-in-out infinite; opacity: 0.18; }
-        .blob-3 { width: 300px; height: 300px; background: #2563eb; bottom: -100px; left: 30%; animation: float1 30s ease-in-out infinite reverse; opacity: 0.15; }
-        @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
-        @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
-
+        /* ✅ Overlay tambahan untuk memastikan teks tetap terbaca */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-image: radial-gradient(circle, rgba(30,58,138,0.06) 1px, transparent 1px);
-            background-size: 28px 28px;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
         }
@@ -64,11 +59,16 @@
             width: 100%;
             max-width: 380px;
             margin: auto;
-            background: white;
+
+            /* ✅ Card Transparan dengan Glassmorphism */
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 32px 28px;
-            box-shadow: 0 25px 60px rgba(30, 58, 138, 0.14);
-            border: 1px solid rgba(30, 58, 138, 0.08);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes fadeUp {
@@ -87,6 +87,7 @@
             height: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
         }
         .logo-wrapper img:hover {
             transform: scale(1.05);
@@ -95,19 +96,20 @@
         .login-title {
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
-            color: var(--ink);
+            color: #ffffff;
             font-size: 1.35rem;
             letter-spacing: -0.5px;
             margin-bottom: 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #93c5fd 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .login-subtitle {
-            color: var(--slate);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 13px;
             font-weight: 500;
             margin-bottom: 0;
@@ -116,7 +118,7 @@
         .form-label {
             font-weight: 700;
             font-size: 12.5px;
-            color: var(--ink);
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 6px;
             letter-spacing: 0.1px;
         }
@@ -125,25 +127,32 @@
             position: absolute;
             left: 13px; top: 50%;
             transform: translateY(-50%);
-            color: var(--muted);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 13px;
             transition: color 0.2s;
+            z-index: 2;
         }
         .input-icon .form-control { padding-left: 38px; }
         .form-control {
             border-radius: 11px;
             padding: 10px 13px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid rgba(255, 255, 255, 0.25);
             font-size: 13.5px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             transition: all 0.3s;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
         .form-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+            border-color: rgba(147, 197, 253, 0.8);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            color: #ffffff;
         }
-        .input-icon:focus-within > i:first-child { color: var(--primary); }
+        .input-icon:focus-within > i:first-child { color: #93c5fd; }
 
         .toggle-pass {
             position: absolute;
@@ -151,21 +160,23 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: var(--muted);
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             padding: 3px;
             transition: color 0.2s;
+            z-index: 2;
         }
-        .toggle-pass:hover { color: var(--primary); }
+        .toggle-pass:hover { color: #ffffff; }
 
         .form-check-input {
             width: 15px; height: 15px;
             cursor: pointer;
-            border: 2px solid #cbd5e1;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
         }
         .form-check-label {
             font-size: 12.5px;
-            color: var(--slate);
+            color: rgba(255, 255, 255, 0.9);
             cursor: pointer;
             font-weight: 500;
         }
@@ -174,7 +185,7 @@
             border-color: var(--primary);
         }
         .form-check-input:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
 
         .btn-login {
@@ -196,7 +207,7 @@
             overflow: hidden;
             margin-top: 8px;
             background: var(--gradient-primary);
-            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.3);
+            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.5);
         }
         .btn-login::before {
             content: '';
@@ -210,11 +221,11 @@
         .btn-login:hover {
             transform: translateY(-2px);
             color: white;
-            box-shadow: 0 12px 30px rgba(30, 58, 138, 0.45);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
         }
 
         .link-home {
-            color: var(--slate);
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             font-size: 12.5px;
             font-weight: 600;
@@ -224,35 +235,37 @@
             gap: 4px;
         }
         .link-home:hover {
-            color: var(--primary);
+            color: #93c5fd;
             transform: translateX(-3px);
         }
 
         .siswa-note {
-            background: linear-gradient(135deg, #f6f9fc, #eef3fb);
-            border: 1px solid rgba(30, 58, 138, 0.12);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 11px;
             padding: 10px 14px;
             font-size: 12px;
-            color: var(--slate);
+            color: rgba(255, 255, 255, 0.9);
             margin-top: 20px !important;
             font-weight: 500;
         }
-        .siswa-note i { color: var(--primary); }
+        .siswa-note i { color: #93c5fd; }
         .siswa-note a {
-            color: var(--pro);
+            color: #ffffff;
             font-weight: 700;
             text-decoration: none;
             transition: color 0.2s;
         }
-        .siswa-note a:hover { color: var(--pro-light); }
+        .siswa-note a:hover { color: #93c5fd; }
 
         .mb-3 { margin-bottom: 14px !important; }
 
         .alert-error {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            border: 1px solid #fca5a5;
-            color: #991b1b;
+            background: rgba(254, 226, 226, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(252, 165, 165, 0.4);
+            color: #fecaca;
             padding: 10px 12px;
             border-radius: 10px;
             font-size: 12.5px;
@@ -272,10 +285,6 @@
     </style>
 </head>
 <body>
-
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
 
     <div class="login-card">
         

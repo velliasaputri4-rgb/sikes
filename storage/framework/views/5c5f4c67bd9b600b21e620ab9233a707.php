@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SIKES</title>
+    <title>Login Siswa - SIKES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ✅ TEMA MERAH (PMR/UKS) */
-            --primary: #ef4444;
-            --primary-dark: #991b1b;
-            --secondary: #dc2626;
-            --pro: #991b1b;
-            --pro-light: #ef4444;
+            /* Palet "Biru Profesional" - konsisten seluruh website */
+            --primary: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --secondary: #2563eb;
+            --pro: #1e3a8a;
+            --pro-light: #3b82f6;
             --ink: #0f172a;
             --slate: #475569;
-            --muted: #cbd5e1;
-            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            --muted: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
 
         * { -webkit-font-smoothing: antialiased; }
@@ -33,9 +33,9 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ Background Gambar dengan Overlay Merah Samar */
+            /* ✅ Background Gambar dengan Overlay Samar */
             background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(153, 27, 27, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(30, 58, 138, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
                 url('/images/login.jpeg');
             background-size: cover;
             background-position: center;
@@ -43,13 +43,13 @@
             background-attachment: fixed;
         }
 
-        /* ✅ Overlay tambahan merah untuk memastikan teks tetap terbaca */
+        /* ✅ Overlay tambahan untuk memastikan teks tetap terbaca */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(153, 27, 27, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
         }
@@ -66,7 +66,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 32px 28px;
+            padding: 26px 24px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.25);
@@ -104,15 +104,14 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            /* ✅ Gradient teks merah muda ke putih */
-            background: linear-gradient(135deg, #fca5a5 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #93c5fd 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .login-subtitle {
             color: rgba(255, 255, 255, 0.85);
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 500;
             margin-bottom: 0;
         }
@@ -149,55 +148,21 @@
             color: rgba(255, 255, 255, 0.5);
         }
         .form-control:focus {
-            border-color: rgba(252, 165, 165, 0.8);
+            border-color: rgba(147, 197, 253, 0.8);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
             color: #ffffff;
         }
-        .input-icon:focus-within > i:first-child { color: #fca5a5; }
-
-        .toggle-pass {
-            position: absolute;
-            right: 12px; top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            padding: 3px;
-            transition: color 0.2s;
-            z-index: 2;
-        }
-        .toggle-pass:hover { color: #ffffff; }
-
-        .form-check-input {
-            width: 15px; height: 15px;
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .form-check-label {
-            font-size: 12.5px;
-            color: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .form-check-input:checked {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-        .form-check-input:focus {
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
-        }
+        .input-icon:focus-within > i:first-child { color: #93c5fd; }
 
         .btn-login {
             width: 100%;
             border: none;
             color: white;
             font-weight: 700;
-            padding: 12px;
+            padding: 11px;
             border-radius: 11px;
-            font-size: 14px;
+            font-size: 13.5px;
             letter-spacing: 0.3px;
             transition: all 0.3s;
             display: inline-flex;
@@ -207,9 +172,9 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             position: relative;
             overflow: hidden;
-            margin-top: 8px;
+            margin-top: 6px;
             background: var(--gradient-primary);
-            box-shadow: 0 8px 22px rgba(153, 27, 27, 0.5);
+            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.5);
         }
         .btn-login::before {
             content: '';
@@ -223,7 +188,7 @@
         .btn-login:hover {
             transform: translateY(-2px);
             color: white;
-            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.6);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
         }
 
         .link-home {
@@ -237,50 +202,37 @@
             gap: 4px;
         }
         .link-home:hover {
-            color: #fca5a5;
+            color: #93c5fd;
             transform: translateX(-3px);
         }
 
-        .siswa-note {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 11px;
-            padding: 10px 14px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-top: 20px !important;
-            font-weight: 500;
-        }
-        .siswa-note i { color: #fca5a5; }
-        .siswa-note a {
-            color: #ffffff;
-            font-weight: 700;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .siswa-note a:hover { color: #fca5a5; }
-
-        .mb-3 { margin-bottom: 14px !important; }
+        .mb-3 { margin-bottom: 12px !important; }
 
         .alert-error {
             background: rgba(254, 226, 226, 0.15);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(252, 165, 165, 0.4);
             color: #fecaca;
-            padding: 10px 12px;
+            padding: 9px 12px;
             border-radius: 10px;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        /* ✅ Perbaikan warna text-danger agar terlihat di background gelap */
+        .text-danger {
+            color: #fca5a5 !important;
+            font-size: 11.5px;
+            margin-top: 4px;
+        }
+
         @media (max-width: 480px) {
             body { padding: 24px 14px; }
-            .login-card { padding: 24px 20px; border-radius: 16px; }
+            .login-card { padding: 22px 18px; border-radius: 16px; }
             .login-title { font-size: 1.2rem; }
             .logo-wrapper img { max-width: 120px; }
         }
@@ -289,83 +241,92 @@
 <body>
 
     <div class="login-card">
-        {{-- Logo Tanpa Background/Circle --}}
+        
         <div class="logo-wrapper">
-            <img src="{{ asset('images/logo sikes navbar.png') }}" alt="Logo SIKES">
+            <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
         </div>
 
-        <div class="text-center mb-4">
-            <h3 class="login-title mb-1">Welcome to <span class="gradient-text">SIKES</span></h3>
-            <p class="login-subtitle">Masuk ke Dashboard Sistem Informasi UKS</p>
+        <div class="text-center">
+            <h3 class="login-title mb-1">Cek <span class="gradient-text">Riwayat</span> Kunjungan</h3>
+            <p class="login-subtitle">Masukkan NIS dan Tanggal Lahir untuk melihat riwayat</p>
         </div>
 
-        {{-- Error Message --}}
-        @if($errors->any())
-            <div class="alert-error">
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
+            <div class="alert-error mt-3">
                 <i class="fas fa-exclamation-circle"></i>
-                {{ $errors->first() }}
-            </div>
-        @endif
+                <?php echo e($errors->first()); ?>
 
-        {{-- Form Login Unified --}}
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+            </div>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+        
+        <form method="POST" action="<?php echo e(route('login.siswa')); ?>" class="mt-3">
+            <?php echo csrf_field(); ?>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="nis" class="form-label">NIS (Nomor Induk Siswa)</label>
                 <div class="input-icon">
-                    <i class="fas fa-envelope"></i>
-                    <input id="email" type="email" class="form-control" name="email"
-                           value="{{ old('email') }}" placeholder="nama@sikes.com" required autofocus>
+                    <i class="fas fa-id-card"></i>
+                    <input id="nis" type="text" class="form-control <?php $__errorArgs = ['nis'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                           name="nis" required autofocus placeholder="Masukkan NIS Anda" value="<?php echo e(old('nis')); ?>">
                 </div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nis'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <div class="text-danger"><?php echo e($message); ?></div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="birth_date" class="form-label">Tanggal Lahir</label>
                 <div class="input-icon">
-                    <i class="fas fa-lock"></i>
-                    <input id="password" type="password" class="form-control" name="password"
-                           placeholder="••••••••" required>
-                    <button type="button" class="toggle-pass" onclick="togglePassword()" tabindex="-1">
-                        <i class="fas fa-eye" id="eyeIcon"></i>
-                    </button>
+                    <i class="fas fa-cake-candles"></i>
+                    <input id="birth_date" type="date" class="form-control <?php $__errorArgs = ['birth_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                           name="birth_date" required>
                 </div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                    <label class="form-check-label" for="remember">Ingat saya</label>
-                </div>
-                <a href="{{ route('landing') }}" class="link-home">
-                    <i class="fas fa-arrow-left"></i> Beranda
-                </a>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['birth_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <div class="text-danger"><?php echo e($message); ?></div>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
             <button type="submit" class="btn-login">
-                <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
+                <i class="fas fa-search"></i> Lihat Riwayat
             </button>
         </form>
 
-        {{-- Catatan siswa --}}
-        <div class="siswa-note text-center">
-            <i class="fas fa-info-circle me-1"></i>
-            Siswa? Lihat riwayat melalui <a href="{{ route('login.siswa') }}">form khusus siswa</a>
+        <div class="text-center mt-3">
+            <a href="<?php echo e(route('landing')); ?>" class="link-home">
+                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+            </a>
         </div>
     </div>
 
-    <script>
-        function togglePassword() {
-            const p = document.getElementById('password');
-            const icon = document.getElementById('eyeIcon');
-            if (p.type === 'password') {
-                p.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                p.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-    </script>
 </body>
-</html>
+</html><?php /**PATH C:\laragon\www\sikes\resources\views/auth/login-siswa.blade.php ENDPATH**/ ?>
