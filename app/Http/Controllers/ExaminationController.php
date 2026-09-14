@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Examination;
 use App\Models\Student;
 use App\Models\Kelas; 
+use App\Models\Medicine; // ✅ Tambahkan import Model Medicine
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +49,7 @@ class ExaminationController extends Controller
         ];
     }
 
-    // ✅ DIPERBAIKI: Mendeteksi berdasarkan Route/URL, bukan hanya Role User
+    // ✅ Mendeteksi berdasarkan Route/URL, bukan hanya Role User
     private function getViewPrefix()
     {
         // 1. Cek berdasarkan nama route yang sedang diakses (Paling Akurat)
@@ -73,7 +74,7 @@ class ExaminationController extends Controller
         return 'petugas';
     }
 
-    // ✅ DIPERBAIKI: Menggunakan logika yang sama agar redirect selalu konsisten
+    // ✅ Menggunakan logika yang sama agar redirect selalu konsisten
     private function getRoutePrefix()
     {
         return $this->getViewPrefix();
@@ -103,10 +104,14 @@ class ExaminationController extends Controller
     public function create()
     {
         $jadwalPiket = $this->getJadwalPiket();
-        return view($this->getViewPrefix() . '.examinations.create', compact('jadwalPiket'));
+        
+        // ✅ AMBIL DATA OBAT DARI DATABASE (Hanya yang stoknya > 0, diurutkan berdasarkan nama)
+        $medicines = Medicine::where('stock', '>', 0)->orderBy('name', 'asc')->get();
+        
+        return view($this->getViewPrefix() . '.examinations.create', compact('jadwalPiket', 'medicines'));
     }
 
-    // ✅ METHOD STORE YANG SUDAH DIPERBAIKI (MENGGUNAKAN ID UNTUK PENOMORAN)
+    // ✅ METHOD STORE
     public function store(Request $request)
     {
         // 1. Validasi Input
@@ -143,25 +148,21 @@ class ExaminationController extends Controller
             ]);
         }
 
-        // 3. ✅ GENERATE NOMOR PEMERIKSAAN (LOGIKA BARU - PAKAI ID AGAR PASTI)
+        // 3. GENERATE NOMOR PEMERIKSAAN
         $today = Carbon::now()->format('Ymd');
         $prefix = 'UKS-' . $today . '-';
         
-        // Cari data terakhir hari ini berdasarkan ID (paling baru)
         $lastExam = Examination::where('examination_number', 'like', $prefix . '%')
-            ->orderBy('id', 'desc') // ✅ Menggunakan ID yang selalu unik dan berurutan
+            ->orderBy('id', 'desc')
             ->first();
         
         if ($lastExam) {
-            // Ambil 4 digit terakhir dari nomor pemeriksaan, ubah ke angka, tambah 1
             $lastNumber = (int) substr($lastExam->examination_number, -4);
             $newNumber = $lastNumber + 1;
         } else {
-            // Jika belum ada data hari ini, mulai dari 1
             $newNumber = 1;
         }
         
-        // Format jadi 4 digit (0001, 0002, dst)
         $examNumber = $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
         // 4. Upload Foto (Jika Ada)
@@ -206,8 +207,11 @@ class ExaminationController extends Controller
         $examination = Examination::with('student.class')->findOrFail($id);
         $jadwalPiket = $this->getJadwalPiket();
         $students = Student::with('class')->get();
+        
+        // ✅ Ambil data obat juga untuk halaman edit (opsional, tapi bagus untuk konsistensi)
+        $medicines = Medicine::where('stock', '>', 0)->orderBy('name', 'asc')->get();
 
-        return view($this->getViewPrefix() . '.examinations.edit', compact('examination', 'jadwalPiket', 'students'));
+        return view($this->getViewPrefix() . '.examinations.edit', compact('examination', 'jadwalPiket', 'students', 'medicines'));
     }
 
     public function update(Request $request, $id)

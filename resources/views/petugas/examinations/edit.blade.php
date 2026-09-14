@@ -103,9 +103,27 @@
                         @error('diagnosis') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
+                    {{-- ✅ PERUBAHAN: DATALIST DENGAN ATRIBUT LABEL (Stok terlihat, tapi yang tersimpan hanya nama obat) --}}
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Obat yang Diberikan</label>
-                        <input type="text" name="medicine" class="form-control" placeholder="Contoh: Paracetamol 500mg (2 tablet), Vitamin C (1 tablet)" value="{{ old('medicine', $examination->medicine) }}">
+                        <input type="text" name="medicine" class="form-control @error('medicine') is-invalid @enderror" 
+                               list="medicineList" placeholder="Ketik nama obat atau pilih dari daftar..." value="{{ old('medicine', $examination->medicine) }}">
+                        
+                        <!-- Daftar saran dari database -->
+                        <datalist id="medicineList">
+                            @if(isset($medicines))
+                                @foreach($medicines as $med)
+                                    <!-- value: yang akan masuk ke form, label: teks petunjuk di sebelah kanan dropdown -->
+                                    <option value="{{ $med->name }}" label="Sisa Stok: {{ $med->stock }} {{ $med->unit }}">
+                                @endforeach
+                            @endif
+                        </datalist>
+                        
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Ketik nama obat untuk melihat saran & sisa stok, atau ketik manual untuk memasukkan dosis spesifik.
+                        </small>
+                        @error('medicine') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="row g-3">
