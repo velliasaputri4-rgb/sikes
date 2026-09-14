@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Examination;
 use App\Models\Student;
 use App\Models\Kelas; 
-use App\Models\Medicine; // ✅ Tambahkan import Model Medicine
+use App\Models\Medicine;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +52,6 @@ class ExaminationController extends Controller
     // ✅ Mendeteksi berdasarkan Route/URL, bukan hanya Role User
     private function getViewPrefix()
     {
-        // 1. Cek berdasarkan nama route yang sedang diakses (Paling Akurat)
         if (request()->routeIs('petugas.*')) {
             return 'petugas';
         }
@@ -60,13 +59,11 @@ class ExaminationController extends Controller
             return 'admin';
         }
 
-        // 2. Fallback: Cek berdasarkan segmen pertama URL (misal: 'petugas' atau 'admin')
         $prefix = request()->segment(1);
         if (in_array($prefix, ['admin', 'petugas'])) {
             return $prefix;
         }
 
-        // 3. Fallback terakhir berdasarkan role (jika route tidak terdeteksi)
         if (auth()->check() && (auth()->user()->hasRole('admin') || auth()->user()->hasRole('super-admin'))) {
             return 'admin';
         }
@@ -74,7 +71,6 @@ class ExaminationController extends Controller
         return 'petugas';
     }
 
-    // ✅ Menggunakan logika yang sama agar redirect selalu konsisten
     private function getRoutePrefix()
     {
         return $this->getViewPrefix();
@@ -104,17 +100,13 @@ class ExaminationController extends Controller
     public function create()
     {
         $jadwalPiket = $this->getJadwalPiket();
-        
-        // ✅ AMBIL DATA OBAT DARI DATABASE (Hanya yang stoknya > 0, diurutkan berdasarkan nama)
         $medicines = Medicine::where('stock', '>', 0)->orderBy('name', 'asc')->get();
         
         return view($this->getViewPrefix() . '.examinations.create', compact('jadwalPiket', 'medicines'));
     }
 
-    // ✅ METHOD STORE
     public function store(Request $request)
     {
-        // 1. Validasi Input
         $validated = $request->validate([
             'nis'              => 'required|string',
             'officer_name'     => 'required|string|max:255',
@@ -129,7 +121,6 @@ class ExaminationController extends Controller
             'notes'            => 'nullable|string|max:500',
         ]);
 
-        // 2. Cek atau Buat Data Siswa
         $student = Student::where('nis', $validated['nis'])->first();
         if (!$student) {
             $request->validate([
@@ -148,7 +139,6 @@ class ExaminationController extends Controller
             ]);
         }
 
-        // 3. GENERATE NOMOR PEMERIKSAAN
         $today = Carbon::now()->format('Ymd');
         $prefix = 'UKS-' . $today . '-';
         
@@ -165,13 +155,16 @@ class ExaminationController extends Controller
         
         $examNumber = $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
-        // 4. Upload Foto (Jika Ada)
         $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
-        // 5. Simpan ke Database
+        // ✅ PROSES PENGURANGAN STOK OBAT SECARA OTOMATIS
+        if (!empty($validated['medicine'])) {
+            $this->adjustMedicineStock($validated['medicine'], -1);
+        }
+
         try {
             Examination::create([
                 'examination_number' => $examNumber,
@@ -207,8 +200,6 @@ class ExaminationController extends Controller
         $examination = Examination::with('student.class')->findOrFail($id);
         $jadwalPiket = $this->getJadwalPiket();
         $students = Student::with('class')->get();
-        
-        // ✅ Ambil data obat juga untuk halaman edit (opsional, tapi bagus untuk konsistensi)
         $medicines = Medicine::where('stock', '>', 0)->orderBy('name', 'asc')->get();
 
         return view($this->getViewPrefix() . '.examinations.edit', compact('examination', 'jadwalPiket', 'students', 'medicines'));
@@ -245,6 +236,19 @@ class ExaminationController extends Controller
             $photoPath = $request->file('photo')->store('examinations', 'public');
         }
 
+        // ✅ HANDLE PERUBAHAN STOK SAAT DATA DIEDIT
+        if ($validated['medicine'] !== $examination->medicine) {
+            // 1. Kembalikan stok obat lama
+            if (!empty($examination->medicine)) {
+                $this->adjustMedicineStock($examination->medicine, 1);
+            }
+            
+            // 2. Kurangi stok obat baru
+            if (!empty($validated['medicine'])) {
+                $this->adjustMedicineStock($validated['medicine'], -1);
+            }
+        }
+
         $examination->update([
             'student_id'       => $student->id,
             'officer_name'     => $validated['officer_name'],
@@ -266,6 +270,11 @@ class ExaminationController extends Controller
     {
         $examination = Examination::findOrFail($id);
 
+        // ✅ KEMBALIKAN STOK OBAT SAAT DATA DIHAPUS
+        if (!empty($examination->medicine)) {
+            $this->adjustMedicineStock($examination->medicine, 1);
+        }
+
         if ($examination->photo) {
             Storage::disk('public')->delete($examination->photo);
         }
@@ -279,5 +288,60 @@ class ExaminationController extends Controller
     {
         $student = Student::with('class')->where('nis', $nis)->first();
         return response()->json($student);
+    }
+
+    /**
+     * ✅ FUNGSI HELPER: Menyesuaikan stok obat berdasarkan string input
+     * 
+     * @param string $medicineString (Contoh: "Paracetamol 500mg (2 tablet)")
+     * @param int $adjustment (1 untuk menambah/kembali, -1 untuk mengurangi)
+     */
+    private function adjustMedicineStock($medicineString, $adjustment)
+    {
+        if (empty($medicineString)) {
+            return;
+        }
+
+        $medicines = Medicine::all();
+        $matchedMedicine = null;
+        $quantity = 1; // Default 1 jika jumlah tidak terdeteksi
+
+        foreach ($medicines as $med) {
+            // Cek apakah nama obat ada di dalam string input (case-insensitive)
+            if (stripos($medicineString, $med->name) !== false) {
+                $matchedMedicine = $med;
+                
+                // Coba ekstrak jumlah dari string menggunakan Regex
+                // Mencari angka yang diikuti oleh satuan umum (tablet, kapsul, botol, dll)
+                if (preg_match('/\(?(\d+)\s*(?:tablet|kapsul|botol|sachet|tube|pcs|strip)\)?/i', $medicineString, $matches)) {
+                    $quantity = (int)$matches[1];
+                }
+                
+                break; // Hentikan loop setelah menemukan kecocokan pertama
+            }
+        }
+
+        if ($matchedMedicine) {
+            $newStock = $matchedMedicine->stock + ($adjustment * $quantity);
+            
+            // Pastikan stok tidak minus
+            if ($newStock < 0) {
+                $newStock = 0;
+            }
+
+            // Tentukan status baru secara otomatis
+            $status = 'available';
+            if ($newStock == 0) {
+                $status = 'empty';
+            } elseif ($newStock <= $matchedMedicine->minimum_stock) {
+                $status = 'low_stock';
+            }
+
+            // Update database
+            $matchedMedicine->update([
+                'stock' => $newStock,
+                'status' => $status
+            ]);
+        }
     }
 }
