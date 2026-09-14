@@ -56,6 +56,7 @@
         overflow-x: hidden;
     }
 
+    /* ✅ PERBAIKAN 1: Navbar fixed-top agar tetap di atas sampai bawah */
     .navbar {
         background: rgba(255,255,255,0.95);
         backdrop-filter: blur(20px);
@@ -64,11 +65,13 @@
         border-bottom: 1px solid rgba(30, 58, 138, 0.08);
         padding: 12px 0;
         transition: all 0.4s ease;
+        z-index: 1030; /* Pastikan di atas elemen lain */
     }
     .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(30, 58, 138, 0.1); }
     .navbar-brand { display: flex; align-items: center; }
     .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
     .navbar-brand:hover img { transform: scale(1.05); }
+    
     .nav-link {
         font-weight: 600;
         font-size: 0.95rem;
@@ -124,7 +127,7 @@
 
     .hero-section {
         position: relative;
-        padding: 100px 0 80px;
+        padding: 100px 0 80px; /* Padding atas 100px sudah cukup untuk navbar fixed-top */
         background: linear-gradient(180deg, #f7fafc 0%, #edf2fa 100%);
         overflow: hidden;
     }
@@ -932,8 +935,8 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <!-- ✅ PERBAIKAN 1: Menggunakan fixed-top agar navbar selalu di atas sampai bawah -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
                 <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
@@ -1050,27 +1053,18 @@
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="700">
                     <?php
-                        // ✅ LOGIKA CERDAS: Mencari jumlah anggota PMR dari berbagai sumber kemungkinan
-                        $pmrMemberCount = $totalStudents ?? 0; // Default fallback ke total siswa
-                        
+                        $pmrMemberCount = $totalStudents ?? 0; 
                         try {
-                            // 1. Cek tabel pivot schedule_student (jika anggota disimpan di relasi many-to-many)
                             if (\Illuminate\Support\Facades\Schema::hasTable('schedule_student')) {
                                 $count = \Illuminate\Support\Facades\DB::table('schedule_student')->distinct('student_id')->count('student_id');
                                 if ($count > 0) $pmrMemberCount = $count;
-                            }
-                            // 2. Cek tabel pivot schedule_user
-                            elseif (\Illuminate\Support\Facades\Schema::hasTable('schedule_user')) {
+                            } elseif (\Illuminate\Support\Facades\Schema::hasTable('schedule_user')) {
                                 $count = \Illuminate\Support\Facades\DB::table('schedule_user')->distinct('user_id')->count('user_id');
                                 if ($count > 0) $pmrMemberCount = $count;
-                            }
-                            // 3. Cek apakah ada kolom is_pmr di tabel students
-                            elseif (\Illuminate\Support\Facades\Schema::hasTable('students') && \Illuminate\Support\Facades\Schema::hasColumn('students', 'is_pmr')) {
+                            } elseif (\Illuminate\Support\Facades\Schema::hasTable('students') && \Illuminate\Support\Facades\Schema::hasColumn('students', 'is_pmr')) {
                                 $count = \App\Models\Student::where('is_pmr', 1)->count();
                                 if ($count > 0) $pmrMemberCount = $count;
-                            }
-                            // 4. Cek dari role Spatie (jika ada role khusus 'pmr')
-                            else {
+                            } else {
                                 $hasPmrRole = \Spatie\Permission\Models\Role::where('name', 'pmr')->exists();
                                 if ($hasPmrRole) {
                                     $count = \App\Models\User::role('pmr')->count();
@@ -1082,7 +1076,6 @@
                         }
                     ?>
                     <div class="stats-grid">
-                        <!-- Card 1: Siswa Terdaftar -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
@@ -1092,7 +1085,6 @@
                             </div>
                         </div>
                         
-                        <!-- Card 2: Kunjungan Hari Ini -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalKunjunganHari" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
@@ -1102,7 +1094,6 @@
                             </div>
                         </div>
                         
-                        <!-- Card 3: Total Kunjungan -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalTotalKunjungan" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
@@ -1112,7 +1103,6 @@
                             </div>
                         </div>
                         
-                        <!-- ✅ Card 4: Anggota PMR (Dihitung dari sumber data anggota, bukan jumlah jadwal) -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalPMR" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
                             <div>
@@ -1125,7 +1115,6 @@
                 </div>
             </div>
 
-            <!-- ✅ MODAL-MODAL BARU UNTUK DESKRIPSI SINGKAT -->
             <!-- Modal Siswa Terdaftar -->
             <div class="modal fade" id="modalSiswa" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -1183,7 +1172,7 @@
                 </div>
             </div>
 
-            <!-- ✅ Modal Anggota PMR -->
+            <!-- Modal Anggota PMR -->
             <div class="modal fade" id="modalPMR" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
@@ -1326,7 +1315,6 @@
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
             </div>
             
-            <!-- ✅ TOMBOL LIHAT SEMUA LAYANAN -->
             <div class="text-center mt-5" data-aos="fade-up">
                 <a href="<?php echo e(route('landing.services')); ?>" class="btn-doc-all">
                     Lihat Semua Layanan <i class="fas fa-arrow-right ms-2"></i>
@@ -1570,6 +1558,7 @@
             const sections = document.querySelectorAll("section[id]");
             const navLinks = document.querySelectorAll(".nav-link");
 
+            // ✅ PERBAIKAN 2: Logika Scroll Spy agar tombol "Beranda" tetap aktif sampai bawah
             window.addEventListener("scroll", function() {
                 let current = "";
                 sections.forEach((section) => {
@@ -1580,10 +1569,21 @@
                 });
 
                 navLinks.forEach((link) => {
-                    link.classList.remove("active");
-                    if (link.getAttribute("href") === "#" + current) {
+                    const linkHref = link.getAttribute("href");
+                    // Cek apakah ini link Beranda
+                    const isBeranda = linkHref === "<?php echo e(route('landing')); ?>" || linkHref === "#beranda" || linkHref === "/";
+                    
+                    // Hapus class 'active' dari link lain, TAPI biarkan Beranda tetap active
+                    if (!isBeranda) {
+                        link.classList.remove("active");
+                    }
+                    
+                    // Tambahkan class 'active' ke section yang sedang di-scroll
+                    if (linkHref === "#" + current) {
                         link.classList.add("active");
-                    } else if (current === "" && (link.getAttribute("href") === "<?php echo e(route('landing')); ?>" || link.getAttribute("href") === "#beranda")) {
+                    } 
+                    // Pastikan Beranda tetap active jika di paling atas atau jika memang halaman landing
+                    else if ((current === "" || current === "beranda") && isBeranda) {
                         link.classList.add("active");
                     }
                 });
