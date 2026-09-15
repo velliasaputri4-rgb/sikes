@@ -107,7 +107,7 @@
                     <div>
                         <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #475569;">Siswa Berkunjung</p>
                         <h3 style="color: #0f172a !important; font-family: 'Poppins', sans-serif;"><?php echo e($topSickStudents->count()); ?></h3>
-                        <small class="text-muted">Siswa unik</small>
+                        <small class="text-muted">Siswa</small>
                     </div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.1), rgba(30, 41, 59, 0.1)); color: #0f172a;">
                         <i class="fas fa-users"></i>

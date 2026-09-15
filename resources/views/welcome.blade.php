@@ -1047,30 +1047,13 @@
                         </a>
                     </div>
                 </div>
+                
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="700">
+                    {{-- ✅ PERBAIKAN: Gunakan variabel $pmrMembersCount yang sudah dihitung akurat di Controller --}}
                     @php
-                        $pmrMemberCount = $totalStudents ?? 0; 
-                        try {
-                            if (\Illuminate\Support\Facades\Schema::hasTable('schedule_student')) {
-                                $count = \Illuminate\Support\Facades\DB::table('schedule_student')->distinct('student_id')->count('student_id');
-                                if ($count > 0) $pmrMemberCount = $count;
-                            } elseif (\Illuminate\Support\Facades\Schema::hasTable('schedule_user')) {
-                                $count = \Illuminate\Support\Facades\DB::table('schedule_user')->distinct('user_id')->count('user_id');
-                                if ($count > 0) $pmrMemberCount = $count;
-                            } elseif (\Illuminate\Support\Facades\Schema::hasTable('students') && \Illuminate\Support\Facades\Schema::hasColumn('students', 'is_pmr')) {
-                                $count = \App\Models\Student::where('is_pmr', 1)->count();
-                                if ($count > 0) $pmrMemberCount = $count;
-                            } else {
-                                $hasPmrRole = \Spatie\Permission\Models\Role::where('name', 'pmr')->exists();
-                                if ($hasPmrRole) {
-                                    $count = \App\Models\User::role('pmr')->count();
-                                    if ($count > 0) $pmrMemberCount = $count;
-                                }
-                            }
-                        } catch (\Exception $e) {
-                            // Biarkan default $totalStudents jika terjadi error
-                        }
+                        $pmrMemberCount = $pmrMembersCount ?? 58;
                     @endphp
+                    
                     <div class="stats-grid">
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
