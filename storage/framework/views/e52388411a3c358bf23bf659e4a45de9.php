@@ -4,13 +4,51 @@
 <?php $__env->startSection('page-title', 'Input Kunjungan Siswa'); ?>
 
 <?php $__env->startSection('content'); ?>
+<style>
+    /* ✅ PERBAIKAN KHUSUS TAMPILAN MOBILE */
+    @media (max-width: 576px) {
+        .content-card { padding: 12px !important; }
+        .p-4 { padding: 16px !important; }
+        
+        /* Tombol aksi foto jadi full width & menumpuk di HP */
+        .photo-actions {
+            flex-direction: column !important;
+        }
+        .photo-actions .btn {
+            width: 100% !important;
+            margin-bottom: 8px;
+        }
+        .photo-actions .btn:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Preview foto responsif */
+        #imagePreview {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+        /* Tombol submit full width di HP */
+        .submit-actions {
+            flex-direction: column !important;
+        }
+        .submit-actions .btn {
+            width: 100% !important;
+            margin-bottom: 8px;
+        }
+        .submit-actions .btn:last-child {
+            margin-bottom: 0;
+        }
+    }
+</style>
+
 <div class="content-card">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <h5 class="fw-bold mb-0">
             <i class="fas fa-plus-circle me-2" style="color: #ef4444;"></i>Form Pemeriksaan Baru
         </h5>
         <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-sm" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">
-            <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar
+            <i class="fas fa-arrow-left me-1"></i> <span class="d-none d-sm-inline">Kembali ke Daftar</span><span class="d-sm-none">Kembali</span>
         </a>
     </div>
 
@@ -49,7 +87,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" 
                                value="<?php echo e(old('nis')); ?>" placeholder="Masukkan NIS siswa..." required autocomplete="off"
-                               style="border-color: #fecaca; focus:border-color: #ef4444;">
+                               style="border-color: #fecaca;">
                         <div id="nisFeedback" class="form-text mt-1"></div>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nis'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -71,12 +109,11 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                         <input type="text" id="studentClass" class="form-control fw-semibold" readonly style="background-color: #fafbfc; border-color: #e2e8f0;">
                     </div>
 
-                    <!-- Form Siswa Baru (Muncul jika NIS tidak ditemukan) -->
+                    <!-- Form Siswa Baru -->
                     <div id="newStudentBox" class="d-none rounded-3 p-3 mt-3" style="border: 1px solid #fecaca; background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);">
                         <small class="fw-bold d-block mb-2" style="color: #be123c;">
-                            <i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data di bawah:
+                            <i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data:
                         </small>
-                        
                         <div class="mb-2">
                             <label class="form-label small fw-semibold">Nama Lengkap <span style="color: #ef4444;">*</span></label>
                             <input type="text" name="full_name" class="form-control <?php $__errorArgs = ['full_name'];
@@ -126,16 +163,16 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                     
                     <div class="row g-2">
                         <div class="col-6 mb-2">
-                            <label class="form-label fw-semibold">Kelompok Piket <span style="color: #ef4444;">*</span></label>
+                            <label class="form-label fw-semibold">Kelompok <span style="color: #ef4444;">*</span></label>
                             <select id="piketGroup" name="piket_group" class="form-select" required style="border-color: #fecaca;">
-                                <option value="">-- Pilih Kelompok --</option>
+                                <option value="">-- Pilih --</option>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = array_keys($jadwalPiket ?? []); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                                     <option value="<?php echo e($group); ?>" <?php echo e(old('piket_group') == $group ? 'selected' : ''); ?>><?php echo e($group); ?></option>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                             </select>
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label fw-semibold">Nama Petugas <span style="color: #ef4444;">*</span></label>
+                            <label class="form-label fw-semibold">Petugas <span style="color: #ef4444;">*</span></label>
                             <select name="officer_name" id="officerName" class="form-select <?php $__errorArgs = ['officer_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -144,7 +181,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" required disabled style="border-color: #fecaca;">
-                                <option value="">-- Pilih Kelompok Dulu --</option>
+                                <option value="">-- Pilih Kelompok --</option>
                             </select>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['officer_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -186,7 +223,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" rows="2" placeholder="Contoh: Demam, pusing, mual, sakit perut..." required style="border-color: #fecaca;"><?php echo e(old('complaint')); ?></textarea>
+unset($__errorArgs, $__bag); ?>" rows="2" placeholder="Contoh: Demam, pusing, mual..." required style="border-color: #fecaca;"><?php echo e(old('complaint')); ?></textarea>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['complaint'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -227,19 +264,19 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" 
-                               list="medicineList" placeholder="Ketik nama obat atau pilih dari daftar..." value="<?php echo e(old('medicine')); ?>" style="border-color: #fecaca;">
+                               list="medicineList" placeholder="Ketik nama obat atau pilih..." value="<?php echo e(old('medicine')); ?>" style="border-color: #fecaca;">
                         
                         <datalist id="medicineList">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medicines)): ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $medicines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $med): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                    <option value="<?php echo e($med->name); ?>" label="Sisa Stok: <?php echo e($med->stock); ?> <?php echo e($med->unit); ?>">
+                                    <option value="<?php echo e($med->name); ?>" label="Sisa: <?php echo e($med->stock); ?> <?php echo e($med->unit); ?>">
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </datalist>
                         
                         <small class="text-muted mt-1 d-block">
                             <i class="fas fa-info-circle me-1" style="color: #f59e0b;"></i>
-                            Ketik nama obat untuk melihat saran & sisa stok, atau ketik manual untuk dosis spesifik.
+                            Ketik nama obat untuk melihat saran & sisa stok.
                         </small>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['medicine'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -265,10 +302,10 @@ unset($__errorArgs, $__bag); ?>" required style="border-color: #fecaca;">
                                 <option value="">Pilih Status</option>
                                 <option value="pulang" <?php echo e(old('status') == 'pulang' ? 'selected' : ''); ?>>Pulang</option>
                                 <option value="istirahat_uks" <?php echo e(old('status') == 'istirahat_uks' ? 'selected' : ''); ?>>Istirahat di UKS</option>
-                                <option value="rawat_jalan" <?php echo e(old('status') == 'rawat_jalan' ? 'selected' : ''); ?>>Rawat Jalan (kembali ke kelas)</option>
-                                <option value="rujuk_puskesmas" <?php echo e(old('status') == 'rujuk_puskesmas' ? 'selected' : ''); ?>>Rujuk ke Puskesmas</option>
-                                <option value="rujuk_rs" <?php echo e(old('status') == 'rujuk_rs' ? 'selected' : ''); ?>>Rujuk ke Rumah Sakit</option>
-                                <option value="hubungi_ortu" <?php echo e(old('status') == 'hubungi_ortu' ? 'selected' : ''); ?>>Hubungi Orang Tua/Wali</option>
+                                <option value="rawat_jalan" <?php echo e(old('status') == 'rawat_jalan' ? 'selected' : ''); ?>>Rawat Jalan</option>
+                                <option value="rujuk_puskesmas" <?php echo e(old('status') == 'rujuk_puskesmas' ? 'selected' : ''); ?>>Rujuk Puskesmas</option>
+                                <option value="rujuk_rs" <?php echo e(old('status') == 'rujuk_rs' ? 'selected' : ''); ?>>Rujuk RS</option>
+                                <option value="hubungi_ortu" <?php echo e(old('status') == 'hubungi_ortu' ? 'selected' : ''); ?>>Hubungi Ortu</option>
                             </select>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['status'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -281,12 +318,12 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Catatan Tambahan</label>
-                            <input type="text" name="notes" class="form-control" placeholder="Catatan untuk orang tua (opsional)" value="<?php echo e(old('notes')); ?>" style="border-color: #fecaca;">
+                            <input type="text" name="notes" class="form-control" placeholder="Opsional" value="<?php echo e(old('notes')); ?>" style="border-color: #fecaca;">
                         </div>
                     </div>
                 </div>
 
-                <!-- ✅ DOKUMENTASI DENGAN KAMERA REALTIME -->
+                <!-- ✅ DOKUMENTASI DENGAN KAMERA REALTIME (DIPERBAIKI) -->
                 <div class="p-4 rounded-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
                     <h6 class="fw-bold mb-3" style="color: #f43f5e;">
                         <i class="fas fa-camera me-2"></i>Dokumentasi
@@ -294,12 +331,13 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                     <div class="mb-2">
                         <label class="form-label fw-semibold">Foto Kondisi/Fisik</label>
 
-                        <div class="d-flex gap-2 mb-2">
+                        <!-- Flex column di mobile, row di desktop -->
+                        <div class="d-flex gap-2 mb-2 photo-actions flex-column flex-sm-row">
                             <button type="button" class="btn flex-fill" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="openCamera()">
-                                <i class="fas fa-video me-1"></i> Buka Kamera
+                                <i class="fas fa-video me-1"></i> <span class="d-none d-sm-inline">Buka Kamera</span><span class="d-sm-none">Kamera</span>
                             </button>
-                            <label class="btn flex-fill mb-0" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1;">
-                                <i class="fas fa-image me-1"></i> Pilih dari File
+                            <label class="btn flex-fill mb-0" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">
+                                <i class="fas fa-image me-1"></i> <span class="d-none d-sm-inline">Pilih dari File</span><span class="d-sm-none">Galeri</span>
                                 <input type="file" id="photoInput" name="photo" accept="image/*" class="d-none" onchange="processPhotoWithWatermark(this)">
                             </label>
                         </div>
@@ -315,11 +353,11 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                        <div class="mt-3">
-                            <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 280px; border-radius: 8px; border: 2px solid #fee2e2;" class="img-thumbnail">
+                        <div class="mt-3 text-center">
+                            <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 100%; width: 280px; border-radius: 8px; border: 2px solid #fee2e2;" class="img-thumbnail">
                             <div id="watermarkInfo" class="d-none mt-2">
                                 <span class="badge px-3 py-2" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 500;">
-                                    <i class="fas fa-check-circle me-1"></i> Watermark tanggal & jam berhasil ditambahkan
+                                    <i class="fas fa-check-circle me-1"></i> Watermark berhasil ditambahkan
                                 </span>
                             </div>
                         </div>
@@ -328,7 +366,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             </div>
 
             <!-- Tombol Submit -->
-            <div class="col-12 text-end mt-4 pt-3" style="border-top: 1px solid #fee2e2;">
+            <div class="col-12 text-end mt-4 pt-3 submit-actions d-flex" style="border-top: 1px solid #fee2e2;">
                 <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn me-2" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">Batal</a>
                 <button type="submit" id="btnSubmit" class="btn px-4" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
                     <i class="fas fa-save me-2"></i> Simpan Data Kunjungan
@@ -363,11 +401,9 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
 <?php $__env->startPush('scripts'); ?>
 <script>
-    // 1. Data Jadwal Piket dari Controller
     const jadwalPiket = <?php echo json_encode($jadwalPiket ?? [], 15, 512) ?>;
     const searchUrl = "<?php echo e(url('petugas/examinations/cari-siswa')); ?>";
 
-    // 2. Auto-fill data siswa via AJAX saat ketik NIS
     const nisInput = document.getElementById('nisInput');
     const nisFeedback = document.getElementById('nisFeedback');
     const newStudentBox = document.getElementById('newStudentBox');
@@ -375,9 +411,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
     nisInput.addEventListener('input', function() {
         clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-            cariSiswa(this.value.trim());
-        }, 400);
+        searchTimer = setTimeout(() => { cariSiswa(this.value.trim()); }, 400);
     });
 
     async function cariSiswa(nis) {
@@ -387,11 +421,9 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             newStudentBox.classList.add('d-none');
             return;
         }
-
         try {
             const response = await fetch(`${searchUrl}/${nis}`);
             const student = await response.json();
-
             if (student && student.id) {
                 document.getElementById('studentName').value = student.full_name || '';
                 document.getElementById('studentClass').value = student.class ? student.class.name : '';
@@ -400,10 +432,9 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             } else {
                 resetFormSiswa();
                 newStudentBox.classList.remove('d-none');
-                nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar. Lengkapi data siswa baru.</span>';
+                nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar.</span>';
             }
         } catch (error) {
-            console.error('Error:', error);
             resetFormSiswa();
             nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold">Gagal mencari siswa</span>';
         }
@@ -415,16 +446,12 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        if (nisInput.value.trim()) {
-            cariSiswa(nisInput.value.trim());
-        }
+        if (nisInput.value.trim()) cariSiswa(nisInput.value.trim());
     });
 
-    // 3. Petugas Piket
     function populateOfficerNames(selectedGroup, selectedOfficer = null) {
         const officerSelect = document.getElementById('officerName');
         officerSelect.innerHTML = '<option value="">-- Pilih Nama Petugas --</option>';
-
         if (selectedGroup && jadwalPiket[selectedGroup]) {
             officerSelect.disabled = false;
             jadwalPiket[selectedGroup].forEach(name => {
@@ -436,7 +463,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             });
         } else {
             officerSelect.disabled = true;
-            officerSelect.innerHTML = '<option value="">-- Pilih Kelompok Terlebih Dahulu --</option>';
+            officerSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
         }
     }
 
@@ -450,28 +477,20 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         if (initialGroup) populateOfficerNames(initialGroup, initialOfficer);
     });
 
-    // 4. WATERMARK
     function drawWatermark(ctx, canvas) {
         const now = new Date();
-        const dateStr = now.toLocaleDateString('id-ID', {
-            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-        });
-        const timeStr = now.toLocaleTimeString('id-ID', {
-            hour: '2-digit', minute: '2-digit'
-        }).replace('.', ':') + ' WIB';
-
+        const dateStr = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
         const fontSize = Math.max(canvas.width * 0.03, 22);
         const padding = fontSize * 0.8;
         const barHeight = fontSize * 3.4;
 
-        ctx.fillStyle = 'rgba(153, 27, 27, 0.85)'; // Merah gelap transparan
+        ctx.fillStyle = 'rgba(153, 27, 27, 0.85)';
         ctx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
-
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold ' + fontSize + 'px Arial';
         ctx.textBaseline = 'middle';
         ctx.fillText('UKS SMK NEGERI 1 BANGSRI', padding, canvas.height - barHeight + fontSize);
-
         ctx.font = (fontSize * 0.85) + 'px Arial';
         ctx.fillText(dateStr + '  |  ' + timeStr, padding, canvas.height - barHeight + fontSize * 2.3);
     }
@@ -481,34 +500,27 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         const dt = new DataTransfer();
         dt.items.add(newFile);
         document.getElementById('photoInput').files = dt.files;
-
         const preview = document.getElementById('imagePreview');
         preview.src = URL.createObjectURL(blob);
         preview.style.display = 'block';
         document.getElementById('watermarkInfo').classList.remove('d-none');
     }
 
-    // 5. KAMERA REALTIME
     let cameraStream = null;
     let cameraModal = null;
 
     async function openCamera() {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            alert('Browser tidak mendukung akses kamera. Gunakan "Pilih dari File".');
+            alert('Browser tidak mendukung akses kamera.');
             return;
         }
-
         cameraModal = new bootstrap.Modal(document.getElementById('cameraModal'));
         cameraModal.show();
-
         try {
-            cameraStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment' },
-                audio: false
-            });
+            cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
             document.getElementById('cameraVideo').srcObject = cameraStream;
         } catch (err) {
-            alert('Gagal mengakses kamera: ' + err.message + '\nGunakan "Pilih dari File" sebagai alternatif.');
+            alert('Gagal mengakses kamera: ' + err.message);
             cameraModal.hide();
         }
     }
@@ -527,19 +539,13 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
     function capturePhoto() {
         const video = document.getElementById('cameraVideo');
-        if (!video.videoWidth) {
-            alert('Kamera belum siap, tunggu sebentar lagi.');
-            return;
-        }
-
+        if (!video.videoWidth) { alert('Kamera belum siap.'); return; }
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0);
-
         drawWatermark(ctx, canvas);
-
         canvas.toBlob(function (blob) {
             applyWatermarkedPhoto(blob);
             stopCamera();
@@ -547,11 +553,9 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         }, 'image/jpeg', 0.9);
     }
 
-    // 6. Upload dari file/galeri
     function processPhotoWithWatermark(input) {
         const file = input.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = function (e) {
             const img = new Image();
@@ -561,28 +565,20 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                 canvas.height = img.height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0);
-
                 drawWatermark(ctx, canvas);
-
-                canvas.toBlob(function (blob) {
-                    applyWatermarkedPhoto(blob);
-                }, 'image/jpeg', 0.9);
+                canvas.toBlob(function (blob) { applyWatermarkedPhoto(blob); }, 'image/jpeg', 0.9);
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     }
 
-    // 7. PENCEGAHAN DOUBLE SUBMIT
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form'); 
         const btnSubmit = document.getElementById('btnSubmit');
-
         if (form && btnSubmit) {
             form.addEventListener('submit', function (e) {
-                if (!form.checkValidity()) {
-                    return; 
-                }
+                if (!form.checkValidity()) return; 
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Menyimpan...';
             });

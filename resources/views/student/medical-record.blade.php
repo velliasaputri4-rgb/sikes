@@ -62,7 +62,6 @@
         .card-header-summary:hover { background: #fef2f2; }
         .card-header-summary.expanded { border-bottom: 1px solid #fee2e2; background: #fef2f2; }
         
-        /* Badge Status */
         .badge-sakit { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
         .badge-sehat { background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
         
@@ -133,17 +132,101 @@
         }
         .lightbox-modal .btn-close { filter: invert(1); }
         
-        /* ✅ Override Bootstrap colors agar sesuai tema Merah */
         .text-primary { color: #ef4444 !important; }
         .text-info { color: #f43f5e !important; }
-        .btn-outline-primary {
-            color: #ef4444;
-            border-color: #fecaca;
-        }
-        .btn-outline-primary:hover {
-            background-color: #ef4444;
-            border-color: #ef4444;
-            color: white;
+        .btn-outline-primary { color: #ef4444; border-color: #fecaca; }
+        .btn-outline-primary:hover { background-color: #ef4444; border-color: #ef4444; color: white; }
+
+        /* ✅ PERBAIKAN TAMPILAN MOBILE AGAR RAPI & SIMETRIS */
+        @media (max-width: 768px) {
+            .header-profile {
+                padding: 30px 15px 40px;
+                border-radius: 0 0 30px 30px;
+            }
+            .avatar-initials {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+            .header-profile h3 {
+                font-size: 1.4rem;
+            }
+            
+            /* Badge NIS & Kelas */
+            .info-badge {
+                width: 100%;
+                max-width: none;
+                text-align: center;
+            }
+
+            /* Tombol Aksi Header (Beranda & Logout) - DIPERBAIKI */
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .header-actions .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 20px;
+            }
+
+            /* Kartu Statistik */
+            .card-header-summary {
+                padding: 15px;
+            }
+            .card-header-summary > .d-flex {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 12px;
+            }
+            .card-header-summary h5 {
+                font-size: 0.95rem;
+                line-height: 1.4;
+            }
+            .card-header-summary .btn-detail {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            /* Kartu Riwayat Kunjungan */
+            .record-card .d-flex.justify-content-between.align-items-start {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .record-card .mt-3.d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 10px;
+                margin-top: 12px !important;
+            }
+            .record-card .mt-3 .btn-detail {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            /* Detail Section */
+            .detail-section {
+                padding: 15px;
+            }
+            .detail-value {
+                font-size: 13px;
+                padding: 8px;
+            }
+            
+            /* Foto Dokumentasi */
+            .photo-container .d-flex.gap-2 {
+                flex-direction: column;
+                width: 100%;
+            }
+            .photo-container .d-flex.gap-2 .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -165,22 +248,22 @@
             
             <h3 class="fw-bold mb-3 text-dark">{{ $student->full_name }}</h3>
             
-            <div class="d-flex justify-content-center gap-3 mb-4">
-                <div class="bg-white bg-opacity-75 px-4 py-2 rounded-3 shadow-sm">
+            <div class="d-flex justify-content-center gap-3 mb-4 flex-wrap">
+                <div class="bg-white bg-opacity-75 px-4 py-2 rounded-3 shadow-sm info-badge">
                     <small class="text-muted d-block" style="font-size: 11px; letter-spacing: 0.5px;">NIS</small>
                     <strong class="text-primary fs-6">{{ $student->nis }}</strong>
                 </div>
-                <div class="bg-white bg-opacity-75 px-4 py-2 rounded-3 shadow-sm">
+                <div class="bg-white bg-opacity-75 px-4 py-2 rounded-3 shadow-sm info-badge">
                     <small class="text-muted d-block" style="font-size: 11px; letter-spacing: 0.5px;">KELAS</small>
                     <strong class="text-primary fs-6">{{ $student->class->name ?? '-' }}</strong>
                 </div>
             </div>
             
-            <div class="d-flex justify-content-center gap-3">
+            <div class="d-flex justify-content-center gap-3 header-actions">
                 <a href="{{ route('landing') }}" class="btn btn-soft-outline rounded-pill px-4 py-2">
                     <i class="fas fa-home me-2"></i>Kembali ke Beranda
                 </a>
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-soft-white rounded-pill px-4 py-2">
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -207,7 +290,7 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div>
                         <h5 class="fw-bold mb-1 text-dark">
-                            <i class="fas fa-chart-bar text-success me-2"></i>Statistik Frekuensi Kunjungan (3 Tahun Terakhir)
+                            <i class="fas fa-chart-bar text-success me-2"></i>Statistik Frekuensi Kunjungan (3 Tahun)
                         </h5>
                         <small class="text-muted">
                             Total: <strong class="text-dark">{{ $totalVisits3Years ?? 0 }}</strong> kali &nbsp;|&nbsp; 

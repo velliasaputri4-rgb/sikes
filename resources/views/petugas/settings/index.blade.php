@@ -376,11 +376,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="row g-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label small fw-bold">Icon (FontAwesome)</label>
-                                                <input type="text" name="services[{{ $index }}][icon]" class="form-control" value="{{ $service['icon'] ?? 'fa-star' }}" placeholder="fa-stethoscope">
-                                            </div>
-                                            <div class="col-md-8">
+                                            {{-- ✅ INPUT ICON DIHAPUS SESUAI PERMINTAAN --}}
+                                            <div class="col-12">
                                                 <label class="form-label small fw-bold">Judul Layanan</label>
                                                 <input type="text" name="services[{{ $index }}][title]" class="form-control" value="{{ $service['title'] ?? '' }}">
                                             </div>

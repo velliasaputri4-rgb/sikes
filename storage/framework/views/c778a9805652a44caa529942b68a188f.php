@@ -44,10 +44,9 @@
             line-height: 1.7;
         }
         
-        /* ✅ PERBAIKAN: SIDEBAR HITAM NETRAL (TANPA TONE BIRU) */
         .sidebar { 
             width: 260px; 
-            background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%); /* HITAM NETRAL, BUKAN BIRU */
+            background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%);
             height: 100vh;
             position: fixed; 
             left: 0; 
@@ -59,6 +58,8 @@
             overflow-x: hidden;
             padding-bottom: 30px;
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar::-webkit-scrollbar { width: 6px; }
@@ -130,7 +131,6 @@
             transform: translateX(3px);
         }
         
-        /* ✅ MENU AKTIF: GRADIENT MERAH SOFT DI ATAS BACKGROUND HITAM NETRAL */
         .sidebar .nav-link.active { 
             background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.05) 100%) !important;
             color: #ffffff !important;
@@ -160,7 +160,70 @@
             color: #fca5a5 !important;
         }
         
-        /* MAIN CONTENT */
+        .sidebar-profile {
+            margin-top: auto;
+            padding: 20px;
+            border-top: 1px solid rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        .sidebar-profile-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-profile-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+        .sidebar-profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-profile-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #ffffff;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile-role {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile-logout {
+            margin-top: 12px;
+        }
+        .sidebar-profile-logout button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sidebar-profile-logout button:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+        
         .main-content { 
             margin-left: 260px; 
             min-height: 100vh;
@@ -302,14 +365,9 @@
             .sidebar { transform: translateX(-100%); }
             .sidebar.show { transform: translateX(0); }
             .main-content { margin-left: 0; }
-            .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
-            .topbar > div:first-child { flex: 1; min-width: 0; }
-            .topbar h5 { font-size: 1rem !important; line-height: 1.3; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-            .role-badge { padding: 3px 8px; font-size: 9px; order: -1; }
-            .topbar .d-flex.align-items-center:last-child { width: 100%; justify-content: space-between; order: 2; margin-top: 4px; }
-            .topbar .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
-            .topbar .dropdown-toggle .text-start { display: none !important; }
-            .topbar .dropdown-toggle img { width: 32px; height: 32px; }
+            .topbar { padding: 12px 16px; }
+            .topbar h5 { font-size: 1rem !important; }
+            .role-badge { padding: 3px 8px; font-size: 9px; }
         }
         
         @media (max-width: 480px) {
@@ -416,58 +474,48 @@
             </li>
         </ul>
         
-        <div class="sidebar-section">Akun</div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
+        <div class="sidebar-profile">
+            <div class="sidebar-profile-content">
+                <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode(auth()->user()->name)); ?>&background=ef4444&color=ffffff&bold=true" 
+                     alt="<?php echo e(auth()->user()->name); ?>" 
+                     class="sidebar-profile-img">
+                <div class="sidebar-profile-info">
+                    <p class="sidebar-profile-name"><?php echo e(auth()->user()->name); ?></p>
+                    <p class="sidebar-profile-role">Petugas UKS</p>
+                </div>
+            </div>
+            <div class="sidebar-profile-logout">
                 <form method="POST" action="<?php echo e(route('logout')); ?>">
                     <?php echo csrf_field(); ?>
-                    <button type="submit" class="nav-link border-0 bg-transparent w-100 text-start text-danger">
+                    <button type="submit">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </form>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
     
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
         <div class="topbar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-light d-md-none me-2 me-sm-3" onclick="document.getElementById('sidebar').classList.toggle('show')">
+            <div class="d-flex align-items-center flex-grow-1">
+                
+                <button class="btn btn-light d-md-none me-3" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
                 </button>
+                
                 <h5 class="mb-0 fw-bold text-dark">
                     <?php echo $__env->yieldContent('page-title', 'Dashboard'); ?>
                     <span class="role-badge">Petugas</span>
                 </h5>
             </div>
 
-            <div class="d-flex align-items-center gap-2 gap-md-3">
+            
+            <div>
                 <a href="<?php echo e(route('landing')); ?>" class="btn btn-sm btn-light border text-danger fw-semibold" title="Kembali ke Beranda" style="border-color: #fecaca !important;">
                     <i class="fas fa-home"></i> 
-                    <span class="d-none d-sm-inline ms-1">Beranda</span>
+                    <span class="d-none d-md-inline ms-1">Beranda</span>
                 </a>
-
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown" style="box-shadow: 0 2px 10px rgba(153, 27, 27, 0.08);">
-                        <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode(auth()->user()->name)); ?>&background=ef4444&color=ffffff&bold=true" 
-                             class="rounded-circle me-2" width="38" height="38">
-                        <div class="text-start d-none d-md-block">
-                            <div class="fw-semibold small text-dark"><?php echo e(auth()->user()->name); ?></div>
-                            <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="border-radius: 14px;">
-                        <li>
-                            <form method="POST" action="<?php echo e(route('logout')); ?>">
-                                <?php echo csrf_field(); ?>
-                                <button type="submit" class="dropdown-item text-danger" style="border-radius: 8px;">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
 
@@ -494,6 +542,37 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+            
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        setTimeout(() => {
+                            sidebar.classList.remove('show');
+                        }, 150);
+                    }
+                });
+            });
+            
+            mainContent.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && sidebar.classList.contains('show')) {
+                    if (!e.target.closest('.dropdown') && !e.target.closest('.btn')) {
+                        sidebar.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+
     <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html><?php /**PATH C:\laragon\www\sikes\resources\views/layouts/petugas.blade.php ENDPATH**/ ?>

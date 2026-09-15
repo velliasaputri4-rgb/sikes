@@ -9,27 +9,45 @@
     .modal-backdrop { z-index: 1050 !important; }
     .sticky-bottom { z-index: 100 !important; }
 
+    /* ✅ PERUBAHAN: Tema Merah untuk Tab Wrapper */
     .settings-tab-wrapper {
-        background: #f8fafc; padding: 12px; border-radius: 14px; margin-bottom: 24px;
-        border: 1px solid #e2e8f0; position: relative; z-index: 1;
+        background: #ffffff; padding: 12px; border-radius: 14px; margin-bottom: 24px;
+        border: 1px solid #fee2e2; position: relative; z-index: 1;
     }
     .settings-tab-wrapper .nav-pills { gap: 8px; flex-wrap: wrap; }
     .settings-tab-wrapper .nav-link {
-        background: #ffffff; color: #475569; border: 1px solid #e2e8f0; border-radius: 10px;
+        background: #ffffff; color: #475569; border: 1px solid #fee2e2; border-radius: 10px;
         padding: 10px 18px; font-weight: 600; font-size: 0.9rem; transition: all 0.25s ease;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 8px;
+        box-shadow: 0 1px 2px rgba(239, 68, 68, 0.04); display: flex; align-items: center; gap: 8px;
     }
     .settings-tab-wrapper .nav-link:hover {
-        background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08); color: #1e293b;
+        background: #fef2f2; border-color: #fecaca; transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08); color: #991b1b;
     }
     .settings-tab-wrapper .nav-link.active {
-        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff;
-        border-color: #2563eb; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); transform: translateY(-2px);
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff;
+        border-color: #ef4444; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35); transform: translateY(-2px);
     }
-    .settings-tab-wrapper .nav-link.active i { color: #ffffff; }
+    .settings-tab-wrapper .nav-link.active i { color: #ffffff !important; }
     .settings-tab-wrapper .nav-link i { color: #64748b; font-size: 1rem; transition: color 0.25s ease; }
-    .settings-tab-wrapper .nav-link:hover i { color: #2563eb; }
+    .settings-tab-wrapper .nav-link:hover i { color: #ef4444; }
+
+    /* Custom Alerts */
+    .alert-success-custom {
+        background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
+        border-left: 4px solid #10b981; border-radius: 10px;
+    }
+    .alert-danger-custom {
+        background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;
+        border-left: 4px solid #ef4444; border-radius: 10px;
+    }
+
+    /* Card Header Tema Merah */
+    .card-header-red {
+        background: #fef2f2 !important;
+        color: #991b1b !important;
+        border-bottom: 1px solid #fee2e2 !important;
+    }
 
     @media (max-width: 768px) {
         .settings-tab-wrapper { padding: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
@@ -46,13 +64,16 @@
 <div class="content-card">
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
-            <h5 class="fw-bold mb-0"><i class="fas fa-cog me-2 text-primary"></i>Pengaturan Teks Website</h5>
+            <h5 class="fw-bold mb-0">
+                <i class="fas fa-cog me-2" style="color: #ef4444;"></i>Pengaturan Teks Website
+            </h5>
             <small class="text-muted">Ubah semua teks, judul, deskripsi, gambar layanan, FAQ, dan dokumentasi yang muncul di halaman depan (Landing Page) SIKES.</small>
         </div>
     </div>
 
+    
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm">
+        <div class="alert alert-success-custom alert-dismissible fade show border-0 shadow-sm mb-3">
             <i class="fas fa-check-circle me-2"></i> <?php echo e(session('success')); ?>
 
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -60,7 +81,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?>
-        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm">
+        <div class="alert alert-danger-custom alert-dismissible fade show border-0 shadow-sm mb-3">
             <i class="fas fa-exclamation-circle me-2"></i> <?php echo e(session('error')); ?>
 
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -102,7 +123,6 @@
                         <i class="fas fa-heartbeat"></i> Info Kesehatan
                     </button>
                 </li>
-                <!-- ✅ TAB FAQ -->
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="faq-tab" data-bs-toggle="pill" data-bs-target="#faq" type="button">
                         <i class="fas fa-question-circle"></i> FAQ
@@ -126,7 +146,7 @@
             <!-- 1. HERO SECTION -->
             <div class="tab-pane fade show active" id="hero" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Hero (Tampilan Utama Atas)</div>
+                    <div class="card-header card-header-red fw-bold">Bagian Hero (Tampilan Utama Atas)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -158,7 +178,7 @@
             <!-- 2. ABOUT SECTION (BERANDA) -->
             <div class="tab-pane fade" id="about" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Tentang Kami (Di Beranda)</div>
+                    <div class="card-header card-header-red fw-bold">Bagian Tentang Kami (Di Beranda)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -181,12 +201,12 @@
                                 
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($aboutImage)): ?>
                                     <input type="hidden" name="existing_about_image" value="<?php echo e($aboutImage); ?>">
-                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
                                         <img src="<?php echo e(asset('storage/' . $aboutImage)); ?>" class="img-fluid rounded" style="max-height: 150px; width: auto; object-fit: cover;">
                                     </div>
                                     <p class="text-muted small mb-2">Gambar saat ini. Upload gambar baru di bawah untuk mengganti.</p>
                                 <?php else: ?>
-                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
                                         <img src="<?php echo e(asset('images/logo sikes.png')); ?>" class="img-fluid rounded" style="max-height: 150px; width: auto; object-fit: cover;" alt="Default Image">
                                     </div>
                                     <p class="text-muted small mb-2">Gambar default. Upload gambar baru di bawah untuk mengganti.</p>
@@ -203,7 +223,7 @@
             <!-- 2.5. HALAMAN TENTANG -->
             <div class="tab-pane fade" id="about-page" role="tabpanel">
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Gambar Halaman Tentang</div>
+                    <div class="card-header card-header-red fw-bold">Gambar Halaman Tentang</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -212,12 +232,12 @@
                                 
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($aboutPageImage)): ?>
                                     <input type="hidden" name="existing_about_page_image" value="<?php echo e($aboutPageImage); ?>">
-                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
                                         <img src="<?php echo e(asset('storage/' . $aboutPageImage)); ?>" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;">
                                     </div>
                                     <p class="text-muted small mb-2 d-block">Foto saat ini untuk halaman Tentang. Upload foto baru di bawah untuk mengganti.</p>
                                 <?php else: ?>
-                                    <div class="mb-2 p-2 bg-light rounded border d-inline-block">
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
                                         <img src="<?php echo e(asset('images/logo sikes.png')); ?>" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;" alt="Default Image">
                                     </div>
                                     <p class="text-muted small mb-2 d-block">Belum ada foto. Upload foto untuk halaman Tentang di bawah.</p>
@@ -231,7 +251,7 @@
                 </div>
 
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Header Halaman Tentang</div>
+                    <div class="card-header card-header-red fw-bold">Header Halaman Tentang</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -247,7 +267,7 @@
                 </div>
 
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Section: Cerita Kami</div>
+                    <div class="card-header card-header-red fw-bold">Section: Cerita Kami</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -267,7 +287,7 @@
                 </div>
 
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Section: Visi & Misi</div>
+                    <div class="card-header card-header-red fw-bold">Section: Visi & Misi</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -284,7 +304,7 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Section: Call to Action (CTA)</div>
+                    <div class="card-header card-header-red fw-bold">Section: Call to Action (CTA)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -307,7 +327,7 @@
             <!-- 3. SERVICES SECTION -->
             <div class="tab-pane fade" id="services" role="tabpanel">
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Header Bagian Layanan</div>
+                    <div class="card-header card-header-red fw-bold">Header Bagian Layanan</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -327,7 +347,7 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Daftar Layanan</div>
+                    <div class="card-header card-header-red fw-bold">Daftar Layanan</div>
                     <div class="card-body">
                         <?php
                             $defaultServices = [
@@ -343,14 +363,14 @@
                         ?>
 
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $servicesData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $service): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                            <div class="service-row border rounded p-3 mb-3 bg-light position-relative">
+                            <div class="service-row border rounded p-3 mb-3 position-relative" style="background: #fef2f2; border-color: #fee2e2;">
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label class="form-label small fw-bold">Gambar Layanan</label>
                                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($service['image'])): ?>
                                             <input type="hidden" name="services[<?php echo e($index); ?>][existing_image]" value="<?php echo e($service['image']); ?>">
                                             <div class="mb-2">
-                                                <img src="<?php echo e(asset('storage/' . $service['image'])); ?>" class="img-thumbnail" style="max-height: 80px; width: 100%; object-fit: cover;">
+                                                <img src="<?php echo e(asset('storage/' . $service['image'])); ?>" class="img-thumbnail" style="max-height: 80px; width: 100%; object-fit: cover; border-color: #fecaca;">
                                             </div>
                                         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                         <input type="file" name="services[<?php echo e($index); ?>][image]" class="form-control form-control-sm" accept="image/*">
@@ -358,11 +378,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="row g-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label small fw-bold">Icon (FontAwesome)</label>
-                                                <input type="text" name="services[<?php echo e($index); ?>][icon]" class="form-control" value="<?php echo e($service['icon'] ?? 'fa-star'); ?>" placeholder="fa-stethoscope">
-                                            </div>
-                                            <div class="col-md-8">
+                                            
+                                            <div class="col-12">
                                                 <label class="form-label small fw-bold">Judul Layanan</label>
                                                 <input type="text" name="services[<?php echo e($index); ?>][title]" class="form-control" value="<?php echo e($service['title'] ?? ''); ?>">
                                             </div>
@@ -382,7 +399,7 @@
             <!-- 4. DOKUMENTASI SECTION -->
             <div class="tab-pane fade" id="docs" role="tabpanel">
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Header Bagian Dokumentasi</div>
+                    <div class="card-header card-header-red fw-bold">Header Bagian Dokumentasi</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -402,9 +419,9 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <span><i class="fas fa-newspaper me-2 text-primary"></i>Daftar Item Berita/Kegiatan</span>
-                        <button type="button" class="btn btn-sm btn-success w-100 w-md-auto" onclick="addDocumentationRow()">
+                    <div class="card-header card-header-red fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span><i class="fas fa-newspaper me-2" style="color: #ef4444;"></i>Daftar Item Berita/Kegiatan</span>
+                        <button type="button" class="btn btn-sm btn-primary-custom w-100 w-md-auto" onclick="addDocumentationRow()">
                             <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Tambah Item</span><span class="d-sm-none">Tambah</span>
                         </button>
                     </div>
@@ -422,8 +439,8 @@
                             ?>
 
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $docsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <div class="documentation-row border rounded p-3 mb-3 bg-light position-relative">
-                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris">
+                                <div class="documentation-row border rounded p-3 mb-3 position-relative" style="background: #fef2f2; border-color: #fee2e2;">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris" style="background: #ef4444; border: none;">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     
@@ -452,7 +469,7 @@
                                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($doc['image'])): ?>
                                                 <input type="hidden" name="documentations[<?php echo e($index); ?>][existing_image]" value="<?php echo e($doc['image']); ?>">
                                                 <div class="mb-2">
-                                                    <img src="<?php echo e(asset('storage/' . $doc['image'])); ?>" class="img-thumbnail" style="max-height: 80px;">
+                                                    <img src="<?php echo e(asset('storage/' . $doc['image'])); ?>" class="img-thumbnail" style="max-height: 80px; border-color: #fecaca;">
                                                 </div>
                                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                             <input type="file" name="documentations[<?php echo e($index); ?>][image]" class="form-control form-control-sm" accept="image/*">
@@ -469,7 +486,7 @@
             <!-- 5. HEALTH INFO SECTION -->
             <div class="tab-pane fade" id="health-info" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Informasi Kesehatan (Landing Page)</div>
+                    <div class="card-header card-header-red fw-bold">Bagian Informasi Kesehatan (Landing Page)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -491,10 +508,10 @@
                 </div>
             </div>
 
-            <!-- ✅ 6. FAQ SECTION -->
+            <!-- 6. FAQ SECTION -->
             <div class="tab-pane fade" id="faq" role="tabpanel">
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-light fw-bold">Pengaturan Header FAQ</div>
+                    <div class="card-header card-header-red fw-bold">Pengaturan Header FAQ</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -514,9 +531,9 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <span><i class="fas fa-question-circle me-2 text-primary"></i>Daftar Pertanyaan & Jawaban</span>
-                        <button type="button" class="btn btn-sm btn-success w-100 w-md-auto" onclick="addFaqRow()">
+                    <div class="card-header card-header-red fw-bold d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span><i class="fas fa-question-circle me-2" style="color: #ef4444;"></i>Daftar Pertanyaan & Jawaban</span>
+                        <button type="button" class="btn btn-sm btn-primary-custom w-100 w-md-auto" onclick="addFaqRow()">
                             <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Tambah Pertanyaan</span><span class="d-sm-none">Tambah</span>
                         </button>
                     </div>
@@ -537,8 +554,8 @@
                             ?>
 
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $faqsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <div class="faq-row border rounded p-3 mb-3 bg-light position-relative">
-                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris">
+                                <div class="faq-row border rounded p-3 mb-3 position-relative" style="background: #fef2f2; border-color: #fee2e2;">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris" style="background: #ef4444; border: none;">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     
@@ -562,7 +579,7 @@
             <!-- 7. CONTACT SECTION -->
             <div class="tab-pane fade" id="contact" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Kontak & Alamat</div>
+                    <div class="card-header card-header-red fw-bold">Bagian Kontak & Alamat</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -589,7 +606,7 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Username Instagram</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">@</span>
+                                    <span class="input-group-text" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">@</span>
                                     <input type="text" name="contact_ig_handle" class="form-control" value="<?php echo e($settings['contact_ig_handle'] ?? 'pmrwira_eskasaba'); ?>">
                                 </div>
                             </div>
@@ -600,7 +617,7 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Username YouTube</label>
                                 <div class="input-group">
-                                    <span class="input-group-text">@</span>
+                                    <span class="input-group-text" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">@</span>
                                     <input type="text" name="contact_yt_handle" class="form-control" value="<?php echo e($settings['contact_yt_handle'] ?? 'wirasandyaadhimukti3463'); ?>">
                                 </div>
                             </div>
@@ -616,7 +633,7 @@
             <!-- 8. FOOTER SECTION -->
             <div class="tab-pane fade" id="footer" role="tabpanel">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light fw-bold">Bagian Footer (Bawah)</div>
+                    <div class="card-header card-header-red fw-bold">Bagian Footer (Bawah)</div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-12">
@@ -635,9 +652,9 @@
         </div>
 
         <!-- Tombol Simpan -->
-        <div class="d-flex justify-content-end mt-4 pt-3 border-top sticky-bottom bg-white pb-3">
-            <a href="<?php echo e(route('petugas.dashboard')); ?>" class="btn btn-outline-secondary me-2">Batal</a>
-            <button type="submit" class="btn btn-primary px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+        <div class="d-flex justify-content-end mt-4 pt-3" style="border-top: 1px solid #fee2e2;">
+            <a href="<?php echo e(route('petugas.dashboard')); ?>" class="btn me-2" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">Batal</a>
+            <button type="submit" class="btn btn-primary-custom px-4">
                 <i class="fas fa-save me-2"></i> Simpan Semua Perubahan
             </button>
         </div>
@@ -655,9 +672,10 @@
         const today = new Date().toISOString().split('T')[0];
         
         const newRow = document.createElement('div');
-        newRow.className = 'documentation-row border rounded p-3 mb-3 bg-light position-relative';
+        newRow.className = 'documentation-row border rounded p-3 mb-3 position-relative';
+        newRow.style = 'background: #fef2f2; border-color: #fee2e2;';
         newRow.innerHTML = `
-            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris">
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeDocumentationRow(this)" title="Hapus Baris" style="background: #ef4444; border: none;">
                 <i class="fas fa-trash"></i>
             </button>
             <div class="row g-3">
@@ -699,9 +717,10 @@
         const container = document.getElementById('faq-container');
         
         const newRow = document.createElement('div');
-        newRow.className = 'faq-row border rounded p-3 mb-3 bg-light position-relative';
+        newRow.className = 'faq-row border rounded p-3 mb-3 position-relative';
+        newRow.style = 'background: #fef2f2; border-color: #fee2e2;';
         newRow.innerHTML = `
-            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris">
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="removeFaqRow(this)" title="Hapus Baris" style="background: #ef4444; border: none;">
                 <i class="fas fa-trash"></i>
             </button>
             <div class="row g-3">
