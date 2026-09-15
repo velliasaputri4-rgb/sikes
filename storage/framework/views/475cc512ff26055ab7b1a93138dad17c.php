@@ -53,6 +53,49 @@
         .navbar-brand { display: flex; align-items: center; }
         .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
         .navbar-brand:hover img { transform: scale(1.05); }
+        
+        /* ✅ PERBAIKAN: Animasi Hamburger menjadi X di Mobile */
+        .navbar-toggler {
+            border: none;
+            padding: 8px;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        .navbar-toggler-icon {
+            background-image: none !important;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 24px;
+            height: 2px;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        .navbar-toggler-icon::before { top: -8px; }
+        .navbar-toggler-icon::after { top: 8px; }
+
+        /* Saat menu terbuka (class .collapsed dihapus oleh Bootstrap) */
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+            background-color: transparent;
+        }
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
+            transform: rotate(-45deg);
+            top: 0;
+        }
+
         .nav-link {
             font-weight: 600;
             font-size: 0.95rem;
@@ -115,7 +158,30 @@
         .btn-hero-primary { background: var(--gradient-primary); color: white; padding: 12px 26px; border-radius: 10px; border: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25); transition: all 0.3s; text-decoration: none; }
         .btn-hero-primary:hover { color: white; transform: translateY(-3px); box-shadow: 0 10px 28px rgba(153, 27, 27, 0.35); }
         
-        .page-header { background: linear-gradient(135deg, #f6f9fc 0%, #fef2f2 100%); padding: 140px 0 80px; text-align: center; position: relative; }
+        .page-header { 
+            padding: 160px 0 100px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden;
+            /* Default fallback jika gambar gagal dimuat */
+            background-color: #0f172a; 
+        }
+        
+        /* Style khusus agar teks putih dan kontras dengan background gelap */
+        .page-header .section-label {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+        .page-header .section-title {
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .page-header .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
         
         .value-card { background: white; border-radius: var(--radius); padding: 32px; height: 100%; border: 1px solid rgba(153, 27, 27, 0.08); transition: all 0.3s ease; }
         .value-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: transparent; }
@@ -124,6 +190,18 @@
         .vm-card { background: white; border-radius: var(--radius); padding: 40px; height: 100%; box-shadow: var(--shadow-sm); border-left: 5px solid var(--primary); }
         .vm-card h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
 
+        /* ✅ PERBAIKAN: Story Section Mobile */
+        .story-section {
+            padding: 90px 0;
+        }
+        .story-content p {
+            color: var(--slate);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            text-align: justify;
+        }
+        
         footer {
             background: var(--gradient-dark);
             color: white;
@@ -160,10 +238,57 @@
         .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
 
+        /* ✅ RESPONSIVE MOBILE */
         @media (max-width: 768px) { 
-            .section { padding: 60px 0; } 
+            .section { padding: 60px 0; }
+            .story-section { padding: 60px 0; }
             .page-header { padding: 120px 0 60px; } 
             .navbar-brand img { max-height: 42px; }
+            
+            /* Mobile Story Content */
+            .story-content {
+                padding: 0 12px;
+            }
+            .story-content p {
+                font-size: 0.95rem;
+                line-height: 1.7;
+                margin-bottom: 16px;
+                text-align: left;
+            }
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 12px;
+            }
+            .section-label {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+                margin-bottom: 12px;
+            }
+            .vm-card {
+                padding: 24px;
+                margin-bottom: 20px;
+            }
+            .vm-card h4 {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+            }
+            .vm-card p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .story-content p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            .section {
+                padding: 50px 0;
+            }
+            .story-section {
+                padding: 50px 0;
+            }
         }
     </style>
 </head>
@@ -175,7 +300,7 @@
             <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
                 <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -242,13 +367,16 @@
         $headerTitle = \App\Models\Setting::get('about_page_header_title', 'Membangun Sekolah yang Lebih Sehat');
         $headerSubtitle = \App\Models\Setting::get('about_page_header_subtitle', 'Mengenal lebih dalam filosofi, visi, dan komitmen SIKES dalam mendukung kesehatan seluruh warga SMK Negeri 1 Bangsri.');
         
+        // ✅ Ambil gambar background untuk header (fallback ke login.jpeg jika belum diupload)
+        $aboutPageImg = \App\Models\Setting::get('about_page_image');
+        $bgImage = $aboutPageImg ? asset('storage/' . $aboutPageImg) : asset('images/login.jpeg');
+        
         $storyTitle = \App\Models\Setting::get('about_page_story_title', 'Dedikasi untuk Kesehatan Siswa');
         $storyP1 = \App\Models\Setting::get('about_page_story_p1', 'SIKES (Sistem Informasi UKS) lahir dari kebutuhan nyata akan pengelolaan kesehatan sekolah yang modern. Kami menyadari bahwa pencatatan manual sering kali rentan terhadap kehilangan data, sulit dilacak, dan tidak efisien.');
         $storyP2 = \App\Models\Setting::get('about_page_story_p2', 'Oleh karena itu, kami mengembangkan platform yang tidak hanya mencatat riwayat kunjungan, tetapi juga mengelola inventaris obat, menjadwalkan petugas, dan memberikan edukasi kesehatan secara terpusat. Semua dirancang agar petugas UKS bisa fokus pada hal yang paling penting: merawat siswa.');
         
         $vision = \App\Models\Setting::get('about_page_vision', 'Menjadi sistem informasi kesehatan sekolah terdepan yang menciptakan lingkungan pendidikan sehat, sigap, dan berbasis data untuk mendukung prestasi dan kesejahteraan seluruh siswa.');
         
-        // ✅ PERBAIKAN: Menangani format <br> atau \n dari database agar list misi terpecah dengan rapi
         $missionRaw = \App\Models\Setting::get('about_page_mission', "Mendigitalisasi seluruh rekam medis dan inventaris UKS.\nMempercepat respon penanganan kesehatan siswa melalui data yang terintegrasi.\nMenyediakan informasi kesehatan yang akurat dan mudah diakses oleh siswa dan guru.");
         $missionClean = str_replace(['<br>', '<br/>', '<br />', '&lt;br&gt;', '&lt;br/&gt;'], "\n", strip_tags($missionRaw));
         $missions = array_filter(array_map('trim', explode("\n", $missionClean)));
@@ -258,7 +386,8 @@
         $ctaBtn = \App\Models\Setting::get('about_page_cta_btn', 'Lihat Layanan Kami');
     ?>
 
-    <header class="page-header">
+    <!-- ✅ HEADER DENGAN BACKGROUND FOTO & OVERLAY GELAP NETRAL (TANPA MERAH) -->
+    <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('<?php echo e($bgImage); ?>'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">Tentang Kami</span>
             <h1 class="section-title mt-3"><?php echo e($headerTitle); ?></h1>
@@ -266,7 +395,7 @@
         </div>
     </header>
 
-    <section class="section">
+    <section class="section story-section">
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
@@ -279,8 +408,10 @@
                 <div class="col-lg-6" data-aos="fade-left">
                     <span class="section-label">Cerita Kami</span>
                     <h2 class="section-title"><?php echo e($storyTitle); ?></h2>
-                    <p style="color: var(--slate); line-height: 1.8; margin-bottom: 20px;"><?php echo e($storyP1); ?></p>
-                    <p style="color: var(--slate); line-height: 1.8; margin-bottom: 20px;"><?php echo e($storyP2); ?></p>
+                    <div class="story-content">
+                        <p><?php echo e($storyP1); ?></p>
+                        <p><?php echo e($storyP2); ?></p>
+                    </div>
                 </div>
             </div>
         </div>

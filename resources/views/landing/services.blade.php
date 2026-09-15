@@ -46,8 +46,51 @@
         .dropdown-item { border-radius: 8px; padding: 10px 14px; font-weight: 500; transition: all 0.2s; }
         .dropdown-item:hover { background: linear-gradient(135deg, rgba(153,27,27,0.08), rgba(239,68,68,0.08)); transform: translateX(4px); }
 
-        /* Header & Layout */
-        .page-header { background: linear-gradient(135deg, #f6f9fc 0%, #fef2f2 100%); padding: 140px 0 80px; text-align: center; position: relative; }
+        /* ✅ Header & Layout (DIPERBAIKI: Background Foto + Overlay Gelap Netral) */
+        .page-header { 
+            padding: 160px 0 100px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden;
+            background-color: #0f172a; /* Fallback */
+        }
+        .page-header .section-label {
+            display: inline-block; 
+            padding: 6px 16px; 
+            background: rgba(255, 255, 255, 0.15); 
+            color: #ffffff; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 50px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            margin-bottom: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .page-header .section-title { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: clamp(1.8rem, 4vw, 2.6rem); 
+            font-weight: 700; 
+            color: #ffffff; 
+            margin-bottom: 16px; 
+            line-height: 1.2; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .page-header .section-title .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header .section-subtitle { 
+            color: rgba(255, 255, 255, 0.9); 
+            font-size: 1.05rem; 
+            max-width: 600px; 
+            margin: 0 auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
         .section { padding: 90px 0; position: relative; }
         .section-label { display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: #991b1b; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
         .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; line-height: 1.2; }
@@ -151,8 +194,13 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <header class="page-header">
+    @php
+        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
+        $servicesBgImage = asset('images/login.jpeg');
+    @endphp
+
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $servicesBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">Layanan Kami</span>
             <h1 class="section-title mt-3">{!! \App\Models\Setting::get('services_title', 'Layanan Kesehatan <span class="gradient-text">Profesional</span>') !!}</h1>

@@ -29,9 +29,9 @@
             --gradient-pro: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
             --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
             --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --shadow-sm: 0 4px 20px rgba(153, 58, 27, 0.08);
-            --shadow-md: 0 10px 40px rgba(153, 58, 27, 0.12);
-            --shadow-lg: 0 25px 60px rgba(153, 58, 27, 0.18);
+            --shadow-sm: 0 4px 20px rgba(153, 27, 27, 0.08);
+            --shadow-md: 0 10px 40px rgba(153, 27, 27, 0.12);
+            --shadow-lg: 0 25px 60px rgba(153, 27, 27, 0.18);
             --radius: 18px;
         }
         
@@ -118,13 +118,59 @@
         }
 
         .section { padding: 80px 0; position: relative; }
-        .section-label {
+        
+        /* ✅ PERBAIKAN: Page Header dengan Background Foto & Overlay Gelap Netral */
+        .page-header { 
+            padding: 160px 0 100px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden;
+            background-color: #0f172a; /* Fallback */
+        }
+        .page-header .section-label {
+            display: inline-block; 
+            padding: 6px 16px; 
+            background: rgba(255, 255, 255, 0.15); 
+            color: #ffffff; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 50px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            margin-bottom: 16px;
+            backdrop-filter: blur(4px);
+        }
+        .page-header .section-title { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: clamp(1.8rem, 4vw, 2.6rem); 
+            font-weight: 700; 
+            color: #ffffff; 
+            margin-bottom: 16px; 
+            line-height: 1.2; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .page-header .section-title .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header .section-subtitle { 
+            color: rgba(255, 255, 255, 0.9); 
+            font-size: 1.05rem; 
+            max-width: 600px; 
+            margin: 0 auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .section-label-inner {
             display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: var(--pro);
             border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
         }
-        .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
-        .section-subtitle { color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
-        .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .section-title-inner { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
+        .section-subtitle-inner { color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .gradient-text-inner { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         /* Doc Card Styling */
         .doc-card {
@@ -203,6 +249,7 @@
         @media (max-width: 768px) {
             .doc-image { height: 200px; }
             .section { padding: 60px 0; }
+            .page-header { padding: 120px 0 60px; }
         }
     </style>
 </head>
@@ -276,15 +323,23 @@
         </div>
     </nav>
 
-    <!-- Header & Content Section -->
-    <section class="section flex-grow-1" style="background: linear-gradient(180deg, #fafbfc 0%, #fef2f2 100%);">
-        <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">{{ \App\Models\Setting::get('docs_label', 'Dokumentasi') }}</span>
-                <h1 class="section-title">{!! \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>') !!}</h1>
-                <p class="section-subtitle">{{ \App\Models\Setting::get('docs_subtitle', 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami') }}</p>
-            </div>
+    @php
+        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
+        $docsBgImage = asset('images/login.jpeg');
+    @endphp
 
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $docsBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="container position-relative" data-aos="fade-up">
+            <span class="section-label">{{ \App\Models\Setting::get('docs_label', 'Dokumentasi') }}</span>
+            <h1 class="section-title mt-3">{!! \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>') !!}</h1>
+            <p class="section-subtitle">{{ \App\Models\Setting::get('docs_subtitle', 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami') }}</p>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <section class="section flex-grow-1">
+        <div class="container">
             <div class="row g-4">
                 @forelse($documentations as $index => $doc)
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ ($index % 3) * 100 }}">

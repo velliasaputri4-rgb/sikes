@@ -114,37 +114,27 @@
         transform: translateX(4px);
     }
 
-    .blob-bg {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.4;
-        z-index: 0;
-        pointer-events: none;
-    }
-    .blob-1 { width: 400px; height: 400px; background: #991b1b; top: -100px; left: -100px; animation: float1 20s ease-in-out infinite; opacity: 0.25; }
-    .blob-2 { width: 350px; height: 350px; background: #ef4444; top: 100px; right: -80px; animation: float2 25s ease-in-out infinite; opacity: 0.2; }
-    @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,-40px) scale(1.1); } }
-    @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,50px) scale(0.9); } }
-
+    /* ============ PAGE HEADER (DIPERBAIKI: Background Foto + Overlay Gelap Netral) ============ */
     .page-header {
         position: relative;
-        padding: 140px 0 80px;
-        background: linear-gradient(180deg, #f7fafc 0%, #fef2f2 100%);
+        padding: 160px 0 100px;
+        text-align: center;
         overflow: hidden;
+        background-color: #0f172a; /* Fallback */
     }
     .page-header-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         padding: 8px 18px;
-        background: rgba(239, 68, 68, 0.1);
-        color: var(--pro);
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 50px;
         font-size: 0.85rem;
         font-weight: 600;
-        margin-bottom: 0;
-        border: 1px solid rgba(153, 27, 27, 0.15);
+        margin-bottom: 20px;
+        backdrop-filter: blur(4px);
     }
     .page-header-badge .pulse-dot {
         width: 8px; height: 8px;
@@ -158,22 +148,24 @@
         font-family: 'Poppins', sans-serif;
         font-size: clamp(2rem, 4.5vw, 3rem);
         font-weight: 700;
-        color: var(--ink);
+        color: #ffffff;
         line-height: 1.2;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
         letter-spacing: -1px;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .gradient-text {
-        background: var(--gradient-primary);
+    .page-title .gradient-text {
+        background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     .page-subtitle {
-        color: var(--slate);
+        color: rgba(255, 255, 255, 0.9);
         font-size: 1.05rem;
         max-width: 580px;
-        margin-bottom: 0;
+        margin: 0 auto;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
 
     .section { padding: 70px 0 90px; }
@@ -657,20 +649,23 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="page-header text-center">
-        <div class="blob-bg blob-1"></div>
-        <div class="blob-bg blob-2"></div>
-        <div class="container position-relative" style="z-index: 2;">
-            <div class="page-header-badge mb-3 d-inline-flex" data-aos="fade-down">
+    @php
+        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
+        $scheduleBgImage = asset('images/login.jpeg');
+    @endphp
+
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $scheduleBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
+            <div class="page-header-badge mb-3 d-inline-flex">
                 <span class="pulse-dot"></span>
                 <span>Jadwal Petugas UKS Aktif</span>
             </div>
-            <h1 class="page-title" data-aos="fade-up" data-aos-delay="100">
+            <h1 class="page-title">
                 Jadwal <span class="gradient-text">Petugas</span><br>
                 UKS SMK Negeri 1 Bangsri
             </h1>
-            <p class="page-subtitle mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p class="page-subtitle mx-auto">
                 Informasi lengkap jadwal petugas yang bertugas di Unit Kesehatan Sekolah.
             </p>
         </div>
