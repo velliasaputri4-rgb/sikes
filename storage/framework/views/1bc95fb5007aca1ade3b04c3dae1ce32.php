@@ -1,9 +1,9 @@
-@extends('layouts.petugas')
 
-@section('title', 'Data Siswa')
-@section('page-title', 'Data Siswa')
 
-@section('content')
+<?php $__env->startSection('title', 'Data Siswa'); ?>
+<?php $__env->startSection('page-title', 'Data Siswa'); ?>
+
+<?php $__env->startSection('content'); ?>
     <style>
         :root { 
             --ink: #0f172a;
@@ -154,25 +154,27 @@
                 </h5>
                 <small class="text-muted">Data siswa yang terdaftar di sistem</small>
             </div>
-            <a href="{{ route('petugas.students.create') }}" class="btn btn-primary-custom">
+            <a href="<?php echo e(route('petugas.students.create')); ?>" class="btn btn-primary-custom">
                 <i class="fas fa-plus me-1"></i> Tambah Siswa
             </a>
         </div>
 
-        {{-- ✅ Alert dengan tema --}}
-        @if(session('success')) 
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?> 
             <div class="alert-success-custom">
-                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            </div> 
-        @endif
-        @if(session('error')) 
-            <div class="alert-danger-custom">
-                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-            </div> 
-        @endif
+                <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
 
-        <form method="GET" action="{{ route('petugas.students.index') }}" class="filter-card">
-            <input type="text" name="search" class="form-control" placeholder="Cari nama/NIS siswa... (tekan Enter)" value="{{ request('search') }}">
+            </div> 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?> 
+            <div class="alert-danger-custom">
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
+
+            </div> 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+        <form method="GET" action="<?php echo e(route('petugas.students.index')); ?>" class="filter-card">
+            <input type="text" name="search" class="form-control" placeholder="Cari nama/NIS siswa... (tekan Enter)" value="<?php echo e(request('search')); ?>">
         </form>
 
         <div class="table-responsive">
@@ -189,39 +191,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($students as $index => $student)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $student): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                         <tr>
-                            <td class="text-muted">{{ ($students->currentPage() - 1) * $students->perPage() + $loop->iteration }}</td>
-                            <td class="fw-semibold" style="color: #0f172a;">{{ $student->nis }}</td>
-                            <td class="fw-semibold" style="color: #0f172a;">{{ $student->full_name }}</td>
+                            <td class="text-muted"><?php echo e(($students->currentPage() - 1) * $students->perPage() + $loop->iteration); ?></td>
+                            <td class="fw-semibold" style="color: #0f172a;"><?php echo e($student->nis); ?></td>
+                            <td class="fw-semibold" style="color: #0f172a;"><?php echo e($student->full_name); ?></td>
                             <td>
                                 <span class="badge badge-kelas">
-                                    {{ $student->class->name ?? '-' }}
+                                    <?php echo e($student->class->name ?? '-'); ?>
+
                                 </span>
                             </td>
                             <td>
-                                @if($student->birth_date) 
-                                    {{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}
-                                @else 
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($student->birth_date): ?> 
+                                    <?php echo e(\Carbon\Carbon::parse($student->birth_date)->format('d/m/Y')); ?>
+
+                                <?php else: ?> 
                                     <span class="text-muted">-</span> 
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                             <td class="phone-cell">
-                                @if($student->parent_phone)
-                                    <a href="tel:{{ $student->parent_phone }}" class="text-decoration-none" title="Klik untuk menelepon">
-                                        <i class="fas fa-phone me-1" style="font-size: 11px; color: #ef4444;"></i>{{ $student->parent_phone }}
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($student->parent_phone): ?>
+                                    <a href="tel:<?php echo e($student->parent_phone); ?>" class="text-decoration-none" title="Klik untuk menelepon">
+                                        <i class="fas fa-phone me-1" style="font-size: 11px; color: #ef4444;"></i><?php echo e($student->parent_phone); ?>
+
                                     </a>
-                                @else
+                                <?php else: ?>
                                     <span class="text-muted">-</span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                             <td class="text-center">
                                 <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('petugas.students.edit', $student->id) }}" class="btn btn-sm btn-aksi-edit" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" title="Edit">
+                                    <a href="<?php echo e(route('petugas.students.edit', $student->id)); ?>" class="btn btn-sm btn-aksi-edit" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" title="Edit">
                                         <i class="fas fa-pen-to-square"></i>
                                     </a>
-                                    <form action="{{ route('petugas.students.destroy', $student->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus {{ $student->full_name }}?')">
-                                        @csrf @method('DELETE')
+                                    <form action="<?php echo e(route('petugas.students.destroy', $student->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus <?php echo e($student->full_name); ?>?')">
+                                        <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-sm btn-aksi-hapus" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" title="Hapus">
                                             <i class="fas fa-trash-can"></i>
                                         </button>
@@ -229,7 +234,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         <tr>
                             <td colspan="7" class="text-center py-5">
                                 <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);">
@@ -239,11 +244,12 @@
                                 <small class="text-muted">Silakan tambah siswa baru.</small>
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </tbody>
             </table>
         </div>
 
-        <div class="d-flex justify-content-end mt-3">{{ $students->links() }}</div>
+        <div class="d-flex justify-content-end mt-3"><?php echo e($students->links()); ?></div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.petugas', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\sikes\resources\views/petugas/students/index.blade.php ENDPATH**/ ?>

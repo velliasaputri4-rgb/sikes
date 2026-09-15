@@ -5,11 +5,11 @@
 
 @section('content')
 <div class="content-card">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="fw-bold mb-0 text-dark">
-            <i class="fas fa-plus-circle text-primary me-2"></i>Form Tambah Tips Kesehatan
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">
+            <i class="fas fa-plus-circle me-2" style="color: #ef4444;"></i>Form Tambah Tips Kesehatan
         </h5>
-        <a href="{{ route('petugas.health-tips.index') }}" class="btn btn-sm btn-light border">
+        <a href="{{ route('petugas.health-tips.index') }}" class="btn btn-sm" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">
             <i class="fas fa-arrow-left me-1"></i> Kembali
         </a>
     </div>
@@ -18,18 +18,19 @@
         @csrf
 
         <div class="mb-3">
-            <label for="title" class="form-label fw-semibold text-dark">Judul Tips <span class="text-danger">*</span></label>
+            <label for="title" class="form-label fw-semibold">Judul Tips <span style="color: #ef4444;">*</span></label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" 
                    id="title" name="title" value="{{ old('title') }}" required 
-                   placeholder="Contoh: Cara Mencegah Demam Berdarah">
+                   placeholder="Contoh: Cara Mencegah Demam Berdarah"
+                   style="border-color: #fecaca;">
             @error('title')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="mb-3">
-            <label for="category" class="form-label fw-semibold text-dark">Kategori <span class="text-danger">*</span></label>
-            <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required>
+            <label for="category" class="form-label fw-semibold">Kategori <span style="color: #ef4444;">*</span></label>
+            <select class="form-select @error('category') is-invalid @enderror" id="category" name="category" required style="border-color: #fecaca;">
                 <option value="">-- Pilih Kategori --</option>
                 <option value="gizi" {{ old('category') == 'gizi' ? 'selected' : '' }}>Gizi & Makanan</option>
                 <option value="kebersihan" {{ old('category') == 'kebersihan' ? 'selected' : '' }}>Kebersihan Diri & Lingkungan</option>
@@ -44,21 +45,25 @@
         </div>
 
         <div class="mb-4">
-            <label for="content" class="form-label fw-semibold text-dark">Isi Lengkap Tips <span class="text-danger">*</span></label>
+            <label for="content" class="form-label fw-semibold">Isi Lengkap Tips <span style="color: #ef4444;">*</span></label>
             <textarea class="form-control @error('content') is-invalid @enderror" 
                       id="content" name="content" rows="8" required 
-                      placeholder="Tuliskan penjelasan, langkah-langkah, atau edukasi lengkap di sini...">{{ old('content') }}</textarea>
-            <div class="form-text text-muted">Tips: Gunakan enter untuk membuat paragraf baru agar mudah dibaca.</div>
+                      placeholder="Tuliskan penjelasan, langkah-langkah, atau edukasi lengkap di sini..."
+                      style="border-color: #fecaca;">{{ old('content') }}</textarea>
+            <div class="form-text mt-1" style="color: #64748b;">
+                <i class="fas fa-lightbulb me-1" style="color: #f59e0b;"></i>
+                Tips: Gunakan enter untuk membuat paragraf baru agar mudah dibaca.
+            </div>
             @error('content')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 pt-3" style="border-top: 1px solid #fee2e2;">
             <button type="submit" class="btn btn-primary-custom">
                 <i class="fas fa-save me-1"></i> Simpan Tips
             </button>
-            <button type="reset" class="btn btn-light border">
+            <button type="reset" class="btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">
                 <i class="fas fa-undo me-1"></i> Reset Form
             </button>
         </div>

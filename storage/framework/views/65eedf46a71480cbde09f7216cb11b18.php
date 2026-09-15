@@ -1,9 +1,9 @@
-@extends('layouts.petugas')
 
-@section('title', 'Data Inventaris')
-@section('page-title', 'Data Inventaris UKS')
 
-@section('content')
+<?php $__env->startSection('title', 'Data Inventaris'); ?>
+<?php $__env->startSection('page-title', 'Data Inventaris UKS'); ?>
+
+<?php $__env->startSection('content'); ?>
     <style>
         :root { 
             --ink: #0f172a;
@@ -148,25 +148,27 @@
                 </h5>
                 <small class="text-muted">Kelola perlengkapan dan peralatan UKS</small>
             </div>
-            <a href="{{ route('petugas.items.create') }}" class="btn btn-primary-custom">
+            <a href="<?php echo e(route('petugas.items.create')); ?>" class="btn btn-primary-custom">
                 <i class="fas fa-plus me-1"></i> Tambah Barang
             </a>
         </div>
 
-        {{-- ✅ Alert dengan tema --}}
-        @if(session('success')) 
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?> 
             <div class="alert alert-success-custom mb-3">
-                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            </div> 
-        @endif
-        @if(session('error')) 
-            <div class="alert alert-danger-custom mb-3">
-                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-            </div> 
-        @endif
+                <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
 
-        <form method="GET" action="{{ route('petugas.items.index') }}" class="filter-card">
-            <input type="text" name="search" class="form-control" placeholder="Cari nama/kode barang... (tekan Enter)" value="{{ request('search') }}">
+            </div> 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?> 
+            <div class="alert alert-danger-custom mb-3">
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
+
+            </div> 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+        <form method="GET" action="<?php echo e(route('petugas.items.index')); ?>" class="filter-card">
+            <input type="text" name="search" class="form-control" placeholder="Cari nama/kode barang... (tekan Enter)" value="<?php echo e(request('search')); ?>">
         </form>
 
         <div class="table-responsive">
@@ -183,46 +185,48 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($items ?? [] as $index => $item)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $items ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                         <tr>
-                            <td class="text-muted">{{ $items->firstItem() + $index }}</td>
+                            <td class="text-muted"><?php echo e($items->firstItem() + $index); ?></td>
                             <td>
-                                <span class="fw-semibold" style="color: #0f172a;">{{ $item->code ?? '-' }}</span>
+                                <span class="fw-semibold" style="color: #0f172a;"><?php echo e($item->code ?? '-'); ?></span>
                             </td>
-                            <td class="fw-semibold" style="color: #0f172a;">{{ $item->name }}</td>
+                            <td class="fw-semibold" style="color: #0f172a;"><?php echo e($item->name); ?></td>
                             <td>
-                                @if($item->category)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($item->category): ?>
                                     <span class="badge" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-weight: 500;">
-                                        {{ $item->category }}
+                                        <?php echo e($item->category); ?>
+
                                     </span>
-                                @else
+                                <?php else: ?>
                                     <span class="text-muted">-</span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                             <td>
                                 <span class="badge badge-stok">
-                                    {{ $item->quantity ?? 0 }}
+                                    <?php echo e($item->quantity ?? 0); ?>
+
                                 </span>
                             </td>
                             <td>
-                                @php $kondisi = strtolower($item->condition ?? 'good'); @endphp
-                                @if($kondisi === 'good')
+                                <?php $kondisi = strtolower($item->condition ?? 'good'); ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kondisi === 'good'): ?>
                                     <span class="badge kondisi-baik">
                                         <i class="fas fa-check-circle me-1"></i> Baik
                                     </span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge kondisi-rusak">
                                         <i class="fas fa-exclamation-circle me-1"></i> Rusak
                                     </span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                             <td class="text-center">
                                 <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('petugas.items.edit', $item->id) }}" class="btn btn-sm btn-aksi-edit" title="Edit">
+                                    <a href="<?php echo e(route('petugas.items.edit', $item->id)); ?>" class="btn btn-sm btn-aksi-edit" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('petugas.items.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus {{ $item->name }}?')">
-                                        @csrf @method('DELETE')
+                                    <form action="<?php echo e(route('petugas.items.destroy', $item->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus <?php echo e($item->name); ?>?')">
+                                        <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-sm btn-aksi-hapus" title="Hapus">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -230,7 +234,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         <tr>
                             <td colspan="7" class="text-center py-5">
                                 <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);">
@@ -240,13 +244,14 @@
                                 <small class="text-muted">Silakan tambah barang baru.</small>
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </tbody>
             </table>
         </div>
 
-        @if(method_exists($items ?? collect(), 'links'))
-            <div class="d-flex justify-content-end mt-3">{{ $items->links() }}</div>
-        @endif
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(method_exists($items ?? collect(), 'links')): ?>
+            <div class="d-flex justify-content-end mt-3"><?php echo e($items->links()); ?></div>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.petugas', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\sikes\resources\views/petugas/items/index.blade.php ENDPATH**/ ?>

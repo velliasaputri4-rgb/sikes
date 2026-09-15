@@ -5,9 +5,11 @@
 
 <?php $__env->startSection('content'); ?>
 <div class="content-card">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="fw-bold mb-0"><i class="fas fa-plus-circle text-success me-2"></i>Form Pemeriksaan Baru</h5>
-        <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-outline-secondary btn-sm">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">
+            <i class="fas fa-plus-circle me-2" style="color: #ef4444;"></i>Form Pemeriksaan Baru
+        </h5>
+        <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-sm" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar
         </a>
     </div>
@@ -17,8 +19,8 @@
         
         
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
-            <div class="alert alert-danger mb-3">
-                <strong><i class="fas fa-exclamation-triangle"></i> Gagal Menyimpan:</strong>
+            <div class="alert mb-3" style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-left: 4px solid #ef4444;">
+                <strong><i class="fas fa-exclamation-triangle me-1"></i> Gagal Menyimpan:</strong>
                 <ul class="mb-0 mt-1">
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                         <li><?php echo e($error); ?></li>
@@ -31,11 +33,13 @@
             <!-- Kolom Kiri: Data Siswa & Petugas -->
             <div class="col-lg-5">
                 <!-- Identitas Siswa -->
-                <div class="p-3 bg-light rounded-3 mb-3">
-                    <h6 class="fw-bold text-success mb-3"><i class="fas fa-user-graduate me-2"></i>Identitas Siswa</h6>
+                <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
+                    <h6 class="fw-bold mb-3" style="color: #991b1b;">
+                        <i class="fas fa-user-graduate me-2"></i>Identitas Siswa
+                    </h6>
                     
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Ketik NIS <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Ketik NIS <span style="color: #ef4444;">*</span></label>
                         <input type="text" name="nis" id="nisInput" class="form-control <?php $__errorArgs = ['nis'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -44,7 +48,8 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" 
-                               value="<?php echo e(old('nis')); ?>" placeholder="Masukkan NIS siswa..." required autocomplete="off">
+                               value="<?php echo e(old('nis')); ?>" placeholder="Masukkan NIS siswa..." required autocomplete="off"
+                               style="border-color: #fecaca; focus:border-color: #ef4444;">
                         <div id="nisFeedback" class="form-text mt-1"></div>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nis'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -58,20 +63,22 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
                     <div class="mb-2">
                         <label class="form-label small text-muted">Nama Lengkap</label>
-                        <input type="text" id="studentName" class="form-control bg-white fw-semibold" readonly>
+                        <input type="text" id="studentName" class="form-control fw-semibold" readonly style="background-color: #fafbfc; border-color: #e2e8f0;">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label small text-muted">Kelas</label>
-                        <input type="text" id="studentClass" class="form-control bg-white fw-semibold" readonly>
+                        <input type="text" id="studentClass" class="form-control fw-semibold" readonly style="background-color: #fafbfc; border-color: #e2e8f0;">
                     </div>
 
                     <!-- Form Siswa Baru (Muncul jika NIS tidak ditemukan) -->
-                    <div id="newStudentBox" class="d-none border border-danger rounded-3 p-3 bg-white mt-3">
-                        <small class="fw-bold text-danger d-block mb-2"><i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data di bawah untuk mendaftarkan siswa baru:</small>
+                    <div id="newStudentBox" class="d-none rounded-3 p-3 mt-3" style="border: 1px solid #fecaca; background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);">
+                        <small class="fw-bold d-block mb-2" style="color: #be123c;">
+                            <i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data di bawah:
+                        </small>
                         
                         <div class="mb-2">
-                            <label class="form-label small">Nama Lengkap <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Nama Lengkap <span style="color: #ef4444;">*</span></label>
                             <input type="text" name="full_name" class="form-control <?php $__errorArgs = ['full_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -90,7 +97,7 @@ endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Kelas <span class="text-danger">*</span></label>
+                            <label class="form-label small fw-semibold">Kelas <span style="color: #ef4444;">*</span></label>
                             <input type="text" name="class_name" class="form-control <?php $__errorArgs = ['class_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -112,13 +119,15 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                 </div>
 
                 <!-- Informasi Petugas Piket -->
-                <div class="p-3 bg-light rounded-3 mb-3">
-                    <h6 class="fw-bold text-primary mb-3"><i class="fas fa-user-nurse me-2"></i>Informasi Petugas Piket</h6>
+                <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
+                    <h6 class="fw-bold mb-3" style="color: #991b1b;">
+                        <i class="fas fa-user-nurse me-2"></i>Informasi Petugas Piket
+                    </h6>
                     
                     <div class="row g-2">
                         <div class="col-6 mb-2">
-                            <label class="form-label fw-semibold">Kelompok Piket <span class="text-danger">*</span></label>
-                            <select id="piketGroup" name="piket_group" class="form-select" required>
+                            <label class="form-label fw-semibold">Kelompok Piket <span style="color: #ef4444;">*</span></label>
+                            <select id="piketGroup" name="piket_group" class="form-select" required style="border-color: #fecaca;">
                                 <option value="">-- Pilih Kelompok --</option>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = array_keys($jadwalPiket ?? []); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                                     <option value="<?php echo e($group); ?>" <?php echo e(old('piket_group') == $group ? 'selected' : ''); ?>><?php echo e($group); ?></option>
@@ -126,7 +135,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                             </select>
                         </div>
                         <div class="col-6 mb-2">
-                            <label class="form-label fw-semibold">Nama Petugas <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Nama Petugas <span style="color: #ef4444;">*</span></label>
                             <select name="officer_name" id="officerName" class="form-select <?php $__errorArgs = ['officer_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -134,7 +143,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" required disabled>
+unset($__errorArgs, $__bag); ?>" required disabled style="border-color: #fecaca;">
                                 <option value="">-- Pilih Kelompok Dulu --</option>
                             </select>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['officer_name'];
@@ -148,14 +157,14 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                         </div>
                     </div>
 
-                    <div class="row g-2">
+                    <div class="row g-2 mt-1">
                         <div class="col-6">
                             <label class="form-label fw-semibold">Tanggal</label>
-                            <input type="date" name="examination_date" class="form-control" value="<?php echo e(old('examination_date', date('Y-m-d'))); ?>" required>
+                            <input type="date" name="examination_date" class="form-control" value="<?php echo e(old('examination_date', date('Y-m-d'))); ?>" required style="border-color: #fecaca;">
                         </div>
                         <div class="col-6">
                             <label class="form-label fw-semibold">Jam</label>
-                            <input type="time" name="arrival_time" class="form-control" value="<?php echo e(old('arrival_time', date('H:i'))); ?>" required>
+                            <input type="time" name="arrival_time" class="form-control" value="<?php echo e(old('arrival_time', date('H:i'))); ?>" required style="border-color: #fecaca;">
                         </div>
                     </div>
                 </div>
@@ -163,11 +172,13 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
             <!-- Kolom Kanan: Pemeriksaan -->
             <div class="col-lg-7">
-                <div class="p-3 bg-light rounded-3 mb-3">
-                    <h6 class="fw-bold text-danger mb-3"><i class="fas fa-notes-medical me-2"></i>Diagnosa</h6>
+                <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
+                    <h6 class="fw-bold mb-3" style="color: #ef4444;">
+                        <i class="fas fa-notes-medical me-2"></i>Diagnosa & Tindakan
+                    </h6>
                     
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Keluhan Utama <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Keluhan Utama <span style="color: #ef4444;">*</span></label>
                         <textarea name="complaint" class="form-control <?php $__errorArgs = ['complaint'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -175,7 +186,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" rows="2" placeholder="Contoh: Demam, pusing, mual, sakit perut..." required><?php echo e(old('complaint')); ?></textarea>
+unset($__errorArgs, $__bag); ?>" rows="2" placeholder="Contoh: Demam, pusing, mual, sakit perut..." required style="border-color: #fecaca;"><?php echo e(old('complaint')); ?></textarea>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['complaint'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -187,7 +198,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Diagnosa <span class="text-danger">*</span></label>
+                        <label class="form-label fw-semibold">Diagnosa <span style="color: #ef4444;">*</span></label>
                         <textarea name="diagnosis" class="form-control <?php $__errorArgs = ['diagnosis'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -195,7 +206,7 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" rows="2" required><?php echo e(old('diagnosis')); ?></textarea>
+unset($__errorArgs, $__bag); ?>" rows="2" required style="border-color: #fecaca;"><?php echo e(old('diagnosis')); ?></textarea>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['diagnosis'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -206,7 +217,6 @@ endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
 
-                    
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Obat yang Diberikan</label>
                         <input type="text" name="medicine" class="form-control <?php $__errorArgs = ['medicine'];
@@ -217,21 +227,19 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" 
-                               list="medicineList" placeholder="Ketik nama obat atau pilih dari daftar..." value="<?php echo e(old('medicine')); ?>">
+                               list="medicineList" placeholder="Ketik nama obat atau pilih dari daftar..." value="<?php echo e(old('medicine')); ?>" style="border-color: #fecaca;">
                         
-                        <!-- Daftar saran dari database -->
                         <datalist id="medicineList">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($medicines)): ?>
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $medicines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $med): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                    <!-- value: yang akan masuk ke form, label: teks petunjuk di sebelah kanan dropdown -->
                                     <option value="<?php echo e($med->name); ?>" label="Sisa Stok: <?php echo e($med->stock); ?> <?php echo e($med->unit); ?>">
                                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </datalist>
                         
-                        <small class="text-muted">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Ketik nama obat untuk melihat saran & sisa stok, atau ketik manual untuk memasukkan dosis spesifik.
+                        <small class="text-muted mt-1 d-block">
+                            <i class="fas fa-info-circle me-1" style="color: #f59e0b;"></i>
+                            Ketik nama obat untuk melihat saran & sisa stok, atau ketik manual untuk dosis spesifik.
                         </small>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['medicine'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -245,7 +253,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Status Kepulangan <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Status Kepulangan <span style="color: #ef4444;">*</span></label>
                             <select name="status" class="form-select <?php $__errorArgs = ['status'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -253,11 +261,11 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" required>
+unset($__errorArgs, $__bag); ?>" required style="border-color: #fecaca;">
                                 <option value="">Pilih Status</option>
                                 <option value="pulang" <?php echo e(old('status') == 'pulang' ? 'selected' : ''); ?>>Pulang</option>
                                 <option value="istirahat_uks" <?php echo e(old('status') == 'istirahat_uks' ? 'selected' : ''); ?>>Istirahat di UKS</option>
-                                <option value="rawat_jalan" <?php echo e(old('status') == 'rawat_jalan' ? 'selected' : ''); ?>>Rawat Jalan (kasih obat kembali ke kelas)</option>
+                                <option value="rawat_jalan" <?php echo e(old('status') == 'rawat_jalan' ? 'selected' : ''); ?>>Rawat Jalan (kembali ke kelas)</option>
                                 <option value="rujuk_puskesmas" <?php echo e(old('status') == 'rujuk_puskesmas' ? 'selected' : ''); ?>>Rujuk ke Puskesmas</option>
                                 <option value="rujuk_rs" <?php echo e(old('status') == 'rujuk_rs' ? 'selected' : ''); ?>>Rujuk ke Rumah Sakit</option>
                                 <option value="hubungi_ortu" <?php echo e(old('status') == 'hubungi_ortu' ? 'selected' : ''); ?>>Hubungi Orang Tua/Wali</option>
@@ -273,30 +281,30 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Catatan Tambahan</label>
-                            <input type="text" name="notes" class="form-control" placeholder="Catatan untuk orang tua/wali (opsional)" value="<?php echo e(old('notes')); ?>">
+                            <input type="text" name="notes" class="form-control" placeholder="Catatan untuk orang tua (opsional)" value="<?php echo e(old('notes')); ?>" style="border-color: #fecaca;">
                         </div>
                     </div>
                 </div>
 
                 <!-- ✅ DOKUMENTASI DENGAN KAMERA REALTIME -->
-                <div class="p-3 bg-light rounded-3">
-                    <h6 class="fw-bold text-info mb-3"><i class="fas fa-camera me-2"></i>Dokumentasi</h6>
+                <div class="p-4 rounded-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
+                    <h6 class="fw-bold mb-3" style="color: #f43f5e;">
+                        <i class="fas fa-camera me-2"></i>Dokumentasi
+                    </h6>
                     <div class="mb-2">
                         <label class="form-label fw-semibold">Foto Kondisi/Fisik</label>
 
                         <div class="d-flex gap-2 mb-2">
-                            <button type="button" class="btn btn-primary flex-fill" onclick="openCamera()">
+                            <button type="button" class="btn flex-fill" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="openCamera()">
                                 <i class="fas fa-video me-1"></i> Buka Kamera
                             </button>
-                            <label class="btn btn-outline-secondary flex-fill mb-0">
+                            <label class="btn flex-fill mb-0" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1;">
                                 <i class="fas fa-image me-1"></i> Pilih dari File
-                                <input type="file" id="photoInput" name="photo" accept="image/*" class="d-none" 
-                                       onchange="processPhotoWithWatermark(this)">
+                                <input type="file" id="photoInput" name="photo" accept="image/*" class="d-none" onchange="processPhotoWithWatermark(this)">
                             </label>
                         </div>
                         <small class="text-muted">
-                            <i class="fas fa-magic me-1"></i>Foto otomatis diberi watermark tanggal & jam.
-                            "Buka Kamera" = foto realtime, "Pilih dari File" = upload dari galeri.
+                            <i class="fas fa-magic me-1" style="color: #f59e0b;"></i>Foto otomatis diberi watermark tanggal & jam.
                         </small>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['photo'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -308,9 +316,9 @@ endif;
 unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                         <div class="mt-3">
-                            <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 280px; border-radius: 8px;" class="img-thumbnail border">
+                            <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 280px; border-radius: 8px; border: 2px solid #fee2e2;" class="img-thumbnail">
                             <div id="watermarkInfo" class="d-none mt-2">
-                                <span class="badge bg-success px-3 py-2">
+                                <span class="badge px-3 py-2" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 500;">
                                     <i class="fas fa-check-circle me-1"></i> Watermark tanggal & jam berhasil ditambahkan
                                 </span>
                             </div>
@@ -320,9 +328,9 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
             </div>
 
             <!-- Tombol Submit -->
-            <div class="col-12 text-end mt-4 pt-3 border-top">
-                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn btn-outline-secondary me-2">Batal</a>
-                <button type="submit" id="btnSubmit" class="btn btn-success px-4">
+            <div class="col-12 text-end mt-4 pt-3" style="border-top: 1px solid #fee2e2;">
+                <a href="<?php echo e(route('petugas.examinations.index')); ?>" class="btn me-2" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">Batal</a>
+                <button type="submit" id="btnSubmit" class="btn px-4" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
                     <i class="fas fa-save me-2"></i> Simpan Data Kunjungan
                 </button>
             </div>
@@ -333,16 +341,18 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
 
 <div class="modal fade" id="cameraModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold"><i class="fas fa-camera me-2 text-primary"></i>Kamera Realtime</h5>
+        <div class="modal-content" style="border: none; border-radius: 16px; overflow: hidden;">
+            <div class="modal-header" style="background: #fef2f2; border-bottom: 1px solid #fee2e2;">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-camera me-2" style="color: #ef4444;"></i>Kamera Realtime
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body p-2">
-                <video id="cameraVideo" autoplay playsinline class="w-100 rounded" style="background:#000; min-height:250px; object-fit:cover;"></video>
+            <div class="modal-body p-2" style="background: #000;">
+                <video id="cameraVideo" autoplay playsinline class="w-100 rounded" style="min-height:250px; object-fit:cover;"></video>
             </div>
-            <div class="modal-footer justify-content-center border-0 pt-0">
-                <button type="button" class="btn btn-success px-4" onclick="capturePhoto()">
+            <div class="modal-footer justify-content-center border-0 pt-0 pb-3" style="background: #fef2f2;">
+                <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="capturePhoto()">
                     <i class="fas fa-camera me-2"></i>Ambil Foto
                 </button>
             </div>
@@ -386,16 +396,16 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
                 document.getElementById('studentName').value = student.full_name || '';
                 document.getElementById('studentClass').value = student.class ? student.class.name : '';
                 newStudentBox.classList.add('d-none');
-                nisFeedback.innerHTML = '<span class="text-success fw-bold"><i class="fas fa-check-circle"></i> Siswa ditemukan</span>';
+                nisFeedback.innerHTML = '<span style="color: #10b981;" class="fw-bold"><i class="fas fa-check-circle"></i> Siswa ditemukan</span>';
             } else {
                 resetFormSiswa();
                 newStudentBox.classList.remove('d-none');
-                nisFeedback.innerHTML = '<span class="text-danger fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar. Lengkapi data siswa baru.</span>';
+                nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar. Lengkapi data siswa baru.</span>';
             }
         } catch (error) {
             console.error('Error:', error);
             resetFormSiswa();
-            nisFeedback.innerHTML = '<span class="text-danger fw-bold">Gagal mencari siswa</span>';
+            nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold">Gagal mencari siswa</span>';
         }
     }
 
@@ -454,7 +464,7 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         const padding = fontSize * 0.8;
         const barHeight = fontSize * 3.4;
 
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        ctx.fillStyle = 'rgba(153, 27, 27, 0.85)'; // Merah gelap transparan
         ctx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
 
         ctx.fillStyle = '#ffffff';
@@ -563,19 +573,16 @@ unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendB
         reader.readAsDataURL(file);
     }
 
-    // 7. ✅ PENCEGAHAN DOUBLE SUBMIT (VERSI AMAN DENGAN VALIDASI)
+    // 7. PENCEGAHAN DOUBLE SUBMIT
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form'); 
         const btnSubmit = document.getElementById('btnSubmit');
 
         if (form && btnSubmit) {
             form.addEventListener('submit', function (e) {
-                // ✅ PENTING: Cek apakah form valid (tidak ada kolom required yang kosong)
                 if (!form.checkValidity()) {
-                    return; // Jika ada yang kosong, JANGAN disable tombol. Biarkan browser menampilkan error.
+                    return; 
                 }
-
-                // Jika form valid, baru disable tombol dan ubah teks
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Menyimpan...';
             });

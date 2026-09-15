@@ -5,20 +5,20 @@
 
 <?php $__env->startSection('content'); ?>
 <div class="content-card">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <h5 class="fw-bold mb-0">
-            <i class="fas fa-chart-bar text-primary me-2"></i>
+            <i class="fas fa-chart-bar me-2" style="color: #ef4444;"></i>
             Rekapan Data Kunjungan
         </h5>
     </div>
 
     
-    <div class="card mb-4">
+    <div class="card mb-4" style="border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04); border-radius: 16px;">
         <div class="card-body">
             <form method="GET" action="<?php echo e(route('petugas.examinations.recap')); ?>" class="row g-3">
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">Tahun</label>
-                    <select name="year" class="form-select" required>
+                    <select name="year" class="form-select" required style="border-color: #fecaca;">
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $years; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $y): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                             <option value="<?php echo e($y); ?>" <?php echo e($year == $y ? 'selected' : ''); ?>>
                                 <?php echo e($y); ?>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">Bulan (Opsional)</label>
-                    <select name="month" class="form-select">
+                    <select name="month" class="form-select" style="border-color: #fecaca;">
                         <option value="">Semua Bulan</option>
                         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php for($m = 1; $m <= 12; $m++): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                             <option value="<?php echo e($m); ?>" <?php echo e($month == $m ? 'selected' : ''); ?>>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label fw-semibold">&nbsp;</label>
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn w-100" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
                         <i class="fas fa-filter me-1"></i> Tampilkan
                     </button>
                 </div>
@@ -52,65 +52,65 @@
     
     <div class="row g-4 mb-4">
         <div class="col-md-3">
-            <div class="card bg-primary text-white h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title mb-1">Total Kunjungan</h6>
-                            <h2 class="mb-0"><?php echo e($totalVisits); ?></h2>
-                            <small>
-                                Kunjungan di <?php echo e($year); ?>
+            <div class="stat-card" style="border-left-color: #ef4444;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #475569;">Total Kunjungan</p>
+                        <h3 style="color: #ef4444 !important; font-family: 'Poppins', sans-serif;"><?php echo e($totalVisits); ?></h3>
+                        <small class="text-muted">
+                            Kunjungan di <?php echo e($year); ?>
 
-                                <?php echo e($month ? ' - ' . \Carbon\Carbon::createFromDate($year, $month, 1)->format('F') : ''); ?>
+                            <?php echo e($month ? ' - ' . \Carbon\Carbon::createFromDate($year, $month, 1)->format('F') : ''); ?>
 
-                            </small>
-                        </div>
-                        <i class="fas fa-clipboard-list fa-3x opacity-50"></i>
+                        </small>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1)); color: #ef4444;">
+                        <i class="fas fa-clipboard-list"></i>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="col-md-3">
-            <div class="card bg-success text-white h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title mb-1">Jenis Penyakit</h6>
-                            <h2 class="mb-0"><?php echo e($topDiagnoses->count()); ?></h2>
-                            <small>Diagnosa berbeda</small>
-                        </div>
-                        <i class="fas fa-stethoscope fa-3x opacity-50"></i>
+            <div class="stat-card" style="border-left-color: #f43f5e;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #475569;">Jenis Penyakit</p>
+                        <h3 style="color: #f43f5e !important; font-family: 'Poppins', sans-serif;"><?php echo e($topDiagnoses->count()); ?></h3>
+                        <small class="text-muted">Diagnosa berbeda</small>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, rgba(244, 63, 94, 0.15), rgba(225, 29, 72, 0.1)); color: #f43f5e;">
+                        <i class="fas fa-stethoscope"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card bg-info text-white h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title mb-1">Jenis Obat</h6>
-                            <h2 class="mb-0"><?php echo e($topMedicines->count()); ?></h2>
-                            <small>Obat yang diberikan</small>
-                        </div>
-                        <i class="fas fa-pills fa-3x opacity-50"></i>
+            <div class="stat-card" style="border-left-color: #f59e0b;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #475569;">Jenis Obat</p>
+                        <h3 style="color: #d97706 !important; font-family: 'Poppins', sans-serif;"><?php echo e($topMedicines->count()); ?></h3>
+                        <small class="text-muted">Obat yang diberikan</small>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.1)); color: #d97706;">
+                        <i class="fas fa-pills"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card bg-warning text-white h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title mb-1">Siswa Terdaftar</h6>
-                            <h2 class="mb-0"><?php echo e($topSickStudents->count()); ?></h2>
-                            <small>Siswa yang berkunjung</small>
-                        </div>
-                        <i class="fas fa-users fa-3x opacity-50"></i>
+            <div class="stat-card" style="border-left-color: #0f172a;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #475569;">Siswa Berkunjung</p>
+                        <h3 style="color: #0f172a !important; font-family: 'Poppins', sans-serif;"><?php echo e($topSickStudents->count()); ?></h3>
+                        <small class="text-muted">Siswa unik</small>
+                    </div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.1), rgba(30, 41, 59, 0.1)); color: #0f172a;">
+                        <i class="fas fa-users"></i>
                     </div>
                 </div>
             </div>
@@ -118,10 +118,10 @@
     </div>
 
     
-    <div class="card mb-4">
-        <div class="card-header bg-white">
-            <h6 class="mb-0 fw-bold">
-                <i class="fas fa-chart-line me-2 text-primary"></i>
+    <div class="card mb-4" style="border: 1px solid #fee2e2; border-radius: 16px;">
+        <div class="card-header bg-white border-0 pt-3 pb-0">
+            <h6 class="mb-0 fw-bold" style="color: #991b1b;">
+                <i class="fas fa-chart-line me-2"></i>
                 Grafik Kunjungan per Bulan (<?php echo e($year); ?>)
             </h6>
         </div>
@@ -133,10 +133,10 @@
     <div class="row g-4">
         
         <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header bg-white">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="fas fa-procedures me-2 text-danger"></i>
+            <div class="card h-100" style="border: 1px solid #fee2e2; border-radius: 16px;">
+                <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <h6 class="mb-0 fw-bold" style="color: #ef4444;">
+                        <i class="fas fa-procedures me-2"></i>
                         5 Penyakit Paling Sering
                     </h6>
                 </div>
@@ -145,13 +145,13 @@
                         <canvas id="diagnosisChart"></canvas>
                         <div class="mt-3">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $topDiagnoses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $diag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                                    <span class="fw-semibold">
-                                        <span class="badge bg-danger me-2"><?php echo e($index + 1); ?></span>
+                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style="background: #fef2f2;">
+                                    <span class="fw-semibold" style="color: #0f172a;">
+                                        <span class="badge me-2" style="background: #ef4444; color: white;"><?php echo e($index + 1); ?></span>
                                         <?php echo e(Str::limit($diag->diagnosis, 40)); ?>
 
                                     </span>
-                                    <span class="badge bg-primary"><?php echo e($diag->count); ?> kali</span>
+                                    <span class="badge" style="background: #ef4444; color: white;"><?php echo e($diag->count); ?> kali</span>
                                 </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         </div>
@@ -164,10 +164,10 @@
 
         
         <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header bg-white">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="fas fa-capsules me-2 text-success"></i>
+            <div class="card h-100" style="border: 1px solid #fee2e2; border-radius: 16px;">
+                <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <h6 class="mb-0 fw-bold" style="color: #f59e0b;">
+                        <i class="fas fa-capsules me-2"></i>
                         5 Obat Paling Sering Diberikan
                     </h6>
                 </div>
@@ -176,13 +176,13 @@
                         <canvas id="medicineChart"></canvas>
                         <div class="mt-3">
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $topMedicines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $med): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                                    <span class="fw-semibold">
-                                        <span class="badge bg-success me-2"><?php echo e($index + 1); ?></span>
+                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style="background: #fffbeb;">
+                                    <span class="fw-semibold" style="color: #0f172a;">
+                                        <span class="badge me-2" style="background: #f59e0b; color: white;"><?php echo e($index + 1); ?></span>
                                         <?php echo e(Str::limit($med->medicine, 40)); ?>
 
                                     </span>
-                                    <span class="badge bg-primary"><?php echo e($med->count); ?> kali</span>
+                                    <span class="badge" style="background: #f59e0b; color: white;"><?php echo e($med->count); ?> kali</span>
                                 </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         </div>
@@ -195,23 +195,23 @@
 
         
         <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header bg-white">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="fas fa-user-injured me-2 text-warning"></i>
+            <div class="card h-100" style="border: 1px solid #fee2e2; border-radius: 16px;">
+                <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <h6 class="mb-0 fw-bold" style="color: #f43f5e;">
+                        <i class="fas fa-user-injured me-2"></i>
                         5 Siswa Paling Sering Berkunjung
                     </h6>
                 </div>
                 <div class="card-body">
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($topSickStudents->count() > 0): ?>
                         <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
+                            <table class="table table-sm align-middle">
+                                <thead style="background: #fef2f2;">
                                     <tr>
-                                        <th>No</th>
-                                        <th>Nama Siswa</th>
-                                        <th>Kelas</th>
-                                        <th class="text-center">Jumlah</th>
+                                        <th style="color: #991b1b;">No</th>
+                                        <th style="color: #991b1b;">Nama Siswa</th>
+                                        <th style="color: #991b1b;">Kelas</th>
+                                        <th class="text-center" style="color: #991b1b;">Jumlah</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -221,10 +221,10 @@
                                         ?>
                                         <tr>
                                             <td><?php echo e($index + 1); ?></td>
-                                            <td><?php echo e($student->full_name ?? 'N/A'); ?></td>
+                                            <td class="fw-semibold"><?php echo e($student->full_name ?? 'N/A'); ?></td>
                                             <td><?php echo e($student->class->name ?? '-'); ?></td>
                                             <td class="text-center">
-                                                <span class="badge bg-warning text-dark"><?php echo e($studentStat->count); ?></span>
+                                                <span class="badge" style="background: #fff1f2; color: #be123c;"><?php echo e($studentStat->count); ?></span>
                                             </td>
                                         </tr>
                                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
@@ -240,10 +240,10 @@
 
         
         <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header bg-white">
-                    <h6 class="mb-0 fw-bold">
-                        <i class="fas fa-door-open me-2 text-info"></i>
+            <div class="card h-100" style="border: 1px solid #fee2e2; border-radius: 16px;">
+                <div class="card-header bg-white border-0 pt-3 pb-0">
+                    <h6 class="mb-0 fw-bold" style="color: #0f172a;">
+                        <i class="fas fa-door-open me-2"></i>
                         Status Kepulangan Siswa
                     </h6>
                 </div>
@@ -262,9 +262,9 @@
                                 ];
                             ?>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $statusStats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                                    <span class="fw-semibold"><?php echo e($statusLabels[$stat->status] ?? $stat->status); ?></span>
-                                    <span class="badge bg-info"><?php echo e($stat->count); ?> siswa</span>
+                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style="background: #f8fafc;">
+                                    <span class="fw-semibold" style="color: #0f172a;"><?php echo e($statusLabels[$stat->status] ?? $stat->status); ?></span>
+                                    <span class="badge" style="background: #f1f5f9; color: #475569;"><?php echo e($stat->count); ?> siswa</span>
                                 </div>
                             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         </div>
@@ -282,14 +282,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Warna untuk chart
+    // ✅ WARNA TEMA MERAH PMR/UKS (TANPA BIRU)
     const colors = {
-        primary: '#3b82f6',
-        success: '#10b981',
-        danger: '#ef4444',
-        warning: '#f59e0b',
-        info: '#06b6d4',
-        purple: '#8b5cf6'
+        primary: '#ef4444',   // Merah Utama
+        rose: '#f43f5e',      // Rose
+        amber: '#f59e0b',     // Amber
+        slate: '#475569',     // Slate
+        emerald: '#10b981',   // Emerald (untuk variasi sehat/sukses)
+        dark: '#0f172a'       // Dark Slate
     };
 
     // 1. Grafik Kunjungan per Bulan
@@ -303,9 +303,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 label: 'Jumlah Kunjungan',
                 data: <?php echo json_encode(array_column($monthlyStats, 'count')); ?>,
                 borderColor: colors.primary,
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: colors.primary,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: colors.primary
             }]
         },
         options: {
@@ -329,13 +333,14 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: <?php echo json_encode($topDiagnoses->pluck('diagnosis')->map(fn($d) => Str::limit($d, 20))); ?>,
             datasets: [{
                 data: <?php echo json_encode($topDiagnoses->pluck('count')); ?>,
-                backgroundColor: [colors.danger, colors.primary, colors.warning, colors.success, colors.info]
+                backgroundColor: [colors.primary, colors.rose, colors.amber, colors.slate, colors.emerald],
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: { position: 'bottom' }
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
             }
         }
     });
@@ -351,7 +356,8 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Jumlah Pemberian',
                 data: <?php echo json_encode($topMedicines->pluck('count')); ?>,
-                backgroundColor: colors.success
+                backgroundColor: colors.amber,
+                borderRadius: 6
             }]
         },
         options: {
@@ -382,13 +388,14 @@ document.addEventListener('DOMContentLoaded', function() {
             ][$s] ?? $s)); ?>,
             datasets: [{
                 data: <?php echo json_encode($statusStats->pluck('count')); ?>,
-                backgroundColor: [colors.primary, colors.warning, colors.success, colors.danger, colors.info, colors.purple]
+                backgroundColor: [colors.primary, colors.rose, colors.amber, colors.dark, colors.emerald, colors.slate],
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             plugins: {
-                legend: { position: 'bottom' }
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
             }
         }
     });

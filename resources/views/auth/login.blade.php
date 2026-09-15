@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ✅ TEMA MERAH (PMR/UKS) */
+            /* ✅ TEMA MERAH (PMR/UKS) untuk elemen foreground */
             --primary: #ef4444;
             --primary-dark: #991b1b;
             --secondary: #dc2626;
@@ -33,9 +33,9 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ Background Gambar dengan Overlay Merah Samar */
+            /* ✅ PERUBAHAN: Background Gambar dengan Overlay Gelap Netral (TANPA MERAH) */
             background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(153, 27, 27, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
                 url('/images/login.jpeg');
             background-size: cover;
             background-position: center;
@@ -43,13 +43,13 @@
             background-attachment: fixed;
         }
 
-        /* ✅ Overlay tambahan merah untuk memastikan teks tetap terbaca */
+        /* ✅ PERUBAHAN: Overlay tambahan netral (highlight putih sangat halus) agar teks tetap terbaca */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(153, 27, 27, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
         }
@@ -104,7 +104,7 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            /* ✅ Gradient teks merah muda ke putih */
+            /* ✅ Gradient teks merah muda ke putih (tetap dipertahankan untuk branding) */
             background: linear-gradient(135deg, #fca5a5 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -151,7 +151,7 @@
         .form-control:focus {
             border-color: rgba(252, 165, 165, 0.8);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25); /* Focus tetap merah sebagai feedback */
             color: #ffffff;
         }
         .input-icon:focus-within > i:first-child { color: #fca5a5; }

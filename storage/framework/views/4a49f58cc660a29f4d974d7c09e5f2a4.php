@@ -1,9 +1,9 @@
-@extends('layouts.petugas')
 
-@section('title', 'Jadwal Piket')
-@section('page-title', 'Jadwal Piket')
 
-@section('content')
+<?php $__env->startSection('title', 'Jadwal Piket'); ?>
+<?php $__env->startSection('page-title', 'Jadwal Piket'); ?>
+
+<?php $__env->startSection('content'); ?>
     <style>
         :root { 
             --ink: #0f172a;
@@ -161,19 +161,19 @@
             </button>
         </div>
 
-        {{-- ✅ Alert dengan tema --}}
-        @if(session('success')) 
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?> 
             <div class="alert-success-custom alert-dismissible fade show mb-3">
-                <i class="fas fa-check-circle me-2"></i>{{ session('success') }} 
+                <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?> 
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div> 
-        @endif
-        @if(session('error')) 
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?> 
             <div class="alert-danger-custom alert-dismissible fade show mb-3">
-                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }} 
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?> 
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div> 
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         <div class="filter-card">
             <input type="text" id="searchInput" class="form-control" placeholder="Cari nama grup atau deskripsi...">
@@ -192,51 +192,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($schedules as $index => $schedule)
-                        @php
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $schedules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $schedule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                        <?php
                             $members = json_decode($schedule->members ?? '[]', true) ?? [];
                             $membersCount = count($members);
                             $emergencyCount = 0;
                             foreach($members as $m) {
                                 if (is_array($m) && !empty($m['phone'])) $emergencyCount++;
                             }
-                        @endphp
-                        <tr data-group="{{ strtolower($schedule->group_name ?? '') }}" data-desc="{{ strtolower($schedule->description ?? '') }}">
-                            <td data-label="No" class="text-muted">{{ ($schedules->currentPage() - 1) * $schedules->perPage() + $loop->iteration }}</td>
-                            <td data-label="Nama Grup" class="fw-semibold" style="color: #0f172a;">{{ $schedule->group_name ?? '-' }}</td>
-                            <td data-label="Deskripsi"><small class="text-muted">{{ Str::limit($schedule->description ?? '-', 40) }}</small></td>
+                        ?>
+                        <tr data-group="<?php echo e(strtolower($schedule->group_name ?? '')); ?>" data-desc="<?php echo e(strtolower($schedule->description ?? '')); ?>">
+                            <td data-label="No" class="text-muted"><?php echo e(($schedules->currentPage() - 1) * $schedules->perPage() + $loop->iteration); ?></td>
+                            <td data-label="Nama Grup" class="fw-semibold" style="color: #0f172a;"><?php echo e($schedule->group_name ?? '-'); ?></td>
+                            <td data-label="Deskripsi"><small class="text-muted"><?php echo e(Str::limit($schedule->description ?? '-', 40)); ?></small></td>
                             <td data-label="Anggota">
                                 <div class="desktop-only">
-                                    <span class="badge-group"><i class="fas fa-users"></i> {{ $membersCount }}</span>
-                                    @if($emergencyCount > 0)
+                                    <span class="badge-group"><i class="fas fa-users"></i> <?php echo e($membersCount); ?></span>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($emergencyCount > 0): ?>
                                         <span class="badge ms-1" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;" title="Memiliki kontak darurat">
-                                            <i class="fas fa-phone"></i> {{ $emergencyCount }}
+                                            <i class="fas fa-phone"></i> <?php echo e($emergencyCount); ?>
+
                                         </span>
-                                    @endif
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
                                 <div class="mobile-only">
-                                    <span class="badge-group mb-1"><i class="fas fa-users"></i> {{ $membersCount }} anggota</span>
-                                    @if($emergencyCount > 0)
+                                    <span class="badge-group mb-1"><i class="fas fa-users"></i> <?php echo e($membersCount); ?> anggota</span>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($emergencyCount > 0): ?>
                                         <span class="badge" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;">
-                                            <i class="fas fa-phone"></i> {{ $emergencyCount }} kontak
+                                            <i class="fas fa-phone"></i> <?php echo e($emergencyCount); ?> kontak
                                         </span>
-                                    @endif
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
                             </td>
                             <td data-label="Status">
-                                @if($schedule->is_active)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($schedule->is_active): ?>
                                     <span class="badge" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 500;">Aktif</span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-weight: 500;">Nonaktif</span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                             <td data-label="Aksi" class="text-center">
                                 <div class="desktop-only">
-                                    <button type="button" class="btn btn-sm btn-aksi-edit me-1" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" onclick='editSchedule({{ json_encode($schedule) }})' title="Edit">
+                                    <button type="button" class="btn btn-sm btn-aksi-edit me-1" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" onclick='editSchedule(<?php echo e(json_encode($schedule)); ?>)' title="Edit">
                                         <i class="fas fa-pen-to-square"></i>
                                     </button>
-                                    <form action="{{ route('petugas.piket.destroy', $schedule->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus grup ini?')">
-                                        @csrf @method('DELETE')
+                                    <form action="<?php echo e(route('petugas.piket.destroy', $schedule->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus grup ini?')">
+                                        <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-sm btn-aksi-hapus" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" title="Hapus">
                                             <i class="fas fa-trash-can"></i>
                                         </button>
@@ -244,11 +245,11 @@
                                 </div>
                                 <div class="mobile-only">
                                     <div class="mobile-actions">
-                                        <button type="button" class="btn btn-sm btn-aksi-edit w-100" onclick='editSchedule({{ json_encode($schedule) }})'>
+                                        <button type="button" class="btn btn-sm btn-aksi-edit w-100" onclick='editSchedule(<?php echo e(json_encode($schedule)); ?>)'>
                                             <i class="fas fa-pen-to-square me-1"></i> Edit
                                         </button>
-                                        <form action="{{ route('petugas.piket.destroy', $schedule->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus grup ini?')">
-                                            @csrf @method('DELETE')
+                                        <form action="<?php echo e(route('petugas.piket.destroy', $schedule->id)); ?>" method="POST" onsubmit="return confirm('Yakin ingin menghapus grup ini?')">
+                                            <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                                             <button type="submit" class="btn btn-sm btn-aksi-hapus w-100">
                                                 <i class="fas fa-trash-can me-1"></i> Hapus
                                             </button>
@@ -257,7 +258,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);">
@@ -267,12 +268,12 @@
                                 <small class="text-muted">Klik tombol "Tambah Grup" untuk membuat data pertama</small>
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </tbody>
             </table>
         </div>
 
-        <div class="d-flex justify-content-end mt-3">{{ $schedules->links() }}</div>
+        <div class="d-flex justify-content-end mt-3"><?php echo e($schedules->links()); ?></div>
     </div>
 
     <!-- Modal Tambah -->
@@ -285,8 +286,8 @@
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('petugas.piket.store') }}" method="POST">
-                    @csrf
+                <form action="<?php echo e(route('petugas.piket.store')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nama Grup <span style="color: #ef4444;">*</span></label>
@@ -335,8 +336,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editForm" method="POST">
-                    @csrf
-                    @method('PUT')
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
                     <div class="modal-body">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
@@ -458,4 +459,5 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.petugas', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\sikes\resources\views/petugas/schedules/index.blade.php ENDPATH**/ ?>

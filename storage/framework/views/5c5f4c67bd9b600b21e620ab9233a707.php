@@ -9,16 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palet "Biru Profesional" - konsisten seluruh website */
-            --primary: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --secondary: #2563eb;
-            --pro: #1e3a8a;
-            --pro-light: #3b82f6;
+            /* ✅ TEMA MERAH (PMR/UKS) */
+            --primary: #ef4444;
+            --primary-dark: #991b1b;
+            --secondary: #dc2626;
+            --pro: #991b1b;
+            --pro-light: #ef4444;
             --ink: #0f172a;
             --slate: #475569;
-            --muted: #94a3b8;
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            --muted: #cbd5e1;
+            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
         }
 
         * { -webkit-font-smoothing: antialiased; }
@@ -33,9 +33,9 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ Background Gambar dengan Overlay Samar */
+            /* ✅ BACKGROUND FOTO (Sama persis dengan Admin) dengan Overlay Gelap Netral */
             background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(30, 58, 138, 0.55) 50%, rgba(15, 23, 42, 0.7) 100%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
                 url('/images/login.jpeg');
             background-size: cover;
             background-position: center;
@@ -43,17 +43,18 @@
             background-attachment: fixed;
         }
 
-        /* ✅ Overlay tambahan untuk memastikan teks tetap terbaca */
+        /* ✅ Highlight halus agar background tidak flat */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
         }
 
+        /* ✅ CARD GLASSMORPHISM (SAMA PERSIS DENGAN ADMIN LOGIN) */
         .login-card {
             position: relative;
             z-index: 2;
@@ -61,12 +62,11 @@
             max-width: 380px;
             margin: auto;
 
-            /* ✅ Card Transparan dengan Glassmorphism */
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 26px 24px;
+            padding: 32px 28px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.25);
@@ -104,14 +104,14 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            background: linear-gradient(135deg, #93c5fd 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #fca5a5 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .login-subtitle {
             color: rgba(255, 255, 255, 0.85);
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 500;
             margin-bottom: 0;
         }
@@ -134,6 +134,8 @@
             z-index: 2;
         }
         .input-icon .form-control { padding-left: 38px; }
+        
+        /* ✅ Input transparan agar menyatu dengan card glassmorphism */
         .form-control {
             border-radius: 11px;
             padding: 10px 13px;
@@ -148,21 +150,21 @@
             color: rgba(255, 255, 255, 0.5);
         }
         .form-control:focus {
-            border-color: rgba(147, 197, 253, 0.8);
+            border-color: rgba(252, 165, 165, 0.8);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
             color: #ffffff;
         }
-        .input-icon:focus-within > i:first-child { color: #93c5fd; }
+        .input-icon:focus-within > i:first-child { color: #fca5a5; }
 
         .btn-login {
             width: 100%;
             border: none;
             color: white;
             font-weight: 700;
-            padding: 11px;
+            padding: 12px;
             border-radius: 11px;
-            font-size: 13.5px;
+            font-size: 14px;
             letter-spacing: 0.3px;
             transition: all 0.3s;
             display: inline-flex;
@@ -172,9 +174,9 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             position: relative;
             overflow: hidden;
-            margin-top: 6px;
+            margin-top: 8px;
             background: var(--gradient-primary);
-            box-shadow: 0 8px 22px rgba(30, 58, 138, 0.5);
+            box-shadow: 0 8px 22px rgba(153, 27, 27, 0.5);
         }
         .btn-login::before {
             content: '';
@@ -188,7 +190,7 @@
         .btn-login:hover {
             transform: translateY(-2px);
             color: white;
-            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.6);
         }
 
         .link-home {
@@ -202,37 +204,31 @@
             gap: 4px;
         }
         .link-home:hover {
-            color: #93c5fd;
+            color: #fca5a5;
             transform: translateX(-3px);
         }
 
-        .mb-3 { margin-bottom: 12px !important; }
+        .mb-3 { margin-bottom: 14px !important; }
 
+        /* ✅ Alert Error transparan agar menyatu dengan card */
         .alert-error {
             background: rgba(254, 226, 226, 0.15);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(252, 165, 165, 0.4);
             color: #fecaca;
-            padding: 9px 12px;
+            padding: 10px 12px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        /* ✅ Perbaikan warna text-danger agar terlihat di background gelap */
-        .text-danger {
-            color: #fca5a5 !important;
-            font-size: 11.5px;
-            margin-top: 4px;
-        }
-
         @media (max-width: 480px) {
             body { padding: 24px 14px; }
-            .login-card { padding: 22px 18px; border-radius: 16px; }
+            .login-card { padding: 24px 20px; border-radius: 16px; }
             .login-title { font-size: 1.2rem; }
             .logo-wrapper img { max-width: 120px; }
         }
@@ -246,22 +242,20 @@
             <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
         </div>
 
-        <div class="text-center">
+        <div class="text-center mb-4">
             <h3 class="login-title mb-1">Cek <span class="gradient-text">Riwayat</span> Kunjungan</h3>
             <p class="login-subtitle">Masukkan NIS dan Tanggal Lahir untuk melihat riwayat</p>
         </div>
 
-        
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
-            <div class="alert-error mt-3">
+            <div class="alert-error">
                 <i class="fas fa-exclamation-circle"></i>
                 <?php echo e($errors->first()); ?>
 
             </div>
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-        
-        <form method="POST" action="<?php echo e(route('login.siswa')); ?>" class="mt-3">
+        <form method="POST" action="<?php echo e(route('login.siswa.submit')); ?>">
             <?php echo csrf_field(); ?>
 
             <div class="mb-3">
@@ -283,7 +277,10 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <div class="text-danger"><?php echo e($message); ?></div>
+                    <div class="d-block" style="color: #fecaca; font-size: 11.5px; margin-top: 4px; font-weight: 500;">
+                        <i class="fas fa-exclamation-triangle me-1"></i><?php echo e($message); ?>
+
+                    </div>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -302,14 +299,17 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                           name="birth_date" required>
+                           name="birth_date" required value="<?php echo e(old('birth_date')); ?>">
                 </div>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['birth_date'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <div class="text-danger"><?php echo e($message); ?></div>
+                    <div class="d-block" style="color: #fecaca; font-size: 11.5px; margin-top: 4px; font-weight: 500;">
+                        <i class="fas fa-exclamation-triangle me-1"></i><?php echo e($message); ?>
+
+                    </div>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;

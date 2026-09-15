@@ -4,34 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $__env->yieldContent('title', 'Dashboard'); ?> - Petugas UKS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
     <style>
         :root {
-            /* TEMA NAVY + GOLD (sama persis dengan admin) */
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --accent-gold: #f59e0b;
-            --navy-900: #0f172a;
-            --navy-800: #1e293b;
-            --navy-700: #334155;
-            --sidebar-bg: #0c1324;
-            --sidebar-hover: rgba(245, 158, 11, 0.12);
-            --sidebar-text: #cbd5e1;
+            --primary: #ef4444;
+            --primary-dark: #991b1b;
+            --secondary: #dc2626;
+            --accent: #f43f5e;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --amber: #f59e0b;
+            --ink: #0f172a;
+            --slate: #475569;
+            --light: #f8fafc;
+            --pro: #991b1b;
+            --pro-dark: #7f1d1d;
+            --pro-light: #ef4444;
+            --gradient-pro: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            --gradient-primary: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            --shadow-sm: 0 4px 20px rgba(153, 27, 27, 0.08);
+            --shadow-md: 0 10px 40px rgba(153, 27, 27, 0.12);
+            --radius: 18px;
+
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: rgba(239, 68, 68, 0.12);
+            --sidebar-text: #94a3b8;
             --sidebar-text-active: #ffffff;
         }
         
         body { 
-            background-color: #f1f5f9; 
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #fafbfc; 
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
-            color: #1e293b;
+            color: var(--ink);
+            line-height: 1.7;
         }
         
-        /* SIDEBAR NAVY GELAP + AKSEN GOLD */
+        /* ✅ PERBAIKAN: SIDEBAR HITAM NETRAL (TANPA TONE BIRU) */
         .sidebar { 
             width: 260px; 
-            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #111827 100%);
+            background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%); /* HITAM NETRAL, BUKAN BIRU */
             height: 100vh;
             position: fixed; 
             left: 0; 
@@ -42,22 +58,21 @@
             overflow-y: auto; 
             overflow-x: hidden;
             padding-bottom: 30px;
-            box-shadow: 4px 0 20px rgba(15, 23, 42, 0.2);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
         .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.15);
+            background: rgba(239, 68, 68, 0.3);
             border-radius: 10px;
         }
-        .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.4); }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(239, 68, 68, 0.6); }
 
-        /* Brand dengan aksen GOLD */
         .sidebar-brand {
             padding: 22px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.05);
         }
         .sidebar-brand h4 {
             margin: 0;
@@ -67,19 +82,21 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #ffffff !important;
         }
         .sidebar-brand h4 i {
-            color: #f59e0b;
+            color: #ef4444 !important;
             font-size: 1.5rem;
         }
         .sidebar-brand small {
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 4px;
-            display: block;
-            color: #f59e0b;
-            opacity: 0.9;
+            font-size: 10px !important;
+            letter-spacing: 2px !important;
+            text-transform: uppercase !important;
+            margin-top: 4px !important;
+            display: block !important;
+            color: #ef4444 !important;
+            font-weight: 600 !important;
+            opacity: 1 !important;
         }
 
         .sidebar-section {
@@ -87,13 +104,14 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1.8px;
-            opacity: 0.45;
+            opacity: 0.5;
             font-weight: 700;
-            color: #94a3b8;
+            color: #64748b;
         }
         
         .sidebar .nav-link { 
-            color: var(--sidebar-text); 
+            color: var(--sidebar-text) !important; 
+            text-decoration: none !important;
             padding: 11px 18px; 
             border-radius: 8px; 
             margin: 2px 12px;
@@ -103,26 +121,38 @@
             display: flex;
             align-items: center;
             position: relative;
+            border: 1px solid transparent !important;
         }
         .sidebar .nav-link:hover { 
-            background-color: var(--sidebar-hover);
-            color: var(--sidebar-text-active);
+            background-color: var(--sidebar-hover) !important;
+            color: #ffffff !important;
+            border-color: rgba(239, 68, 68, 0.3) !important;
             transform: translateX(3px);
         }
-        /* Menu aktif: gradient slate + border kiri GOLD + icon GOLD */
+        
+        /* ✅ MENU AKTIF: GRADIENT MERAH SOFT DI ATAS BACKGROUND HITAM NETRAL */
         .sidebar .nav-link.active { 
-            background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
-            color: white;
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.05) 100%) !important;
+            color: #ffffff !important;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            border-left: 3px solid #f59e0b;
+            border-left: 3px solid #ef4444 !important;
+            border-right: 1px solid rgba(239, 68, 68, 0.15) !important;
+            box-shadow: none !important;
         }
+        
         .sidebar .nav-link i { 
             width: 22px;
             margin-right: 12px;
             font-size: 15px;
+            color: var(--sidebar-text) !important;
+            transition: all 0.2s;
         }
-        .sidebar .nav-link.active i { color: #f59e0b; }
+        .sidebar .nav-link:hover i {
+            color: #ffffff !important;
+        }
+        .sidebar .nav-link.active i { 
+            color: #fca5a5 !important;
+        }
 
         .sidebar .nav-link.text-danger { color: #f87171 !important; }
         .sidebar .nav-link.text-danger:hover {
@@ -136,24 +166,23 @@
             min-height: 100vh;
         }
         
-        /* Topbar dengan garis bawah GOLD */
         .topbar { 
-            background: white; 
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
             padding: 14px 28px; 
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06); 
+            box-shadow: 0 4px 30px rgba(153, 27, 27, 0.08);
+            border-bottom: 2px solid #fee2e2;
             display: flex; 
             justify-content: space-between; 
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 2px solid #f59e0b;
         }
 
-        /* Badge role GOLD */
         .role-badge {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
+            background: var(--gradient-primary);
+            color: white !important;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 10px;
@@ -161,29 +190,32 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-left: 10px;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
         
-        /* STAT CARDS */
         .stat-card { 
             background: white; 
-            border-radius: 12px; 
+            border-radius: 16px; 
             padding: 25px; 
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-            border-left: 4px solid var(--primary);
-            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #fee2e2;
+            border-left: 4px solid #ef4444;
+            transition: all 0.3s ease;
         }
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: #ef4444;
         }
         .stat-card h3 { 
+            font-family: 'Poppins', sans-serif;
             font-size: 32px; 
             font-weight: 700; 
             margin: 10px 0 5px;
-            color: var(--navy-900);
+            color: var(--ink);
         }
         .stat-card p { 
-            color: #64748b; 
+            color: var(--slate); 
             margin: 0; 
             font-size: 12px;
             text-transform: uppercase;
@@ -198,55 +230,66 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            color: var(--primary);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+            color: #ef4444;
         }
         
         .content-card { 
             background: white; 
-            border-radius: 12px; 
+            border-radius: var(--radius); 
             padding: 28px; 
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+            box-shadow: var(--shadow-sm);
             margin-bottom: 20px;
-            border: 1px solid #f1f5f9;
+            border: 1px solid rgba(239, 68, 68, 0.1);
         }
         
-        /* Buttons */
         .btn-primary-custom {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            background: var(--gradient-primary);
             border: none;
-            color: white;
+            color: white !important;
             font-weight: 600;
             padding: 9px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            transition: all 0.2s ease;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+            transition: all 0.3s;
         }
         .btn-primary-custom:hover {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(239, 68, 68, 0.4);
+            filter: brightness(1.1);
         }
 
-        /* Table */
         .table thead th {
-            background: #f8fafc;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
             font-weight: 700;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #475569;
-            border-bottom: 2px solid #e2e8f0;
+            color: var(--pro);
+            border-bottom: 2px solid #fecaca;
             padding: 14px 12px;
         }
         .table tbody td {
             padding: 14px 12px;
             vertical-align: middle;
-            color: #334155;
+            color: var(--slate);
             font-size: 14px;
         }
-        .table-hover tbody tr:hover { background-color: #fffbeb; }
+        .table-hover tbody tr:hover { background-color: #fef2f2 !important; }
+
+        .dropdown-item {
+            color: var(--slate) !important;
+            transition: all 0.2s;
+        }
+        .dropdown-item:hover {
+            background-color: #fef2f2 !important;
+            color: #ef4444 !important;
+        }
+        .dropdown-item.text-danger:hover {
+            background-color: #fef2f2 !important;
+            color: #dc2626 !important;
+        }
 
         .badge {
             font-weight: 600;
@@ -255,75 +298,24 @@
             letter-spacing: 0.3px;
         }
         
-        /* ✅ RESPONSIVE MOBILE IMPROVEMENTS */
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.show { transform: translateX(0); }
             .main-content { margin-left: 0; }
-            
-            /* Topbar mobile improvements */
-            .topbar {
-                padding: 12px 16px;
-                flex-wrap: wrap;
-                gap: 12px;
-            }
-            
-            .topbar > div:first-child {
-                flex: 1;
-                min-width: 0;
-            }
-            
-            .topbar h5 {
-                font-size: 1rem !important;
-                line-height: 1.3;
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            
-            .role-badge {
-                padding: 3px 8px;
-                font-size: 9px;
-                order: -1;
-            }
-            
-            .topbar .d-flex.align-items-center:last-child {
-                width: 100%;
-                justify-content: space-between;
-                order: 2;
-                margin-top: 4px;
-            }
-            
-            .topbar .btn-sm {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-            
-            /* Profile dropdown mobile */
-            .topbar .dropdown-toggle .text-start {
-                display: none !important;
-            }
-            
-            .topbar .dropdown-toggle img {
-                width: 32px;
-                height: 32px;
-            }
+            .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
+            .topbar > div:first-child { flex: 1; min-width: 0; }
+            .topbar h5 { font-size: 1rem !important; line-height: 1.3; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+            .role-badge { padding: 3px 8px; font-size: 9px; order: -1; }
+            .topbar .d-flex.align-items-center:last-child { width: 100%; justify-content: space-between; order: 2; margin-top: 4px; }
+            .topbar .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+            .topbar .dropdown-toggle .text-start { display: none !important; }
+            .topbar .dropdown-toggle img { width: 32px; height: 32px; }
         }
         
         @media (max-width: 480px) {
-            .topbar {
-                padding: 10px 12px;
-            }
-            
-            .topbar h5 {
-                font-size: 0.95rem !important;
-            }
-            
-            .role-badge {
-                padding: 2px 6px;
-                font-size: 8px;
-            }
+            .topbar { padding: 10px 12px; }
+            .topbar h5 { font-size: 0.95rem !important; }
+            .role-badge { padding: 2px 6px; font-size: 8px; }
         }
     </style>
 </head>
@@ -359,7 +351,6 @@
             </li>
         </ul>
 
-        <!-- ✅ BARU: Bagian Laporan & Statistik -->
         <div class="sidebar-section">Laporan & Statistik</div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -440,7 +431,6 @@
     
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Topbar -->
         <div class="topbar">
             <div class="d-flex align-items-center">
                 <button class="btn btn-light d-md-none me-2 me-sm-3" onclick="document.getElementById('sidebar').classList.toggle('show')">
@@ -452,29 +442,28 @@
                 </h5>
             </div>
 
-            <!-- WRAPPER KANAN: Mengelompokkan tombol kembali & dropdown profil agar space-between tetap rapi -->
             <div class="d-flex align-items-center gap-2 gap-md-3">
-                <!-- TOMBOL KEMBALI KE BERANDA -->
-                <a href="<?php echo e(route('landing')); ?>" class="btn btn-sm btn-light border text-primary fw-semibold" title="Kembali ke Beranda">
+                <a href="<?php echo e(route('landing')); ?>" class="btn btn-sm btn-light border text-danger fw-semibold" title="Kembali ke Beranda" style="border-color: #fecaca !important;">
                     <i class="fas fa-home"></i> 
                     <span class="d-none d-sm-inline ms-1">Beranda</span>
                 </a>
 
-                <!-- DROPDOWN PROFIL -->
                 <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode(auth()->user()->name)); ?>&background=f59e0b&color=ffffff&bold=true" 
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center border-0" type="button" data-bs-toggle="dropdown" style="box-shadow: 0 2px 10px rgba(153, 27, 27, 0.08);">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode(auth()->user()->name)); ?>&background=ef4444&color=ffffff&bold=true" 
                              class="rounded-circle me-2" width="38" height="38">
                         <div class="text-start d-none d-md-block">
                             <div class="fw-semibold small text-dark"><?php echo e(auth()->user()->name); ?></div>
                             <div class="text-muted" style="font-size: 11px;">Petugas UKS</div>
                         </div>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="border-radius: 14px;">
                         <li>
                             <form method="POST" action="<?php echo e(route('logout')); ?>">
                                 <?php echo csrf_field(); ?>
-                                <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                <button type="submit" class="dropdown-item text-danger" style="border-radius: 8px;">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </button>
                             </form>
                         </li>
                     </ul>
@@ -482,10 +471,9 @@
             </div>
         </div>
 
-        <!-- Content -->
         <div class="p-3 p-md-4">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
-                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert" style="background: #ecfdf5; color: #065f46; border-left: 4px solid #10b981 !important;">
                     <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
 
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -493,7 +481,7 @@
             <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?>
-                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert" style="background: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important;">
                     <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
 
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

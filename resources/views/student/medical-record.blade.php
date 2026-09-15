@@ -8,19 +8,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563EB;
-            --secondary: #1e40af;
+            --primary: #ef4444;
+            --secondary: #991b1b;
             --success: #10b981;
-            --info: #3b82f6;
+            --info: #f43f5e;
         }
         body { 
             font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
             min-height: 100vh;
             color: #1e293b;
         }
         .header-profile { 
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); 
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); 
             color: #1e293b; 
             padding: 50px 0 70px; 
             border-radius: 0 0 40px 40px; 
@@ -30,44 +30,47 @@
         }
         .header-profile::before {
             content: ''; position: absolute; top: -20%; right: -5%; width: 400px; height: 400px;
-            background: rgba(37, 99, 235, 0.05); border-radius: 50%;
+            background: rgba(239, 68, 68, 0.05); border-radius: 50%;
         }
         .header-profile::after {
             content: ''; position: absolute; bottom: -10%; left: -5%; width: 300px; height: 300px;
-            background: rgba(37, 99, 235, 0.03); border-radius: 50%;
+            background: rgba(239, 68, 68, 0.03); border-radius: 50%;
         }
         .header-profile h3 { color: #0f172a; font-weight: 800; font-size: 2rem; }
         .avatar-box {
             background: white; padding: 8px; border-radius: 50%;
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
             display: inline-block; margin-bottom: 20px;
         }
         .avatar-initials {
             width: 110px; height: 110px;
-            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white; display: flex; align-items: center; justify-content: center;
             font-size: 44px; font-weight: 800; border-radius: 50%;
             letter-spacing: 2px; box-shadow: inset 0 -4px 12px rgba(0,0,0,0.1);
-            border: 3px solid #eff6ff;
+            border: 3px solid #fef2f2;
         }
         .record-card { 
             background: white; border-radius: 16px; padding: 0; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; 
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.06); margin-bottom: 20px; 
             border-left: 5px solid var(--primary); overflow: hidden;
         }
         .card-header-summary {
             padding: 25px; cursor: pointer; background: white;
             border-bottom: 1px solid transparent; transition: background 0.3s;
         }
-        .card-header-summary:hover { background: #f8fafc; }
-        .card-header-summary.expanded { border-bottom: 1px solid #e2e8f0; background: #f0f9ff; }
-        .badge-sakit { background-color: #fee2e2; color: #dc2626; }
-        .badge-sehat { background-color: #dcfce7; color: #16a34a; }
+        .card-header-summary:hover { background: #fef2f2; }
+        .card-header-summary.expanded { border-bottom: 1px solid #fee2e2; background: #fef2f2; }
+        
+        /* Badge Status */
+        .badge-sakit { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .badge-sehat { background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+        
         .exam-number-badge {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: #1e40af; padding: 6px 14px; border-radius: 20px;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b; padding: 6px 14px; border-radius: 20px;
             font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
-            border: 1px solid #bfdbfe; display: inline-flex;
+            border: 1px solid #fecaca; display: inline-flex;
             align-items: center; gap: 6px; margin-bottom: 10px;
         }
         .detail-section { padding: 25px; background: #fafafa; }
@@ -81,7 +84,7 @@
         }
         .photo-container {
             background: white; border-radius: 12px; padding: 15px;
-            border: 2px dashed #cbd5e1; text-align: center;
+            border: 2px dashed #fecaca; text-align: center;
             display: flex; flex-direction: column; align-items: center;
         }
         .photo-container img {
@@ -89,34 +92,37 @@
             object-fit: contain; border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer;
         }
-        .toggle-icon { transition: transform 0.3s; color: white; }
+        .toggle-icon { transition: transform 0.3s; color: var(--primary); }
         .toggle-icon.rotated { transform: rotate(180deg); }
+        
         .btn-soft-outline {
             background: rgba(255, 255, 255, 0.6); color: var(--primary);
-            border: 1px solid rgba(37, 99, 235, 0.2); font-weight: 600;
+            border: 1px solid rgba(239, 68, 68, 0.2); font-weight: 600;
         }
         .btn-soft-outline:hover {
-            background: rgba(37, 99, 235, 0.1); color: var(--primary);
+            background: rgba(239, 68, 68, 0.1); color: var(--primary);
             border-color: var(--primary);
         }
         .btn-soft-white {
             background: white; color: var(--primary); border: none;
             font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .btn-soft-white:hover { background: #f8fafc; color: var(--secondary); }
+        .btn-soft-white:hover { background: #fef2f2; color: var(--secondary); }
+        
         .btn-detail {
-            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white !important; border: none; padding: 11px 26px;
             border-radius: 30px; font-weight: 700; font-size: 14px;
             letter-spacing: 0.3px; transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
             display: inline-flex; align-items: center; gap: 8px;
         }
         .btn-detail:hover {
-            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
             color: white !important; transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
         }
+        
         .lightbox-modal .modal-body {
             background: #0f172a; padding: 20px;
             display: flex; justify-content: center; align-items: center; min-height: 400px;
@@ -126,6 +132,19 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
         .lightbox-modal .btn-close { filter: invert(1); }
+        
+        /* ✅ Override Bootstrap colors agar sesuai tema Merah */
+        .text-primary { color: #ef4444 !important; }
+        .text-info { color: #f43f5e !important; }
+        .btn-outline-primary {
+            color: #ef4444;
+            border-color: #fecaca;
+        }
+        .btn-outline-primary:hover {
+            background-color: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -208,7 +227,7 @@
                         <div class="row g-3">
                             @foreach($visitStats as $stat)
                                 <div class="col-6 col-md-4 col-lg-3">
-                                    <div class="d-flex align-items-center p-3 bg-white rounded-3 border h-100" style="border-color: #e2e8f0 !important;">
+                                    <div class="d-flex align-items-center p-3 bg-white rounded-3 border h-100" style="border-color: #fee2e2 !important;">
                                         <div class="flex-grow-1">
                                             <div class="text-muted small text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">
                                                 {{ $stat['period'] }}
@@ -218,7 +237,7 @@
                                                 <span class="text-muted small">kali</span>
                                             </div>
                                         </div>
-                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 42px; height: 42px;">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 42px; height: 42px; background: #fef2f2;">
                                             <i class="fas fa-calendar-check text-primary"></i>
                                         </div>
                                     </div>
@@ -227,7 +246,7 @@
                         </div>
                     @else
                         <div class="text-center py-4 text-muted">
-                            <i class="fas fa-chart-line fa-2x mb-2 opacity-25"></i>
+                            <i class="fas fa-chart-line fa-2x mb-2 opacity-25" style="color: #ef4444;"></i>
                             <p class="mb-0 small">Belum ada data kunjungan dalam 3 tahun terakhir.</p>
                         </div>
                     @endif
@@ -275,7 +294,7 @@
                                 <div class="detail-label"><i class="fas fa-user-nurse me-1 text-primary"></i> Petugas Penangani</div>
                                 <div class="detail-value">{{ $exam->officer_name ?? 'Petugas UKS' }}</div>
 
-                                <div class="detail-label"><i class="fas fa-comment-medical me-1 text-danger"></i> Keluhan Utama</div>
+                                <div class="detail-label"><i class="fas fa-comment-medical me-1" style="color: #ef4444;"></i> Keluhan Utama</div>
                                 <div class="detail-value">{{ $exam->complaint }}</div>
 
                                 <div class="detail-label"><i class="fas fa-stethoscope me-1 text-info"></i> Diagnosa</div>
@@ -302,7 +321,7 @@
                                 </div>
 
                                 @if($exam->notes)
-                                    <div class="detail-label"><i class="fas fa-sticky-note me-1 text-secondary"></i> Catatan Tambahan</div>
+                                    <div class="detail-label"><i class="fas fa-sticky-note me-1" style="color: #64748b;"></i> Catatan Tambahan</div>
                                     <div class="detail-value fst-italic">"{{ $exam->notes }}"</div>
                                 @endif
                             </div>
@@ -355,8 +374,8 @@
             </div>
         @empty
             <div class="text-center py-5 bg-white rounded-4 shadow-sm">
-                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px;">
-                    <i class="fas fa-folder-open fa-3x text-muted opacity-25"></i>
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);">
+                    <i class="fas fa-folder-open fa-3x" style="color: #ef4444; opacity: 0.5;"></i>
                 </div>
                 <h5 class="text-muted fw-bold">Belum ada riwayat kunjungan</h5>
                 <p class="text-muted small mb-0">Anda belum pernah mengunjungi UKS. Silakan kunjungi UKS jika merasa tidak sehat.</p>
