@@ -53,49 +53,6 @@
         .navbar-brand { display: flex; align-items: center; }
         .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
         .navbar-brand:hover img { transform: scale(1.05); }
-        
-        /* ✅ PERBAIKAN: Animasi Hamburger menjadi X di Mobile */
-        .navbar-toggler {
-            border: none;
-            padding: 8px;
-            outline: none !important;
-            box-shadow: none !important;
-        }
-        .navbar-toggler-icon {
-            background-image: none !important;
-            position: relative;
-            width: 24px;
-            height: 2px;
-            background-color: var(--primary);
-            transition: all 0.3s ease;
-            display: block;
-        }
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 24px;
-            height: 2px;
-            background-color: var(--primary);
-            transition: all 0.3s ease;
-        }
-        .navbar-toggler-icon::before { top: -8px; }
-        .navbar-toggler-icon::after { top: 8px; }
-
-        /* Saat menu terbuka (class .collapsed dihapus oleh Bootstrap) */
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
-            background-color: transparent;
-        }
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
-            transform: rotate(45deg);
-            top: 0;
-        }
-        .navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
-            transform: rotate(-45deg);
-            top: 0;
-        }
-
         .nav-link {
             font-weight: 600;
             font-size: 0.95rem;
@@ -300,7 +257,7 @@
             <a class="navbar-brand" href="<?php echo e(route('landing')); ?>">
                 <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
