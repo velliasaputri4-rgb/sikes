@@ -46,7 +46,7 @@
         .dropdown-item { border-radius: 8px; padding: 10px 14px; font-weight: 500; transition: all 0.2s; }
         .dropdown-item:hover { background: linear-gradient(135deg, rgba(153,27,27,0.08), rgba(239,68,68,0.08)); transform: translateX(4px); }
 
-        /* ✅ Header & Layout (DIPERBAIKI: Background Foto + Overlay Gelap Netral) */
+        /* ✅ Header & Layout */
         .page-header { 
             padding: 160px 0 100px; 
             text-align: center; 
@@ -121,6 +121,8 @@
         /* Footer & Button */
         .btn-doc-all { background: var(--gradient-primary); color: white; padding: 12px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(153,27,27,0.25); transition: all 0.3s ease; }
         .btn-doc-all:hover { color: white; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(153,27,27,0.35); }
+        
+        /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
         footer { background: var(--gradient-dark); color: white; padding: 80px 0 30px; position: relative; overflow: hidden; }
         footer::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 10% 20%, rgba(153,27,27,0.25) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(239,68,68,0.15) 0%, transparent 40%); }
         footer .container { position: relative; z-index: 1; }
@@ -132,11 +134,47 @@
         .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
 
+        /* ===== SCROLL TOP BUTTON (DARI WELCOME) ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
+
+        /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
         @media (max-width: 768px) { 
             .section { padding: 60px 0; } 
             .page-header { padding: 120px 0 60px; } 
             .navbar-brand img { max-height: 42px; }
             .service-image { height: 120px; }
+        }
+
+        @media (max-width: 576px) {
+            /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
+            footer { padding: 50px 0 25px; text-align: center; }
+            .footer-logo { justify-content: center; margin-bottom: 16px; }
+            footer p { text-align: center; padding: 0; }
+            footer h6 { text-align: center; margin-bottom: 16px; }
+            .footer-menu { text-align: center; padding: 0; }
+            .footer-menu li { margin-bottom: 10px; }
+            .footer-menu a { justify-content: center; font-size: 0.9rem; }
+            
+            .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            .container { padding-left: 15px; padding-right: 15px; }
         }
     </style>
 </head>
@@ -195,11 +233,10 @@
     </nav>
 
     @php
-        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
         $servicesBgImage = asset('images/login.jpeg');
     @endphp
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
     <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $servicesBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">Layanan Kami</span>
@@ -209,7 +246,7 @@
     </header>
 
     <!-- Services Content -->
-    <section class="section">
+    <section class="section" id="layanan">
         <div class="container">
             <div class="row g-4">
                 @php
@@ -255,8 +292,8 @@
         </div>
     </section>
 
-    <!-- ✅ FAQ Section DINAMIS (Mengambil dari Database) -->
-    <section class="section" style="background: #f8fafc;">
+    <!-- ✅ FAQ Section DINAMIS -->
+    <section class="section" id="faq" style="background: #f8fafc;">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-label">{{ \App\Models\Setting::get('faq_label', 'FAQ') }}</span>
@@ -271,7 +308,6 @@
                             $faqsRaw = \App\Models\Setting::get('faqs_data');
                             $faqsData = is_array($faqsRaw) ? $faqsRaw : json_decode($faqsRaw, true);
                             
-                            // Fallback jika database masih kosong
                             if (empty($faqsData)) {
                                 $faqsData = [
                                     ['question' => 'Apakah data rekam medis saya aman di SIKES?', 'answer' => 'Sangat aman. SIKES menggunakan sistem login terenkripsi dan hanya dapat diakses oleh siswa yang bersangkutan, petugas UKS, dan admin sekolah.'],
@@ -360,16 +396,73 @@
         </div>
     </div>
 
+    <!-- ✅ SCROLL TOP BUTTON (DARI WELCOME) -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 800, once: true, offset: 80 });
+            try {
+                AOS.init({ 
+                    duration: 800, 
+                    once: true, 
+                    offset: 80,
+                    disable: function() {
+                        return window.innerWidth < 768;
+                    }
+                });
+            } catch(e) {
+                console.error('AOS error:', e);
+            }
             
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
-                if (window.scrollY > 50) navbar.classList.add('scrolled');
-                else navbar.classList.remove('scrolled');
+                const scrollTop = document.getElementById('scrollTop');
+                
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('show');
+                } else {
+                    scrollTop.classList.remove('show');
+                }
+            }, { passive: true });
+
+            document.getElementById('scrollTop').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Active Nav Link Scroll (Sama seperti di welcome)
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", function() {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    const href = link.getAttribute("href");
+                    
+                    if (href === "#" + current) {
+                        link.classList.add("active");
+                    } 
+                    else if ((current === "" || current === "beranda") && (href === "{{ route('landing') }}" || href === "/" || href === window.location.pathname)) {
+                        link.classList.add("active");
+                    }
+                });
             }, { passive: true });
 
             const serviceImageModal = document.getElementById('serviceImageModal');

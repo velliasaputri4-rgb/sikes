@@ -385,7 +385,7 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h4><i class="fas fa-heartbeat"></i> SIKES</h4>
+            <h4>SIKES</h4>
             <small>Dashboard Petugas UKS</small>
         </div>
         

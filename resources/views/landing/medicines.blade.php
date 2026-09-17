@@ -117,7 +117,7 @@
         transform: translateX(4px);
     }
 
-    /* ============ PAGE HEADER (DIPERBAIKI: Background Foto + Overlay Gelap Netral) ============ */
+    /* ============ PAGE HEADER ============ */
     .page-header {
         position: relative;
         padding: 160px 0 100px;
@@ -466,7 +466,7 @@
     }
     .no-results.show { display: block; }
 
-    /* ============ FOOTER ============ */
+    /* ============ FOOTER (SAMA PERSIS DENGAN WELCOME) ============ */
     footer {
         background: var(--gradient-dark);
         color: white;
@@ -510,10 +510,24 @@
         font-size: 0.9rem;
     }
 
-    /* ============ RESPONSIVE ============ */
+    /* ============ RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ============ */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
+    }
+
+    @media (max-width: 576px) {
+        /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
+        footer { padding: 50px 0 25px; text-align: center; }
+        .footer-logo { justify-content: center; margin-bottom: 16px; }
+        footer p { text-align: center; padding: 0; }
+        footer h6 { text-align: center; margin-bottom: 16px; }
+        .footer-menu { text-align: center; padding: 0; }
+        .footer-menu li { margin-bottom: 10px; }
+        .footer-menu a { justify-content: center; font-size: 0.9rem; }
+        
+        .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+        .container { padding-left: 15px; padding-right: 15px; }
     }
     </style>
 </head>
@@ -588,11 +602,10 @@
     </nav>
 
     @php
-        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
         $medicinesBgImage = asset('images/login.jpeg');
     @endphp
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
     <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $medicinesBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
             <div class="page-header-badge">
@@ -609,7 +622,7 @@
     </section>
 
     <!-- Content Section -->
-    <section class="section">
+    <section class="section" id="obat">
         <div class="container">
             <!-- Filter Bar (Search Only) -->
             <div class="filter-bar" data-aos="fade-up" data-aos-delay="100">
@@ -657,7 +670,6 @@
                             }
                         }
 
-                        // ✅ Ambil keterangan kegunaan dari berbagai kemungkinan nama kolom
                         $indication = $med->indication ?? $med->description ?? $med->kegunaan ?? 'Digunakan untuk pertolongan pertama dan pengobatan umum sesuai petunjuk petugas.';
                     @endphp
                     <div class="col-md-6 col-lg-4 medicine-item"
@@ -674,7 +686,6 @@
                                 </span>
                             </div>
 
-                            <!-- ✅ Bagian Keterangan Kegunaan Obat -->
                             <div class="medicine-indication">
                                 <i class="fas fa-info-circle"></i>
                                 <span>{{ $indication }}</span>
@@ -810,9 +821,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 700, once: true, offset: 60 });
+            try {
+                AOS.init({ 
+                    duration: 700, 
+                    once: true, 
+                    offset: 60,
+                    disable: function() {
+                        return window.innerWidth < 768;
+                    }
+                });
+            } catch(e) {
+                console.error('AOS error:', e);
+            }
 
-            // Navbar scroll effect
+            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -833,6 +855,32 @@
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            // Active Nav Link Scroll (Sama seperti di welcome)
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", function() {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    const href = link.getAttribute("href");
+                    
+                    if (href === "#" + current) {
+                        link.classList.add("active");
+                    } 
+                    else if ((current === "" || current === "beranda") && (href === "{{ route('landing') }}" || href === "/" || href === window.location.pathname)) {
+                        link.classList.add("active");
+                    }
+                });
+            }, { passive: true });
 
             // Search functionality
             const searchInput = document.getElementById('searchInput');

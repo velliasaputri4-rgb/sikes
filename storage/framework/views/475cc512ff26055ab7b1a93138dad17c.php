@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            /* ✅ TEMA MERAH (PMR/UKS) */
             --primary: #ef4444; 
             --primary-dark: #991b1b; 
             --secondary: #dc2626;
@@ -39,7 +38,6 @@
         html { scroll-behavior: smooth; scroll-padding-top: 90px; }
         body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #fafbfc; color: var(--ink); line-height: 1.7; overflow-x: hidden; }
 
-        /* ===== NAVBAR ===== */
         .navbar {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
@@ -120,11 +118,9 @@
             text-align: center; 
             position: relative; 
             overflow: hidden;
-            /* Default fallback jika gambar gagal dimuat */
             background-color: #0f172a; 
         }
         
-        /* Style khusus agar teks putih dan kontras dengan background gelap */
         .page-header .section-label {
             background: rgba(255, 255, 255, 0.15);
             color: #ffffff;
@@ -147,10 +143,7 @@
         .vm-card { background: white; border-radius: var(--radius); padding: 40px; height: 100%; box-shadow: var(--shadow-sm); border-left: 5px solid var(--primary); }
         .vm-card h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
 
-        /* ✅ PERBAIKAN: Story Section Mobile */
-        .story-section {
-            padding: 90px 0;
-        }
+        .story-section { padding: 90px 0; }
         .story-content p {
             color: var(--slate);
             line-height: 1.8;
@@ -159,6 +152,7 @@
             text-align: justify;
         }
         
+        /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
         footer {
             background: var(--gradient-dark);
             color: white;
@@ -193,59 +187,74 @@
             display: inline-flex; align-items: center; gap: 8px;
         }
         .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
 
-        /* ✅ RESPONSIVE MOBILE */
-        @media (max-width: 768px) { 
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+            padding-top: 25px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* ===== SCROLL TOP BUTTON (DARI WELCOME) ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
+
+        /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
+        @media (max-width: 768px) {
             .section { padding: 60px 0; }
             .story-section { padding: 60px 0; }
             .page-header { padding: 120px 0 60px; } 
             .navbar-brand img { max-height: 42px; }
             
-            /* Mobile Story Content */
-            .story-content {
-                padding: 0 12px;
-            }
+            .story-content { padding: 0 12px; }
             .story-content p {
                 font-size: 0.95rem;
                 line-height: 1.7;
                 margin-bottom: 16px;
                 text-align: left;
             }
-            .section-title {
-                font-size: 1.6rem;
-                margin-bottom: 12px;
-            }
-            .section-label {
-                font-size: 0.75rem;
-                padding: 5px 12px;
-                margin-bottom: 12px;
-            }
-            .vm-card {
-                padding: 24px;
-                margin-bottom: 20px;
-            }
-            .vm-card h4 {
-                font-size: 1.1rem;
-                margin-bottom: 12px;
-            }
-            .vm-card p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
+            .section-title { font-size: 1.6rem; margin-bottom: 12px; }
+            .section-label { font-size: 0.75rem; padding: 5px 12px; margin-bottom: 12px; }
+            .vm-card { padding: 24px; margin-bottom: 20px; }
+            .vm-card h4 { font-size: 1.1rem; margin-bottom: 12px; }
+            .vm-card p { font-size: 0.9rem; line-height: 1.6; }
         }
-        
+
         @media (max-width: 576px) {
-            .story-content p {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-            .section {
-                padding: 50px 0;
-            }
-            .story-section {
-                padding: 50px 0;
-            }
+            .story-content p { font-size: 0.9rem; line-height: 1.6; }
+            .section { padding: 50px 0; }
+            .story-section { padding: 50px 0; }
+            
+            /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
+            footer { padding: 50px 0 25px; text-align: center; }
+            .footer-logo { justify-content: center; margin-bottom: 16px; }
+            footer p { text-align: center; padding: 0; }
+            footer h6 { text-align: center; margin-bottom: 16px; }
+            .footer-menu { text-align: center; padding: 0; }
+            .footer-menu li { margin-bottom: 10px; }
+            .footer-menu a { justify-content: center; font-size: 0.9rem; }
+            
+            .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            .container { padding-left: 15px; padding-right: 15px; }
         }
     </style>
 </head>
@@ -320,11 +329,9 @@
     </nav>
 
     <?php
-        // ✅ Mengambil data dari database pengaturan
         $headerTitle = \App\Models\Setting::get('about_page_header_title', 'Membangun Sekolah yang Lebih Sehat');
         $headerSubtitle = \App\Models\Setting::get('about_page_header_subtitle', 'Mengenal lebih dalam filosofi, visi, dan komitmen SIKES dalam mendukung kesehatan seluruh warga SMK Negeri 1 Bangsri.');
         
-        // ✅ Ambil gambar background untuk header (fallback ke login.jpeg jika belum diupload)
         $aboutPageImg = \App\Models\Setting::get('about_page_image');
         $bgImage = $aboutPageImg ? asset('storage/' . $aboutPageImg) : asset('images/login.jpeg');
         
@@ -343,7 +350,6 @@
         $ctaBtn = \App\Models\Setting::get('about_page_cta_btn', 'Lihat Layanan Kami');
     ?>
 
-    <!-- ✅ HEADER DENGAN BACKGROUND FOTO & OVERLAY GELAP NETRAL (TANPA MERAH) -->
     <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('<?php echo e($bgImage); ?>'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">Tentang Kami</span>
@@ -415,6 +421,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row g-5">
@@ -427,6 +434,7 @@
 
                     </p>
                 </div>
+
                 <div class="col-6 col-lg-2">
                     <h6>Navigasi</h6>
                     <ul class="footer-menu">
@@ -436,6 +444,7 @@
                         <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
+
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
@@ -445,6 +454,7 @@
                         <li><a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
+
                 <div class="col-lg-3">
                     <h6>Kontak</h6>
                     <ul class="footer-menu">
@@ -464,14 +474,21 @@
                     </ul>
                 </div>
             </div>
+
             <div class="footer-bottom">
                 <p class="mb-0"><?php echo \App\Models\Setting::get('footer_copyright', '&copy; ' . date('Y') . ' <strong>SIKES</strong> - Sistem Informasi UKS SMK Negeri 1 Bangsri. All rights reserved.'); ?></p>
             </div>
         </div>
     </footer>
 
+    <!-- ✅ SCROLL TOP BUTTON (DARI WELCOME) -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
@@ -490,11 +507,51 @@
             // Navbar scroll effect
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
+                const scrollTop = document.getElementById('scrollTop');
+                
                 if (window.scrollY > 50) {
                     navbar.classList.add('scrolled');
                 } else {
                     navbar.classList.remove('scrolled');
                 }
+                
+                // ✅ SCROLL TOP SHOW/HIDE (DARI WELCOME)
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('show');
+                } else {
+                    scrollTop.classList.remove('show');
+                }
+            }, { passive: true });
+
+            // ✅ SCROLL TOP CLICK (DARI WELCOME)
+            document.getElementById('scrollTop').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ✅ ACTIVE NAV LINK SCROLL (DARI WELCOME)
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", function() {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    const href = link.getAttribute("href");
+                    
+                    if (href === "#" + current) {
+                        link.classList.add("active");
+                    } 
+                    else if ((current === "" || current === "beranda") && (href === "<?php echo e(route('landing')); ?>" || href === "/" || href === window.location.pathname)) {
+                        link.classList.add("active");
+                    }
+                });
             }, { passive: true });
         });
     </script>
