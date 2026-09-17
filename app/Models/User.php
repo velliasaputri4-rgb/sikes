@@ -19,11 +19,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'external_id',
         'password',
         'phone',
         'photo',
         'status',
         'last_login_at',
+        'sipintu_last_synced_at',
     ];
 
     // 3. Hidden Properties
@@ -36,6 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'sipintu_last_synced_at' => 'datetime',
         'password' => 'hashed',
     ];
 

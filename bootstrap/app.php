@@ -8,10 +8,17 @@ use Illuminate\Http\Request; // ✅ Tambahkan import ini
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Bebaskan webhook SiPintu dan endpoint OAuth dari proteksi CSRF browser
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+            'api/sipintu/*',
+            'oauth/*',
+        ]);
         // Daftarkan Alias Middleware Spatie (tetap dipertahankan)
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,

@@ -32,7 +32,7 @@ class Student extends Model
     // Relasi ke Classroom
     public function class()
     {
-        return $this->belongsTo(Classroom::class, 'classroom_id');
+        return $this->belongsTo(ClassRoom::class, 'classroom_id');
     }
 
     // Relasi ke User

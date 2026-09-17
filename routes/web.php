@@ -8,6 +8,20 @@ use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Student\MedicalRecordController;
+use App\Http\Controllers\OAuthController;
+
+/*
+|--------------------------------------------------------------------------
+| 0. SSO SIPINTU GATEWAY INTEGRATION (HYBRID MODEL) & HEALTH MONITORING
+|--------------------------------------------------------------------------
+*/
+Route::get('/oauth/callback', [OAuthController::class, 'callback'])->name('oauth.callback');
+Route::post('/oauth/logout', [OAuthController::class, 'logout'])->name('oauth.logout');
+Route::get('/health', fn () => response()->json([
+    'status' => 'ok',
+    'database' => 'connected',
+    'php' => PHP_VERSION,
+]));
 
 /*
 |--------------------------------------------------------------------------
@@ -414,6 +428,9 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
 */
 Route::get('/dashboard', function() {
     $user = auth()->user();
+    if (! $user) {
+        return redirect()->route('login');
+    }
     if ($user->hasRole('super-admin') || $user->hasRole('admin') || $user->hasRole('petugas')) {
         return redirect()->route('petugas.dashboard');
     } elseif ($user->hasRole('siswa')) {
