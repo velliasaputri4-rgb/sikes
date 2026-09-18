@@ -284,13 +284,13 @@
         filter: brightness(1.08);
     }
 
-    /* Modal Styles */
+    /* Modal Styles (DIPERBAIKI) */
     .modal-content {
         border: none;
         border-radius: var(--radius);
         box-shadow: 0 30px 80px rgba(15,23,42,0.2);
-        overflow: hidden;
-        max-height: 85vh;
+        max-height: 85vh; /* Fallback untuk browser lama */
+        max-height: 85dvh; /* Dynamic viewport height untuk mobile modern */
         display: flex;
         flex-direction: column;
     }
@@ -342,14 +342,13 @@
 
     .modal-body { 
         padding: 0; 
-        overflow: hidden;
+        overflow-y: auto; /* DIPERBAIKI: Diubah dari hidden ke auto */
         flex: 1;
+        -webkit-overflow-scrolling: touch; /* Scroll halus di iOS */
     }
     
     .members-list {
-        max-height: calc(85vh - 140px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        /* DIPERBAIKI: max-height dan overflow-y dihapus agar mengikuti parent (.modal-body) */
     }
     
     .member-row {
@@ -490,7 +489,7 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
-    /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
+    /* ===== FOOTER ===== */
     footer {
         background: var(--gradient-dark);
         color: white;
@@ -534,7 +533,7 @@
         font-size: 0.9rem;
     }
 
-    /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
@@ -548,11 +547,11 @@
         }
         .modal-content {
             max-height: 90vh;
+            max-height: 90dvh; /* DIPERBAIKI: Menggunakan dvh */
             border-radius: 24px !important;
         }
-        .members-list {
-            max-height: calc(90vh - 150px);
-        }
+        /* DIPERBAIKI: .members-list max-height dihapus agar tidak bentrok */
+        
         .member-row {
             padding: 12px 16px;
         }
@@ -574,10 +573,8 @@
         .modal-content { 
             border-radius: 20px !important;
         }
-        .members-list { max-height: calc(90vh - 140px); }
-        .modal-note { border-radius: 0 0 20px 20px; }
+        /* DIPERBAIKI: .members-list max-height dihapus */
 
-        /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
         footer p { text-align: center; padding: 0; }
@@ -665,7 +662,7 @@
         $scheduleBgImage = asset('images/login.jpeg');
     @endphp
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
+    <!-- Page Header dengan Background Foto & Overlay Gelap Netral -->
     <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $scheduleBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
             <div class="page-header-badge mb-3 d-inline-flex">
@@ -725,9 +722,9 @@
                         </div>
                     </div>
 
-                    <!-- Simple Modal -->
+                    <!-- Simple Modal (DIPERBAIKI: Ditambahkan class modal-dialog-scrollable) -->
                     <div class="modal fade" id="modalAnggota{{ $schedule->id }}" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header-simple">
                                     <div class="modal-title-simple">
@@ -896,7 +893,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Active Nav Link Scroll (Sama seperti di welcome)
+            // Active Nav Link Scroll
             const sections = document.querySelectorAll("section[id]");
             const navLinks = document.querySelectorAll(".nav-link");
 

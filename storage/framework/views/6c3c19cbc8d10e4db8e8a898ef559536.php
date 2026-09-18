@@ -114,7 +114,7 @@
         transform: translateX(4px);
     }
 
-    /* ============ PAGE HEADER (DIPERBAIKI: Background Foto + Overlay Gelap Netral) ============ */
+    /* ============ PAGE HEADER ============ */
     .page-header {
         position: relative;
         padding: 160px 0 100px;
@@ -284,13 +284,13 @@
         filter: brightness(1.08);
     }
 
-    /* Modal Styles */
+    /* Modal Styles (DIPERBAIKI) */
     .modal-content {
         border: none;
         border-radius: var(--radius);
         box-shadow: 0 30px 80px rgba(15,23,42,0.2);
-        overflow: hidden;
-        max-height: 85vh;
+        max-height: 85vh; /* Fallback untuk browser lama */
+        max-height: 85dvh; /* Dynamic viewport height untuk mobile modern */
         display: flex;
         flex-direction: column;
     }
@@ -342,14 +342,13 @@
 
     .modal-body { 
         padding: 0; 
-        overflow: hidden;
+        overflow-y: auto; /* DIPERBAIKI: Diubah dari hidden ke auto */
         flex: 1;
+        -webkit-overflow-scrolling: touch; /* Scroll halus di iOS */
     }
     
     .members-list {
-        max-height: calc(85vh - 140px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        /* DIPERBAIKI: max-height dan overflow-y dihapus agar mengikuti parent (.modal-body) */
     }
     
     .member-row {
@@ -534,7 +533,7 @@
         font-size: 0.9rem;
     }
 
-    /* Responsive */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
@@ -548,11 +547,11 @@
         }
         .modal-content {
             max-height: 90vh;
+            max-height: 90dvh; /* DIPERBAIKI: Menggunakan dvh */
             border-radius: 24px !important;
         }
-        .members-list {
-            max-height: calc(90vh - 150px);
-        }
+        /* DIPERBAIKI: .members-list max-height dihapus agar tidak bentrok */
+        
         .member-row {
             padding: 12px 16px;
         }
@@ -574,8 +573,18 @@
         .modal-content { 
             border-radius: 20px !important;
         }
-        .members-list { max-height: calc(90vh - 140px); }
-        .modal-note { border-radius: 0 0 20px 20px; }
+        /* DIPERBAIKI: .members-list max-height dihapus */
+
+        footer { padding: 50px 0 25px; text-align: center; }
+        .footer-logo { justify-content: center; margin-bottom: 16px; }
+        footer p { text-align: center; padding: 0; }
+        footer h6 { text-align: center; margin-bottom: 16px; }
+        .footer-menu { text-align: center; padding: 0; }
+        .footer-menu li { margin-bottom: 10px; }
+        .footer-menu a { justify-content: center; font-size: 0.9rem; }
+        
+        .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+        .container { padding-left: 15px; padding-right: 15px; }
     }
     </style>
 </head>
@@ -650,11 +659,10 @@
     </nav>
 
     <?php
-        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
         $scheduleBgImage = asset('images/login.jpeg');
     ?>
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <!-- Page Header dengan Background Foto & Overlay Gelap Netral -->
     <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('<?php echo e($scheduleBgImage); ?>'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
             <div class="page-header-badge mb-3 d-inline-flex">
@@ -672,7 +680,7 @@
     </section>
 
     <!-- Schedule Section -->
-    <section class="section">
+    <section class="section" id="jadwal">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
                 <span class="section-label">Grup Piket</span>
@@ -714,9 +722,9 @@
                         </div>
                     </div>
 
-                    <!-- Simple Modal -->
+                    <!-- Simple Modal (DIPERBAIKI: Ditambahkan class modal-dialog-scrollable) -->
                     <div class="modal fade" id="modalAnggota<?php echo e($schedule->id); ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header-simple">
                                     <div class="modal-title-simple">
@@ -855,9 +863,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 700, once: true, offset: 60 });
+            try {
+                AOS.init({ 
+                    duration: 700, 
+                    once: true, 
+                    offset: 60,
+                    disable: function() {
+                        return window.innerWidth < 768;
+                    }
+                });
+            } catch(e) {
+                console.error('AOS error:', e);
+            }
 
-            // Navbar scroll effect & Scroll to top
+            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -878,6 +897,32 @@
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            // Active Nav Link Scroll
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            window.addEventListener("scroll", function() {
+                let current = "";
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    const href = link.getAttribute("href");
+                    
+                    if (href === "#" + current) {
+                        link.classList.add("active");
+                    } 
+                    else if ((current === "" || current === "beranda") && (href === "<?php echo e(route('landing')); ?>" || href === "/" || href === window.location.pathname)) {
+                        link.classList.add("active");
+                    }
+                });
+            }, { passive: true });
         });
     </script>
 </body>
