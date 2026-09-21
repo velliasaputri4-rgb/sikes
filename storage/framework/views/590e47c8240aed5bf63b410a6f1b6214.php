@@ -119,7 +119,7 @@
 
         .section { padding: 80px 0; position: relative; }
         
-        /* ✅ PERBAIKAN: Page Header dengan Background Foto & Overlay Gelap Netral */
+        /* ✅ Page Header dengan Background Foto & Overlay Gelap Netral */
         .page-header { 
             padding: 160px 0 100px; 
             text-align: center; 
@@ -164,14 +164,6 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .section-label-inner {
-            display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: var(--pro);
-            border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
-        }
-        .section-title-inner { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; }
-        .section-subtitle-inner { color: var(--slate); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
-        .gradient-text-inner { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
         /* Doc Card Styling */
         .doc-card {
             background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
@@ -202,7 +194,7 @@
         .doc-title a:hover { color: var(--primary); }
         .doc-excerpt { color: var(--slate); font-size: 0.9rem; line-height: 1.6; margin-top: 8px; margin-bottom: 0; }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
         footer {
             background: var(--gradient-dark);
             color: white;
@@ -237,6 +229,7 @@
             display: inline-flex; align-items: center; gap: 8px;
         }
         .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
+
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
             margin-top: 50px;
@@ -246,10 +239,46 @@
             font-size: 0.9rem;
         }
 
+        /* ===== SCROLL TOP BUTTON (DARI WELCOME) ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
+
+        /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
         @media (max-width: 768px) {
             .doc-image { height: 200px; }
             .section { padding: 60px 0; }
             .page-header { padding: 120px 0 60px; }
+        }
+
+        @media (max-width: 576px) {
+            /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
+            footer { padding: 50px 0 25px; text-align: center; }
+            .footer-logo { justify-content: center; margin-bottom: 16px; }
+            footer p { text-align: center; padding: 0; }
+            footer h6 { text-align: center; margin-bottom: 16px; }
+            .footer-menu { text-align: center; padding: 0; }
+            .footer-menu li { margin-bottom: 10px; }
+            .footer-menu a { justify-content: center; font-size: 0.9rem; }
+            
+            .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            .container { padding-left: 15px; padding-right: 15px; }
         }
     </style>
 </head>
@@ -324,11 +353,10 @@
     </nav>
 
     <?php
-        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
         $docsBgImage = asset('images/login.jpeg');
     ?>
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
     <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('<?php echo e($docsBgImage); ?>'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label"><?php echo e(\App\Models\Setting::get('docs_label', 'Dokumentasi')); ?></span>
@@ -338,7 +366,7 @@
     </header>
 
     <!-- Content Section -->
-    <section class="section flex-grow-1">
+    <section class="section flex-grow-1" id="dokumentasi">
         <div class="container">
             <div class="row g-4">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $documentations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
@@ -441,21 +469,80 @@
         </div>
     </footer>
 
+    <!-- ✅ SCROLL TOP BUTTON (DARI WELCOME) -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 800, once: true, offset: 80 });
+            try {
+                AOS.init({ 
+                    duration: 800, 
+                    once: true, 
+                    offset: 80,
+                    disable: function() {
+                        return window.innerWidth < 768;
+                    }
+                });
+            } catch(e) {
+                console.error('AOS error:', e);
+            }
 
-            // Navbar scroll effect
+            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
+                const scrollTop = document.getElementById('scrollTop');
+                
                 if (window.scrollY > 50) {
                     navbar.classList.add('scrolled');
                 } else {
                     navbar.classList.remove('scrolled');
                 }
+                
+                if (window.scrollY > 300) {
+                    scrollTop.classList.add('show');
+                } else {
+                    scrollTop.classList.remove('show');
+                }
             }, { passive: true });
+
+            // Scroll Top Click
+            document.getElementById('scrollTop').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
+            // Mencegah menu "Beranda" aktif secara tidak sengaja di halaman lain (Tentang, Layanan, Dokumentasi, dll)
+            const navLinks = document.querySelectorAll(".nav-link");
+            const currentPath = window.location.pathname;
+
+            navLinks.forEach((link) => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#" || href === "javascript:void(0)") return;
+                
+                try {
+                    // Buat objek URL untuk mendapatkan pathname yang bersih
+                    const linkUrl = new URL(href, window.location.origin);
+                    const linkPath = linkUrl.pathname;
+                    
+                    // Hapus class active terlebih dahulu
+                    link.classList.remove("active");
+                    
+                    // Jika path link sama dengan path halaman saat ini, tambahkan class active
+                    if (linkPath === currentPath) {
+                        link.classList.add("active");
+                    }
+                } catch (e) {
+                    // Fallback jika URL parsing gagal
+                    if (href === currentPath) {
+                        link.classList.remove("active");
+                        link.classList.add("active");
+                    }
+                }
+            });
         });
     </script>
 </body>

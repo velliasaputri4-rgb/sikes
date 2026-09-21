@@ -523,31 +523,35 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ ACTIVE NAV LINK SCROLL (DARI WELCOME)
-            const sections = document.querySelectorAll("section[id]");
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
+            // Mencegah menu "Beranda" aktif secara tidak sengaja di halaman lain (Tentang, Layanan, dll)
             const navLinks = document.querySelectorAll(".nav-link");
+            const currentPath = window.location.pathname;
 
-            window.addEventListener("scroll", function() {
-                let current = "";
-                sections.forEach((section) => {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY >= (sectionTop - 150)) {
-                        current = section.getAttribute("id");
-                    }
-                });
-
-                navLinks.forEach((link) => {
-                    link.classList.remove("active");
-                    const href = link.getAttribute("href");
+            navLinks.forEach((link) => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#" || href === "javascript:void(0)") return;
+                
+                try {
+                    // Buat objek URL untuk mendapatkan pathname yang bersih
+                    const linkUrl = new URL(href, window.location.origin);
+                    const linkPath = linkUrl.pathname;
                     
-                    if (href === "#" + current) {
-                        link.classList.add("active");
-                    } 
-                    else if ((current === "" || current === "beranda") && (href === "{{ route('landing') }}" || href === "/" || href === window.location.pathname)) {
+                    // Hapus class active terlebih dahulu
+                    link.classList.remove("active");
+                    
+                    // Jika path link sama dengan path halaman saat ini, tambahkan class active
+                    if (linkPath === currentPath) {
                         link.classList.add("active");
                     }
-                });
-            }, { passive: true });
+                } catch (e) {
+                    // Fallback jika URL parsing gagal
+                    if (href === currentPath) {
+                        link.classList.remove("active");
+                        link.classList.add("active");
+                    }
+                }
+            });
         });
     </script>
 </body>
