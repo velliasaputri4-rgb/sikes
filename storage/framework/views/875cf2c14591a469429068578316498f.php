@@ -301,7 +301,7 @@
 
         <div class="text-center mb-4">
             <h3 class="login-title mb-1">Welcome to <span class="gradient-text">SIKES</span></h3>
-            <p class="login-subtitle">Masuk ke Dashboard Sistem Informasi UKS</p>
+            <p class="login-subtitle">Masuk ke Dashboard Petugas UKS</p>
         </div>
 
         

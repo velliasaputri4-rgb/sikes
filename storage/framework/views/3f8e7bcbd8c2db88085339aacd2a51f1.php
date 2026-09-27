@@ -57,6 +57,12 @@
         overflow-x: hidden;
     }
 
+    /* ✅ Animasi masuk Navbar (berlaku di semua device) */
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
     .navbar {
         background: rgba(255,255,255,0.95);
         backdrop-filter: blur(20px);
@@ -65,6 +71,7 @@
         border-bottom: 1px solid rgba(153, 27, 27, 0.08);
         padding: 12px 0;
         transition: all 0.4s ease;
+        animation: fadeInDown 0.8s ease-out forwards;
     }
     .navbar.scrolled { padding: 8px 0; box-shadow: 0 8px 40px rgba(153, 27, 27, 0.1); }
     .navbar-brand { display: flex; align-items: center; }
@@ -165,6 +172,9 @@
         object-fit: cover;
         object-position: center 40%;
         display: block;
+        /* ✅ Foto DIAM total, tidak ada animasi float agar tidak kedut */
+        animation: none !important;
+        transform: none !important;
     }
     .hero-photo::before {
         content: '';
@@ -732,6 +742,9 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
+    /* =========================================
+       ✅ RESPONSIVE MOBILE
+       ========================================= */
     @media (max-width: 991px) {
         .hero-photo { 
             position: relative;
@@ -740,9 +753,14 @@
             max-height: none;
             border-radius: 0 0 32px 32px;
             margin-bottom: 30px;
+            overflow: hidden;
         }
         .hero-photo img {
-            object-position: center 45%;
+            object-position: center 30%;
+            /* ✅ Paksa foto diam di mobile */
+            animation: none !important;
+            transform: none !important;
+            transition: none !important;
         }
         .hero-photo::before {
             background: linear-gradient(0deg, rgba(247,250,252,1) 0%, rgba(247,250,252,0.7) 30%, rgba(247,250,252,0.2) 70%, rgba(247,250,252,0) 100%);
@@ -755,21 +773,11 @@
         }
         .d-flex.gap-3.flex-wrap { justify-content: center; }
         
-        .about-content-wrapper {
-            text-align: center;
-        }
-        .about-content-wrapper .section-label {
-            display: inline-block;
-        }
-        .about-content-wrapper .section-title {
-            text-align: center;
-        }
-        .about-content-wrapper > p {
-            text-align: center !important;
-        }
-        .about-content-wrapper .d-flex.flex-wrap.gap-3 {
-            justify-content: center;
-        }
+        .about-content-wrapper { text-align: center; }
+        .about-content-wrapper .section-label { display: inline-block; }
+        .about-content-wrapper .section-title { text-align: center; }
+        .about-content-wrapper > p { text-align: center !important; }
+        .about-content-wrapper .d-flex.flex-wrap.gap-3 { justify-content: center; }
     }
 
     @media (max-width: 768px) {
@@ -819,13 +827,8 @@
         .service-card h5 { font-size: 1.05rem; margin-bottom: 8px; }
         .service-card p { font-size: 0.85rem; line-height: 1.5; }
         
-        .about-content-wrapper .section-title {
-            font-size: 1.6rem;
-        }
-        .about-content-wrapper > p {
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
+        .about-content-wrapper .section-title { font-size: 1.6rem; }
+        .about-content-wrapper > p { font-size: 0.95rem; line-height: 1.7; }
     }
 
     @media (max-width: 767px) {
@@ -844,11 +847,11 @@
 
     @media (max-width: 576px) {
         .hero-photo {
-            height: 240px;
+            height: 220px;
             border-radius: 0 0 24px 24px;
         }
         .hero-photo img {
-            object-position: center 50%;
+            object-position: center 25%;
         }
         .hero-title { 
             font-size: 1.5rem; 
@@ -1012,7 +1015,7 @@
         </div>
         <div class="container position-relative">
             <div class="row align-items-center g-4 g-lg-5">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="700">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
                     <?php
                         $heroText = \App\Models\Setting::get('hero_title', "Selamat Datang di\nSistem Informasi UKS\nSMK Negeri 1 Bangsri");
                         $heroText = str_replace(['<br>', '<br/>', '<br />'], "\n", $heroText);
@@ -1032,7 +1035,7 @@
                     
                     <h1 class="hero-title"><?php echo $heroHtml; ?></h1>
                     <p class="hero-subtitle"><?php echo e(\App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.')); ?></p>
-                    <div class="d-flex gap-3 flex-wrap">
+                    <div class="d-flex gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
                         <a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>" class="btn-hero-primary">
                             <i class="fas fa-history"></i> <?php echo e(\App\Models\Setting::get('hero_btn_1_text', 'Riwayat Kunjungan')); ?>
 
@@ -1044,14 +1047,13 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="700">
-                    
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200" data-aos-easing="ease-out-cubic">
                     <?php
                         $pmrMemberCount = $pmrMembersCount ?? 58;
                     ?>
                     
                     <div class="stats-grid">
-                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;">
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
                                 <h3><?php echo e(number_format($totalStudents ?? 0)); ?></h3>
@@ -1060,7 +1062,7 @@
                             </div>
                         </div>
                         
-                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalKunjunganHari" style="cursor: pointer;">
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalKunjunganHari" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
                                 <h3><?php echo e($examsToday ?? 0); ?></h3>
@@ -1069,7 +1071,7 @@
                             </div>
                         </div>
                         
-                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalTotalKunjungan" style="cursor: pointer;">
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalTotalKunjungan" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="500" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
                                 <h3><?php echo e($examsMonth ?? 0); ?></h3>
@@ -1078,7 +1080,7 @@
                             </div>
                         </div>
                         
-                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalPMR" style="cursor: pointer;">
+                        <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalPMR" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="600" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
                             <div>
                                 <h3><?php echo e(number_format($pmrMemberCount)); ?></h3>
@@ -1170,7 +1172,7 @@
             </div>
 
             <div class="row g-3 g-md-4 mt-4 mt-md-5 justify-content-center">
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-history"></i></div>
                         <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
@@ -1181,7 +1183,7 @@
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="<?php echo e(route('landing.medicines')); ?>" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-pills"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Obat</h5>
@@ -1190,7 +1192,7 @@
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="<?php echo e(route('landing.health-info')); ?>" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
@@ -1199,7 +1201,7 @@
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="<?php echo e(route('landing.schedule')); ?>" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-user-nurse"></i></div>
                         <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
@@ -1216,7 +1218,7 @@
     <section class="section about-section" id="tentang">
         <div class="container">
             <div class="row align-items-center g-5">
-                <div class="col-lg-5" data-aos="fade-right">
+                <div class="col-lg-5" data-aos="fade-right" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                     <div class="about-img-wrap">
                         <?php
                             $aboutImg = \App\Models\Setting::get('about_image');
@@ -1225,7 +1227,7 @@
                         <img src="<?php echo e($imgSrc); ?>" alt="Tentang UKS">
                     </div>
                 </div>
-                <div class="col-lg-7" data-aos="fade-left">
+                <div class="col-lg-7" data-aos="fade-left" data-aos-duration="900" data-aos-delay="100" data-aos-easing="ease-out-cubic">
                     <div class="about-content-wrapper">
                         <span class="section-label"><?php echo e(\App\Models\Setting::get('about_label', 'Tentang Kami')); ?></span>
                         <h2 class="section-title"><?php echo \App\Models\Setting::get('about_title', 'Mengenal Lebih Dekat <span class="gradient-text">SIKES</span>'); ?></h2>
@@ -1243,7 +1245,7 @@
     <!-- Services -->
     <section class="section services-section" id="layanan">
         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                 <span class="section-label"><?php echo e(\App\Models\Setting::get('services_label', 'Layanan Kami')); ?></span>
                 <h2 class="section-title"><?php echo \App\Models\Setting::get('services_title', 'Layanan Kesehatan <span class="gradient-text">Profesional</span>'); ?></h2>
                 <p class="section-subtitle mx-auto"><?php echo e(\App\Models\Setting::get('services_subtitle', 'Berbagai layanan kesehatan lengkap yang kami sediakan untuk siswa')); ?></p>
@@ -1263,7 +1265,7 @@
                 ?>
                 
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $servicesData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($i * 80); ?>">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($i * 100); ?>" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                     <div class="service-card">
                         <div class="service-image-wrapper" 
                              data-bs-toggle="modal" 
@@ -1290,7 +1292,7 @@
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
             </div>
             
-            <div class="text-center mt-5" data-aos="fade-up">
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                 <a href="<?php echo e(route('landing.services')); ?>" class="btn-doc-all">
                     Lihat Semua Layanan <i class="fas fa-arrow-right ms-2"></i>
                 </a>
@@ -1302,7 +1304,7 @@
     <!-- Documentation -->
     <section class="section" id="dokumentasi" style="background: linear-gradient(180deg, #fafbfc 0%, #fef2f2 100%);">
         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                 <span class="section-label"><?php echo e(\App\Models\Setting::get('docs_label', 'Dokumentasi')); ?></span>
                 <h2 class="section-title"><?php echo \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>'); ?></h2>
                 <p class="section-subtitle mx-auto"><?php echo e(\App\Models\Setting::get('docs_subtitle', 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami')); ?></p>
@@ -1310,7 +1312,7 @@
 
             <div class="row g-4">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $documentations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
-                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($index * 100); ?>">
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($index * 100); ?>" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                         <div class="doc-card">
                             <div class="doc-image">
                                 <img src="<?php echo e($doc->image ? asset('storage/' . $doc->image) : 'https://via.placeholder.com/600x400/ef4444/ffffff?text=Dokumentasi+UKS'); ?>" 
@@ -1347,14 +1349,14 @@
                         </div>
                     </div>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
-                    <div class="col-12 text-center py-5" data-aos="fade-up">
+                    <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                         <i class="far fa-folder-open fa-3x text-muted mb-3"></i>
                         <p class="text-muted">Belum ada dokumentasi atau berita yang dipublikasikan.</p>
                     </div>
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
 
-            <div class="text-center mt-5" data-aos="fade-up">
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                 <a href="<?php echo e(route('landing.docs')); ?>" class="btn-doc-all">
                     Semua Berita <i class="fas fa-arrow-right ms-2"></i>
                 </a>
@@ -1365,14 +1367,14 @@
     <!-- Contact -->
     <section class="section contact-section" id="kontak">
         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
+            <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                 <span class="section-label"><?php echo e(\App\Models\Setting::get('contact_label', 'Hubungi Kami')); ?></span>
                 <h2 class="section-title"><?php echo \App\Models\Setting::get('contact_title', 'Siap Melayani <span class="gradient-text">Anda</span>'); ?></h2>
                 <p class="section-subtitle mx-auto"><?php echo e(\App\Models\Setting::get('contact_subtitle', 'Hubungi kami untuk informasi lebih lanjut tentang layanan UKS')); ?></p>
             </div>
 
             <div class="row g-4">
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="0" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <h5 class="fw-bold mb-3">Alamat Kami</h5>
@@ -1391,7 +1393,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900" data-aos-easing="ease-out-cubic">
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-instagram"></i></div>
                         <h5 class="fw-bold mb-3">Sosial Media</h5>
@@ -1497,13 +1499,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
+                // ✅ KONFIGURASI AOS YANG DIOPTIMALKAN UNTUK MOBILE & DESKTOP
+                const isMobile = window.innerWidth < 768;
+                
                 AOS.init({ 
-                    duration: 800, 
+                    duration: isMobile ? 600 : 900,        // ✅ Mobile lebih cepat (600ms), Desktop 900ms
+                    easing: 'ease-out-cubic',
                     once: true, 
-                    offset: 80,
-                    disable: function() {
-                        return window.innerWidth < 768;
-                    }
+                    offset: isMobile ? 40 : 80,            // ✅ Mobile muncul lebih awal (40px)
+                    disable: false,                        // ✅ ANIMASI AKTIF DI SEMUA DEVICE (Termasuk Mobile!)
+                    anchorPlacement: 'top-bottom'
                 });
             } catch(e) {
                 console.error('AOS error:', e);
