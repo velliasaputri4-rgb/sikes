@@ -122,7 +122,7 @@
         .btn-doc-all { background: var(--gradient-primary); color: white; padding: 12px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(153,27,27,0.25); transition: all 0.3s ease; }
         .btn-doc-all:hover { color: white; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(153,27,27,0.35); }
         
-        /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
+        /* ===== FOOTER ===== */
         footer { background: var(--gradient-dark); color: white; padding: 80px 0 30px; position: relative; overflow: hidden; }
         footer::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 10% 20%, rgba(153,27,27,0.25) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(239,68,68,0.15) 0%, transparent 40%); }
         footer .container { position: relative; z-index: 1; }
@@ -134,7 +134,7 @@
         .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; }
 
-        /* ===== SCROLL TOP BUTTON (DARI WELCOME) ===== */
+        /* ===== SCROLL TOP BUTTON ===== */
         .scroll-top {
             position: fixed;
             bottom: 30px; right: 30px;
@@ -155,7 +155,7 @@
         .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
-        /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) { 
             .section { padding: 60px 0; } 
             .page-header { padding: 120px 0 60px; } 
@@ -164,7 +164,6 @@
         }
 
         @media (max-width: 576px) {
-            /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
             footer { padding: 50px 0 25px; text-align: center; }
             .footer-logo { justify-content: center; margin-bottom: 16px; }
             footer p { text-align: center; padding: 0; }
@@ -218,11 +217,15 @@
                                         </form>
                                     </li>
                                 @else
-                                    <li class="dropdown-header text-center"><small class="text-muted">Pilih Login</small></li>
+                                    <li class="dropdown-header text-center">
+                                        <small class="text-muted">Akses Portal</small>
+                                    </li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item fw-semibold" href="{{ route('login') }}"><i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ route('login.siswa') }}"><i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa</a></li>
+                                    <li>
+                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login.siswa') }}">
+                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        </a>
+                                    </li>
                                 @endauth
                             </ul>
                         </div>
@@ -396,7 +399,7 @@
         </div>
     </div>
 
-    <!-- ✅ SCROLL TOP BUTTON (DARI WELCOME) -->
+    <!-- ✅ SCROLL TOP BUTTON -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -440,7 +443,6 @@
             });
 
             // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
-            // Mencegah menu "Beranda" aktif secara tidak sengaja di halaman lain (Tentang, Layanan, dll)
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 
@@ -449,19 +451,15 @@
                 if (!href || href === "#" || href === "javascript:void(0)") return;
                 
                 try {
-                    // Buat objek URL untuk mendapatkan pathname yang bersih
                     const linkUrl = new URL(href, window.location.origin);
                     const linkPath = linkUrl.pathname;
                     
-                    // Hapus class active terlebih dahulu
                     link.classList.remove("active");
                     
-                    // Jika path link sama dengan path halaman saat ini, tambahkan class active
                     if (linkPath === currentPath) {
                         link.classList.add("active");
                     }
                 } catch (e) {
-                    // Fallback jika URL parsing gagal
                     if (href === currentPath) {
                         link.classList.remove("active");
                         link.classList.add("active");

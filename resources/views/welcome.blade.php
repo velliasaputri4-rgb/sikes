@@ -978,17 +978,11 @@
                                     </li>
                                 @else
                                     <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
+                                        <small class="text-muted">Akses Portal</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('login.siswa') }}">
+                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login.siswa') }}">
                                             <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>

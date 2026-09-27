@@ -207,7 +207,7 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
-    /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
+    /* ===== FOOTER ===== */
     footer {
         background: var(--gradient-dark);
         color: white;
@@ -251,14 +251,13 @@
         font-size: 0.9rem;
     }
 
-    /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
     }
 
     @media (max-width: 576px) {
-        /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
         footer p { text-align: center; padding: 0; }
@@ -319,17 +318,11 @@
                                     </li>
                                 @else
                                     <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
+                                        <small class="text-muted">Akses Portal</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('login.siswa') }}">
+                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login.siswa') }}">
                                             <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>
@@ -517,6 +510,7 @@
                 console.error('AOS error:', e);
             }
 
+            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -534,35 +528,35 @@
                 }
             }, { passive: true });
 
+            // Scroll Top Click
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ Active Nav Link Scroll (Sama seperti di welcome)
-            const sections = document.querySelectorAll("section[id]");
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini (Lebih stabil untuk halaman terpisah)
             const navLinks = document.querySelectorAll(".nav-link");
+            const currentPath = window.location.pathname;
 
-            window.addEventListener("scroll", function() {
-                let current = "";
-                sections.forEach((section) => {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY >= (sectionTop - 150)) {
-                        current = section.getAttribute("id");
-                    }
-                });
-
-                navLinks.forEach((link) => {
-                    link.classList.remove("active");
-                    const href = link.getAttribute("href");
+            navLinks.forEach((link) => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#" || href === "javascript:void(0)") return;
+                
+                try {
+                    const linkUrl = new URL(href, window.location.origin);
+                    const linkPath = linkUrl.pathname;
                     
-                    if (href === "#" + current) {
-                        link.classList.add("active");
-                    } 
-                    else if ((current === "" || current === "beranda") && (href === "{{ route('landing') }}" || href === "/" || href === window.location.pathname)) {
+                    link.classList.remove("active");
+                    
+                    if (linkPath === currentPath) {
                         link.classList.add("active");
                     }
-                });
-            }, { passive: true });
+                } catch (e) {
+                    if (href === currentPath) {
+                        link.classList.remove("active");
+                        link.classList.add("active");
+                    }
+                }
+            });
         });
     </script>
 </body>

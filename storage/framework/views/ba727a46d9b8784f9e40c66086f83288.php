@@ -117,7 +117,7 @@
         transform: translateX(4px);
     }
 
-    /* ============ PAGE HEADER (DIPERBAIKI: Background Foto + Overlay Gelap Netral) ============ */
+    /* ============ PAGE HEADER ============ */
     .page-header {
         position: relative;
         padding: 160px 0 100px;
@@ -466,7 +466,7 @@
     }
     .no-results.show { display: block; }
 
-    /* ============ FOOTER ============ */
+    /* ============ FOOTER ===== */
     footer {
         background: var(--gradient-dark);
         color: white;
@@ -510,10 +510,23 @@
         font-size: 0.9rem;
     }
 
-    /* ============ RESPONSIVE ============ */
+    /* ============ RESPONSIVE ===== */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
+    }
+
+    @media (max-width: 576px) {
+        footer { padding: 50px 0 25px; text-align: center; }
+        .footer-logo { justify-content: center; margin-bottom: 16px; }
+        footer p { text-align: center; padding: 0; }
+        footer h6 { text-align: center; margin-bottom: 16px; }
+        .footer-menu { text-align: center; padding: 0; }
+        .footer-menu li { margin-bottom: 10px; }
+        .footer-menu a { justify-content: center; font-size: 0.9rem; }
+        
+        .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+        .container { padding-left: 15px; padding-right: 15px; }
     }
     </style>
 </head>
@@ -564,17 +577,11 @@
                                     </li>
                                 <?php else: ?>
                                     <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
+                                        <small class="text-muted">Akses Portal</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="<?php echo e(route('login')); ?>">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="<?php echo e(route('login.siswa')); ?>">
+                                        <a class="dropdown-item fw-semibold text-center" href="<?php echo e(route('login.siswa')); ?>">
                                             <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
                                         </a>
                                     </li>
@@ -588,11 +595,10 @@
     </nav>
 
     <?php
-        // ✅ Fallback gambar background header (sama seperti halaman lain agar konsisten)
         $medicinesBgImage = asset('images/login.jpeg');
     ?>
 
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral (TANPA MERAH) -->
+    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
     <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('<?php echo e($medicinesBgImage); ?>'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
             <div class="page-header-badge">
@@ -609,7 +615,7 @@
     </section>
 
     <!-- Content Section -->
-    <section class="section">
+    <section class="section" id="obat">
         <div class="container">
             <!-- Filter Bar (Search Only) -->
             <div class="filter-bar" data-aos="fade-up" data-aos-delay="100">
@@ -657,7 +663,6 @@
                             }
                         }
 
-                        // ✅ Ambil keterangan kegunaan dari berbagai kemungkinan nama kolom
                         $indication = $med->indication ?? $med->description ?? $med->kegunaan ?? 'Digunakan untuk pertolongan pertama dan pengobatan umum sesuai petunjuk petugas.';
                     ?>
                     <div class="col-md-6 col-lg-4 medicine-item"
@@ -675,7 +680,6 @@
                                 </span>
                             </div>
 
-                            <!-- ✅ Bagian Keterangan Kegunaan Obat -->
                             <div class="medicine-indication">
                                 <i class="fas fa-info-circle"></i>
                                 <span><?php echo e($indication); ?></span>
@@ -816,9 +820,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 700, once: true, offset: 60 });
+            try {
+                AOS.init({ 
+                    duration: 700, 
+                    once: true, 
+                    offset: 60,
+                    disable: function() {
+                        return window.innerWidth < 768;
+                    }
+                });
+            } catch(e) {
+                console.error('AOS error:', e);
+            }
 
-            // Navbar scroll effect
+            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -838,6 +853,31 @@
 
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini (Lebih stabil untuk halaman terpisah)
+            const navLinks = document.querySelectorAll(".nav-link");
+            const currentPath = window.location.pathname;
+
+            navLinks.forEach((link) => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#" || href === "javascript:void(0)") return;
+                
+                try {
+                    const linkUrl = new URL(href, window.location.origin);
+                    const linkPath = linkUrl.pathname;
+                    
+                    link.classList.remove("active");
+                    
+                    if (linkPath === currentPath) {
+                        link.classList.add("active");
+                    }
+                } catch (e) {
+                    if (href === currentPath) {
+                        link.classList.remove("active");
+                        link.classList.add("active");
+                    }
+                }
             });
 
             // Search functionality
