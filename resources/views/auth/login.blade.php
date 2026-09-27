@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ✅ FAVICON & APPLE TOUCH ICON -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo sikes navbar.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo sikes navbar.png') }}">
+    
     <title>Login - SIKES</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -33,7 +39,7 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ PERUBAHAN: Background Gambar dengan Overlay Gelap Netral (TANPA MERAH) */
+            /* ✅ Background Gambar dengan Overlay Gelap Netral */
             background: 
                 linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
                 url('/images/login.jpeg');
@@ -43,7 +49,7 @@
             background-attachment: fixed;
         }
 
-        /* ✅ PERUBAHAN: Overlay tambahan netral (highlight putih sangat halus) agar teks tetap terbaca */
+        /* ✅ Overlay tambahan netral agar teks tetap terbaca */
         body::before {
             content: '';
             position: fixed;
@@ -104,7 +110,6 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .login-title .gradient-text {
-            /* ✅ Gradient teks merah muda ke putih (tetap dipertahankan untuk branding) */
             background: linear-gradient(135deg, #fca5a5 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -151,7 +156,7 @@
         .form-control:focus {
             border-color: rgba(252, 165, 165, 0.8);
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25); /* Focus tetap merah sebagai feedback */
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
             color: #ffffff;
         }
         .input-icon:focus-within > i:first-child { color: #fca5a5; }
