@@ -15,7 +15,6 @@ class Student extends Model
         'classroom_id',
         'nis',
         'full_name',
-        // 'gender' dihapus
         'birth_place',
         'birth_date',
         'address',
@@ -23,6 +22,7 @@ class Student extends Model
         'parent_phone',
         'blood_type',
         'allergy_history',
+        'sipintu_last_synced_at',
     ];
 
     protected $casts = [

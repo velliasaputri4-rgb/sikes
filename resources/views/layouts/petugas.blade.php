@@ -439,6 +439,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('petugas.sync.*') ? 'active' : '' }}" href="{{ route('petugas.sync.index') }}">
+                    <i class="fas fa-arrows-rotate"></i> Sinkronisasi SiPintu
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('petugas.piket.*') ? 'active' : '' }}" href="{{ route('petugas.piket.index') }}">
                     <i class="fas fa-calendar-alt"></i> Jadwal Piket
                 </a>

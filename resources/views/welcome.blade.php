@@ -57,7 +57,6 @@
         overflow-x: hidden;
     }
 
-    /* ✅ Animasi masuk Navbar (berlaku di semua device) */
     @keyframes fadeInDown {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -172,7 +171,6 @@
         object-fit: cover;
         object-position: center 40%;
         display: block;
-        /* ✅ Foto DIAM total, tidak ada animasi float agar tidak kedut */
         animation: none !important;
         transform: none !important;
     }
@@ -231,24 +229,26 @@
         box-shadow: 0 10px 28px rgba(153, 27, 27, 0.35);
         filter: brightness(1.08);
     }
+
     .btn-hero-outline {
-        background: white;
-        color: var(--pro);
+        background: var(--primary-dark);
+        color: white;
         padding: 12px 26px;
         border-radius: 10px;
-        border: 1px solid #fecaca;
+        border: none;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 8px;
         transition: all 0.3s;
-        box-shadow: 0 3px 12px rgba(153, 27, 27, 0.06);
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
         text-decoration: none;
     }
     .btn-hero-outline:hover {
-        color: var(--pro-light);
-        border-color: var(--pro-light);
+        color: white;
         transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(153, 27, 27, 0.35);
+        filter: brightness(1.15);
     }
 
     .stats-grid {
@@ -742,9 +742,6 @@
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
-    /* =========================================
-       ✅ RESPONSIVE MOBILE
-       ========================================= */
     @media (max-width: 991px) {
         .hero-photo { 
             position: relative;
@@ -757,7 +754,6 @@
         }
         .hero-photo img {
             object-position: center 30%;
-            /* ✅ Paksa foto diam di mobile */
             animation: none !important;
             transform: none !important;
             transition: none !important;
@@ -985,8 +981,8 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login.siswa') }}">
-                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
                                         </a>
                                     </li>
                                 @endauth
@@ -1036,9 +1032,6 @@
                     <h1 class="hero-title">{!! $heroHtml !!}</h1>
                     <p class="hero-subtitle">{{ \App\Models\Setting::get('hero_subtitle', 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.') }}</p>
                     <div class="d-flex gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000" data-aos-easing="ease-out-cubic">
-                        <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="btn-hero-primary">
-                            <i class="fas fa-history"></i> {{ \App\Models\Setting::get('hero_btn_1_text', 'Riwayat Kunjungan') }}
-                        </a>
                         <a href="{{ route('landing.about') }}" class="btn-hero-outline">
                             <i class="fas fa-info-circle"></i> {{ \App\Models\Setting::get('hero_btn_2_text', 'Pelajari Lebih Lanjut') }}
                         </a>
@@ -1051,55 +1044,59 @@
                     @endphp
                     
                     <div class="stats-grid">
+                        <!-- ✅ STAT 1: DINAMIS DARI SETTING -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalSiswa" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-users"></i></div>
                             <div>
                                 <h3>{{ number_format($totalStudents ?? 0) }}</h3>
-                                <div class="stat-label">Siswa Terdaftar</div>
-                                <div class="stat-note">siswa ESKASABA</div>
+                                <div class="stat-label">{{ \App\Models\Setting::get('hero_stat_1_label', 'Siswa Terdaftar') }}</div>
+                                <div class="stat-note">{{ \App\Models\Setting::get('hero_stat_1_note', 'siswa ESKASABA') }}</div>
                             </div>
                         </div>
                         
+                        <!-- ✅ STAT 2: DINAMIS DARI SETTING -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalKunjunganHari" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
                             <div>
                                 <h3>{{ $examsToday ?? 0 }}</h3>
-                                <div class="stat-label">Kunjungan Hari Ini</div>
-                                <div class="stat-note">Update: Hari Ini</div>
+                                <div class="stat-label">{{ \App\Models\Setting::get('hero_stat_2_label', 'Kunjungan Hari Ini') }}</div>
+                                <div class="stat-note">{{ \App\Models\Setting::get('hero_stat_2_note', 'Update: Hari Ini') }}</div>
                             </div>
                         </div>
                         
+                        <!-- ✅ STAT 3: DINAMIS DARI SETTING -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalTotalKunjungan" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="500" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-heart-pulse"></i></div>
                             <div>
                                 <h3>{{ $examsMonth ?? 0 }}</h3>
-                                <div class="stat-label">Total Kunjungan</div>
-                                <div class="stat-note">Bulan Ini</div>
+                                <div class="stat-label">{{ \App\Models\Setting::get('hero_stat_3_label', 'Total Kunjungan') }}</div>
+                                <div class="stat-note">{{ \App\Models\Setting::get('hero_stat_3_note', 'Bulan Ini') }}</div>
                             </div>
                         </div>
                         
+                        <!-- ✅ STAT 4: DINAMIS DARI SETTING -->
                         <div class="stat-card" data-bs-toggle="modal" data-bs-target="#modalPMR" style="cursor: pointer;" data-aos="fade-up" data-aos-delay="600" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                             <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
                             <div>
                                 <h3>{{ number_format($pmrMemberCount) }}</h3>
-                                <div class="stat-label">Anggota PMR</div>
-                                <div class="stat-note">Palang Merah Remaja</div>
+                                <div class="stat-label">{{ \App\Models\Setting::get('hero_stat_4_label', 'Anggota PMR') }}</div>
+                                <div class="stat-note">{{ \App\Models\Setting::get('hero_stat_4_note', 'Palang Merah Remaja') }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal Siswa Terdaftar -->
+            <!-- ✅ Modal Siswa Terdaftar - DINAMIS -->
             <div class="modal fade" id="modalSiswa" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-users me-2" style="color: var(--primary);"></i>Siswa Terdaftar</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-users me-2" style="color: var(--primary);"></i>{{ \App\Models\Setting::get('hero_stat_1_label', 'Siswa Terdaftar') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="mb-3">Total <strong>{{ number_format($totalStudents ?? 0) }} siswa</strong> terdaftar di sistem SIKES untuk tahun ajaran 2025/2026.</p>
+                            <p class="mb-3">Total <strong>{{ number_format($totalStudents ?? 0) }} siswa</strong> {{ \App\Models\Setting::get('hero_stat_1_modal_desc', 'terdaftar di sistem SIKES untuk tahun ajaran 2025/2026. Data ini mencakup seluruh siswa aktif yang memiliki rekam medis di UKS.') }}</p>
                             <div class="alert alert-info mb-0">
                                 <i class="fas fa-info-circle me-2"></i>
                                 Data ini mencakup seluruh siswa aktif yang memiliki rekam medis di UKS.
@@ -1109,16 +1106,16 @@
                 </div>
             </div>
 
-            <!-- Modal Kunjungan Hari Ini -->
+            <!-- ✅ Modal Kunjungan Hari Ini - DINAMIS -->
             <div class="modal fade" id="modalKunjunganHari" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2" style="color: var(--primary);"></i>Kunjungan Hari Ini</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2" style="color: var(--primary);"></i>{{ \App\Models\Setting::get('hero_stat_2_label', 'Kunjungan Hari Ini') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="mb-3">Hari ini terdapat <strong>{{ $examsToday ?? 0 }} kunjungan</strong> siswa ke UKS.</p>
+                            <p class="mb-3">Hari ini terdapat <strong>{{ $examsToday ?? 0 }} kunjungan</strong> {{ \App\Models\Setting::get('hero_stat_2_modal_desc', 'siswa ke UKS hari ini. Data diperbarui secara real-time setiap ada pemeriksaan baru.') }}</p>
                             <div class="alert alert-success mb-0">
                                 <i class="fas fa-check-circle me-2"></i>
                                 Data diperbarui secara real-time setiap ada pemeriksaan baru.
@@ -1128,16 +1125,16 @@
                 </div>
             </div>
 
-            <!-- Modal Total Kunjungan -->
+            <!-- ✅ Modal Total Kunjungan - DINAMIS -->
             <div class="modal fade" id="modalTotalKunjungan" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-heart-pulse me-2" style="color: var(--primary);"></i>Total Kunjungan Bulan Ini</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-heart-pulse me-2" style="color: var(--primary);"></i>{{ \App\Models\Setting::get('hero_stat_3_label', 'Total Kunjungan Bulan Ini') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="mb-3">Total <strong>{{ $examsMonth ?? 0 }} kunjungan</strong> siswa ke UKS sepanjang bulan ini.</p>
+                            <p class="mb-3">Total <strong>{{ $examsMonth ?? 0 }} kunjungan</strong> {{ \App\Models\Setting::get('hero_stat_3_modal_desc', 'siswa ke UKS sepanjang bulan ini. Statistik ini membantu memantau kesehatan siswa di sekolah.') }}</p>
                             <div class="alert alert-info mb-0">
                                 <i class="fas fa-chart-line me-2"></i>
                                 Statistik ini membantu memantau kesehatan siswa di sekolah.
@@ -1147,16 +1144,16 @@
                 </div>
             </div>
 
-            <!-- Modal Anggota PMR -->
+            <!-- ✅ Modal Anggota PMR - DINAMIS -->
             <div class="modal fade" id="modalPMR" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 shadow-lg">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold"><i class="fas fa-hand-holding-heart me-2 text-danger"></i>Anggota PMR</h5>
+                            <h5 class="modal-title fw-bold"><i class="fas fa-hand-holding-heart me-2 text-danger"></i>{{ \App\Models\Setting::get('hero_stat_4_label', 'Anggota PMR') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="mb-3">Terdapat <strong>{{ number_format($pmrMemberCount) }} anggota</strong> Palang Merah Remaja (PMR) yang aktif di UKS SMK Negeri 1 Bangsri.</p>
+                            <p class="mb-3">Terdapat <strong>{{ number_format($pmrMemberCount) }} anggota</strong> {{ \App\Models\Setting::get('hero_stat_4_modal_desc', 'Palang Merah Remaja (PMR) yang aktif di UKS SMK Negeri 1 Bangsri. Anggota PMR terlatih dalam pertolongan pertama dan siap membantu sesama siswa.') }}</p>
                             <div class="alert alert-danger mb-0">
                                 <i class="fas fa-heart me-2"></i>
                                 Anggota PMR terlatih dalam pertolongan pertama dan siap membantu sesama siswa.
@@ -1170,18 +1167,7 @@
             </div>
 
             <div class="row g-3 g-md-4 mt-4 mt-md-5 justify-content-center">
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800" data-aos-easing="ease-out-cubic">
-                    <a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}" class="menu-card">
-                        <div class="menu-icon"><i class="fas fa-history"></i></div>
-                        <h5 class="fw-bold mb-2">Riwayat Kunjungan</h5>
-                        <p class="text-muted small mb-0">Cek riwayat rekam medis Anda</p>
-                        @if(!auth()->check() || !auth()->user()->hasRole('siswa'))
-                            <span class="card-tag tag-login"><i class="fas fa-lock"></i> Login Siswa</span>
-                        @endif
-                        <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="{{ route('landing.medicines') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-pills"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Obat</h5>
@@ -1190,7 +1176,7 @@
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="{{ route('landing.health-info') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
                         <h5 class="fw-bold mb-2">Informasi Kesehatan</h5>
@@ -1199,7 +1185,7 @@
                         <span class="click-hint"><i class="fas fa-hand-pointer me-1"></i> Klik untuk melihat</span>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800" data-aos-easing="ease-out-cubic">
                     <a href="{{ route('landing.schedule') }}" class="menu-card">
                         <div class="menu-icon"><i class="fas fa-user-nurse"></i></div>
                         <h5 class="fw-bold mb-2">Jadwal Petugas</h5>
@@ -1439,7 +1425,6 @@
                         <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="{{ route('landing.health-info') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
 
@@ -1491,15 +1476,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // ✅ KONFIGURASI AOS YANG DIOPTIMALKAN UNTUK MOBILE & DESKTOP
                 const isMobile = window.innerWidth < 768;
                 
                 AOS.init({ 
-                    duration: isMobile ? 600 : 900,        // ✅ Mobile lebih cepat (600ms), Desktop 900ms
+                    duration: isMobile ? 600 : 900,
                     easing: 'ease-out-cubic',
                     once: true, 
-                    offset: isMobile ? 40 : 80,            // ✅ Mobile muncul lebih awal (40px)
-                    disable: false,                        // ✅ ANIMASI AKTIF DI SEMUA DEVICE (Termasuk Mobile!)
+                    offset: isMobile ? 40 : 80,
+                    disable: false,
                     anchorPlacement: 'top-bottom'
                 });
             } catch(e) {

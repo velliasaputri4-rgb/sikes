@@ -27,7 +27,6 @@
             align-items: center; 
             gap: 10px; 
         }
-        /* ✅ PERUBAHAN: Gradient MERAH, bukan biru */
         .page-head h5 .head-icon { 
             width: 38px; 
             height: 38px; 
@@ -41,7 +40,6 @@
             box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); 
         }
         
-        /* ✅ PERUBAHAN: Filter card dengan tema merah */
         .filter-card { 
             background: #ffffff; 
             border: 1px solid #fee2e2; 
@@ -50,15 +48,16 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);
         }
-        .filter-card .form-control:focus { 
+        .filter-card .form-control:focus,
+        .filter-card .form-select:focus { 
             border-color: #fca5a5 !important; 
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important; 
         }
-        .filter-card .form-control {
+        .filter-card .form-control,
+        .filter-card .form-select {
             border-color: #fecaca;
         }
         
-        /* ✅ PERUBAHAN: Tabel dengan tema merah */
         .table thead th { 
             background: #fef2f2; 
             color: #991b1b; 
@@ -72,7 +71,6 @@
             background-color: #fef2f2 !important; 
         }
         
-        /* Badge Kelas - tema merah */
         .badge-kelas {
             background: #fef2f2 !important;
             color: #991b1b !important;
@@ -81,7 +79,6 @@
             padding: 6px 10px;
         }
 
-        /* Phone cell styling */
         .phone-cell { 
             font-family: 'SF Mono', 'Consolas', monospace; 
             font-size: 13px; 
@@ -97,7 +94,6 @@
             text-decoration: underline !important;
         }
 
-        /* Tombol Aksi */
         .btn-aksi-edit {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
@@ -124,7 +120,6 @@
             color: white;
         }
 
-        /* Alert custom */
         .alert-success-custom {
             background: #ecfdf5;
             color: #065f46;
@@ -159,7 +154,6 @@
             </a>
         </div>
 
-        {{-- ✅ Alert dengan tema --}}
         @if(session('success')) 
             <div class="alert-success-custom">
                 <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -171,8 +165,44 @@
             </div> 
         @endif
 
+        {{-- ✅ FORM FILTER LENGKAP & DATAR (TANPA KATEGORI) --}}
         <form method="GET" action="{{ route('petugas.students.index') }}" class="filter-card">
-            <input type="text" name="search" class="form-control" placeholder="Cari nama/NIS siswa... (tekan Enter)" value="{{ request('search') }}">
+            <div class="row g-2 align-items-center">
+                <!-- 1. Input Pencarian -->
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Cari nama/NIS siswa..." value="{{ request('search') }}">
+                </div>
+                
+                <!-- 2. ✅ DROPDOWN KELAS DATAR (Langsung dari database, urut abjad, tanpa optgroup) -->
+                <div class="col-md-3">
+                    <select name="class" class="form-select">
+                        <option value="">Semua Kelas</option>
+                        @foreach($classes ?? [] as $class)
+                            <option value="{{ $class->name }}" @selected(request('class') == $class->name)>
+                                {{ $class->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- 3. Checkbox Tanggal Lahir Kosong -->
+                <div class="col-md-auto">
+                    <label class="form-check d-flex align-items-center gap-2 mb-0">
+                        <input class="form-check-input" type="checkbox" name="birth_date_missing" value="1" @checked(request('birth_date_missing') == '1')>
+                        <span class="form-check-label">Tanggal lahir kosong</span>
+                    </label>
+                </div>
+
+                <!-- 4. Tombol Aksi -->
+                <div class="col-md-auto">
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="fas fa-filter me-1"></i> Filter
+                    </button>
+                    <a href="{{ route('petugas.students.index') }}" class="btn btn-outline-secondary ms-1" title="Reset Filter">
+                        <i class="fas fa-rotate-left"></i>
+                    </a>
+                </div>
+            </div>
         </form>
 
         <div class="table-responsive">
@@ -203,7 +233,7 @@
                                 @if($student->birth_date) 
                                     {{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}
                                 @else 
-                                    <span class="text-muted">-</span> 
+                                    <span class="badge bg-warning text-dark" style="font-size: 11px;">Kosong</span>
                                 @endif
                             </td>
                             <td class="phone-cell">
@@ -236,7 +266,7 @@
                                     <i class="fas fa-folder-open fa-2x" style="color: #ef4444;"></i>
                                 </div>
                                 <p class="mb-0 fw-semibold" style="color: #475569;">Belum ada data siswa</p>
-                                <small class="text-muted">Silakan tambah siswa baru.</small>
+                                <small class="text-muted">Silakan tambah siswa baru atau ubah filter pencarian.</small>
                             </td>
                         </tr>
                     @endforelse

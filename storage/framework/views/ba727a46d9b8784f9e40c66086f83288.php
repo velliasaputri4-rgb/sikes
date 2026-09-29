@@ -581,8 +581,9 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold text-center" href="<?php echo e(route('login.siswa')); ?>">
-                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        
+                                        <a class="dropdown-item fw-semibold text-center" href="<?php echo e(route('login')); ?>">
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
                                         </a>
                                     </li>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -776,15 +777,17 @@
                         <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
+                
+                
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
                         <li><a href="<?php echo e(route('landing.medicines')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="<?php echo e(route('landing.health-info')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="<?php echo e(route('landing.schedule')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
+
                 <div class="col-lg-3">
                     <h6>Kontak</h6>
                     <ul class="footer-menu">
@@ -855,7 +858,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini (Lebih stabil untuk halaman terpisah)
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 

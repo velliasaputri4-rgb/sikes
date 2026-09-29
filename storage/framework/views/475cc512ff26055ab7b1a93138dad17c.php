@@ -152,7 +152,7 @@
             text-align: justify;
         }
         
-        /* ===== FOOTER (SAMA PERSIS DENGAN WELCOME) ===== */
+        /* ===== FOOTER ===== */
         footer {
             background: var(--gradient-dark);
             color: white;
@@ -197,7 +197,7 @@
             font-size: 0.9rem;
         }
 
-        /* ===== SCROLL TOP BUTTON (DARI WELCOME) ===== */
+        /* ===== SCROLL TOP BUTTON ===== */
         .scroll-top {
             position: fixed;
             bottom: 30px; right: 30px;
@@ -218,7 +218,7 @@
         .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
-        /* ===== RESPONSIVE (SAMA PERSIS DENGAN WELCOME) ===== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .section { padding: 60px 0; }
             .story-section { padding: 60px 0; }
@@ -244,7 +244,6 @@
             .section { padding: 50px 0; }
             .story-section { padding: 50px 0; }
             
-            /* ✅ INI YANG SEBELUMNYA HILANG - CSS RESPONSIVE FOOTER DI MOBILE */
             footer { padding: 50px 0 25px; text-align: center; }
             .footer-logo { justify-content: center; margin-bottom: 16px; }
             footer p { text-align: center; padding: 0; }
@@ -305,18 +304,12 @@
                                     </li>
                                 <?php else: ?>
                                     <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
+                                        <small class="text-muted">Akses Portal</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="<?php echo e(route('login')); ?>">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="<?php echo e(route('login.siswa')); ?>">
-                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        <a class="dropdown-item fw-semibold text-center" href="<?php echo e(route('login')); ?>">
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
                                         </a>
                                     </li>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -445,13 +438,13 @@
                     </ul>
                 </div>
 
+                
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
                         <li><a href="<?php echo e(route('landing.medicines')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="<?php echo e(route('landing.health-info')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="<?php echo e(route('landing.schedule')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
 
@@ -481,7 +474,7 @@
         </div>
     </footer>
 
-    <!-- ✅ SCROLL TOP BUTTON (DARI WELCOME) -->
+    <!-- SCROLL TOP BUTTON -->
     <button class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -515,7 +508,7 @@
                     navbar.classList.remove('scrolled');
                 }
                 
-                // ✅ SCROLL TOP SHOW/HIDE (DARI WELCOME)
+                // SCROLL TOP SHOW/HIDE
                 if (window.scrollY > 300) {
                     scrollTop.classList.add('show');
                 } else {
@@ -523,13 +516,12 @@
                 }
             }, { passive: true });
 
-            // ✅ SCROLL TOP CLICK (DARI WELCOME)
+            // SCROLL TOP CLICK
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
-            // Mencegah menu "Beranda" aktif secara tidak sengaja di halaman lain (Tentang, Layanan, dll)
+            // Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 
@@ -538,19 +530,15 @@
                 if (!href || href === "#" || href === "javascript:void(0)") return;
                 
                 try {
-                    // Buat objek URL untuk mendapatkan pathname yang bersih
                     const linkUrl = new URL(href, window.location.origin);
                     const linkPath = linkUrl.pathname;
                     
-                    // Hapus class active terlebih dahulu
                     link.classList.remove("active");
                     
-                    // Jika path link sama dengan path halaman saat ini, tambahkan class active
                     if (linkPath === currentPath) {
                         link.classList.add("active");
                     }
                 } catch (e) {
-                    // Fallback jika URL parsing gagal
                     if (href === currentPath) {
                         link.classList.remove("active");
                         link.classList.add("active");

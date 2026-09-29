@@ -50,6 +50,13 @@ class LoginRequest extends FormRequest
                 ]);
             }
 
+            if (! $student->birth_date) {
+                RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'birth_date' => 'Tanggal lahir belum diisi. Hubungi petugas UKS.',
+                ]);
+            }
+
             // Format tanggal dari input dan database agar sama (Y-m-d)
             $inputDate = Carbon::parse($this->birth_date)->format('Y-m-d');
             $dbDate = $student->birth_date->format('Y-m-d');

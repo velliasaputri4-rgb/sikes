@@ -332,8 +332,9 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login.siswa') }}">
-                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        {{-- ✅ PERUBAHAN: Menu login sekarang mengarah ke Login Admin --}}
+                                        <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
                                         </a>
                                     </li>
                                 @endauth
@@ -426,15 +427,17 @@
                         <li><a href="{{ route('landing.docs') }}"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
+                
+                {{-- ✅ PERUBAHAN: Link "Riwayat" telah dihapus dari sini --}}
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
                         <li><a href="{{ route('landing.medicines') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="{{ route('landing.health-info') }}"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="{{ route('landing.schedule') }}"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="{{ auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa') }}"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
+
                 <div class="col-lg-3">
                     <h6>Kontak</h6>
                     <ul class="footer-menu">

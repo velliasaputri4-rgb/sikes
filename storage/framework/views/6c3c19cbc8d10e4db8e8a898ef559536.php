@@ -284,13 +284,13 @@
         filter: brightness(1.08);
     }
 
-    /* Modal Styles (DIPERBAIKI) */
+    /* Modal Styles */
     .modal-content {
         border: none;
         border-radius: var(--radius);
         box-shadow: 0 30px 80px rgba(15,23,42,0.2);
-        max-height: 85vh; /* Fallback untuk browser lama */
-        max-height: 85dvh; /* Dynamic viewport height untuk mobile modern */
+        max-height: 85vh;
+        max-height: 85dvh;
         display: flex;
         flex-direction: column;
     }
@@ -342,13 +342,9 @@
 
     .modal-body { 
         padding: 0; 
-        overflow-y: auto; /* DIPERBAIKI: Diubah dari hidden ke auto */
+        overflow-y: auto;
         flex: 1;
-        -webkit-overflow-scrolling: touch; /* Scroll halus di iOS */
-    }
-    
-    .members-list {
-        /* DIPERBAIKI: max-height dan overflow-y dihapus agar mengikuti parent (.modal-body) */
+        -webkit-overflow-scrolling: touch;
     }
     
     .member-row {
@@ -547,10 +543,9 @@
         }
         .modal-content {
             max-height: 90vh;
-            max-height: 90dvh; /* DIPERBAIKI: Menggunakan dvh */
+            max-height: 90dvh;
             border-radius: 24px !important;
         }
-        /* DIPERBAIKI: .members-list max-height dihapus agar tidak bentrok */
         
         .member-row {
             padding: 12px 16px;
@@ -573,7 +568,6 @@
         .modal-content { 
             border-radius: 20px !important;
         }
-        /* DIPERBAIKI: .members-list max-height dihapus */
 
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
@@ -635,18 +629,13 @@
                                     </li>
                                 <?php else: ?>
                                     <li class="dropdown-header text-center">
-                                        <small class="text-muted">Pilih Login</small>
+                                        <small class="text-muted">Akses Portal</small>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <a class="dropdown-item fw-semibold" href="<?php echo e(route('login')); ?>">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Admin
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="<?php echo e(route('login.siswa')); ?>">
-                                            <i class="fas fa-user-graduate me-2" style="color: var(--primary);"></i> Login Siswa
+                                        
+                                        <a class="dropdown-item fw-semibold text-center" href="<?php echo e(route('login')); ?>">
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
                                         </a>
                                     </li>
                                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -722,7 +711,7 @@
                         </div>
                     </div>
 
-                    <!-- Simple Modal (DIPERBAIKI: Ditambahkan class modal-dialog-scrollable) -->
+                    <!-- Simple Modal -->
                     <div class="modal fade" id="modalAnggota<?php echo e($schedule->id); ?>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
@@ -819,15 +808,17 @@
                         <li><a href="<?php echo e(route('landing.docs')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Dokumentasi</a></li>
                     </ul>
                 </div>
+                
+                
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
                         <li><a href="<?php echo e(route('landing.medicines')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Obat</a></li>
                         <li><a href="<?php echo e(route('landing.health-info')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Informasi Kesehatan</a></li>
                         <li><a href="<?php echo e(route('landing.schedule')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Jadwal Petugas</a></li>
-                        <li><a href="<?php echo e(auth()->check() && auth()->user()->hasRole('siswa') ? route('siswa.history') : route('login.siswa')); ?>"><i class="fas fa-chevron-right fa-xs"></i> Riwayat</a></li>
                     </ul>
                 </div>
+
                 <div class="col-lg-3">
                     <h6>Kontak</h6>
                     <ul class="footer-menu">
@@ -898,31 +889,30 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Active Nav Link Scroll
-            const sections = document.querySelectorAll("section[id]");
+            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
+            const currentPath = window.location.pathname;
 
-            window.addEventListener("scroll", function() {
-                let current = "";
-                sections.forEach((section) => {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY >= (sectionTop - 150)) {
-                        current = section.getAttribute("id");
-                    }
-                });
-
-                navLinks.forEach((link) => {
-                    link.classList.remove("active");
-                    const href = link.getAttribute("href");
+            navLinks.forEach((link) => {
+                const href = link.getAttribute("href");
+                if (!href || href === "#" || href === "javascript:void(0)") return;
+                
+                try {
+                    const linkUrl = new URL(href, window.location.origin);
+                    const linkPath = linkUrl.pathname;
                     
-                    if (href === "#" + current) {
-                        link.classList.add("active");
-                    } 
-                    else if ((current === "" || current === "beranda") && (href === "<?php echo e(route('landing')); ?>" || href === "/" || href === window.location.pathname)) {
+                    link.classList.remove("active");
+                    
+                    if (linkPath === currentPath) {
                         link.classList.add("active");
                     }
-                });
-            }, { passive: true });
+                } catch (e) {
+                    if (href === currentPath) {
+                        link.classList.remove("active");
+                        link.classList.add("active");
+                    }
+                }
+            });
         });
     </script>
 </body>

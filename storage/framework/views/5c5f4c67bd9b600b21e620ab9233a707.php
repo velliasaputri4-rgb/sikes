@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ✅ FAVICON & APPLE TOUCH ICON (Konsisten dengan halaman Admin) -->
     <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo sikes navbar.png')); ?>">
     <link rel="apple-touch-icon" href="<?php echo e(asset('images/logo sikes navbar.png')); ?>">
     
@@ -15,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ✅ TEMA MERAH (PMR/UKS) */
             --primary: #ef4444;
             --primary-dark: #991b1b;
             --secondary: #dc2626;
@@ -39,7 +37,6 @@
             color: #ffffff;
             margin: 0;
 
-            /* ✅ BACKGROUND FOTO (Sama persis dengan Admin) dengan Overlay Gelap Netral */
             background: 
                 linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
                 url('/images/login.jpeg');
@@ -49,7 +46,6 @@
             background-attachment: fixed;
         }
 
-        /* ✅ Highlight halus agar background tidak flat */
         body::before {
             content: '';
             position: fixed;
@@ -60,7 +56,6 @@
             pointer-events: none;
         }
 
-        /* ✅ CARD GLASSMORPHISM (SAMA PERSIS DENGAN ADMIN LOGIN) */
         .login-card {
             position: relative;
             z-index: 2;
@@ -141,7 +136,6 @@
         }
         .input-icon .form-control { padding-left: 38px; }
         
-        /* ✅ Input transparan agar menyatu dengan card glassmorphism */
         .form-control {
             border-radius: 11px;
             padding: 10px 13px;
@@ -216,7 +210,6 @@
 
         .mb-3 { margin-bottom: 14px !important; }
 
-        /* ✅ Alert Error transparan agar menyatu dengan card */
         .alert-error {
             background: rgba(254, 226, 226, 0.15);
             backdrop-filter: blur(10px);
@@ -243,14 +236,14 @@
 <body>
 
     <div class="login-card">
-        
         <div class="logo-wrapper">
             <img src="<?php echo e(asset('images/logo sikes navbar.png')); ?>" alt="Logo SIKES">
         </div>
 
         <div class="text-center mb-4">
             <h3 class="login-title mb-1">Cek <span class="gradient-text">Riwayat</span> Kunjungan</h3>
-            <p class="login-subtitle">Masukkan NIS dan Tanggal Lahir untuk melihat riwayat</p>
+            
+            <p class="login-subtitle">Masukkan NIS Anda untuk melihat riwayat kesehatan</p>
         </div>
 
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
@@ -264,6 +257,7 @@
         <form method="POST" action="<?php echo e(route('login.siswa.submit')); ?>">
             <?php echo csrf_field(); ?>
 
+            
             <div class="mb-3">
                 <label for="nis" class="form-label">NIS (Nomor Induk Siswa)</label>
                 <div class="input-icon">
@@ -279,35 +273,6 @@ unset($__errorArgs, $__bag); ?>"
                            name="nis" required autofocus placeholder="Masukkan NIS Anda" value="<?php echo e(old('nis')); ?>">
                 </div>
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nis'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                    <div class="d-block" style="color: #fecaca; font-size: 11.5px; margin-top: 4px; font-weight: 500;">
-                        <i class="fas fa-exclamation-triangle me-1"></i><?php echo e($message); ?>
-
-                    </div>
-                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-            </div>
-
-            <div class="mb-3">
-                <label for="birth_date" class="form-label">Tanggal Lahir</label>
-                <div class="input-icon">
-                    <i class="fas fa-cake-candles"></i>
-                    <input id="birth_date" type="date" class="form-control <?php $__errorArgs = ['birth_date'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                           name="birth_date" required value="<?php echo e(old('birth_date')); ?>">
-                </div>
-                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['birth_date'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }

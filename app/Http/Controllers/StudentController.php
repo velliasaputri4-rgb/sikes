@@ -11,9 +11,10 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
+        // Menggunakan eager loading untuk relasi user dan class
         $query = Student::with(['user', 'class']);
 
-        // Fitur Pencarian
+        // 1. Fitur Pencarian (Nama / NIS)
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -22,9 +23,27 @@ class StudentController extends Controller
             });
         }
 
+        // 2. ✅ FITUR BARU: Filter berdasarkan Kelas (Dropdown)
+        if ($request->filled('class')) {
+            $query->whereHas('class', function($q) use ($request) {
+                // Mencocokkan nama kelas yang dipilih di dropdown dengan kolom 'name' di tabel class_rooms
+                $q->where('name', $request->class);
+            });
+        }
+
+        // 3. ✅ FITUR BARU: Filter Tanggal Lahir Kosong
+        if ($request->filled('birth_date_missing')) {
+            $query->whereNull('birth_date');
+        }
+
+        // Paginate dengan withQueryString() agar parameter filter (search, class, dll) tetap ada saat pindah halaman
         $students = $query->latest()->paginate(10)->withQueryString();
         $classes = ClassRoom::orderBy('name')->get();
 
+        // ⚠️ CATATAN: 
+        // Di Blade sebelumnya Anda menggunakan 'petugas.students.index', 
+        // pastikan view di sini disesuaikan ('admin.students.index' atau 'petugas.students.index') 
+        // sesuai dengan route yang aktif.
         return view('admin.students.index', compact('students', 'classes'));
     }
 
@@ -87,7 +106,6 @@ class StudentController extends Controller
             $user->assignRole('siswa');
 
             // 5. Buat Data Siswa
-            // ✅ PERBAIKAN: Gunakan 'classroom_id' bukan 'class_id'
             Student::create([
                 'user_id' => $user->id,
                 'classroom_id' => $class->id,
@@ -155,7 +173,6 @@ class StudentController extends Controller
             }
 
             // 4. Update Data Siswa
-            // ✅ PERBAIKAN: Gunakan 'classroom_id' bukan 'class_id'
             $student->update([
                 'nis' => $validated['nis'],
                 'full_name' => $validated['full_name'],

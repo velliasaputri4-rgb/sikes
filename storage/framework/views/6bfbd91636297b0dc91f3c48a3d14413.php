@@ -145,7 +145,7 @@
             
             <!-- 1. HERO SECTION -->
             <div class="tab-pane fade show active" id="hero" role="tabpanel">
-                <div class="card border-0 shadow-sm">
+                <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header card-header-red fw-bold">Bagian Hero (Tampilan Utama Atas)</div>
                     <div class="card-body">
                         <div class="row g-3">
@@ -162,15 +162,99 @@
                                 <label class="form-label fw-semibold">Subjudul</label>
                                 <textarea name="hero_subtitle" class="form-control" rows="2"><?php echo e($settings['hero_subtitle'] ?? 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.'); ?></textarea>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Teks Tombol 1 (Kiri)</label>
-                                <input type="text" name="hero_btn_1_text" class="form-control" value="<?php echo e($settings['hero_btn_1_text'] ?? 'Riwayat Kunjungan'); ?>">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Teks Tombol 2 (Kanan)</label>
+                            
+                            
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Teks Tombol</label>
                                 <input type="text" name="hero_btn_2_text" class="form-control" value="<?php echo e($settings['hero_btn_2_text'] ?? 'Pelajari Lebih Lanjut'); ?>">
+                                <small class="text-muted">Teks yang muncul pada tombol utama di bagian Hero.</small>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ✅ Bagian Edit Statistik Hero -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header card-header-red fw-bold">Bagian Statistik (Bawah Hero)</div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Atur teks label dan deskripsi modal untuk 4 kartu statistik yang muncul di bagian bawah Hero. (Nilai angka tetap diambil secara otomatis dari database).</p>
+                        
+                        <!-- Stat 1 -->
+                        <div class="border rounded p-3 mb-3" style="background: #fef2f2; border-color: #fee2e2;">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-users me-2" style="color: #ef4444;"></i>Statistik 1: Siswa</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Label Utama</label>
+                                    <input type="text" name="hero_stat_1_label" class="form-control" value="<?php echo e($settings['hero_stat_1_label'] ?? 'Siswa Terdaftar'); ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Catatan (Note)</label>
+                                    <input type="text" name="hero_stat_1_note" class="form-control" value="<?php echo e($settings['hero_stat_1_note'] ?? 'siswa ESKASABA'); ?>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Teks Deskripsi Modal</label>
+                                    <input type="text" name="hero_stat_1_modal_desc" class="form-control" value="<?php echo e($settings['hero_stat_1_modal_desc'] ?? 'terdaftar di sistem SIKES untuk tahun ajaran 2025/2026. Data ini mencakup seluruh siswa aktif yang memiliki rekam medis di UKS.'); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat 2 -->
+                        <div class="border rounded p-3 mb-3" style="background: #fef2f2; border-color: #fee2e2;">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-clipboard-check me-2" style="color: #ef4444;"></i>Statistik 2: Kunjungan Hari Ini</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Label Utama</label>
+                                    <input type="text" name="hero_stat_2_label" class="form-control" value="<?php echo e($settings['hero_stat_2_label'] ?? 'Kunjungan Hari Ini'); ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Catatan (Note)</label>
+                                    <input type="text" name="hero_stat_2_note" class="form-control" value="<?php echo e($settings['hero_stat_2_note'] ?? 'Update: Hari Ini'); ?>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Teks Deskripsi Modal</label>
+                                    <input type="text" name="hero_stat_2_modal_desc" class="form-control" value="<?php echo e($settings['hero_stat_2_modal_desc'] ?? 'kunjungan siswa ke UKS hari ini. Data diperbarui secara real-time setiap ada pemeriksaan baru.'); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat 3 -->
+                        <div class="border rounded p-3 mb-3" style="background: #fef2f2; border-color: #fee2e2;">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-heart-pulse me-2" style="color: #ef4444;"></i>Statistik 3: Total Kunjungan</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Label Utama</label>
+                                    <input type="text" name="hero_stat_3_label" class="form-control" value="<?php echo e($settings['hero_stat_3_label'] ?? 'Total Kunjungan'); ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Catatan (Note)</label>
+                                    <input type="text" name="hero_stat_3_note" class="form-control" value="<?php echo e($settings['hero_stat_3_note'] ?? 'Bulan Ini'); ?>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Teks Deskripsi Modal</label>
+                                    <input type="text" name="hero_stat_3_modal_desc" class="form-control" value="<?php echo e($settings['hero_stat_3_modal_desc'] ?? 'kunjungan siswa ke UKS sepanjang bulan ini. Statistik ini membantu memantau kesehatan siswa di sekolah.'); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat 4 -->
+                        <div class="border rounded p-3 mb-3" style="background: #fef2f2; border-color: #fee2e2;">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-hand-holding-heart me-2" style="color: #ef4444;"></i>Statistik 4: Anggota PMR</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Label Utama</label>
+                                    <input type="text" name="hero_stat_4_label" class="form-control" value="<?php echo e($settings['hero_stat_4_label'] ?? 'Anggota PMR'); ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Catatan (Note)</label>
+                                    <input type="text" name="hero_stat_4_note" class="form-control" value="<?php echo e($settings['hero_stat_4_note'] ?? 'Palang Merah Remaja'); ?>">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Teks Deskripsi Modal</label>
+                                    <input type="text" name="hero_stat_4_modal_desc" class="form-control" value="<?php echo e($settings['hero_stat_4_modal_desc'] ?? 'anggota Palang Merah Remaja (PMR) yang aktif di UKS SMK Negeri 1 Bangsri. Anggota PMR terlatih dalam pertolongan pertama dan siap membantu sesama siswa.'); ?>">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -378,7 +462,6 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="row g-3">
-                                            
                                             <div class="col-12">
                                                 <label class="form-label small fw-bold">Judul Layanan</label>
                                                 <input type="text" name="services[<?php echo e($index); ?>][title]" class="form-control" value="<?php echo e($service['title'] ?? ''); ?>">
