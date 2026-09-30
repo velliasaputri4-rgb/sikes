@@ -351,12 +351,6 @@
                 <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
             </button>
         </form>
-
-        {{-- Catatan siswa --}}
-        <div class="siswa-note text-center">
-            <i class="fas fa-info-circle me-1"></i>
-            Siswa? Lihat riwayat melalui <a href="{{ route('login.siswa') }}">form khusus siswa</a>
-        </div>
     </div>
 
     <script>

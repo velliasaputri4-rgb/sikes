@@ -224,7 +224,7 @@
                                     <li>
                                         {{-- ✅ PERUBAHAN: Menu login sekarang mengarah ke Login Admin --}}
                                         <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Petugas UKS
                                         </a>
                                     </li>
                                 @endauth

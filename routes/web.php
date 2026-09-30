@@ -126,6 +126,78 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('admin
 Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefix('petugas')->name('petugas.')->group(function () {
     Route::get('/', [DashboardController::class, 'petugasIndex'])->name('dashboard');
     
+    // ✅ ROUTE BARU: Pencarian Riwayat Siswa oleh Petugas (HANYA TAMPILKAN BULAN YANG ADA KUNJUNGAN)
+    Route::get('students/history', function (\Illuminate\Http\Request $request) {
+        $search = $request->input('nis'); 
+
+        if (!$search) {
+            return redirect()->route('petugas.dashboard')->with('error', 'Silakan masukkan NIS atau Nama Siswa.');
+        }
+
+        // 1. Cari siswa berdasarkan NIS (prioritas) atau Nama
+        $student = \App\Models\Student::with('class')
+            ->where('nis', $search)
+            ->orWhere('full_name', 'like', '%' . $search . '%')
+            ->first();
+
+        if (!$student) {
+            return redirect()->route('petugas.dashboard')->with('error', 'Siswa dengan NIS/Nama "' . $search . '" tidak ditemukan.');
+        }
+
+        // 2. Ambil riwayat pemeriksaan siswa ini
+        $examinations = \App\Models\Examination::where('student_id', $student->id)
+            ->latest('examination_date')
+            ->paginate(10);
+
+        // 3. Hitung Statistik Kunjungan PER BULAN (HANYA BULAN YANG ADA KUNJUNGAN)
+        $monthlyStats = [];
+        $totalVisitsAllTime = 0;
+        $bulanIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        // Ambil semua kunjungan dan kelompokkan per bulan
+        $allExams = \App\Models\Examination::where('student_id', $student->id)
+            ->orderBy('examination_date', 'desc')
+            ->get();
+        
+        // Group by Year-Month
+        $groupedExams = $allExams->groupBy(function($exam) {
+            return \Carbon\Carbon::parse($exam->examination_date)->format('Y-m');
+        });
+        
+        // Buat array statistik HANYA untuk bulan yang ada kunjungan
+        foreach ($groupedExams as $yearMonth => $exams) {
+            $date = \Carbon\Carbon::parse($yearMonth . '-01');
+            $monthName = $bulanIndo[$date->month - 1] . ' ' . $date->year; // Contoh: "September 2026"
+            
+            $count = $exams->count();
+            $totalVisitsAllTime += $count;
+            
+            $monthlyStats[] = [
+                'period' => $monthName,
+                'count' => $count,
+                'year' => $date->year,
+                'month' => $date->month
+            ];
+        }
+        
+        // Urutkan dari yang terbaru
+        $monthlyStats = collect($monthlyStats)->sortByDesc(function($stat) {
+            return $stat['year'] * 100 + $stat['month'];
+        })->values()->toArray();
+
+        // Hitung rata-rata (jika ada data)
+        $averagePerMonth = count($monthlyStats) > 0 ? round($totalVisitsAllTime / count($monthlyStats), 1) : 0;
+
+        // 4. Return ke view khusus petugas
+        return view('petugas.students.history', compact(
+            'student', 
+            'examinations', 
+            'totalVisitsAllTime', 
+            'averagePerMonth', 
+            'monthlyStats'
+        ));
+    })->name('students.history');
+    
     Route::resource('users', \App\Http\Controllers\UserController::class);
 
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
@@ -304,6 +376,10 @@ Route::middleware(['auth', 'verified', 'role:petugas|admin|super-admin'])->prefi
 
     Route::resource('schedules', \App\Http\Controllers\ScheduleController::class);
     Route::resource('piket', \App\Http\Controllers\ScheduleController::class);
+    
+    // ✅ BARU: Route untuk toggle status Aktif/Nonaktif via AJAX
+    Route::post('piket/{id}/toggle-status', [\App\Http\Controllers\ScheduleController::class, 'toggleStatus'])->name('piket.toggle-status');
+    
     Route::resource('items', \App\Http\Controllers\ItemController::class);
     
     Route::get('borrowings', function () {

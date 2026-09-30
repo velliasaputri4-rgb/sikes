@@ -11,14 +11,12 @@
             --primary-dark: #991b1b;
         }
         
-        /* ✅ PERBAIKAN MODAL: Pastikan muncul di atas sidebar */
         .modal { z-index: 1060 !important; }
         .modal-backdrop { z-index: 1050 !important; }
         
         .page-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
         .page-head h5 { font-weight: 800; color: var(--ink); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; }
         
-        /* ✅ PERUBAHAN: Gradient MERAH, bukan biru */
         .page-head h5 .head-icon { 
             width: 38px; height: 38px; border-radius: 10px; 
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); 
@@ -42,7 +40,6 @@
         }
         .table-hover tbody tr:hover { background-color: #fef2f2 !important; }
         
-        /* ✅ Badge Grup tema merah */
         .badge-group { 
             background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); 
             color: #991b1b; padding: 6px 12px; border-radius: 8px; 
@@ -50,7 +47,62 @@
             border: 1px solid #fecaca;
         }
 
-        /* Tombol Aksi Custom */
+        /* ✅ TOGGLE SWITCH DI TABEL */
+        .toggle-switch-table {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle-switch-table input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider-table {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+        .toggle-slider-table:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-switch-table input:checked + .toggle-slider-table {
+            background-color: #10b981;
+        }
+        .toggle-switch-table input:checked + .toggle-slider-table:before {
+            transform: translateX(24px);
+        }
+        .toggle-switch-table input:disabled + .toggle-slider-table {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+            display: block;
+            text-align: center;
+        }
+        .status-active { color: #059669; }
+        .status-inactive { color: #64748b; }
+
         .btn-aksi-edit {
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white; border: none; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
@@ -65,7 +117,6 @@
         }
         .btn-aksi-hapus:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); color: white; }
 
-        /* Member input styling */
         .member-input {
             background: #fef2f2 !important;
             border: 1px solid #fee2e2;
@@ -80,7 +131,6 @@
             box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
         }
 
-        /* Alerts Custom */
         .alert-success-custom {
             background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
             border-left: 4px solid #10b981; border-radius: 10px; padding: 14px 18px;
@@ -90,11 +140,25 @@
             border-left: 4px solid #ef4444; border-radius: 10px; padding: 14px 18px;
         }
 
-        /* ✅ KUNCI VISIBILITAS: Default (Desktop) */
         .mobile-only { display: none !important; }
         .desktop-only { display: inline-flex !important; }
 
-        /* ✅ MOBILE CARD LAYOUT */
+        /* Loading spinner untuk toggle */
+        .toggle-loading {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 5px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .mobile-only { display: block !important; }
             .desktop-only { display: none !important; }
@@ -144,6 +208,14 @@
                 width: 100%;
             }
             .mobile-actions .btn { flex: 1; justify-content: center; }
+            
+            /* Toggle di mobile */
+            .mobile-toggle-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+            }
         }
     </style>
 
@@ -154,7 +226,7 @@
                     <span class="head-icon"><i class="fas fa-users-cog"></i></span> 
                     Grup Petugas Piket
                 </h5>
-                <small class="text-muted">Kelola grup dan anggota petugas piket UKS</small>
+                <small class="text-muted">Kelola grup dan aktifkan jadwal piket UKS</small>
             </div>
             <button type="button" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modalTambah">
                 <i class="fas fa-plus me-1"></i> <span class="d-none d-sm-inline">Tambah Grup</span><span class="d-sm-none">Tambah</span>
@@ -187,7 +259,7 @@
                         <th>Nama Grup</th>
                         <th>Deskripsi</th>
                         <th>Jumlah Anggota</th>
-                        <th>Status</th>
+                        <th style="width: 120px;" class="text-center">Status Aktif</th>
                         <th style="width: 120px;" class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -223,13 +295,41 @@
                                     @endif
                                 </div>
                             </td>
-                            <td data-label="Status">
-                                @if($schedule->is_active)
-                                    <span class="badge" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 500;">Aktif</span>
-                                @else
-                                    <span class="badge" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-weight: 500;">Nonaktif</span>
-                                @endif
+                            
+                            {{-- ✅ KOLOM STATUS DENGAN TOGGLE SWITCH --}}
+                            <td data-label="Status Aktif" class="text-center">
+                                <div class="desktop-only" style="flex-direction: column; align-items: center;">
+                                    <label class="toggle-switch-table">
+                                        <input type="checkbox" 
+                                               class="toggle-status" 
+                                               data-id="{{ $schedule->id }}" 
+                                               {{ $schedule->is_active ? 'checked' : '' }}
+                                               onchange="toggleStatus(this)">
+                                        <span class="toggle-slider-table"></span>
+                                    </label>
+                                    <span class="status-text {{ $schedule->is_active ? 'status-active' : 'status-inactive' }}">
+                                        {{ $schedule->is_active ? 'Aktif' : 'Nonaktif' }}
+                                    </span>
+                                    <div class="toggle-loading"></div>
+                                </div>
+                                
+                                <div class="mobile-only">
+                                    <div class="mobile-toggle-container">
+                                        <label class="toggle-switch-table">
+                                            <input type="checkbox" 
+                                                   class="toggle-status" 
+                                                   data-id="{{ $schedule->id }}" 
+                                                   {{ $schedule->is_active ? 'checked' : '' }}
+                                                   onchange="toggleStatus(this)">
+                                            <span class="toggle-slider-table"></span>
+                                        </label>
+                                        <span class="status-text {{ $schedule->is_active ? 'status-active' : 'status-inactive' }}" style="margin: 0;">
+                                            {{ $schedule->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </div>
+                                </div>
                             </td>
+                            
                             <td data-label="Aksi" class="text-center">
                                 <div class="desktop-only">
                                     <button type="button" class="btn btn-sm btn-aksi-edit me-1" style="width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;" onclick='editSchedule({{ json_encode($schedule) }})' title="Edit">
@@ -365,6 +465,80 @@
     </div>
 
     <script>
+        // ✅ FUNGSI TOGGLE STATUS AKTIF/NONAKTIF
+        function toggleStatus(checkbox) {
+            const id = checkbox.dataset.id;
+            const isActive = checkbox.checked ? 1 : 0;
+            const row = checkbox.closest('tr');
+            const statusText = row.querySelector('.status-text');
+            const loading = row.querySelector('.toggle-loading');
+            
+            // Tampilkan loading dan disable checkbox
+            loading.style.display = 'block';
+            checkbox.disabled = true;
+            
+            // Kirim request ke server
+            fetch(`/petugas/piket/${id}/toggle-status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ is_active: isActive })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update text status
+                    if (isActive) {
+                        statusText.textContent = 'Aktif';
+                        statusText.className = 'status-text status-active';
+                    } else {
+                        statusText.textContent = 'Nonaktif';
+                        statusText.className = 'status-text status-inactive';
+                    }
+                    
+                    // Tampilkan notifikasi sukses
+                    showNotification('success', `Status berhasil diubah menjadi ${isActive ? 'Aktif' : 'Nonaktif'}`);
+                } else {
+                    // Kembalikan checkbox ke posisi semula jika gagal
+                    checkbox.checked = !checkbox.checked;
+                    showNotification('error', data.message || 'Gagal mengubah status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                checkbox.checked = !checkbox.checked;
+                showNotification('error', 'Terjadi kesalahan pada server');
+            })
+            .finally(() => {
+                loading.style.display = 'none';
+                checkbox.disabled = false;
+            });
+        }
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(type, message) {
+            const alertClass = type === 'success' ? 'alert-success-custom' : 'alert-danger-custom';
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `${alertClass} alert-dismissible fade show mb-3`;
+            alertDiv.innerHTML = `
+                <i class="fas ${icon} me-2"></i>${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const contentCard = document.querySelector('.content-card');
+            contentCard.insertBefore(alertDiv, contentCard.firstChild);
+            
+            // Auto dismiss setelah 5 detik
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
         let editMemberCount = 0;
 
         function addMember() {

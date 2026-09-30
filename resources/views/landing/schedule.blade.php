@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
     :root {
-        /* ✅ TEMA MERAH (PMR/UKS) */
         --primary: #ef4444;
         --primary-dark: #991b1b;
         --secondary: #dc2626;
@@ -28,17 +27,11 @@
         --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         --shadow-sm: 0 4px 20px rgba(153, 27, 27, 0.08);
         --shadow-md: 0 10px 40px rgba(153, 27, 27, 0.12);
-        --shadow-lg: 0 25px 60px rgba(153, 27, 27, 0.18);
         --radius: 18px;
     }
 
     * { -webkit-font-smoothing: antialiased; }
-
-    html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 90px;
-    }
-
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
         font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
         background: #fafbfc;
@@ -62,13 +55,8 @@
     .navbar-brand img { max-height: 55px; width: auto; transition: transform 0.3s; }
     .navbar-brand:hover img { transform: scale(1.05); }
     .nav-link {
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--slate) !important;
-        padding: 10px 18px !important;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        letter-spacing: 0.2px;
+        font-weight: 600; font-size: 0.95rem; color: var(--slate) !important;
+        padding: 10px 18px !important; border-radius: 10px; transition: all 0.3s ease;
     }
     .nav-link:hover {
         color: var(--primary-dark) !important;
@@ -76,39 +64,21 @@
         transform: translateY(-1px);
     }
     .nav-link.active {
-        color: white !important;
-        background: var(--gradient-primary);
+        color: white !important; background: var(--gradient-primary);
         box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25);
     }
-
     .user-btn {
-        background: var(--gradient-primary);
-        color: white !important;
-        border: none;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3);
-        transition: all 0.3s;
+        background: var(--gradient-primary); color: white !important; border: none;
+        width: 44px; height: 44px; border-radius: 12px; display: flex;
+        align-items: center; justify-content: center;
+        box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3); transition: all 0.3s;
     }
     .user-btn:hover { transform: translateY(-2px) rotate(5deg); box-shadow: 0 10px 28px rgba(153, 27, 27, 0.4); }
-
     .dropdown-menu {
-        border: none;
-        border-radius: 14px;
-        box-shadow: 0 20px 50px rgba(15,23,42,0.15);
-        padding: 10px;
-        margin-top: 10px;
+        border: none; border-radius: 14px; box-shadow: 0 20px 50px rgba(15,23,42,0.15);
+        padding: 10px; margin-top: 10px;
     }
-    .dropdown-item {
-        border-radius: 8px;
-        padding: 10px 14px;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
+    .dropdown-item { border-radius: 8px; padding: 10px 14px; font-weight: 500; transition: all 0.2s; }
     .dropdown-item:hover {
         background: linear-gradient(135deg, rgba(153, 27, 27, 0.08), rgba(239, 68, 68, 0.08));
         transform: translateX(4px);
@@ -116,102 +86,84 @@
 
     /* ============ PAGE HEADER ============ */
     .page-header {
-        position: relative;
-        padding: 160px 0 100px;
-        text-align: center;
-        overflow: hidden;
-        background-color: #0f172a; /* Fallback */
+        position: relative; padding: 160px 0 100px; text-align: center; overflow: hidden;
+        background-color: #0f172a;
     }
     .page-header-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 18px;
-        background: rgba(255, 255, 255, 0.15);
-        color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        backdrop-filter: blur(4px);
+        display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.15); color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px;
+        font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; backdrop-filter: blur(4px);
     }
     .page-header-badge .pulse-dot {
-        width: 8px; height: 8px;
-        background: var(--emerald);
-        border-radius: 50%;
+        width: 8px; height: 8px; background: var(--emerald); border-radius: 50%;
         animation: pulse 2s infinite;
     }
     @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.4); } }
-
     .page-title {
-        font-family: 'Poppins', sans-serif;
-        font-size: clamp(2rem, 4.5vw, 3rem);
-        font-weight: 700;
-        color: #ffffff;
-        line-height: 1.2;
-        margin-bottom: 16px;
-        letter-spacing: -1px;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4.5vw, 3rem);
+        font-weight: 700; color: #ffffff; line-height: 1.2; margin-bottom: 16px;
+        letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .page-title .gradient-text {
         background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .page-subtitle {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1.05rem;
-        max-width: 580px;
-        margin: 0 auto;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        color: rgba(255, 255, 255, 0.9); font-size: 1.05rem; max-width: 580px;
+        margin: 0 auto; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
 
     .section { padding: 70px 0 90px; }
     .section-label {
-        display: inline-block;
-        padding: 6px 16px;
-        background: rgba(239, 68, 68, 0.1);
-        color: var(--pro);
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 12px;
+        display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.1);
+        color: var(--pro); border-radius: 50px; font-size: 0.8rem; font-weight: 700;
+        letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;
     }
     .section-title {
-        font-family: 'Poppins', sans-serif;
-        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 12px;
-        letter-spacing: -0.5px;
-        line-height: 1.2;
+        font-family: 'Poppins', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+        font-weight: 700; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.5px; line-height: 1.2;
     }
-    .section-subtitle {
-        color: var(--slate);
-        font-size: 1rem;
-        max-width: 550px;
-    }
+    .section-subtitle { color: var(--slate); font-size: 1rem; max-width: 550px; }
 
+    /* ===== SCHEDULE CARD ===== */
     .schedule-card {
         background: white;
         border-radius: var(--radius);
-        padding: 22px;
+        padding: 24px;
         box-shadow: 0 4px 20px rgba(153, 27, 27, 0.06);
         transition: all 0.3s ease;
         height: 100%;
         border: 1px solid rgba(153, 27, 27, 0.08);
         display: flex;
-        align-items: center;
-        gap: 18px;
+        flex-direction: column;
+        gap: 16px;
+        position: relative;
     }
     .schedule-card:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-md);
         border-color: rgba(153, 27, 27, 0.15);
+    }
+
+    /* ✅ Style untuk kartu yang Nonaktif (sedikit redup) */
+    .schedule-card.inactive {
+        opacity: 0.7;
+        background: #f8fafc;
+        border-color: #e2e8f0;
+    }
+    .schedule-card.inactive .schedule-num {
+        background: #f1f5f9;
+        color: #64748b;
+        border-color: #cbd5e1;
+    }
+
+    /* ✅ CARD HEADER - Untuk nomor dan badge */
+    .schedule-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
     }
 
     .schedule-num {
@@ -227,348 +179,208 @@
         flex-shrink: 0;
     }
 
-    .schedule-info {
-        flex: 1;
-        min-width: 0;
-    }
-    .schedule-info h5 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 4px;
-        font-size: 1.05rem;
-        line-height: 1.3;
-    }
-    .schedule-meta {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--slate);
-        font-size: 0.82rem;
-        font-weight: 500;
-    }
-    .schedule-meta span {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .schedule-meta i {
-        color: var(--pro);
+    /* ✅ BADGE AKTIF - Diposisikan di samping nomor */
+    .active-badge {
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        color: #047857;
+        border: 1px solid #a7f3d0;
+        padding: 8px 14px;
+        border-radius: 50px;
         font-size: 0.75rem;
-    }
-    .meta-divider {
-        width: 3px; height: 3px;
-        background: #cbd5e1;
-        border-radius: 50%;
-    }
-
-    .btn-view {
-        background: var(--gradient-primary);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 16px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        transition: all 0.3s;
+        font-weight: 700;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        box-shadow: 0 4px 12px rgba(153, 27, 27, 0.25);
-        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+        white-space: nowrap;
+    }
+    .active-badge i {
+        font-size: 0.7rem;
+        color: #10b981;
+        animation: pulse-active 2s infinite;
+    }
+    @keyframes pulse-active {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    .schedule-info { flex: 1; min-width: 0; }
+    .schedule-info h5 {
+        font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink);
+        margin-bottom: 8px; font-size: 1.1rem; line-height: 1.3;
+    }
+    .schedule-meta {
+        display: flex; align-items: center; gap: 12px;
+        color: var(--slate); font-size: 0.85rem; font-weight: 500; flex-wrap: wrap;
+    }
+    .schedule-meta span { display: inline-flex; align-items: center; gap: 5px; }
+    .schedule-meta i { color: var(--pro); font-size: 0.8rem; }
+    .meta-divider { width: 3px; height: 3px; background: #cbd5e1; border-radius: 50%; }
+    
+    .status-inactive {
+        color: #94a3b8;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+    }
+    .status-inactive i {
+        color: #94a3b8;
+        font-size: 0.75rem;
+    }
+
+    .schedule-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-view {
+        background: var(--gradient-primary); color: white; border: none;
+        border-radius: 10px; padding: 10px 20px; font-weight: 600; font-size: 0.85rem;
+        transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+        box-shadow: 0 4px 12px rgba(153, 27, 27, 0.25); flex-shrink: 0;
+        margin-left: auto;
     }
     .btn-view:hover {
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(153, 27, 27, 0.4);
-        filter: brightness(1.08);
+        color: white; transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(153, 27, 27, 0.4); filter: brightness(1.08);
     }
 
     /* Modal Styles */
     .modal-content {
-        border: none;
-        border-radius: var(--radius);
-        box-shadow: 0 30px 80px rgba(15,23,42,0.2);
-        max-height: 85vh;
-        max-height: 85dvh;
-        display: flex;
-        flex-direction: column;
+        border: none; border-radius: var(--radius); box-shadow: 0 30px 80px rgba(15,23,42,0.2);
+        max-height: 85vh; max-height: 85dvh; display: flex; flex-direction: column;
     }
-    
     .modal-header-simple {
-        background: white;
-        padding: 20px 24px;
-        border-bottom: 1px solid #f1f5f9;
-        flex-shrink: 0;
+        background: white; padding: 20px 24px; border-bottom: 1px solid #f1f5f9; flex-shrink: 0;
     }
-    
     .modal-title-simple {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        color: var(--ink);
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink);
+        font-size: 1.1rem; display: flex; align-items: center; gap: 10px;
     }
     .modal-title-simple .title-icon {
-        width: 36px; height: 36px;
-        background: var(--gradient-primary);
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        color: white;
-        font-size: 0.95rem;
+        width: 36px; height: 36px; background: var(--gradient-primary);
+        border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        color: white; font-size: 0.95rem;
     }
-    .modal-title-simple small {
-        color: var(--muted);
-        font-weight: 500;
-        font-size: 0.78rem;
-        display: block;
-        margin-top: 2px;
-    }
+    .modal-title-simple small { color: var(--muted); font-weight: 500; font-size: 0.78rem; display: block; margin-top: 2px; }
     .btn-close-simple {
-        background: #f1f5f9;
-        border: none;
-        width: 36px; height: 36px;
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--slate);
-        transition: all 0.2s;
+        background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 10px;
+        display: flex; align-items: center; justify-content: center; color: var(--slate); transition: all 0.2s;
     }
-    .btn-close-simple:hover {
-        background: #fee2e2;
-        color: var(--rose);
-    }
-
-    .modal-body { 
-        padding: 0; 
-        overflow-y: auto;
-        flex: 1;
-        -webkit-overflow-scrolling: touch;
-    }
-    
+    .btn-close-simple:hover { background: #fee2e2; color: var(--rose); }
+    .modal-body { padding: 0; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
     .member-row {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 24px;
-        border-bottom: 1px solid #f8fafc;
-        transition: background 0.2s;
+        display: flex; align-items: center; gap: 14px; padding: 14px 24px;
+        border-bottom: 1px solid #f8fafc; transition: background 0.2s;
     }
     .member-row:last-child { border-bottom: none; }
     .member-row:hover { background: #fafbfc; }
-
     .member-num {
-        width: 32px; height: 32px;
-        background: #f1f5f9;
-        color: var(--slate);
-        border-radius: 8px;
-        display: flex; align-items: center; justify-content: center;
-        font-weight: 700;
-        font-size: 0.8rem;
-        flex-shrink: 0;
-        font-family: 'Poppins', sans-serif;
+        width: 32px; height: 32px; background: #f1f5f9; color: var(--slate);
+        border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.8rem; flex-shrink: 0; font-family: 'Poppins', sans-serif;
     }
-    .member-row.has-phone .member-num {
-        background: var(--gradient-primary);
-        color: white;
-    }
+    .member-row.has-phone .member-num { background: var(--gradient-primary); color: white; }
     .member-name {
-        flex: 1;
-        font-weight: 600;
-        color: var(--ink);
-        font-size: 0.95rem;
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        flex: 1; font-weight: 600; color: var(--ink); font-size: 0.95rem;
+        min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-    .member-name .phone-label {
-        display: block;
-        color: var(--muted);
-        font-size: 0.78rem;
-        font-weight: 500;
-        margin-top: 2px;
-    }
+    .member-name .phone-label { display: block; color: var(--muted); font-size: 0.78rem; font-weight: 500; margin-top: 2px; }
     .wa-btn {
-        background: #d1fae5;
-        color: #047857;
-        border: none;
-        border-radius: 8px;
-        padding: 7px 12px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        transition: all 0.2s;
-        flex-shrink: 0;
+        background: #d1fae5; color: #047857; border: none; border-radius: 8px;
+        padding: 7px 12px; font-size: 0.8rem; font-weight: 700; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; flex-shrink: 0;
     }
-    .wa-btn:hover {
-        background: #10b981;
-        color: white;
-        transform: translateY(-1px);
-    }
-
+    .wa-btn:hover { background: #10b981; color: white; transform: translateY(-1px); }
     .modal-note {
-        padding: 14px 24px;
-        background: linear-gradient(135deg, #fef3c7, #fed7aa);
-        border-top: 1px solid #f1f5f9;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        font-size: 0.82rem;
-        color: #92400e;
-        flex-shrink: 0;
+        padding: 14px 24px; background: linear-gradient(135deg, #fef3c7, #fed7aa);
+        border-top: 1px solid #f1f5f9; display: flex; align-items: flex-start; gap: 10px;
+        font-size: 0.82rem; color: #92400e; flex-shrink: 0;
     }
-    .modal-note i {
-        color: var(--amber);
-        margin-top: 2px;
-        flex-shrink: 0;
-    }
+    .modal-note i { color: var(--amber); margin-top: 2px; flex-shrink: 0; }
     .modal-note strong { color: var(--rose); }
 
     .empty-state {
-        text-align: center;
-        padding: 80px 20px;
-        background: white;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
+        text-align: center; padding: 80px 20px; background: white;
+        border-radius: var(--radius); box-shadow: var(--shadow-sm);
     }
     .empty-icon-wrap {
-        width: 100px; height: 100px;
-        background: linear-gradient(135deg, #fef2f2, #fee2e2);
-        border-radius: 26px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        position: relative;
+        width: 100px; height: 100px; background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border-radius: 26px; display: inline-flex; align-items: center; justify-content: center;
+        margin-bottom: 20px; position: relative;
     }
     .empty-icon-wrap i {
-        font-size: 2.8rem;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-size: 2.8rem; background: var(--gradient-primary);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .empty-state h5 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 8px;
-    }
-    .empty-state p {
-        color: var(--slate);
-        max-width: 400px;
-        margin: 0 auto;
-    }
+    .empty-state h5 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .empty-state p { color: var(--slate); max-width: 400px; margin: 0 auto; }
 
     .scroll-top {
-        position: fixed;
-        bottom: 30px; right: 30px;
-        width: 50px; height: 50px;
-        background: var(--gradient-primary);
-        color: white;
-        border: none;
-        border-radius: 14px;
+        position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+        background: var(--gradient-primary); color: white; border: none; border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35);
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(20px);
-        transition: all 0.3s;
-        z-index: 999;
+        box-shadow: 0 10px 30px rgba(153, 27, 27, 0.35); cursor: pointer;
+        opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.3s; z-index: 999;
     }
     .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
     .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5); }
 
     /* ===== FOOTER ===== */
     footer {
-        background: var(--gradient-dark);
-        color: white;
-        padding: 80px 0 30px;
-        position: relative;
-        overflow: hidden;
+        background: var(--gradient-dark); color: white; padding: 80px 0 30px;
+        position: relative; overflow: hidden;
     }
     footer::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image:
-            radial-gradient(circle at 10% 20%, rgba(153, 27, 27, 0.25) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.15) 0%, transparent 40%);
+        content: ''; position: absolute; inset: 0;
+        background-image: radial-gradient(circle at 10% 20%, rgba(153, 27, 27, 0.25) 0%, transparent 40%),
+                          radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.15) 0%, transparent 40%);
     }
     footer .container { position: relative; z-index: 1; }
     .footer-logo {
-        display: inline-flex; align-items: center; gap: 12px;
-        margin-bottom: 20px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700; font-size: 1.4rem;
+        display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px;
+        font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.4rem;
     }
     footer h6 { font-weight: 700; margin-bottom: 22px; color: white; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
     .footer-menu { list-style: none; padding: 0; margin: 0; }
     .footer-menu li { margin-bottom: 12px; }
     .footer-menu a {
-        color: rgba(255,255,255,0.7);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.95rem;
-        transition: all 0.3s;
-        display: inline-flex; align-items: center; gap: 8px;
+        color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; font-size: 0.95rem;
+        transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
     }
     .footer-menu a:hover { color: #fca5a5; transform: translateX(6px); }
     .footer-bottom {
-        border-top: 1px solid rgba(255,255,255,0.1);
-        margin-top: 50px;
-        padding-top: 25px;
-        text-align: center;
-        color: rgba(255,255,255,0.5);
-        font-size: 0.9rem;
+        border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 25px;
+        text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem;
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
-        
-        .schedule-card { padding: 18px; flex-wrap: wrap; }
+        .schedule-card { padding: 20px; }
         .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
-        .btn-view { width: 100%; justify-content: center; margin-top: 8px; }
-
-        .modal-dialog {
-            margin-bottom: 16px;
-        }
-        .modal-content {
-            max-height: 90vh;
-            max-height: 90dvh;
-            border-radius: 24px !important;
-        }
-        
-        .member-row {
-            padding: 12px 16px;
-        }
-        .modal-note {
-            padding: 12px 16px;
-            font-size: 0.75rem;
-            border-radius: 0 0 24px 24px;
-        }
-        .modal-header-simple {
-            padding: 16px 20px;
-        }
+        .schedule-card-header { flex-direction: column; align-items: flex-start; }
+        .active-badge { margin-top: 8px; }
+        .schedule-card-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+        .btn-view { width: 100%; justify-content: center; }
+        .modal-dialog { margin-bottom: 16px; }
+        .modal-content { max-height: 90vh; max-height: 90dvh; border-radius: 24px !important; }
+        .member-row { padding: 12px 16px; }
+        .modal-note { padding: 12px 16px; font-size: 0.75rem; border-radius: 0 0 24px 24px; }
+        .modal-header-simple { padding: 16px 20px; }
     }
-    
     @media (max-width: 576px) {
-        .schedule-card { padding: 16px; }
-        .schedule-info h5 { font-size: 0.95rem; }
-        .schedule-meta { font-size: 0.75rem; flex-wrap: wrap; }
-        
-        .modal-content { 
-            border-radius: 20px !important;
-        }
-
+        .schedule-card { padding: 18px; }
+        .schedule-info h5 { font-size: 1rem; }
+        .schedule-meta { font-size: 0.8rem; }
+        .modal-content { border-radius: 20px !important; }
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
         footer p { text-align: center; padding: 0; }
@@ -576,7 +388,6 @@
         .footer-menu { text-align: center; padding: 0; }
         .footer-menu li { margin-bottom: 10px; }
         .footer-menu a { justify-content: center; font-size: 0.9rem; }
-        
         .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
         .container { padding-left: 15px; padding-right: 15px; }
     }
@@ -633,9 +444,8 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        {{-- ✅ PERUBAHAN: Menu login sekarang mengarah ke Login Admin --}}
                                         <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
-                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Login Admin
+                                            <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Petugas UKS
                                         </a>
                                     </li>
                                 @endauth
@@ -651,19 +461,19 @@
         $scheduleBgImage = asset('images/login.jpeg');
     @endphp
 
-    <!-- Page Header dengan Background Foto & Overlay Gelap Netral -->
+    <!-- Page Header -->
     <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $scheduleBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
         <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
             <div class="page-header-badge mb-3 d-inline-flex">
                 <span class="pulse-dot"></span>
-                <span>Jadwal Petugas UKS Aktif</span>
+                <span>Informasi Jadwal Petugas</span>
             </div>
             <h1 class="page-title">
                 Jadwal <span class="gradient-text">Petugas</span><br>
                 UKS SMK Negeri 1 Bangsri
             </h1>
             <p class="page-subtitle mx-auto">
-                Informasi lengkap jadwal petugas yang bertugas di Unit Kesehatan Sekolah.
+                Informasi lengkap daftar grup petugas yang bertugas di Unit Kesehatan Sekolah.
             </p>
         </div>
     </section>
@@ -688,10 +498,26 @@
                         foreach($members as $m) {
                             if (is_array($m) && !empty($m['phone'])) $emergencyCount++;
                         }
+                        
+                        // Cek status aktif
+                        $isActive = isset($schedule->is_active) ? (bool)$schedule->is_active : true;
                     @endphp
+                    
+                    {{-- ✅ Kartu dengan layout yang diperbaiki --}}
                     <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
-                        <div class="schedule-card">
-                            <div class="schedule-num">{{ $loop->iteration }}</div>
+                        <div class="schedule-card {{ !$isActive ? 'inactive' : '' }}">
+                            
+                            {{-- ✅ HEADER: Nomor dan Badge Aktif --}}
+                            <div class="schedule-card-header">
+                                <div class="schedule-num">{{ $loop->iteration }}</div>
+                                @if($isActive)
+                                    <span class="active-badge">
+                                        <i class="fas fa-circle-check"></i> Sedang Aktif Hari Ini
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- ✅ INFO: Nama grup dan metadata --}}
                             <div class="schedule-info">
                                 <h5>{{ $schedule->group_name ?? 'Grup ' . $loop->iteration }}</h5>
                                 <div class="schedule-meta">
@@ -701,13 +527,25 @@
                                         <i class="fas fa-phone"></i>
                                         {{ $emergencyCount }} kontak
                                     </span>
+                                    
+                                    {{-- ✅ Label kecil di meta jika nonaktif --}}
+                                    @if(!$isActive)
+                                        <span class="meta-divider"></span>
+                                        <span class="status-inactive">
+                                            <i class="fas fa-pause-circle"></i> Nonaktif
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
-                            <button class="btn btn-view"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalAnggota{{ $schedule->id }}">
-                                Lihat <i class="fas fa-arrow-right"></i>
-                            </button>
+
+                            {{-- ✅ FOOTER: Tombol Lihat --}}
+                            <div class="schedule-card-footer">
+                                <button class="btn btn-view"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalAnggota{{ $schedule->id }}">
+                                    Lihat <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -775,8 +613,8 @@
                             <div class="empty-icon-wrap">
                                 <i class="fas fa-calendar-times"></i>
                             </div>
-                            <h5>Belum Ada Jadwal</h5>
-                            <p>Jadwal petugas belum tersedia. Silakan hubungi admin UKS.</p>
+                            <h5>Belum Ada Data Jadwal</h5>
+                            <p>Data jadwal petugas belum tersedia. Silakan hubungi admin UKS.</p>
                         </div>
                     </div>
                 @endforelse
@@ -806,7 +644,6 @@
                     </ul>
                 </div>
                 
-                {{-- ✅ PERUBAHAN: Link "Riwayat" telah dihapus dari sini --}}
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
@@ -854,15 +691,10 @@
                     duration: 700, 
                     once: true, 
                     offset: 60,
-                    disable: function() {
-                        return window.innerWidth < 768;
-                    }
+                    disable: function() { return window.innerWidth < 768; }
                 });
-            } catch(e) {
-                console.error('AOS error:', e);
-            }
+            } catch(e) { console.error('AOS error:', e); }
 
-            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -884,7 +716,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 
@@ -895,9 +726,7 @@
                 try {
                     const linkUrl = new URL(href, window.location.origin);
                     const linkPath = linkUrl.pathname;
-                    
                     link.classList.remove("active");
-                    
                     if (linkPath === currentPath) {
                         link.classList.add("active");
                     }

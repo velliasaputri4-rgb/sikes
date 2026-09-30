@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {{-- ✅ PERBAIKAN KRUSIAL: Meta CSRF Token untuk AJAX --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>@yield('title', 'Dashboard') - Petugas UKS</title>
     
     {{-- ✅ FAVICON - LOGO DI BROWSER TAB --}}

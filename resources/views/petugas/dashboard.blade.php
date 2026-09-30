@@ -4,7 +4,132 @@
 @section('page-title', 'Dashboard Petugas UKS')
 
 @section('content')
-    {{-- ✅ DEFINISIKAN $todayExams DI AWAL AGAR BISA DIGUNAKAN DI SELURUH HALAMAN --}}
+    {{-- ✅ STYLE KHUSUS UNTUK PENCARIAN (Disesuaikan dengan referensi gambar) --}}
+    <style>
+        .search-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+        }
+        .search-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-title i {
+            color: #ef4444;
+            font-size: 20px;
+        }
+        .search-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .search-input-wrapper {
+            position: relative;
+        }
+        .search-input-wrapper > i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ef4444;
+            font-size: 18px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .search-input-wrapper .form-control {
+            padding-left: 48px;
+            padding-right: 16px;
+            height: 56px;
+            border-radius: 14px;
+            border: 2px solid #ef4444;
+            font-size: 15px;
+            color: #0f172a;
+            background: #ffffff;
+            transition: all 0.2s;
+        }
+        .search-input-wrapper .form-control::placeholder {
+            color: #94a3b8;
+        }
+        .search-input-wrapper .form-control:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+            outline: none;
+        }
+        .search-info {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .search-info i {
+            color: #64748b;
+            font-size: 12px;
+        }
+        .btn-search-red {
+            background: #ef4444;
+            border: none;
+            border-radius: 14px;
+            padding: 0 28px;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+            transition: all 0.3s;
+            height: 56px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            /* ✅ DIHAPUS margin-top agar tombol sejajar di TENGAH vertikal input */
+        }
+        .btn-search-red:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+            color: white;
+        }
+        .btn-search-red i {
+            font-size: 16px;
+        }
+        /* ✅ PERBAIKAN: align-items center agar tombol sejajar di TENGAH vertikal input */
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-input-col {
+            flex: 1;
+            min-width: 0;
+        }
+        .search-btn-col {
+            flex-shrink: 0;
+            width: 260px;
+        }
+        @media (max-width: 768px) {
+            .search-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-btn-col {
+                width: 100%;
+            }
+        }
+    </style>
+
+    {{-- ✅ DEFINISIKAN $todayExams DI AWAL --}}
     @php
         $todayExams = \App\Models\Examination::with(['student.class'])
             ->whereDate('examination_date', \Carbon\Carbon::today())
@@ -14,7 +139,7 @@
 
     <!-- Statistik Cards -->
     <div class="row g-4 mb-4">
-        <!-- Card 1: Kunjungan Hari Ini (MERAH - Tema Utama) -->
+        <!-- Card 1: Kunjungan Hari Ini -->
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color: #ef4444;">
                 <div class="d-flex justify-content-between align-items-start">
@@ -30,7 +155,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Kunjungan Bulan Ini (ROSE - Variasi Estetik) -->
+        <!-- Card 2: Kunjungan Bulan Ini -->
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color: #f43f5e;">
                 <div class="d-flex justify-content-between align-items-start">
@@ -46,7 +171,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Total Siswa Aktif (AMBER - Variasi Estetik) -->
+        <!-- Card 3: Total Siswa Aktif -->
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color: #f59e0b;">
                 <div class="d-flex justify-content-between align-items-start">
@@ -104,6 +229,43 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- ✅ SECTION PENCARIAN DATA SISWA (DISESUAIKAN DENGAN REFERENSI GAMBAR) -->
+    <div class="search-card mb-4">
+        <div class="search-title">
+            <i class="fas fa-search"></i>
+            <span>Cari Riwayat Kunjungan Siswa</span>
+        </div>
+
+        <form action="{{ route('petugas.students.history') }}" method="GET">
+            <div class="search-row">
+                <div class="search-input-col">
+                    <label for="search_nis" class="search-label">NIS atau Nama Siswa</label>
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" 
+                               class="form-control" 
+                               id="search_nis" 
+                               name="nis" 
+                               placeholder="Contoh: 12345 atau Budi Santoso" 
+                               value="{{ request('nis') }}" 
+                               required 
+                               autofocus>
+                    </div>
+                    <div class="search-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Masukkan NIS untuk hasil pencarian yang lebih akurat dan langsung.</span>
+                    </div>
+                </div>
+                <div class="search-btn-col">
+                    <button type="submit" class="btn-search-red">
+                        <i class="fas fa-search"></i>
+                        <span>Lihat Riwayat Siswa</span>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <!-- Kunjungan Hari Ini (TABEL DENGAN PAGINATION) -->
@@ -182,7 +344,6 @@
                             </small>
                             <nav>
                                 <ul class="pagination pagination-sm mb-0">
-                                    {{-- Previous Button --}}
                                     @if($todayExams->onFirstPage())
                                         <li class="page-item disabled">
                                             <span class="page-link"><i class="fas fa-chevron-left"></i> Sebelumnya</span>
@@ -195,7 +356,6 @@
                                         </li>
                                     @endif
 
-                                    {{-- Pagination Numbers --}}
                                     @foreach($todayExams->getUrlRange(1, $todayExams->lastPage()) as $page => $url)
                                         @if($page == $todayExams->currentPage())
                                             <li class="page-item active">
@@ -208,7 +368,6 @@
                                         @endif
                                     @endforeach
 
-                                    {{-- Next Button --}}
                                     @if($todayExams->hasMorePages())
                                         <li class="page-item">
                                             <a class="page-link" href="{{ $todayExams->nextPageUrl() }}">
