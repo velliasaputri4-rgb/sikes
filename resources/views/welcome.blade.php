@@ -39,6 +39,13 @@
         --radius: 18px;
     }
 
+    /* ✅ FIX: Mencegah horizontal scroll secara global */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100%;
+        max-width: 100vw;
+    }
+
     * { 
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -54,6 +61,12 @@
         background: #fafbfc;
         color: var(--ink);
         line-height: 1.7;
+        overflow-x: hidden;
+    }
+
+    /* ✅ FIX: Pastikan container tidak menyebabkan overflow */
+    .container, .container-fluid {
+        max-width: 100%;
         overflow-x: hidden;
     }
 
@@ -133,9 +146,15 @@
         position: relative;
         padding: 100px 0 80px;
         background: linear-gradient(180deg, #f7fafc 0%, #fef2f2 100%);
-        overflow: hidden;
+        overflow: hidden !important; /* ✅ FIX: Strict overflow hidden */
     }
-    .hero-decor { position: absolute; inset: 0; pointer-events: none; }
+    
+    .hero-decor { 
+        position: absolute; 
+        inset: 0; 
+        pointer-events: none; 
+        overflow: hidden; /* ✅ FIX: Contain decorative elements */
+    }
     .decor-dots {
         position: absolute;
         width: 140px; height: 95px;
@@ -372,7 +391,7 @@
         transform: translateY(0);
     }
 
-    .section { padding: 90px 0; position: relative; }
+    .section { padding: 90px 0; position: relative; overflow: hidden; } /* ✅ FIX: overflow hidden */
     .section-label {
         display: inline-block;
         padding: 6px 16px;

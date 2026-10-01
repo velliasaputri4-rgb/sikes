@@ -161,7 +161,6 @@
                                 <textarea name="hero_subtitle" class="form-control" rows="2">{{ $settings['hero_subtitle'] ?? 'Layanan kesehatan sekolah yang modern, cepat, dan terpercaya. Kami siap melayani kebutuhan kesehatan siswa dengan profesional.' }}</textarea>
                             </div>
                             
-                            {{-- ✅ DIPERBAIKI: Hanya 1 Tombol sesuai dengan Landing Page --}}
                             <div class="col-12">
                                 <label class="form-label fw-semibold">Teks Tombol</label>
                                 <input type="text" name="hero_btn_2_text" class="form-control" value="{{ $settings['hero_btn_2_text'] ?? 'Pelajari Lebih Lanjut' }}">
@@ -171,7 +170,36 @@
                     </div>
                 </div>
 
-                <!-- ✅ Bagian Edit Statistik Hero -->
+                {{-- ✅ BARU DITAMBAHKAN: Upload Gambar Background Hero --}}
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header card-header-red fw-bold">Gambar Background Hero</div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Upload Foto Background Hero</label>
+                                @php $heroImage = $settings['hero_image'] ?? ''; @endphp
+                                
+                                @if(!empty($heroImage))
+                                    <input type="hidden" name="existing_hero_image" value="{{ $heroImage }}">
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
+                                        <img src="{{ asset('storage/' . $heroImage) }}" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;">
+                                    </div>
+                                    <p class="text-muted small mb-2 d-block">Gambar background hero saat ini. Upload gambar baru di bawah untuk mengganti.</p>
+                                @else
+                                    <div class="mb-2 p-2 rounded border d-inline-block" style="background: #fef2f2; border-color: #fee2e2 !important;">
+                                        <img src="{{ asset('images/login.jpeg') }}" class="img-fluid rounded" style="max-height: 200px; width: auto; object-fit: cover;" alt="Default Hero Image">
+                                    </div>
+                                    <p class="text-muted small mb-2 d-block">Belum ada gambar background. Upload gambar untuk hero section di bawah.</p>
+                                @endif
+                                
+                                <input type="file" name="hero_image" class="form-control" accept="image/png, image/jpeg, image/jpg, image/webp">
+                                <small class="text-muted">Format: JPG, PNG, atau WEBP. Maksimal 2MB. Rekomendasi ukuran: 1920x1080px agar tampilan optimal.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bagian Edit Statistik Hero -->
                 <div class="card border-0 shadow-sm">
                     <div class="card-header card-header-red fw-bold">Bagian Statistik (Bawah Hero)</div>
                     <div class="card-body">

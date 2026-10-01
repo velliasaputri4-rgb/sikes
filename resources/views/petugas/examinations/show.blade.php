@@ -40,7 +40,10 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label small text-muted">Jam Kedatangan</label>
-                        <div class="fw-semibold" style="color: #0f172a;">{{ \Carbon\Carbon::parse($examination->arrival_time)->format('H:i') }} WIB</div>
+                        {{-- ✅ PERBAIKAN: arrival_time bertipe TIME, JANGAN pakai timezone() --}}
+                        <div class="fw-semibold" style="color: #0f172a;">
+                            {{ \Carbon\Carbon::parse($examination->arrival_time)->format('H:i') }} WIB
+                        </div>
                     </div>
                 </div>
 
@@ -176,11 +179,17 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label small text-muted">Waktu Dibuat</label>
-                        <div class="fw-semibold" style="color: #0f172a;">{{ $examination->created_at->format('d/m/Y H:i') }}</div>
+                        {{-- ✅ PERBAIKAN: created_at bertipe TIMESTAMP (UTC), perlu timezone() --}}
+                        <div class="fw-semibold" style="color: #0f172a;">
+                            {{ $examination->created_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }}
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small text-muted">Terakhir Diubah</label>
-                        <div class="fw-semibold" style="color: #0f172a;">{{ $examination->updated_at->format('d/m/Y H:i') }}</div>
+                        {{-- ✅ PERBAIKAN: updated_at bertipe TIMESTAMP (UTC), perlu timezone() --}}
+                        <div class="fw-semibold" style="color: #0f172a;">
+                            {{ $examination->updated_at->timezone('Asia/Jakarta')->format('d/m/Y H:i') }}
+                        </div>
                     </div>
                 </div>
             </div>

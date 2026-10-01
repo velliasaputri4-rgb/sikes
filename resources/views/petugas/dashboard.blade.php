@@ -4,7 +4,7 @@
 @section('page-title', 'Dashboard Petugas UKS')
 
 @section('content')
-    {{-- ✅ STYLE KHUSUS UNTUK PENCARIAN (Disesuaikan dengan referensi gambar) --}}
+    {{-- ✅ STYLE KHUSUS UNTUK PENCARIAN --}}
     <style>
         .search-card {
             background: white;
@@ -93,7 +93,6 @@
             justify-content: center;
             gap: 8px;
             width: 100%;
-            /* ✅ DIHAPUS margin-top agar tombol sejajar di TENGAH vertikal input */
         }
         .btn-search-red:hover {
             background: #dc2626;
@@ -101,10 +100,6 @@
             box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
             color: white;
         }
-        .btn-search-red i {
-            font-size: 16px;
-        }
-        /* ✅ PERBAIKAN: align-items center agar tombol sejajar di TENGAH vertikal input */
         .search-row {
             display: flex;
             align-items: center;
@@ -231,7 +226,7 @@
         </div>
     </div>
 
-    <!-- ✅ SECTION PENCARIAN DATA SISWA (DISESUAIKAN DENGAN REFERENSI GAMBAR) -->
+    <!-- ✅ SECTION PENCARIAN DATA SISWA -->
     <div class="search-card mb-4">
         <div class="search-title">
             <i class="fas fa-search"></i>
@@ -250,8 +245,8 @@
                                name="nis" 
                                placeholder="Contoh: 12345 atau Budi Santoso" 
                                value="{{ request('nis') }}" 
-                               required 
-                               autofocus>
+                               required>
+                        {{-- ✅ DIHAPUS: attribute "autofocus" agar tidak langsung terarah ke search saat buka dashboard --}}
                     </div>
                     <div class="search-info">
                         <i class="fas fa-info-circle"></i>

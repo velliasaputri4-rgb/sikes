@@ -119,49 +119,126 @@
 
         .section { padding: 80px 0; position: relative; }
         
-        /* ✅ Page Header dengan Background Foto & Overlay Gelap Netral */
+        /* ===== ✅ PAGE HEADER (DISESUAIKAN UKURANNYA AGAR SAMA DENGAN ABOUT) ===== */
         .page-header { 
-            padding: 160px 0 100px; 
+            padding: 100px 0 60px; /* ✅ DIKECILKAN */
             text-align: center; 
             position: relative; 
             overflow: hidden;
-            background-color: #0f172a; /* Fallback */
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fef2f2 100%);
         }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(239, 68, 68, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.6;
+        }
+        
+        /* ✅ Blob dikecilkan ukurannya */
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .blob-1 {
+            width: 300px; height: 300px;
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            top: -50px; right: -50px;
+            animation: blobFloat 8s ease-in-out infinite;
+        }
+        .blob-2 {
+            width: 250px; height: 250px;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            bottom: -50px; left: -50px;
+            animation: blobFloat 10s ease-in-out infinite reverse;
+        }
+        .blob-3 {
+            width: 150px; height: 150px;
+            background: linear-gradient(135deg, #f43f5e, #ef4444);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.2;
+            animation: blobFloat 12s ease-in-out infinite;
+        }
+        
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -20px) scale(1.05); }
+            66% { transform: translate(-15px, 15px) scale(0.95); }
+        }
+        
+        .hero-decor-icon {
+            position: absolute;
+            color: rgba(239, 68, 68, 0.12);
+            font-size: 1.5rem; /* ✅ Dikecilkan */
+            pointer-events: none;
+        }
+        .decor-icon-1 { top: 25%; left: 12%; animation: float 6s ease-in-out infinite; }
+        .decor-icon-2 { top: 35%; right: 18%; animation: float 8s ease-in-out infinite 1s; }
+        .decor-icon-3 { bottom: 30%; left: 22%; animation: float 7s ease-in-out infinite 2s; }
+        .decor-icon-4 { bottom: 35%; right: 12%; animation: float 9s ease-in-out infinite 1.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .page-header .container { position: relative; z-index: 2; }
+        
         .page-header .section-label {
             display: inline-block; 
-            padding: 6px 16px; 
-            background: rgba(255, 255, 255, 0.15); 
-            color: #ffffff; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
+            padding: 6px 16px; /* ✅ Dikecilkan */
+            background: rgba(255, 255, 255, 0.9); 
+            color: #991b1b; 
+            border: 2px solid rgba(239, 68, 68, 0.2); 
             border-radius: 50px; 
-            font-size: 0.8rem; 
+            font-size: 0.8rem; /* ✅ Dikecilkan */
             font-weight: 700; 
             letter-spacing: 1px; 
             text-transform: uppercase; 
             margin-bottom: 16px;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
         }
+        
         .page-header .section-title { 
             font-family: 'Poppins', sans-serif; 
-            font-size: clamp(1.8rem, 4vw, 2.6rem); 
-            font-weight: 700; 
-            color: #ffffff; 
-            margin-bottom: 16px; 
+            font-size: clamp(1.8rem, 4vw, 2.4rem); /* ✅ DIKECILKAN dari 3rem */
+            font-weight: 800; 
+            color: var(--ink); 
+            margin-top: 12px; /* ✅ Dikecilkan */
+            margin-bottom: 12px; /* ✅ Dikecilkan */
             line-height: 1.2; 
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
         }
+        
         .page-header .section-title .gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
         .page-header .section-subtitle { 
-            color: rgba(255, 255, 255, 0.9); 
-            font-size: 1.05rem; 
-            max-width: 600px; 
+            color: var(--slate); 
+            font-size: 1rem; /* ✅ DIKECILKAN dari 1.15rem */
+            max-width: 600px; /* ✅ Dikecilkan */
             margin: 0 auto;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            line-height: 1.6;
+        }
+        
+        .hero-decor-line {
+            width: 60px; /* ✅ Dikecilkan dari 80px */
+            height: 3px; /* ✅ Dikecilkan dari 4px */
+            background: var(--gradient-primary);
+            margin: 20px auto 0; /* ✅ Dikecilkan */
+            border-radius: 2px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         /* Doc Card Styling */
@@ -264,10 +341,22 @@
         @media (max-width: 768px) {
             .doc-image { height: 200px; }
             .section { padding: 60px 0; }
-            .page-header { padding: 120px 0 60px; }
+            .page-header { padding: 80px 0 40px; } /* ✅ Dikecilkan */
+            
+            .hero-blob { filter: blur(60px); }
+            .blob-1 { width: 200px; height: 200px; }
+            .blob-2 { width: 150px; height: 150px; }
+            .blob-3 { width: 100px; height: 100px; }
+            
+            .page-header .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
+            .page-header .section-subtitle { font-size: 0.95rem; }
         }
 
         @media (max-width: 576px) {
+            .page-header { padding: 60px 0 30px; } /* ✅ Dikecilkan */
+            .hero-blob { display: none; }
+            .hero-decor-icon { display: none; }
+            
             footer { padding: 50px 0 25px; text-align: center; }
             .footer-logo { justify-content: center; margin-bottom: 16px; }
             footer p { text-align: center; padding: 0; }
@@ -332,7 +421,6 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        {{-- ✅ PERUBAHAN: Menu login sekarang mengarah ke Login Admin --}}
                                         <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
                                             <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Petugas UKS
                                         </a>
@@ -346,16 +434,24 @@
         </div>
     </nav>
 
-    @php
-        $docsBgImage = asset('images/login.jpeg');
-    @endphp
-
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
-    <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $docsBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <!-- ✅ Page Header (Ukuran sudah disamakan persis dengan halaman About) -->
+    <header class="page-header">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        
+        <i class="fas fa-newspaper hero-decor-icon decor-icon-1"></i>
+        <i class="fas fa-camera hero-decor-icon decor-icon-2"></i>
+        <i class="fas fa-file-alt hero-decor-icon decor-icon-3"></i>
+        <i class="fas fa-bullhorn hero-decor-icon decor-icon-4"></i>
+        
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">{{ \App\Models\Setting::get('docs_label', 'Dokumentasi') }}</span>
-            <h1 class="section-title mt-3">{!! \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>') !!}</h1>
+            <h1 class="section-title mt-3">
+                {!! \App\Models\Setting::get('docs_title', 'Berita & <span class="gradient-text">Kegiatan</span>') !!}
+            </h1>
             <p class="section-subtitle">{{ \App\Models\Setting::get('docs_subtitle', 'Informasi terbaru seputar kegiatan dan program UKS di sekolah kami') }}</p>
+            <div class="hero-decor-line"></div>
         </div>
     </header>
 
@@ -428,7 +524,6 @@
                     </ul>
                 </div>
                 
-                {{-- ✅ PERUBAHAN: Link "Riwayat" telah dihapus dari sini --}}
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
@@ -506,7 +601,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
+            // Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 

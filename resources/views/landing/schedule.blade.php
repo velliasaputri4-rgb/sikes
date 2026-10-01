@@ -84,38 +84,129 @@
         transform: translateX(4px);
     }
 
-    /* ============ PAGE HEADER ============ */
-    .page-header {
-        position: relative; padding: 160px 0 100px; text-align: center; overflow: hidden;
-        background-color: #0f172a;
+    /* ===== ✅ PAGE HEADER AESTHETIC (SAMA PERSIS DENGAN HALAMAN LAINNYA) ===== */
+    .page-header { 
+        padding: 100px 0 60px; 
+        text-align: center; 
+        position: relative; 
+        overflow: hidden;
+        background: linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fef2f2 100%);
     }
-    .page-header-badge {
-        display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
-        background: rgba(255, 255, 255, 0.15); color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px;
-        font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; backdrop-filter: blur(4px);
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(239, 68, 68, 0.08) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.6;
     }
-    .page-header-badge .pulse-dot {
-        width: 8px; height: 8px; background: var(--emerald); border-radius: 50%;
-        animation: pulse 2s infinite;
+    
+    .hero-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.35;
+        pointer-events: none;
     }
-    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.4); } }
-    .page-title {
-        font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4.5vw, 3rem);
-        font-weight: 700; color: #ffffff; line-height: 1.2; margin-bottom: 16px;
-        letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    .blob-1 {
+        width: 300px; height: 300px;
+        background: linear-gradient(135deg, #ef4444, #f43f5e);
+        top: -50px; right: -50px;
+        animation: blobFloat 8s ease-in-out infinite;
     }
-    .page-title .gradient-text {
-        background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    .blob-2 {
+        width: 250px; height: 250px;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        bottom: -50px; left: -50px;
+        animation: blobFloat 10s ease-in-out infinite reverse;
     }
-    .page-subtitle {
-        color: rgba(255, 255, 255, 0.9); font-size: 1.05rem; max-width: 580px;
-        margin: 0 auto; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    .blob-3 {
+        width: 150px; height: 150px;
+        background: linear-gradient(135deg, #f43f5e, #ef4444);
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.2;
+        animation: blobFloat 12s ease-in-out infinite;
+    }
+    
+    @keyframes blobFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(20px, -20px) scale(1.05); }
+        66% { transform: translate(-15px, 15px) scale(0.95); }
+    }
+    
+    .hero-decor-icon {
+        position: absolute;
+        color: rgba(239, 68, 68, 0.12);
+        font-size: 1.5rem;
+        pointer-events: none;
+    }
+    .decor-icon-1 { top: 25%; left: 12%; animation: float 6s ease-in-out infinite; }
+    .decor-icon-2 { top: 35%; right: 18%; animation: float 8s ease-in-out infinite 1s; }
+    .decor-icon-3 { bottom: 30%; left: 22%; animation: float 7s ease-in-out infinite 2s; }
+    .decor-icon-4 { bottom: 35%; right: 12%; animation: float 9s ease-in-out infinite 1.5s; }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+    
+    .page-header .container { position: relative; z-index: 2; }
+    
+    .page-header .section-label {
+        display: inline-block; 
+        padding: 6px 16px; 
+        background: rgba(255, 255, 255, 0.9); 
+        color: #991b1b; 
+        border: 2px solid rgba(239, 68, 68, 0.2); 
+        border-radius: 50px; 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+        letter-spacing: 1px; 
+        text-transform: uppercase; 
+        margin-bottom: 16px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
+    }
+    
+    .page-header .section-title { 
+        font-family: 'Poppins', sans-serif; 
+        font-size: clamp(1.8rem, 4vw, 2.4rem); 
+        font-weight: 800; 
+        color: var(--ink); 
+        margin-top: 12px;
+        margin-bottom: 12px; 
+        line-height: 1.2; 
+        letter-spacing: -0.5px;
+    }
+    
+    .page-header .section-title .gradient-text {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .page-header .section-subtitle { 
+        color: var(--slate); 
+        font-size: 1rem; 
+        max-width: 600px; 
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    
+    .hero-decor-line {
+        width: 60px;
+        height: 3px;
+        background: var(--gradient-primary);
+        margin: 20px auto 0;
+        border-radius: 2px;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
     }
 
-    .section { padding: 70px 0 90px; }
-    .section-label {
+    .section { padding: 80px 0; position: relative; }
+    .section-label-inner {
         display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.1);
         color: var(--pro); border-radius: 50px; font-size: 0.8rem; font-weight: 700;
         letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;
@@ -146,7 +237,6 @@
         border-color: rgba(153, 27, 27, 0.15);
     }
 
-    /* ✅ Style untuk kartu yang Nonaktif (sedikit redup) */
     .schedule-card.inactive {
         opacity: 0.7;
         background: #f8fafc;
@@ -158,7 +248,6 @@
         border-color: #cbd5e1;
     }
 
-    /* ✅ CARD HEADER - Untuk nomor dan badge */
     .schedule-card-header {
         display: flex;
         align-items: flex-start;
@@ -179,7 +268,6 @@
         flex-shrink: 0;
     }
 
-    /* ✅ BADGE AKTIF - Diposisikan di samping nomor */
     .active-badge {
         background: linear-gradient(135deg, #ecfdf5, #d1fae5);
         color: #047857;
@@ -362,8 +450,17 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-        .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
+        .page-header { padding: 80px 0 40px; }
+        
+        .hero-blob { filter: blur(60px); }
+        .blob-1 { width: 200px; height: 200px; }
+        .blob-2 { width: 150px; height: 150px; }
+        .blob-3 { width: 100px; height: 100px; }
+        
+        .page-header .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
+        .page-header .section-subtitle { font-size: 0.95rem; }
+        
         .schedule-card { padding: 20px; }
         .schedule-num { width: 48px; height: 48px; font-size: 1.2rem; }
         .schedule-card-header { flex-direction: column; align-items: flex-start; }
@@ -377,6 +474,10 @@
         .modal-header-simple { padding: 16px 20px; }
     }
     @media (max-width: 576px) {
+        .page-header { padding: 60px 0 30px; }
+        .hero-blob { display: none; }
+        .hero-decor-icon { display: none; }
+        
         .schedule-card { padding: 18px; }
         .schedule-info h5 { font-size: 1rem; }
         .schedule-meta { font-size: 0.8rem; }
@@ -457,32 +558,34 @@
         </div>
     </nav>
 
-    @php
-        $scheduleBgImage = asset('images/login.jpeg');
-    @endphp
-
-    <!-- Page Header -->
-    <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $scheduleBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
-        <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
-            <div class="page-header-badge mb-3 d-inline-flex">
-                <span class="pulse-dot"></span>
-                <span>Informasi Jadwal Petugas</span>
-            </div>
-            <h1 class="page-title">
-                Jadwal <span class="gradient-text">Petugas</span><br>
-                UKS SMK Negeri 1 Bangsri
+    <!-- ✅ Page Header Aesthetic (Tanpa Foto & Overlay Gelap, Match dengan About) -->
+    <header class="page-header">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        
+        <i class="fas fa-calendar-check hero-decor-icon decor-icon-1"></i>
+        <i class="fas fa-user-clock hero-decor-icon decor-icon-2"></i>
+        <i class="fas fa-users hero-decor-icon decor-icon-3"></i>
+        <i class="fas fa-id-card hero-decor-icon decor-icon-4"></i>
+        
+        <div class="container position-relative" data-aos="fade-up">
+            <span class="section-label">Informasi Jadwal Petugas</span>
+            <h1 class="section-title mt-3">
+                Jadwal <span class="gradient-text">Petugas</span> UKS
             </h1>
-            <p class="page-subtitle mx-auto">
+            <p class="section-subtitle mx-auto">
                 Informasi lengkap daftar grup petugas yang bertugas di Unit Kesehatan Sekolah.
             </p>
+            <div class="hero-decor-line"></div>
         </div>
-    </section>
+    </header>
 
     <!-- Schedule Section -->
     <section class="section" id="jadwal">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-up">
-                <span class="section-label">Grup Piket</span>
+                <span class="section-label-inner">Grup Piket</span>
                 <h2 class="section-title">Daftar <span class="gradient-text">Petugas</span> Piket</h2>
                 <p class="section-subtitle mx-auto">Pilih grup untuk melihat daftar anggota piket</p>
             </div>
@@ -499,15 +602,12 @@
                             if (is_array($m) && !empty($m['phone'])) $emergencyCount++;
                         }
                         
-                        // Cek status aktif
                         $isActive = isset($schedule->is_active) ? (bool)$schedule->is_active : true;
                     @endphp
                     
-                    {{-- ✅ Kartu dengan layout yang diperbaiki --}}
                     <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
                         <div class="schedule-card {{ !$isActive ? 'inactive' : '' }}">
                             
-                            {{-- ✅ HEADER: Nomor dan Badge Aktif --}}
                             <div class="schedule-card-header">
                                 <div class="schedule-num">{{ $loop->iteration }}</div>
                                 @if($isActive)
@@ -517,7 +617,6 @@
                                 @endif
                             </div>
 
-                            {{-- ✅ INFO: Nama grup dan metadata --}}
                             <div class="schedule-info">
                                 <h5>{{ $schedule->group_name ?? 'Grup ' . $loop->iteration }}</h5>
                                 <div class="schedule-meta">
@@ -528,7 +627,6 @@
                                         {{ $emergencyCount }} kontak
                                     </span>
                                     
-                                    {{-- ✅ Label kecil di meta jika nonaktif --}}
                                     @if(!$isActive)
                                         <span class="meta-divider"></span>
                                         <span class="status-inactive">
@@ -538,7 +636,6 @@
                                 </div>
                             </div>
 
-                            {{-- ✅ FOOTER: Tombol Lihat --}}
                             <div class="schedule-card-footer">
                                 <button class="btn btn-view"
                                         data-bs-toggle="modal"

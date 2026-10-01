@@ -104,7 +104,9 @@
             transform: translateX(4px);
         }
 
-        .section { padding: 90px 0; position: relative; }
+        /* ✅ DISESUAIKAN: Padding section disamakan (80px) */
+        .section { padding: 80px 0; position: relative; }
+        
         .section-label { display: inline-block; padding: 6px 16px; background: rgba(239, 68, 68, 0.12); color: #991b1b; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
         .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--ink); margin-bottom: 16px; line-height: 1.2; }
         .section-subtitle { color: var(--slate); font-size: 1.05rem; max-width: 600px; }
@@ -113,27 +115,121 @@
         .btn-hero-primary { background: var(--gradient-primary); color: white; padding: 12px 26px; border-radius: 10px; border: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(153, 27, 27, 0.25); transition: all 0.3s; text-decoration: none; }
         .btn-hero-primary:hover { color: white; transform: translateY(-3px); box-shadow: 0 10px 28px rgba(153, 27, 27, 0.35); }
         
+        /* ===== ✅ HERO SECTION (Dikecilkan agar lebih compact dari Dokumentasi) ===== */
         .page-header { 
-            padding: 160px 0 100px; 
+            padding: 100px 0 60px; /* ✅ DIKECILKAN dari 140px 0 100px */
             text-align: center; 
             position: relative; 
             overflow: hidden;
-            background-color: #0f172a; 
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fef2f2 100%);
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(239, 68, 68, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.6;
+        }
+        
+        /* ✅ Blob dikecilkan ukurannya */
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .blob-1 {
+            width: 300px; height: 300px;
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            top: -50px; right: -50px;
+            animation: blobFloat 8s ease-in-out infinite;
+        }
+        .blob-2 {
+            width: 250px; height: 250px;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            bottom: -50px; left: -50px;
+            animation: blobFloat 10s ease-in-out infinite reverse;
+        }
+        .blob-3 {
+            width: 150px; height: 150px;
+            background: linear-gradient(135deg, #f43f5e, #ef4444);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.2;
+            animation: blobFloat 12s ease-in-out infinite;
+        }
+        
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -20px) scale(1.05); }
+            66% { transform: translate(-15px, 15px) scale(0.95); }
+        }
+        
+        .hero-decor-icon {
+            position: absolute;
+            color: rgba(239, 68, 68, 0.12);
+            font-size: 1.5rem; /* ✅ Dikecilkan */
+            pointer-events: none;
+        }
+        .decor-icon-1 { top: 25%; left: 12%; animation: float 6s ease-in-out infinite; }
+        .decor-icon-2 { top: 35%; right: 18%; animation: float 8s ease-in-out infinite 1s; }
+        .decor-icon-3 { bottom: 30%; left: 22%; animation: float 7s ease-in-out infinite 2s; }
+        .decor-icon-4 { bottom: 35%; right: 12%; animation: float 9s ease-in-out infinite 1.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .page-header .container {
+            position: relative;
+            z-index: 2;
         }
         
         .page-header .section-label {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.9);
+            color: #991b1b;
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px; /* ✅ Dikecilkan */
+            font-size: 0.8rem;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
         }
+        
         .page-header .section-title {
-            color: #ffffff;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            color: var(--ink);
+            font-size: clamp(1.8rem, 4vw, 2.4rem); /* ✅ DIKECILKAN dari 3rem */
+            font-weight: 800;
+            margin-top: 12px; /* ✅ Dikecilkan */
+            margin-bottom: 12px; /* ✅ Dikecilkan */
+            letter-spacing: -0.5px;
         }
+        
+        .page-header .section-title .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
         .page-header .section-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: var(--slate);
+            font-size: 1rem; /* ✅ DIKECILKAN dari 1.15rem */
+            line-height: 1.6;
+            max-width: 600px; /* ✅ Dikecilkan */
+            margin: 0 auto;
+        }
+        
+        .hero-decor-line {
+            width: 60px; /* ✅ Dikecilkan dari 80px */
+            height: 3px; /* ✅ Dikecilkan dari 4px */
+            background: var(--gradient-primary);
+            margin: 20px auto 0; /* ✅ Dikecilkan dari 30px */
+            border-radius: 2px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
         
         .value-card { background: white; border-radius: var(--radius); padding: 32px; height: 100%; border: 1px solid rgba(153, 27, 27, 0.08); transition: all 0.3s ease; }
@@ -143,13 +239,28 @@
         .vm-card { background: white; border-radius: var(--radius); padding: 40px; height: 100%; box-shadow: var(--shadow-sm); border-left: 5px solid var(--primary); }
         .vm-card h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
 
-        .story-section { padding: 90px 0; }
+        .story-section { padding: 80px 0; }
+        
+        .story-content-wrapper {
+            text-align: center;
+        }
+        .story-content-wrapper .section-label {
+            display: inline-block;
+        }
+        .story-content-wrapper .section-title {
+            text-align: center;
+        }
+        .story-content {
+            text-align: center;
+            max-width: 90%;
+            margin: 0 auto;
+        }
         .story-content p {
             color: var(--slate);
             line-height: 1.8;
             margin-bottom: 20px;
             font-size: 1rem;
-            text-align: justify;
+            text-align: center !important;
         }
         
         /* ===== FOOTER ===== */
@@ -222,16 +333,19 @@
         @media (max-width: 768px) {
             .section { padding: 60px 0; }
             .story-section { padding: 60px 0; }
-            .page-header { padding: 120px 0 60px; } 
+            .page-header { padding: 80px 0 40px; } /* ✅ Dikecilkan */
             .navbar-brand img { max-height: 42px; }
             
-            .story-content { padding: 0 12px; }
-            .story-content p {
-                font-size: 0.95rem;
-                line-height: 1.7;
-                margin-bottom: 16px;
-                text-align: left;
-            }
+            .hero-blob { filter: blur(60px); }
+            .blob-1 { width: 200px; height: 200px; }
+            .blob-2 { width: 150px; height: 150px; }
+            .blob-3 { width: 100px; height: 100px; }
+            
+            .page-header .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
+            .page-header .section-subtitle { font-size: 0.95rem; }
+            
+            .story-content { max-width: 100%; padding: 0 10px; }
+            .story-content p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 16px; }
             .section-title { font-size: 1.6rem; margin-bottom: 12px; }
             .section-label { font-size: 0.75rem; padding: 5px 12px; margin-bottom: 12px; }
             .vm-card { padding: 24px; margin-bottom: 20px; }
@@ -243,6 +357,10 @@
             .story-content p { font-size: 0.9rem; line-height: 1.6; }
             .section { padding: 50px 0; }
             .story-section { padding: 50px 0; }
+            
+            .page-header { padding: 60px 0 30px; } /* ✅ Dikecilkan */
+            .hero-blob { display: none; }
+            .hero-decor-icon { display: none; }
             
             footer { padding: 50px 0 25px; text-align: center; }
             .footer-logo { justify-content: center; margin-bottom: 16px; }
@@ -325,9 +443,6 @@
         $headerTitle = \App\Models\Setting::get('about_page_header_title', 'Membangun Sekolah yang Lebih Sehat');
         $headerSubtitle = \App\Models\Setting::get('about_page_header_subtitle', 'Mengenal lebih dalam filosofi, visi, dan komitmen SIKES dalam mendukung kesehatan seluruh warga SMK Negeri 1 Bangsri.');
         
-        $aboutPageImg = \App\Models\Setting::get('about_page_image');
-        $bgImage = $aboutPageImg ? asset('storage/' . $aboutPageImg) : asset('images/login.jpeg');
-        
         $storyTitle = \App\Models\Setting::get('about_page_story_title', 'Dedikasi untuk Kesehatan Siswa');
         $storyP1 = \App\Models\Setting::get('about_page_story_p1', 'SIKES (Sistem Informasi UKS) lahir dari kebutuhan nyata akan pengelolaan kesehatan sekolah yang modern. Kami menyadari bahwa pencatatan manual sering kali rentan terhadap kehilangan data, sulit dilacak, dan tidak efisien.');
         $storyP2 = \App\Models\Setting::get('about_page_story_p2', 'Oleh karena itu, kami mengembangkan platform yang tidak hanya mencatat riwayat kunjungan, tetapi juga mengelola inventaris obat, menjadwalkan petugas, dan memberikan edukasi kesehatan secara terpusat. Semua dirancang agar petugas UKS bisa fokus pada hal yang paling penting: merawat siswa.');
@@ -343,11 +458,24 @@
         $ctaBtn = \App\Models\Setting::get('about_page_cta_btn', 'Lihat Layanan Kami');
     @endphp
 
-    <header class="page-header" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $bgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+    {{-- ✅ HERO SECTION (Ukuran sudah dikecilkan secara signifikan) --}}
+    <header class="page-header">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        
+        <i class="fas fa-heartbeat hero-decor-icon decor-icon-1"></i>
+        <i class="fas fa-stethoscope hero-decor-icon decor-icon-2"></i>
+        <i class="fas fa-user-md hero-decor-icon decor-icon-3"></i>
+        <i class="fas fa-hand-holding-heart hero-decor-icon decor-icon-4"></i>
+        
         <div class="container position-relative" data-aos="fade-up">
             <span class="section-label">Tentang Kami</span>
-            <h1 class="section-title mt-3">{{ $headerTitle }}</h1>
+            <h1 class="section-title mt-3">
+                {{ $headerTitle }}
+            </h1>
             <p class="section-subtitle mx-auto">{{ $headerSubtitle }}</p>
+            <div class="hero-decor-line"></div>
         </div>
     </header>
 
@@ -361,12 +489,15 @@
                     @endphp
                     <img src="{{ $imgSrc }}" alt="Tentang SIKES" class="img-fluid rounded-4 shadow-lg" style="width: 100%; object-fit: cover;">
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <span class="section-label">Cerita Kami</span>
-                    <h2 class="section-title">{{ $storyTitle }}</h2>
-                    <div class="story-content">
-                        <p>{{ $storyP1 }}</p>
-                        <p>{{ $storyP2 }}</p>
+                
+                <div class="col-lg-6 text-center" data-aos="fade-left">
+                    <div class="story-content-wrapper">
+                        <span class="section-label">Cerita Kami</span>
+                        <h2 class="section-title">{{ $storyTitle }}</h2>
+                        <div class="story-content">
+                            <p>{{ $storyP1 }}</p>
+                            <p>{{ $storyP2 }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -435,7 +566,6 @@
                     </ul>
                 </div>
 
-                {{-- ✅ PERUBAHAN: Link "Riwayat" telah dihapus dari sini --}}
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
@@ -492,7 +622,6 @@
                 console.error('AOS error:', e);
             }
 
-            // Navbar scroll effect
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -503,7 +632,6 @@
                     navbar.classList.remove('scrolled');
                 }
                 
-                // SCROLL TOP SHOW/HIDE
                 if (window.scrollY > 300) {
                     scrollTop.classList.add('show');
                 } else {
@@ -511,12 +639,10 @@
                 }
             }, { passive: true });
 
-            // SCROLL TOP CLICK
             document.getElementById('scrollTop').addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 

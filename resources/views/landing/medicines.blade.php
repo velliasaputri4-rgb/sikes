@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
     :root {
-        /* ✅ TEMA MERAH (PMR/UKS) */
         --primary: #ef4444;
         --primary-dark: #991b1b;
         --secondary: #dc2626;
@@ -117,99 +116,205 @@
         transform: translateX(4px);
     }
 
-    /* ============ PAGE HEADER ============ */
-    .page-header {
-        position: relative;
-        padding: 160px 0 100px;
-        text-align: center;
+    /* ===== ✅ PAGE HEADER AESTHETIC ===== */
+    .page-header { 
+        padding: 100px 0 60px; 
+        text-align: center; 
+        position: relative; 
         overflow: hidden;
-        background-color: #0f172a; /* Fallback */
+        background: linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fef2f2 100%);
     }
-    .page-header-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 18px;
-        background: rgba(255, 255, 255, 0.15);
-        color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        backdrop-filter: blur(4px);
+    
+    .page-header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(239, 68, 68, 0.08) 1px, transparent 1px);
+        background-size: 24px 24px;
+        opacity: 0.6;
     }
-    .page-title {
-        font-family: 'Poppins', sans-serif;
-        font-size: clamp(2rem, 4.5vw, 3.2rem);
-        font-weight: 700;
-        color: #ffffff;
-        line-height: 1.2;
+    
+    .hero-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.35;
+        pointer-events: none;
+    }
+    .blob-1 {
+        width: 300px; height: 300px;
+        background: linear-gradient(135deg, #ef4444, #f43f5e);
+        top: -50px; right: -50px;
+        animation: blobFloat 8s ease-in-out infinite;
+    }
+    .blob-2 {
+        width: 250px; height: 250px;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        bottom: -50px; left: -50px;
+        animation: blobFloat 10s ease-in-out infinite reverse;
+    }
+    .blob-3 {
+        width: 150px; height: 150px;
+        background: linear-gradient(135deg, #f43f5e, #ef4444);
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.2;
+        animation: blobFloat 12s ease-in-out infinite;
+    }
+    
+    @keyframes blobFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(20px, -20px) scale(1.05); }
+        66% { transform: translate(-15px, 15px) scale(0.95); }
+    }
+    
+    .hero-decor-icon {
+        position: absolute;
+        color: rgba(239, 68, 68, 0.12);
+        font-size: 1.5rem;
+        pointer-events: none;
+    }
+    .decor-icon-1 { top: 25%; left: 12%; animation: float 6s ease-in-out infinite; }
+    .decor-icon-2 { top: 35%; right: 18%; animation: float 8s ease-in-out infinite 1s; }
+    .decor-icon-3 { bottom: 30%; left: 22%; animation: float 7s ease-in-out infinite 2s; }
+    .decor-icon-4 { bottom: 35%; right: 12%; animation: float 9s ease-in-out infinite 1.5s; }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+    
+    .page-header .container { position: relative; z-index: 2; }
+    
+    .page-header .section-label {
+        display: inline-block; 
+        padding: 6px 16px; 
+        background: rgba(255, 255, 255, 0.9); 
+        color: #991b1b; 
+        border: 2px solid rgba(239, 68, 68, 0.2); 
+        border-radius: 50px; 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+        letter-spacing: 1px; 
+        text-transform: uppercase; 
         margin-bottom: 16px;
-        letter-spacing: -1px;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
     }
-    .page-title .gradient-text {
-        background: linear-gradient(135deg, #ffffff 0%, #fca5a5 100%);
+    
+    .page-header .section-title { 
+        font-family: 'Poppins', sans-serif; 
+        font-size: clamp(1.8rem, 4vw, 2.4rem); 
+        font-weight: 800; 
+        color: var(--ink); 
+        margin-top: 12px;
+        margin-bottom: 12px; 
+        line-height: 1.2; 
+        letter-spacing: -0.5px;
+    }
+    
+    .page-header .section-title .gradient-text {
+        background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .page-subtitle {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1.1rem;
-        max-width: 600px;
+    
+    .page-header .section-subtitle { 
+        color: var(--slate); 
+        font-size: 1rem; 
+        max-width: 600px; 
         margin: 0 auto;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        line-height: 1.6;
+    }
+    
+    .hero-decor-line {
+        width: 60px;
+        height: 3px;
+        background: var(--gradient-primary);
+        margin: 20px auto 0;
+        border-radius: 2px;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
     }
 
     /* ============ SECTION ============ */
-    .section { padding: 60px 0 90px; }
-    .section-label {
-        display: inline-block;
-        padding: 6px 16px;
-        background: rgba(239, 68, 68, 0.1);
-        color: var(--pro);
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 14px;
-    }
+    .section { padding: 80px 0; position: relative; }
 
-    /* ============ FILTER BAR ============ */
+    /* ============ FILTER BAR & SEARCH (TRULY MERGED) ============ */
     .filter-bar {
         background: white;
-        padding: 20px;
+        padding: 24px;
         border-radius: var(--radius);
         box-shadow: 0 4px 20px rgba(153, 27, 27, 0.06);
         margin-bottom: 40px;
         border: 1px solid rgba(153, 27, 27, 0.08);
     }
-    .search-input-wrap {
-        position: relative;
-    }
-    .search-input-wrap i {
-        position: absolute;
-        left: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--slate);
-    }
-    .search-input {
+    
+    .search-merged-group {
+        display: flex;
+        align-items: stretch;
         border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 12px 18px 12px 48px;
-        width: 100%;
+        border-radius: 14px;
+        overflow: hidden;
         transition: all 0.3s;
-        font-size: 0.95rem;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        background: white;
+        height: 56px;
     }
-    .search-input:focus {
-        outline: none;
+    .search-merged-group:focus-within {
         border-color: var(--primary);
         box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    }
+    
+    .search-merged-group .search-icon-left {
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 18px;
+        color: var(--slate);
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .search-merged-group .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 0 16px;
+        font-size: 0.95rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background: transparent;
+        color: var(--ink);
+        min-width: 0;
+    }
+    .search-merged-group .search-input::placeholder {
+        color: #94a3b8;
+    }
+    .search-merged-group .search-input:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    
+    .search-merged-group .btn-search-merged {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 0 24px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
+        height: 100%;
+    }
+    .search-merged-group .btn-search-merged:hover {
+        filter: brightness(1.08);
+    }
+    .search-merged-group .btn-search-merged:active {
+        transform: scale(0.98);
     }
 
     /* ============ MEDICINE CARDS ============ */
@@ -512,11 +617,23 @@
 
     /* ============ RESPONSIVE ===== */
     @media (max-width: 768px) {
-        .page-header { padding: 120px 0 60px; }
         .section { padding: 60px 0; }
+        .page-header { padding: 80px 0 40px; }
+        
+        .hero-blob { filter: blur(60px); }
+        .blob-1 { width: 200px; height: 200px; }
+        .blob-2 { width: 150px; height: 150px; }
+        .blob-3 { width: 100px; height: 100px; }
+        
+        .page-header .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
+        .page-header .section-subtitle { font-size: 0.95rem; }
     }
 
     @media (max-width: 576px) {
+        .page-header { padding: 60px 0 30px; }
+        .hero-blob { display: none; }
+        .hero-decor-icon { display: none; }
+        
         footer { padding: 50px 0 25px; text-align: center; }
         .footer-logo { justify-content: center; margin-bottom: 16px; }
         footer p { text-align: center; padding: 0; }
@@ -527,6 +644,26 @@
         
         .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
         .container { padding-left: 15px; padding-right: 15px; }
+        
+        .filter-bar {
+            padding: 16px;
+        }
+        
+        .search-merged-group {
+            height: 50px;
+        }
+        
+        .search-merged-group .btn-search-merged {
+            padding: 0 16px;
+        }
+        
+        .search-merged-group .btn-search-merged .btn-text {
+            display: none;
+        }
+        
+        .search-merged-group .search-input {
+            font-size: 0.9rem;
+        }
     }
     </style>
 </head>
@@ -581,7 +718,6 @@
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        {{-- ✅ PERUBAHAN: Menu login sekarang mengarah ke Login Admin --}}
                                         <a class="dropdown-item fw-semibold text-center" href="{{ route('login') }}">
                                             <i class="fas fa-user-shield me-2" style="color: var(--primary);"></i> Petugas UKS
                                         </a>
@@ -595,34 +731,47 @@
         </div>
     </nav>
 
-    @php
-        $medicinesBgImage = asset('images/login.jpeg');
-    @endphp
-
-    <!-- ✅ Page Header dengan Background Foto & Overlay Gelap Netral -->
-    <section class="page-header text-center" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('{{ $medicinesBgImage }}'); background-size: cover; background-position: center; background-attachment: fixed;">
-        <div class="container position-relative" style="z-index: 2;" data-aos="fade-up">
-            <div class="page-header-badge">
-                <i class="fas fa-database"></i>
-                <span>Stok & Informasi UKS</span>
-            </div>
-            <h1 class="page-title">
+    <!-- ✅ Page Header Aesthetic -->
+    <header class="page-header">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        
+        <i class="fas fa-pills hero-decor-icon decor-icon-1"></i>
+        <i class="fas fa-prescription-bottle-alt hero-decor-icon decor-icon-2"></i>
+        <i class="fas fa-capsules hero-decor-icon decor-icon-3"></i>
+        <i class="fas fa-heartbeat hero-decor-icon decor-icon-4"></i>
+        
+        <div class="container position-relative" data-aos="fade-up">
+            <span class="section-label">Stok & Informasi UKS</span>
+            <h1 class="section-title mt-3">
                 Informasi <span class="gradient-text">Obat</span>
             </h1>
-            <p class="page-subtitle">
+            <p class="section-subtitle mx-auto">
                 Daftar lengkap obat-obatan dan alat kesehatan yang tersedia di UKS SMK Negeri 1 Bangsri
             </p>
+            <div class="hero-decor-line"></div>
         </div>
-    </section>
+    </header>
 
     <!-- Content Section -->
     <section class="section" id="obat">
         <div class="container">
-            <!-- Filter Bar (Search Only) -->
+            <!-- ✅ Filter Bar dengan Search yang Benar-benar Menyatu -->
             <div class="filter-bar" data-aos="fade-up" data-aos-delay="100">
-                <div class="search-input-wrap">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Cari nama obat...">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label for="searchInput" class="form-label fw-semibold text-muted small mb-1">Cari Nama Obat</label>
+                        <div class="search-merged-group">
+                            <div class="search-icon-left">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <input type="text" id="searchInput" class="search-input" placeholder="Ketik nama obat...">
+                            <button type="button" id="btnSearch" class="btn-search-merged">
+                                <i class="fas fa-search"></i> <span class="btn-text">Cari Obat</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -648,7 +797,6 @@
                             $barClass = 'bar-available';
                         }
 
-                        // Expired status
                         $expiredStatus = '';
                         $expiredText = '';
                         if ($med->expired_date) {
@@ -717,7 +865,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 @empty
                     <div class="col-12">
@@ -774,7 +921,6 @@
                     </ul>
                 </div>
                 
-                {{-- ✅ PERUBAHAN: Link "Riwayat" telah dihapus dari sini --}}
                 <div class="col-6 col-lg-3">
                     <h6>Layanan</h6>
                     <ul class="footer-menu">
@@ -830,7 +976,6 @@
                 console.error('AOS error:', e);
             }
 
-            // Navbar scroll effect & Scroll Top show/hide
             window.addEventListener('scroll', function() {
                 const navbar = document.querySelector('.navbar');
                 const scrollTop = document.getElementById('scrollTop');
@@ -852,7 +997,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            // ✅ PERBAIKAN: Aktifkan menu navbar berdasarkan URL path saat ini
             const navLinks = document.querySelectorAll(".nav-link");
             const currentPath = window.location.pathname;
 
@@ -877,8 +1021,8 @@
                 }
             });
 
-            // Search functionality
             const searchInput = document.getElementById('searchInput');
+            const btnSearch = document.getElementById('btnSearch');
             const medicineItems = document.querySelectorAll('.medicine-item');
             const noResults = document.getElementById('noResults');
 
@@ -906,6 +1050,19 @@
             }
 
             if (searchInput) searchInput.addEventListener('input', filterMedicines);
+
+            if (btnSearch) {
+                btnSearch.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    filterMedicines();
+                    
+                    if (searchInput) searchInput.focus();
+                });
+            }
         });
     </script>
 </body>

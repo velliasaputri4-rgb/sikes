@@ -95,7 +95,7 @@ class SettingController extends Controller
                 );
             }
 
-            // ✅ 3. BARU: Handle Array FAQs (Tanpa gambar, hanya teks)
+            // 3. Handle Array FAQs (Tanpa gambar, hanya teks)
             if ($request->has('faqs') && is_array($request->input('faqs'))) {
                 $faqsData = [];
 
@@ -115,9 +115,13 @@ class SettingController extends Controller
                 );
             }
 
-            // 4. Abaikan token, method, array data, dan file inputs utama
-            // ✅ PERBAIKAN: Tambahkan 'faqs' ke daftar ignore
-            $ignoreKeys = ['_token', '_method', 'services', 'documentations', 'faqs', 'navbar_logo', 'about_image', 'about_page_image'];
+            // 4. Abaikan token, method, array data, file inputs utama, dan hidden existing fields
+            // ✅ PERBAIKAN: Tambahkan 'hero_image' dan field 'existing_*' ke daftar ignore
+            $ignoreKeys = [
+                '_token', '_method', 'services', 'documentations', 'faqs', 
+                'navbar_logo', 'about_image', 'about_page_image', 'hero_image',
+                'existing_hero_image', 'existing_about_image', 'existing_about_page_image'
+            ];
             $data = $request->except($ignoreKeys);
 
             // 5. Simpan data teks/textarea lainnya
@@ -135,8 +139,10 @@ class SettingController extends Controller
                 );
             }
 
-            // 6. Handle Upload Gambar Utama (Navbar, About Beranda, & Halaman Tentang)
-            $imageFields = ['navbar_logo', 'about_image', 'about_page_image'];
+            // 6. Handle Upload Gambar Utama (Navbar, About Beranda, Halaman Tentang, & HERO)
+            // ✅ PERBAIKAN: Tambahkan 'hero_image' ke dalam array ini
+            $imageFields = ['navbar_logo', 'about_image', 'about_page_image', 'hero_image'];
+            
             foreach ($imageFields as $field) {
                 if ($request->hasFile($field)) {
                     $file = $request->file($field);

@@ -10,35 +10,22 @@
         .content-card { padding: 12px !important; }
         .p-4 { padding: 16px !important; }
         
-        /* Tombol aksi foto jadi full width & menumpuk di HP */
-        .photo-actions {
-            flex-direction: column !important;
-        }
-        .photo-actions .btn {
-            width: 100% !important;
-            margin-bottom: 8px;
-        }
-        .photo-actions .btn:last-child {
-            margin-bottom: 0;
-        }
+        .photo-actions { flex-direction: column !important; }
+        .photo-actions .btn { width: 100% !important; margin-bottom: 8px; }
+        .photo-actions .btn:last-child { margin-bottom: 0; }
         
-        /* Preview foto responsif */
-        #imagePreview {
-            max-width: 100% !important;
-            width: 100% !important;
-        }
+        #imagePreview { max-width: 100% !important; width: 100% !important; }
 
-        /* Tombol submit full width di HP */
-        .submit-actions {
-            flex-direction: column !important;
-        }
-        .submit-actions .btn {
-            width: 100% !important;
-            margin-bottom: 8px;
-        }
-        .submit-actions .btn:last-child {
-            margin-bottom: 0;
-        }
+        .submit-actions { flex-direction: column !important; }
+        .submit-actions .btn { width: 100% !important; margin-bottom: 8px; }
+        .submit-actions .btn:last-child { margin-bottom: 0; }
+    }
+
+    /* ✅ PERBAIKAN: PAKSA VIDEO TIDAK MIRROR (Tampilan Normal) */
+    #cameraVideo {
+        transform: scaleX(1) !important;
+        -webkit-transform: scaleX(1) !important;
+        -moz-transform: scaleX(1) !important;
     }
 </style>
 
@@ -55,7 +42,6 @@
     <form action="{{ route('petugas.examinations.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
-        {{-- ✅ BLOK ERROR VALIDASI --}}
         @if($errors->any())
             <div class="alert mb-3" style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-left: 4px solid #ef4444;">
                 <strong><i class="fas fa-exclamation-triangle me-1"></i> Gagal Menyimpan:</strong>
@@ -70,7 +56,6 @@
         <div class="row g-4">
             <!-- Kolom Kiri: Data Siswa & Petugas -->
             <div class="col-lg-5">
-                <!-- Identitas Siswa -->
                 <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
                     <h6 class="fw-bold mb-3" style="color: #991b1b;">
                         <i class="fas fa-user-graduate me-2"></i>Identitas Siswa
@@ -95,7 +80,6 @@
                         <input type="text" id="studentClass" class="form-control fw-semibold" readonly style="background-color: #fafbfc; border-color: #e2e8f0;">
                     </div>
 
-                    <!-- Form Siswa Baru -->
                     <div id="newStudentBox" class="d-none rounded-3 p-3 mt-3" style="border: 1px solid #fecaca; background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);">
                         <small class="fw-bold d-block mb-2" style="color: #be123c;">
                             <i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data:
@@ -113,7 +97,6 @@
                     </div>
                 </div>
 
-                <!-- Informasi Petugas Piket -->
                 <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
                     <h6 class="fw-bold mb-3" style="color: #991b1b;">
                         <i class="fas fa-user-nurse me-2"></i>Informasi Petugas Piket
@@ -141,11 +124,13 @@
                     <div class="row g-2 mt-1">
                         <div class="col-6">
                             <label class="form-label fw-semibold">Tanggal</label>
-                            <input type="date" name="examination_date" class="form-control" value="{{ old('examination_date', date('Y-m-d')) }}" required style="border-color: #fecaca;">
+                            <input type="date" id="examinationDate" name="examination_date" class="form-control" 
+                                   value="{{ old('examination_date') }}" required style="border-color: #fecaca;">
                         </div>
                         <div class="col-6">
                             <label class="form-label fw-semibold">Jam</label>
-                            <input type="time" name="arrival_time" class="form-control" value="{{ old('arrival_time', date('H:i')) }}" required style="border-color: #fecaca;">
+                            <input type="time" id="arrivalTime" name="arrival_time" class="form-control" 
+                                   value="{{ old('arrival_time') }}" required style="border-color: #fecaca;">
                         </div>
                     </div>
                 </div>
@@ -211,7 +196,6 @@
                     </div>
                 </div>
 
-                <!-- ✅ DOKUMENTASI DENGAN KAMERA REALTIME (DIPERBAIKI) -->
                 <div class="p-4 rounded-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
                     <h6 class="fw-bold mb-3" style="color: #f43f5e;">
                         <i class="fas fa-camera me-2"></i>Dokumentasi
@@ -219,7 +203,6 @@
                     <div class="mb-2">
                         <label class="form-label fw-semibold">Foto Kondisi/Fisik</label>
 
-                        <!-- Flex column di mobile, row di desktop -->
                         <div class="d-flex gap-2 mb-2 photo-actions flex-column flex-sm-row">
                             <button type="button" class="btn flex-fill" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="openCamera()">
                                 <i class="fas fa-video me-1"></i> <span class="d-none d-sm-inline">Buka Kamera</span><span class="d-sm-none">Kamera</span>
@@ -246,7 +229,6 @@
                 </div>
             </div>
 
-            <!-- Tombol Submit -->
             <div class="col-12 text-end mt-4 pt-3 submit-actions d-flex" style="border-top: 1px solid #fee2e2;">
                 <a href="{{ route('petugas.examinations.index') }}" class="btn me-2" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">Batal</a>
                 <button type="submit" id="btnSubmit" class="btn px-4" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);">
@@ -267,10 +249,14 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body p-2" style="background: #000;">
-                <video id="cameraVideo" autoplay playsinline class="w-100 rounded" style="min-height:250px; object-fit:cover;"></video>
+            <div class="modal-body p-2" style="background: #000; position: relative;">
+                <video id="cameraVideo" autoplay playsinline muted class="w-100 rounded" style="min-height:250px; object-fit:cover;"></video>
+    
             </div>
-            <div class="modal-footer justify-content-center border-0 pt-0 pb-3" style="background: #fef2f2;">
+            <div class="modal-footer justify-content-center gap-2 border-0 pt-0 pb-3 flex-wrap" style="background: #fef2f2;">
+                <button type="button" class="btn px-3" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1;" onclick="switchCamera()">
+                    <i class="fas fa-sync-alt me-1"></i> Ganti Kamera
+                </button>
                 <button type="button" class="btn px-4" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);" onclick="capturePhoto()">
                     <i class="fas fa-camera me-2"></i>Ambil Foto
                 </button>
@@ -371,7 +357,7 @@
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold ' + fontSize + 'px Arial';
         ctx.textBaseline = 'middle';
-        ctx.fillText('UKS SMK NEGERI 1 BANGSRI', padding, canvas.height - barHeight + fontSize);
+        ctx.fillText('SMK NEGERI 1 BANGSRI', padding, canvas.height - barHeight + fontSize);
         ctx.font = (fontSize * 0.85) + 'px Arial';
         ctx.fillText(dateStr + '  |  ' + timeStr, padding, canvas.height - barHeight + fontSize * 2.3);
     }
@@ -387,8 +373,73 @@
         document.getElementById('watermarkInfo').classList.remove('d-none');
     }
 
+    /* ===================================================================== */
+    /* ✅ LOGIKA KAMERA - TANPA MIRROR                                       */
+    /* ===================================================================== */
+    
     let cameraStream = null;
     let cameraModal = null;
+    let currentFacingMode = 'environment';
+    
+    async function startCamera(facingMode) {
+        try {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(t => t.stop());
+                cameraStream = null;
+            }
+            
+            const constraints = {
+                video: {
+                    facingMode: facingMode,
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            };
+            
+            cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+            const video = document.getElementById('cameraVideo');
+            video.srcObject = cameraStream;
+            
+            // ✅ PAKSA TIDAK MIRROR (Normal seperti foto asli, tulisan terbaca)
+            video.style.transform = 'scaleX(1)';
+            video.style.webkitTransform = 'scaleX(1)';
+            
+            const indicator = document.getElementById('cameraIndicator');
+            const typeText = document.getElementById('cameraTypeText');
+            if (indicator && typeText) {
+                indicator.style.display = 'block';
+                typeText.textContent = facingMode === 'environment' ? 'Kamera Belakang' : 'Kamera Depan';
+            }
+            
+        } catch (err) {
+            console.error('Error kamera:', err);
+            const fallbackMode = facingMode === 'environment' ? 'user' : 'environment';
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: fallbackMode },
+                    audio: false
+                });
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = cameraStream;
+                currentFacingMode = fallbackMode;
+                
+                // ✅ PAKSA TIDAK MIRROR juga di fallback
+                video.style.transform = 'scaleX(1)';
+                video.style.webkitTransform = 'scaleX(1)';
+                
+                const indicator = document.getElementById('cameraIndicator');
+                const typeText = document.getElementById('cameraTypeText');
+                if (indicator && typeText) {
+                    indicator.style.display = 'block';
+                    typeText.textContent = fallbackMode === 'environment' ? 'Kamera Belakang' : 'Kamera Depan';
+                }
+            } catch (fallbackErr) {
+                alert('Gagal mengakses kamera: ' + fallbackErr.message);
+                cameraModal.hide();
+            }
+        }
+    }
 
     async function openCamera() {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -397,13 +448,13 @@
         }
         cameraModal = new bootstrap.Modal(document.getElementById('cameraModal'));
         cameraModal.show();
-        try {
-            cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-            document.getElementById('cameraVideo').srcObject = cameraStream;
-        } catch (err) {
-            alert('Gagal mengakses kamera: ' + err.message);
-            cameraModal.hide();
-        }
+        currentFacingMode = 'environment';
+        await startCamera(currentFacingMode);
+    }
+
+    async function switchCamera() {
+        currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
+        await startCamera(currentFacingMode);
     }
 
     function stopCamera() {
@@ -411,6 +462,8 @@
             cameraStream.getTracks().forEach(t => t.stop());
             cameraStream = null;
         }
+        const indicator = document.getElementById('cameraIndicator');
+        if (indicator) indicator.style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -463,6 +516,25 @@
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Menyimpan...';
             });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput = document.getElementById('examinationDate');
+        const timeInput = document.getElementById('arrivalTime');
+        const now = new Date();
+
+        if (dateInput && dateInput.value === '') {
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+        }
+
+        if (timeInput && timeInput.value === '') {
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            timeInput.value = `${hours}:${minutes}`;
         }
     });
 </script>
