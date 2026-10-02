@@ -14,6 +14,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     
     <style>
+    /* ✅ FIX: Mencegah white space & layout shift saat modal dibuka */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+        width: 100%;
+    }
+    body.modal-open {
+        padding-right: 0 !important;
+        overflow: hidden !important;
+    }
+
     :root {
         /* ✅ TEMA MERAH (PMR/UKS) */
         --primary: #ef4444;
@@ -39,13 +50,6 @@
         --radius: 18px;
     }
 
-    /* ✅ FIX: Mencegah horizontal scroll secara global */
-    html, body {
-        overflow-x: hidden !important;
-        width: 100%;
-        max-width: 100vw;
-    }
-
     * { 
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -61,12 +65,6 @@
         background: #fafbfc;
         color: var(--ink);
         line-height: 1.7;
-        overflow-x: hidden;
-    }
-
-    /* ✅ FIX: Pastikan container tidak menyebabkan overflow */
-    .container, .container-fluid {
-        max-width: 100%;
         overflow-x: hidden;
     }
 
@@ -148,7 +146,6 @@
         background: linear-gradient(180deg, #f7fafc 0%, #fef2f2 100%);
         overflow: hidden !important; /* ✅ FIX: Strict overflow hidden */
     }
-    
     .hero-decor { 
         position: absolute; 
         inset: 0; 
@@ -183,6 +180,7 @@
         overflow: hidden;
         border-radius: 0 0 0 160px;
         pointer-events: none;
+        max-width: 100%; /* ✅ FIX: Prevent overflow */
     }
     .hero-photo img {
         width: 100%;
