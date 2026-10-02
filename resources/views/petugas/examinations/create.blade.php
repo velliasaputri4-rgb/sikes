@@ -79,22 +79,6 @@
                         <label class="form-label small text-muted">Kelas</label>
                         <input type="text" id="studentClass" class="form-control fw-semibold" readonly style="background-color: #fafbfc; border-color: #e2e8f0;">
                     </div>
-
-                    <div id="newStudentBox" class="d-none rounded-3 p-3 mt-3" style="border: 1px solid #fecaca; background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);">
-                        <small class="fw-bold d-block mb-2" style="color: #be123c;">
-                            <i class="fas fa-exclamation-triangle me-1"></i>Siswa belum terdaftar. Lengkapi data:
-                        </small>
-                        <div class="mb-2">
-                            <label class="form-label small fw-semibold">Nama Lengkap <span style="color: #ef4444;">*</span></label>
-                            <input type="text" name="full_name" class="form-control @error('full_name') is-invalid @enderror" placeholder="Nama Lengkap" value="{{ old('full_name') }}">
-                            @error('full_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="mb-2">
-                            <label class="form-label small fw-semibold">Kelas <span style="color: #ef4444;">*</span></label>
-                            <input type="text" name="class_name" class="form-control @error('class_name') is-invalid @enderror" placeholder="cth: XII PPLG 2" value="{{ old('class_name') }}">
-                            @error('class_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
                 </div>
 
                 <div class="p-4 rounded-3 mb-3" style="background: #ffffff; border: 1px solid #fee2e2; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.04);">
@@ -273,7 +257,6 @@
 
     const nisInput = document.getElementById('nisInput');
     const nisFeedback = document.getElementById('nisFeedback');
-    const newStudentBox = document.getElementById('newStudentBox');
     let searchTimer;
 
     nisInput.addEventListener('input', function() {
@@ -285,7 +268,6 @@
         if (!nis) {
             resetFormSiswa();
             nisFeedback.innerHTML = '';
-            newStudentBox.classList.add('d-none');
             return;
         }
         try {
@@ -294,12 +276,10 @@
             if (student && student.id) {
                 document.getElementById('studentName').value = student.full_name || '';
                 document.getElementById('studentClass').value = student.class ? student.class.name : '';
-                newStudentBox.classList.add('d-none');
                 nisFeedback.innerHTML = '<span style="color: #10b981;" class="fw-bold"><i class="fas fa-check-circle"></i> Siswa ditemukan</span>';
             } else {
                 resetFormSiswa();
-                newStudentBox.classList.remove('d-none');
-                nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold"><i class="fas fa-times-circle"></i> Siswa belum terdaftar.</span>';
+                nisFeedback.innerHTML = '<span style="color: #ef4444;" class="fw-bold"><i class="fas fa-times-circle"></i> Siswa tidak ditemukan. Pastikan NIS sudah terdaftar.</span>';
             }
         } catch (error) {
             resetFormSiswa();
